@@ -76,3 +76,44 @@ test('specimen is conformant', async () => {
     );
   }
 });
+
+test('specimen keyboard and overlay affordances are accessible', async () => {
+  const html = await readFile(path.join(root, 'specimen.html'), 'utf8');
+
+  // Skip link must move focus to a focusable target.
+  assert.match(html, /<main id="main" tabindex="-1">/, 'skip-link target must accept focus');
+
+  // The table scroll region is keyboard reachable and named for assistive tech.
+  const tableWrap = html.match(/<div class="table-wrap"[^>]*>/)?.[0] ?? '';
+  assert.match(tableWrap, /tabindex="0"/, 'table scroll region must be focusable');
+  assert.match(tableWrap, /role="region"/, 'table scroll region needs a landmark role');
+  assert.match(tableWrap, /aria-label="[^"]+"/, 'table scroll region needs an accessible name');
+
+  // Every column header declares its scope.
+  const headers = [...html.matchAll(/<th\b[^>]*>/g)].map((match) => match[0]);
+  assert.ok(headers.length >= 4, 'table needs column headers');
+  for (const header of headers) {
+    assert.match(header, /scope="col"/, `header lacks scope: ${header}`);
+  }
+
+  // Tooltip can be dismissed with Escape without moving pointer or focus.
+  assert.match(html, /\.tooltip-wrap\.is-dismissed \.tooltip/, 'tooltip needs a dismissed state');
+  assert.match(html, /event\.key === 'Escape'/, 'tooltip must respond to Escape');
+  assert.match(html, /classList\.add\('is-dismissed'\)/, 'Escape must dismiss the tooltip');
+
+  // Theme toggle exposes state to assistive tech and paints it visibly.
+  assert.match(html, /aria-pressed="false"/, 'toggle starts unpressed');
+  assert.match(html, /setAttribute\('aria-pressed'/, 'toggle must update aria-pressed');
+  assert.match(
+    html,
+    /\[data-theme-toggle\]\[aria-pressed="true"\]/,
+    'toggle needs a visible pressed state',
+  );
+
+  // Dialog is labelled by its own heading and closes through its form.
+  const dialog = html.match(/<dialog[^>]*>/)?.[0] ?? '';
+  const labelledBy = dialog.match(/aria-labelledby="([^"]+)"/)?.[1];
+  assert.ok(labelledBy, 'dialog must be labelled by its heading');
+  assert.match(html, new RegExp(`id="${labelledBy}"`), 'dialog label target must exist');
+  assert.match(html, /<form method="dialog"/, 'dialog actions must close the dialog');
+});

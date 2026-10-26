@@ -155,6 +155,12 @@
         background: var(--color-neutral);
       }
 
+      [data-theme-toggle][aria-pressed="true"] {
+        background: var(--color-primary);
+        border-color: var(--color-primary);
+        color: var(--color-on-primary);
+      }
+
       .button-destructive {
         background: var(--color-state-danger-bg);
         border-color: var(--color-state-danger-fg);
@@ -483,6 +489,10 @@
         display: block;
       }
 
+      .tooltip-wrap.is-dismissed .tooltip {
+        display: none;
+      }
+
       .dialog-row {
         display: flex;
         flex-wrap: wrap;
@@ -543,7 +553,7 @@
       <span class="body-sm">24px control height</span>
     </div>
 
-    <main id="main">
+    <main id="main" tabindex="-1">
       <section class="section" aria-labelledby="kv-title">
         <h2 id="kv-title" class="headline-md">Key-value grid</h2>
         <dl class="key-value">
@@ -585,7 +595,7 @@
           <span class="badge badge-danger">Danger</span>
           <span class="badge badge-disabled">Disabled</span>
         </div>
-        <div class="table-wrap">
+        <div class="table-wrap" role="region" aria-label="Recent deployments" tabindex="0">
           <table>
             <caption>Recent deployments (all durations in seconds)</caption>
             <thead>
@@ -744,6 +754,22 @@
       });
 
       paintToggle();
+
+      const tooltipWrap = document.querySelector('.tooltip-wrap');
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && tooltipWrap.matches(':hover, :focus-within')) {
+          tooltipWrap.classList.add('is-dismissed');
+        }
+      });
+
+      tooltipWrap.addEventListener('mouseleave', () => {
+        tooltipWrap.classList.remove('is-dismissed');
+      });
+
+      tooltipWrap.addEventListener('focusout', () => {
+        tooltipWrap.classList.remove('is-dismissed');
+      });
 
       const dialog = document.getElementById('rollback-dialog');
       document.querySelector('[data-dialog-open]').addEventListener('click', () => {
