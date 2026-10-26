@@ -5,8 +5,13 @@ import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
+import { readDesignTokens, renderTokensCss } from '../scripts/build.mjs';
+
 const root = fileURLToPath(new URL('../', import.meta.url));
 const cssPath = new URL('../dist/tokens.css', import.meta.url);
+// Snapshot the committed artifact before any test runs `npm run build`, so the
+// provenance assertions below inspect what is in the tree, not what a rebuild wrote.
+const committedCss = readFileSync(cssPath, 'utf8');
 const DESIGN_PATH = 'DESIGN.md';
 const BUILD_PATH = 'scripts/build.mjs';
 const PROFILE_PATH = 'app-profile.template.md';
@@ -57,6 +62,43 @@ function block(css, start, end) {
 function colorCount(selectorBlock) {
   return [...selectorBlock.matchAll(/--color-[a-z0-9-]+\s*:/g)].length;
 }
+
+test('committed css is the renderer output', () => {
+  const markdown = readFileSync(
+    new URL(`../${DESIGN_PATH}`, import.meta.url),
+    'utf8',
+  );
+  assert.equal(committedCss, renderTokensCss(readDesignTokens(markdown)));
+});
+
+test('every color pair maps in both dark selectors', () => {
+  const tokens = readDesignTokens(
+    readFileSync(new URL(`../${DESIGN_PATH}`, import.meta.url), 'utf8'),
+  );
+  const entries = Object.entries(tokens.colors);
+  const bases = entries.filter(([name]) => !name.startsWith('dark-'));
+  assert.equal(bases.length, 28);
+  assert.equal(entries.length, 56);
+
+  const rootBlock = block(committedCss, ':root {', '\n}');
+  const darkBlock = block(committedCss, '[data-theme="dark"] {', '\n}');
+  const mediaBlock = block(
+    committedCss,
+    '@media (prefers-color-scheme: dark) {',
+    '\n}',
+  );
+
+  for (const [name, value] of bases) {
+    const light = `--color-${name}: ${String(value).toLowerCase()};`;
+    const dark = `--color-${name}: ${String(
+      tokens.colors[`dark-${name}`],
+    ).toLowerCase()};`;
+    assert.ok(rootBlock.includes(light), `${light} missing from :root`);
+    assert.ok(darkBlock.includes(dark), `${dark} missing from [data-theme="dark"]`);
+    assert.ok(mediaBlock.includes(dark), `${dark} missing from the media block`);
+  }
+  assert.doesNotMatch(committedCss, /--color-dark-/);
+});
 
 test('repo is assembled', () => {
   const css = build();
