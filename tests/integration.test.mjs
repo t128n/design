@@ -14,16 +14,24 @@ const cssPath = new URL('../dist/tokens.css', import.meta.url);
 const committedCss = readFileSync(cssPath, 'utf8');
 const DESIGN_PATH = 'DESIGN.md';
 const BUILD_PATH = 'scripts/build.mjs';
-const SPECIMEN_PATH = 'specimen.html';
+const PREVIEW_INDEX = 'preview/index.html';
+const PREVIEW_CONFIG = 'preview/vite.config.js';
+const PREVIEW_APP = 'preview/src/App.svelte';
+const PREVIEW_CSS = 'preview/src/app.css';
 const README_PATH = 'README.md';
 const WORKFLOW_PATH = '.github/workflows/design.yml';
+const PAGES_WORKFLOW_PATH = '.github/workflows/pages.yml';
 const CSS_PATH = 'dist/tokens.css';
 const ARTIFACTS = [
   DESIGN_PATH,
   BUILD_PATH,
-  SPECIMEN_PATH,
+  PREVIEW_INDEX,
+  PREVIEW_CONFIG,
+  PREVIEW_APP,
+  PREVIEW_CSS,
   README_PATH,
   WORKFLOW_PATH,
+  PAGES_WORKFLOW_PATH,
   CSS_PATH,
 ];
 const ROLES = [
@@ -137,11 +145,28 @@ test('repo is assembled', () => {
   const firstHash = sha256(css);
   const rebuilt = build();
   assert.equal(sha256(rebuilt), firstHash);
+
+  execFileSync('bun', ['run', 'preview:build'], {
+    cwd: root,
+    stdio: 'pipe',
+    encoding: 'utf8',
+  });
+  const previewHtml = readFileSync(
+    new URL('../preview/dist/index.html', import.meta.url),
+    'utf8',
+  );
+  assert.match(previewHtml, /\.\/assets\/[^"]+\.js/);
+  assert.match(previewHtml, /\.\/assets\/[^"]+\.css/);
+  assert.doesNotMatch(previewHtml, /src="\//);
 });
 
-test('docs and specimen agree', () => {
-  const specimen = readFileSync(
-    new URL(`../${SPECIMEN_PATH}`, import.meta.url),
+test('docs and preview agree', () => {
+  const app = readFileSync(
+    new URL(`../${PREVIEW_APP}`, import.meta.url),
+    'utf8',
+  );
+  const appCss = readFileSync(
+    new URL(`../${PREVIEW_CSS}`, import.meta.url),
     'utf8',
   );
   const readme = readFileSync(
@@ -156,13 +181,21 @@ test('docs and specimen agree', () => {
     new URL(`../${WORKFLOW_PATH}`, import.meta.url),
     'utf8',
   );
+  const pagesWorkflow = readFileSync(
+    new URL(`../${PAGES_WORKFLOW_PATH}`, import.meta.url),
+    'utf8',
+  );
 
-  assert.ok(specimen.includes('href="dist/tokens.css"'));
-  assert.ok(specimen.includes('--color-surface'));
+  assert.match(app, /from 'bits-ui'/);
+  assert.match(app, /<table/);
+  assert.match(appCss, /@import '\.\.\/\.\.\/dist\/tokens\.css'/);
   assert.ok(readme.includes('--color-surface'));
   assert.ok(readme.includes('--color-primary'));
   assert.ok(readme.includes('bun run check'));
+  assert.ok(readme.includes('bun run preview:build'));
+  assert.ok(readme.includes('https://t128n.github.io/design/'));
   assert.ok(workflow.includes('bun run check'));
+  assert.ok(pagesWorkflow.includes('bun run preview:build'));
 
   for (const role of ROLES) {
     assert.ok(design.includes(`state-${role}-fg`), role);

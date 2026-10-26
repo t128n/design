@@ -34,13 +34,15 @@ test('docs describe the system', async () => {
     'bun run check',
     'bun run build',
     'bun run lint',
+    'bun run preview:dev',
+    'bun run preview:build',
   ]) {
     assert.ok(readme.includes(command), `README does not document ${command}`);
   }
 
   for (const link of [
     '[DESIGN.md](DESIGN.md)',
-    '[specimen.html](specimen.html)',
+    '[preview](preview/)',
     '[dist/tokens.css](dist/tokens.css)',
   ]) {
     assert.ok(readme.includes(link), `README does not link ${link}`);

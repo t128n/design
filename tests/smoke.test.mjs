@@ -21,15 +21,26 @@ test('scripts and dependencies are wired', async () => {
   assert.equal(pkg.private, true);
   assert.equal(pkg.type, 'module');
   assert.equal(pkg.engines.bun, '>=1.4.0');
-  assert.deepEqual(Object.keys(pkg.scripts).sort(), ['build', 'check', 'lint', 'test']);
+  assert.deepEqual(Object.keys(pkg.scripts).sort(), [
+    'build',
+    'check',
+    'lint',
+    'preview:build',
+    'preview:dev',
+    'preview:serve',
+    'test',
+  ]);
   assert.equal(pkg.scripts.test, 'bun test');
   assert.equal(pkg.scripts.lint, 'bunx --bun designmd lint DESIGN.md');
   assert.match(pkg.scripts.build, /bun scripts\/build\.mjs/);
   assert.equal(pkg.scripts.check, 'bun run build && git diff --exit-code -- dist');
+  assert.match(pkg.scripts['preview:build'], /vite build/);
   assert.equal(pkg.devDependencies['@google/design.md'], '0.4.0');
   assert.ok(!('yaml' in pkg.devDependencies), 'yaml is not a dependency');
   assert.ok(existsSync(path.join(root, 'bun.lock')), 'bun.lock is missing');
   assert.ok(!existsSync(path.join(root, 'package-lock.json')), 'package-lock.json should be gone');
+  assert.ok(existsSync(path.join(root, 'preview/index.html')), 'preview index is missing');
+  assert.ok(existsSync(path.join(root, 'preview/src/App.svelte')), 'preview app is missing');
 
   // .superlite/ is gitignored, so the runner config is validated where it exists
   // (local runs) and skipped on a clean checkout.

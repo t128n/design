@@ -10,7 +10,7 @@ how to consume it:
 
 - `DESIGN.md` — palette, typography, spacing, shapes, components, and rules.
 - [dist/tokens.css](dist/tokens.css) — generated light/dark CSS variables.
-- [specimen.html](specimen.html) — visual acceptance page for the tokens.
+- [preview](preview/) — Vite + Svelte + bits-ui visual acceptance app.
 
 Values live in one place.
 
@@ -20,12 +20,13 @@ Values live in one place.
 DESIGN.md                    Normative tokens and guidance
 scripts/build.mjs            Front-matter parser and CSS renderer
 dist/tokens.css              Generated CSS (committed, never hand-edited)
-specimen.html                Visual acceptance page
+preview/                     Vite + Svelte 5 + bits-ui preview app
 README.md                    This document
 CHANGELOG.md                 Version history
 package.json                 Scripts and pinned toolchain
 bun.lock                     Locked dependency graph
 .github/workflows/design.yml CI gate (push and pull request)
+.github/workflows/pages.yml  Preview deployment
 tests/*.test.mjs             Focused Bun tests
 ```
 
@@ -54,6 +55,13 @@ bun run lint
 `bun scripts/build.mjs`. `bun run check` is the same as `bun run build`
 followed by `git diff --exit-code -- dist`.
 
+Preview the app locally with Vite:
+
+```sh
+bun run preview:dev
+bun run preview:build
+```
+
 ## Using the tokens
 
 Link the generated stylesheet and use the CSS variables it defines:
@@ -81,9 +89,10 @@ regenerated artifact.
 
 ## Preview
 
-The specimen deploys to [t128n.github.io/design](https://t128n.github.io/design/)
-on every push to `main`. The Pages site is public and contains only
-`specimen.html` and `dist/tokens.css`.
+The preview is a Vite + Svelte 5 app using bits-ui primitives over the
+generated tokens. It deploys to
+[t128n.github.io/design](https://t128n.github.io/design/) on every push to
+`main`. The Pages site is public.
 
 ## Dark mode
 
@@ -103,7 +112,7 @@ page follows the operating system. An explicit `data-theme` always wins.
 
 ## Adopting in an app
 
-1. Read [DESIGN.md](DESIGN.md) and the [specimen](specimen.html).
+1. Read [DESIGN.md](DESIGN.md) and the [preview](preview/).
 2. Pin a commit of this repository and vendor
    [dist/tokens.css](dist/tokens.css) into your app.
 3. Link `dist/tokens.css` from every page.

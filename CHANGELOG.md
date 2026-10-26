@@ -14,12 +14,13 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `scripts/build.mjs` and the generated, committed `dist/tokens.css` with
   `:root` light values and dark overrides for both `[data-theme="dark"]` and
   the `prefers-color-scheme` fallback.
-- `specimen.html` as the visual acceptance page in light and dark.
+- `preview/` as the visual acceptance app: Vite, Svelte 5, and bits-ui
+  primitives over the generated tokens, in light and dark.
 - README covering purpose, layout, quick start, token usage, dark mode,
   adoption, versioning, enforcement, and contributing.
 - Bun 1.4 toolchain; `Bun.YAML` parses the front matter and `bun test` runs
   the suites.
 - GitHub Actions workflow gating push and pull request with
   `bun install --frozen-lockfile`, `bun test`, and `bun run check`.
-- GitHub Pages workflow deploying `specimen.html` and the generated tokens to
+- GitHub Pages workflow deploying the built preview to
   `https://t128n.github.io/design/`.

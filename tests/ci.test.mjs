@@ -104,7 +104,7 @@ test('disabled triggers and out-of-order run steps are rejected', () => {
   );
 });
 
-test('pages workflow deploys the specimen', () => {
+test('pages workflow deploys the preview', () => {
   const workflow = YAML.parse(pagesSource);
 
   assert.ok(workflow.on.push, 'pages workflow must run on push');
@@ -131,12 +131,8 @@ test('pages workflow deploys the specimen', () => {
 
   assert.ok(runs.includes('bun install --frozen-lockfile'));
   assert.ok(runs.includes('bun run check'));
-
-  const assemble = runs.find((run) => run.includes('_site'));
-  assert.ok(assemble, 'missing preview assembly step');
-  assert.match(assemble, /cp specimen\.html _site\/index\.html/);
-  assert.match(assemble, /cp dist\/tokens\.css _site\/dist\/tokens\.css/);
+  assert.ok(runs.includes('bun run preview:build'));
 
   const upload = steps.find((step) => step.uses === 'actions/upload-pages-artifact@v3');
-  assert.equal(upload.with?.path, '_site');
+  assert.equal(upload.with?.path, 'preview/dist');
 });

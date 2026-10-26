@@ -12,9 +12,17 @@
     "lint": "bunx --bun designmd lint DESIGN.md",
     "build": "bun run lint && bun scripts/build.mjs",
     "check": "bun run build && git diff --exit-code -- dist",
-    "test": "bun test"
+    "test": "bun test",
+    "preview:dev": "vite --config preview/vite.config.js",
+    "preview:build": "vite build --config preview/vite.config.js",
+    "preview:serve": "vite preview --config preview/vite.config.js"
   },
   "devDependencies": {
-    "@google/design.md": "0.4.0"
+    "@google/design.md": "0.4.0",
+    "@internationalized/date": "^3.12.4",
+    "@sveltejs/vite-plugin-svelte": "7.3.1",
+    "bits-ui": "2.20.2",
+    "svelte": "5.57.2",
+    "vite": "8.3.5"
   }
 }

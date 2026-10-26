@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Deploy specimen
+    name: Deploy preview
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -36,12 +36,8 @@ jobs:
       - name: Verify generated CSS is current
         run: bun run check
 
-      - name: Assemble preview
-        run: |
-          mkdir -p _site/dist
-          cp specimen.html _site/index.html
-          cp dist/tokens.css _site/dist/tokens.css
-          touch _site/.nojekyll
+      - name: Build preview
+        run: bun run preview:build
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -49,7 +45,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: preview/dist
 
       - name: Deploy to GitHub Pages
         id: deployment
