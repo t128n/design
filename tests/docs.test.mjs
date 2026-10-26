@@ -46,6 +46,16 @@ test('docs describe the system', async () => {
     assert.ok(readme.includes(link), `README does not link ${link}`);
   }
 
+  for (const variable of [
+    '--color-<name>',
+    '--font-<type>',
+    '--text-<type>-size',
+    '--space-<name>',
+    '--radius-<name>',
+  ]) {
+    assert.ok(readme.includes(variable), `README does not document ${variable}`);
+  }
+
   assert.ok(readme.includes('Application Profile'), 'README does not mention the Application Profile');
   assert.ok(readme.includes('data-theme'), 'README does not explain data-theme');
   assert.match(readme, /prefers-color-scheme/, 'README does not explain the media-query fallback');

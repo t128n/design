@@ -66,7 +66,7 @@ Link the generated stylesheet and use the CSS variables it defines:
 <link rel="stylesheet" href="dist/tokens.css">
 ```
 
-Variables follow the contract in DESIGN.md:
+The generated CSS variables are:
 
 - `--color-<name>` for light colors, e.g. `var(--color-primary)` or
   `var(--color-surface)`.
