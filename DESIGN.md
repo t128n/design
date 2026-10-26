@@ -522,9 +522,11 @@ components:
 
 The t128n design system serves dense operational web tools: admin consoles, record browsers, audit views, and internal dashboards. The interface should feel precise, quiet, and fast to scan. Records and their fields are the primary object; chrome exists only to orient the reader and expose the next action.
 
-The visual identity is flat and monochrome by default, with a single blue accent for interaction. Surfaces step from `{colors.surface}` to `{colors.surface-tinted}` to `{colors.surface-header}` to separate layers without shadows or decoration. Body copy is set in `{typography.body-md}` at 12px, while `{typography.headline-lg}` carries the page title. Spacing stays on the compact `{spacing.md}` rhythm so that tables and forms remain legible at operational density.
+The visual identity is flat and monochrome by default, with a single blue accent for interaction. Surfaces step from `{colors.surface}` to `{colors.surface-tinted}` to `{colors.surface-header}` to separate layers without shadows or decoration. Body copy is set in `{typography.body-md}` at 12px, while `{typography.headline-lg}` carries the page title. Spacing stays on the compact `{spacing.xxs}`–`{spacing.3xl}` scale so that tables and forms remain legible at operational density.
 
 Prefer structure over embellishment: rules, headers, and aligned numeric columns do the work that cards and shadows do elsewhere. Do not soften the interface into a marketing surface.
+
+Every adopting application keeps a one-page Application Profile, based on [`app-profile.template.md`](app-profile.template.md). It records the app's records, status vocabulary, transitions, mobile table strategy, exceptions, and conformance checklist; a view is not adopted until that profile is current.
 
 ## Colors
 
@@ -678,11 +680,11 @@ Do not use icon fonts, emoji as controls, or color-only icons. An icon button al
 
 ## Components
 
-Components are defined as tokens rather than as a library. Every component records its background, text, typography, radius, and padding or size so an implementation can reproduce it exactly in both themes. All 68 components live in the front matter: 34 light components and 34 dark counterparts. The dark counterparts use `dark-` colors and the same geometry as their light twin.
+Components are defined as tokens rather than as a library. Each component records the properties it needs — background, text, typography, radius, and padding or size — so an implementation can reproduce it exactly in both themes. All 68 components live in the front matter: 34 light components and 34 dark counterparts. The dark counterparts use `dark-` colors and the same geometry as their light twin.
 
 ### Buttons
 
-Buttons are `24px` tall with `4px` padding, `{rounded.md}`, and `{typography.label-md}`, except the secondary variants, which use `{typography.body-md}`. Primary actions use `{components.button-primary}` and darken to `{components.button-primary-hover}`. Secondary actions use `{components.button-secondary}`. Destructive actions use `{components.button-destructive}` and its hover state. Disabled buttons use the disabled state pair and keep their label visible.
+Buttons are `24px` tall with `4px` padding, `{rounded.md}`, and `{typography.label-md}`, except `button-secondary` and `button-secondary-disabled`, which use `{typography.body-md}`; their hover states return to `{typography.label-md}`. Primary actions use `{components.button-primary}` and darken to `{components.button-primary-hover}`. Secondary actions use `{components.button-secondary}`. Destructive actions use `{components.button-destructive}` and its hover state. Disabled buttons use the disabled state pair and keep their label visible.
 
 ### Inputs and fields
 

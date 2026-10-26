@@ -102,12 +102,18 @@ test('dark components mirror the light set', async () => {
   const isDark = (name) => /-dark(?:-|$)/.test(name);
   const dark = names.filter(isDark);
   const base = names.filter((name) => !isDark(name));
+  const lightOf = (name) => name.replace(/-dark(?=-|$)/, '');
 
   assert.equal(base.length, 34);
   assert.equal(dark.length, 34);
   for (const name of dark) {
-    const light = name.replace(/-dark(?=-|$)/, '');
-    assert.ok(names.includes(light), `${name} has no light counterpart`);
+    assert.ok(names.includes(lightOf(name)), `${name} has no light counterpart`);
+  }
+  for (const name of base) {
+    assert.ok(
+      dark.some((darkName) => lightOf(darkName) === name),
+      `${name} has no -dark counterpart`,
+    );
   }
 });
 
@@ -117,6 +123,29 @@ test('sections ordered', async () => {
   const headings = [...unfenced.matchAll(/^##[ \t]+(.+?)[ \t]*$/gm)].map((match) => match[1]);
 
   assert.deepEqual(headings, SECTIONS);
+});
+
+test('application profile is required', async () => {
+  const { body } = splitFrontMatter(await readDesign());
+
+  assert.match(body, /one-page Application Profile/);
+  assert.ok(
+    body.includes('app-profile.template.md'),
+    'DESIGN.md does not point at the Application Profile template',
+  );
+  for (const part of [
+    'records',
+    'status vocabulary',
+    'transitions',
+    'mobile table strategy',
+    'exceptions',
+    'conformance checklist',
+  ]) {
+    assert.ok(
+      body.toLowerCase().includes(part),
+      `Application Profile requirement does not name ${part}`,
+    );
+  }
 });
 
 test('token counts', async () => {
@@ -140,6 +169,33 @@ test('token counts', async () => {
   assert.equal(Object.keys(tokens.components).length, 68);
 });
 
+test('layout and shape tokens', async () => {
+  const { spacing, rounded } = await readTokens();
+
+  assert.deepEqual(spacing, {
+    xxs: '2px',
+    xs: '4px',
+    sm: '6px',
+    md: '8px',
+    lg: '12px',
+    xl: '16px',
+    '2xl': '24px',
+    '3xl': '32px',
+  });
+  assert.deepEqual(rounded, { none: '0px', sm: '2px', md: '3px' });
+});
+
+test('secondary button typography', async () => {
+  const { components } = await readTokens();
+
+  for (const name of ['button-secondary', 'button-secondary-disabled']) {
+    assert.equal(components[name].typography, '{typography.body-md}', name);
+  }
+  for (const name of ['button-secondary-hover', 'button-secondary-dark-hover']) {
+    assert.equal(components[name].typography, '{typography.label-md}', name);
+  }
+});
+
 test('normative palette values', async () => {
   const { colors } = await readTokens();
 
@@ -149,4 +205,64 @@ test('normative palette values', async () => {
   assert.equal(colors['state-disabled-fg'], '#565B66');
   assert.equal(colors.error, '#C62839');
   assert.equal(colors['dark-primary'], '#548AF7');
+});
+
+function colorValue(tokens, ref) {
+  const [group, name] = ref.replaceAll(/[{}]/g, '').split('.');
+  assert.equal(group, 'colors', `unexpected color reference: ${ref}`);
+  const value = tokens.colors[name];
+  assert.match(value ?? '', /^#[0-9a-f]{6}$/i, `unknown color token: ${name}`);
+  return value;
+}
+
+function luminance(hex) {
+  const [r, g, b] = hex
+    .slice(1)
+    .match(/../g)
+    .map((channel) => {
+      const value = Number.parseInt(channel, 16) / 255;
+      return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+    });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function contrast(foreground, background) {
+  const [lighter, darker] = [luminance(foreground), luminance(background)].sort(
+    (a, b) => b - a,
+  );
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+test('contrast and text floor', async () => {
+  const tokens = await readTokens();
+
+  for (const [name, type] of Object.entries(tokens.typography)) {
+    assert.ok(
+      Number.parseFloat(type.fontSize) >= 10,
+      `${name} is below the 10px text floor`,
+    );
+  }
+  assert.equal(tokens.typography['body-md'].fontSize, '12px');
+
+  for (const [name, component] of Object.entries(tokens.components)) {
+    if (!component.backgroundColor || !component.textColor) continue;
+    const ratio = contrast(
+      colorValue(tokens, component.textColor),
+      colorValue(tokens, component.backgroundColor),
+    );
+    assert.ok(ratio >= 4.5, `${name} text contrast is ${ratio.toFixed(2)}:1`);
+  }
+
+  for (const [foreground, background] of [
+    ['border-control', 'surface'],
+    ['border-control', 'surface-tinted'],
+    ['dark-border-control', 'dark-surface'],
+    ['dark-border-control', 'dark-surface-tinted'],
+  ]) {
+    const ratio = contrast(tokens.colors[foreground], tokens.colors[background]);
+    assert.ok(
+      ratio >= 3,
+      `${foreground} on ${background} contrast is ${ratio.toFixed(2)}:1`,
+    );
+  }
 });
