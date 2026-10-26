@@ -203,13 +203,13 @@ test('secondary button typography', async () => {
 test('readable table and control scale', async () => {
   const { components, typography } = await readTokens();
 
-  assert.equal(typography['body-md'].fontSize, '13px');
-  assert.equal(typography['label-md'].fontSize, '13px');
-  assert.equal(typography['label-sm'].fontSize, '11px');
-  assert.equal(typography['headline-md'].fontSize, '16px');
+  assert.equal(typography['body-md'].fontSize, '14px');
+  assert.equal(typography['label-md'].fontSize, '14px');
+  assert.equal(typography['label-sm'].fontSize, '12px');
+  assert.equal(typography['headline-md'].fontSize, '18px');
 
   assert.equal(components['table-header'].typography, '{typography.label-md}');
-  assert.equal(components['table-header'].height, '28px');
+  assert.equal(components['table-header'].height, '32px');
   assert.equal(components['key-value-label'].typography, '{typography.body-md}');
   assert.equal(components['button-primary'].height, '28px');
   assert.equal(components['input-field'].height, '28px');
@@ -270,11 +270,11 @@ test('contrast and text floor', async () => {
 
   for (const [name, type] of Object.entries(tokens.typography)) {
     assert.ok(
-      Number.parseFloat(type.fontSize) >= 10,
-      `${name} is below the 10px text floor`,
+      Number.parseFloat(type.fontSize) >= 12,
+      `${name} is below the 12px text floor`,
     );
   }
-  assert.equal(tokens.typography['body-md'].fontSize, '13px');
+  assert.equal(tokens.typography['body-md'].fontSize, '14px');
 
   for (const [name, component] of Object.entries(tokens.components)) {
     if (!component.backgroundColor || !component.textColor) continue;

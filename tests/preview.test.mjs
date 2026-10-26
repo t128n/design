@@ -105,7 +105,7 @@ test('preview keeps the required structure and avoids rejected treatments', asyn
     css,
     /tbody td \{[^}]*border-bottom: 1px solid var\(--color-border-control\)/,
   );
-  assert.match(css, /\.th-sort \{[^}]*min-height: 28px/);
+  assert.match(css, /\.th-sort \{[^}]*min-height: 32px/);
   assert.match(css, /\.row-button \{[^}]*height: 28px/);
   assert.match(css, /\.icon-button \{[^}]*width: 28px/);
 

@@ -66,47 +66,47 @@ colors:
 typography:
   headline-lg:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-    fontSize: 20px
+    fontSize: 24px
     fontWeight: 700
     lineHeight: "1.2"
   headline-md:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-    fontSize: 16px
+    fontSize: 18px
     fontWeight: 700
     lineHeight: "1.25"
   body-lg:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-    fontSize: 13px
+    fontSize: 14px
     fontWeight: 400
     lineHeight: "1.4"
   body-md:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-    fontSize: 13px
+    fontSize: 14px
     fontWeight: 400
     lineHeight: "1.35"
   body-sm:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-    fontSize: 12px
+    fontSize: 13px
     fontWeight: 400
     lineHeight: "1.3"
   label-md:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-    fontSize: 13px
+    fontSize: 14px
     fontWeight: 700
     lineHeight: "1.25"
   label-sm:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-    fontSize: 11px
+    fontSize: 12px
     fontWeight: 600
     lineHeight: "1.2"
   code-md:
     fontFamily: "Consolas, Menlo, Monaco, 'Courier New', monospace"
-    fontSize: 13px
+    fontSize: 14px
     fontWeight: 400
     lineHeight: "1.3"
   numeric-md:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-    fontSize: 13px
+    fontSize: 14px
     fontWeight: 400
     lineHeight: "1.3"
     fontFeature: "'tnum' 1"
@@ -306,14 +306,14 @@ components:
     typography: "{typography.label-md}"
     rounded: "{rounded.none}"
     padding: 6px
-    height: 28px
+    height: 32px
   table-header-dark:
     backgroundColor: "{colors.dark-surface-header}"
     textColor: "{colors.dark-on-surface}"
     typography: "{typography.label-md}"
     rounded: "{rounded.none}"
     padding: 6px
-    height: 28px
+    height: 32px
   status-badge:
     backgroundColor: "{colors.state-neutral-bg}"
     textColor: "{colors.state-neutral-fg}"
@@ -544,7 +544,7 @@ components:
 
 The t128n design system serves dense operational web tools: admin consoles, record browsers, audit views, and internal dashboards. The interface should feel precise, quiet, and fast to scan. Records and their fields are the primary object; chrome exists only to orient the reader and expose the next action.
 
-The visual identity is flat and monochrome by default, with a single blue accent for interaction. Surfaces step from `{colors.surface}` to `{colors.surface-tinted}` to `{colors.surface-header}` to separate layers without shadows or decoration. Body copy is set in `{typography.body-md}` at 13px, while `{typography.headline-lg}` carries the page title. Spacing stays on the compact `{spacing.xxs}`–`{spacing.3xl}` scale so that tables and forms remain legible at operational density.
+The visual identity is flat and monochrome by default, with a single blue accent for interaction. Surfaces step from `{colors.surface}` to `{colors.surface-tinted}` to `{colors.surface-header}` to separate layers without shadows or decoration. Body copy is set in `{typography.body-md}` at 14px, while `{typography.headline-lg}` carries the page title. Spacing stays on the compact `{spacing.xxs}`–`{spacing.3xl}` scale so that tables and forms remain legible at operational density.
 
 Prefer structure over embellishment: rules, headers, and aligned numeric columns do the work that cards and shadows do elsewhere. Do not soften the interface into a marketing surface.
 
@@ -673,20 +673,20 @@ Typography is compact and utilitarian. The system sans stack carries prose, labe
 
 | Token | Size | Weight | Line height | Family | Use |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `headline-lg` | `20px` | `700` | `1.2` | system sans | Page title |
-| `headline-md` | `16px` | `700` | `1.25` | system sans | Section header |
-| `body-lg` | `13px` | `400` | `1.4` | system sans | Prose and comments |
-| `body-md` | `13px` | `400` | `1.35` | system sans | Default body and cells |
-| `body-sm` | `12px` | `400` | `1.3` | system sans | Dense secondary cells |
-| `label-md` | `13px` | `700` | `1.25` | system sans | Field labels |
-| `label-sm` | `11px` | `600` | `1.2` | system sans | Badges |
-| `code-md` | `13px` | `400` | `1.3` | monospace | IDs, hashes, logs |
-| `numeric-md` | `13px` | `400` | `1.3` | system sans | Right-aligned numbers, tabular figures |
+| `headline-lg` | `24px` | `700` | `1.2` | system sans | Page title |
+| `headline-md` | `18px` | `700` | `1.25` | system sans | Section header |
+| `body-lg` | `14px` | `400` | `1.4` | system sans | Prose and comments |
+| `body-md` | `14px` | `400` | `1.35` | system sans | Default body and cells |
+| `body-sm` | `13px` | `400` | `1.3` | system sans | Dense secondary cells |
+| `label-md` | `14px` | `700` | `1.25` | system sans | Field labels |
+| `label-sm` | `12px` | `600` | `1.2` | system sans | Badges |
+| `code-md` | `14px` | `400` | `1.3` | monospace | IDs, hashes, logs |
+| `numeric-md` | `14px` | `400` | `1.3` | system sans | Right-aligned numbers, tabular figures |
 
 System sans: `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`.
 Monospace: `Consolas, Menlo, Monaco, 'Courier New', monospace`.
 
-Never set text below `10px`. Body copy and table data use `{typography.body-md}`; table headers and field labels use `{typography.label-md}`; badges use `{typography.label-sm}`. Do not scale type fluidly; the compact scale is deliberate.
+No text may fall below `12px`. Body copy and table data use `{typography.body-md}`; table headers and field labels use `{typography.label-md}`; badges use `{typography.label-sm}`. Do not scale type fluidly; the compact scale is deliberate.
 
 ## Layout
 
@@ -770,7 +770,7 @@ Inputs are `28px` tall with `4px` padding and `{rounded.sm}`. The default field 
 
 ### Tables
 
-Tables are the primary record surface. Cells use `{components.table-cell}` and alternate with `{components.table-cell-alt}`. Selected rows use `{components.table-row-selected}`. Numeric columns use `{components.table-numeric}` with tabular figures. Headers use `{components.table-header}` with `{typography.label-md}`, `6px` padding, and a `28px` height. Row and outer boundaries use `{components.control-rule}` so the structural rule meets `3:1`; keep a stable identifier column and never collapse a record table into a card grid.
+Tables are the primary record surface. Cells use `{components.table-cell}` and alternate with `{components.table-cell-alt}`. Selected rows use `{components.table-row-selected}`. Numeric columns use `{components.table-numeric}` with tabular figures. Headers use `{components.table-header}` with `{typography.label-md}`, `6px` padding, and a `32px` height. Row and outer boundaries use `{components.control-rule}` so the structural rule meets `3:1`; keep a stable identifier column and never collapse a record table into a card grid.
 
 ### Status badges
 
@@ -810,7 +810,7 @@ Don't:
 - Don't use a radius above `{rounded.md}` or turn badges and buttons into pills.
 - Don't replace a record table with a card grid at narrow widths.
 - Don't use `{colors.border}` or `{colors.border-strong}` as an interactive boundary.
-- Don't set text below `10px` or invent a type scale outside the nine defined scales.
+- Don't set text below `12px` or invent a type scale outside the nine defined scales.
 - Don't invent colors, spacing, or radii; every value must come from the front matter.
 - Don't use placeholder-only labels or icon-only controls without an accessible name.
 - Don't use color alone to signal success, warning, danger, or disabled state.

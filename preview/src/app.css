@@ -299,7 +299,7 @@
       }
 
       thead th {
-        height: 28px;
+        height: 32px;
         padding: var(--space-sm);
         background: var(--color-surface-header);
         border-bottom: 1px solid var(--color-border-control);
@@ -562,7 +562,7 @@
         display: inline-flex;
         align-items: center;
         gap: var(--space-xxs);
-        min-height: 28px;
+        min-height: 32px;
         width: 100%;
         padding: 0;
         border: 0;
@@ -637,7 +637,7 @@
 
       .select-caret {
         color: var(--color-on-surface-muted);
-        font-size: 10px;
+        font-size: 12px;
       }
 
       .select-content {
@@ -689,7 +689,7 @@
       }
 
       .checkbox-mark {
-        font-size: 11px;
+        font-size: 12px;
         font-weight: 700;
         line-height: 1;
       }
