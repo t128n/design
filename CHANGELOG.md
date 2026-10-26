@@ -20,6 +20,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Standard CSS grid layouts in `layouts.css` for page frames, app shells,
   registers, split views, record details, forms, stacks, clusters, and
   one/two/three-column grids.
+- Bare layout skeletons under `preview/pages/` for each standard grid and
+  page template.
 - Dark surfaces and text aligned to the JetBrains New UI palette, with
   AA-safe muted text.
 - Accessibility pass: 14px body text, 12px labels, 28px controls, 32px

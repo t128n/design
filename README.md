@@ -127,6 +127,10 @@ Override `--t128n-columns` or `--t128n-gap` on the grid element for a one-off
 composition. Three columns step down to two at `1024px` and one at `640px`;
 two columns step down to one at `800px`.
 
+Bare skeletons for every layout live in
+[preview/pages/](preview/pages/) and are deployed at
+[t128n.github.io/design/pages/](https://t128n.github.io/design/pages/).
+
 ## Preview
 
 The preview is a Vite + Svelte 5 app using bits-ui primitives and Octicons

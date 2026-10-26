@@ -42,6 +42,8 @@ test('scripts and dependencies are wired', async () => {
   assert.ok(!existsSync(path.join(root, 'package-lock.json')), 'package-lock.json should be gone');
   assert.ok(existsSync(path.join(root, 'preview/index.html')), 'preview index is missing');
   assert.ok(existsSync(path.join(root, 'preview/src/App.svelte')), 'preview app is missing');
+  assert.ok(existsSync(path.join(root, 'preview/pages/index.html')), 'layout pages are missing');
+  assert.ok(existsSync(path.join(root, 'preview/src/pages/layouts.js')), 'layout registry is missing');
   assert.ok(existsSync(path.join(root, 'layouts.css')), 'layouts are missing');
 
   // .superlite/ is gitignored, so the runner config is validated where it exists

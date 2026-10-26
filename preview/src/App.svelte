@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from 'svelte';
   import copyIcon from '@primer/octicons/build/svg/copy-16.svg?raw';
   import {
     Checkbox,
@@ -10,6 +9,7 @@
     Switch,
     Tooltip,
   } from 'bits-ui';
+  import ThemeSwitch from './ThemeSwitch.svelte';
 
   const environments = [
     { value: 'production', label: 'Production' },
@@ -75,7 +75,6 @@
     'disabled',
   ];
 
-  let dark = $state(false);
   let environment = $state('production');
   let includeArchived = $state(false);
   let deploymentType = $state('rolling');
@@ -140,18 +139,6 @@
     dialogOpen = false;
     formMessage = `Rollback queued for ${rollbackTarget}.`;
   }
-
-  function handleThemeChange(checked) {
-    document.documentElement.dataset.theme = checked ? 'dark' : 'light';
-  }
-
-  onMount(() => {
-    dark =
-      document.documentElement.dataset.theme === 'dark' ||
-      (!document.documentElement.dataset.theme &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches);
-    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-  });
 </script>
 
 <svelte:head>
@@ -169,23 +156,13 @@
     </p>
   </div>
 
-  <div class="theme-control">
-    <Switch.Root
-      id="theme-toggle"
-      class="switch"
-      bind:checked={dark}
-      onCheckedChange={handleThemeChange}
-      aria-label="Dark theme"
-    >
-      <Switch.Thumb class="switch-thumb" />
-    </Switch.Root>
-    <Label.Root for="theme-toggle">Dark theme</Label.Root>
-  </div>
+  <ThemeSwitch />
 </header>
 
 <div class="toolbar" role="toolbar" aria-label="Specimen toolbar">
   <button type="button" class="button button-primary">Deploy</button>
   <button type="button" class="button button-secondary">Refresh</button>
+  <a class="button button-secondary" href="./pages/">Layout pages</a>
   <button
     type="button"
     class="button button-destructive"
@@ -194,7 +171,7 @@
     Rollback
   </button>
   <button type="button" class="button" disabled>Disabled</button>
-  <span class="body-sm">24px control height</span>
+  <span class="body-sm">28px control height</span>
 </div>
 
 <main id="main" tabindex="-1">

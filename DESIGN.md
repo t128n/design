@@ -727,6 +727,8 @@ The app shell collapses its navigation below `main` at `800px`. Split and record
 
 Equal-column grids collapse predictably: three columns become two at `1024px` and one at `640px`; two columns become one at `800px`. Override `--t128n-columns` or `--t128n-gap` on the grid element for a one-off composition.
 
+Bare skeletons for every template live under `preview/pages/` and deploy at `/pages/` in the preview.
+
 ## Elevation & Depth
 
 The system is flat. Depth is expressed with surface tint, border rules, and header fills, never with shadows or blur. Records and panels do not float; they sit in the reading plane.

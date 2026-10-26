@@ -1,0 +1,87 @@
+export const layouts = [
+  {
+    id: 'one-column',
+    slug: 'one-column',
+    title: 'One column',
+    grid: 't128n-grid--1',
+    description: 'Page header, one content column, footer.',
+  },
+  {
+    id: 'two-column',
+    slug: 'two-column',
+    title: 'Two columns',
+    grid: 't128n-grid--2',
+    description: 'Two equal content regions; collapses to one at 800px.',
+  },
+  {
+    id: 'three-column',
+    slug: 'three-column',
+    title: 'Three columns',
+    grid: 't128n-grid--3',
+    description: 'Three equal regions; 3 at desktop, 2 at 1024px, 1 at 640px.',
+  },
+  {
+    id: 'sidebar-main',
+    slug: 'sidebar-main',
+    title: 'Sidebar + main',
+    grid: 't128n-app-shell',
+    description: 'Application shell with header, navigation, and main region.',
+  },
+  {
+    id: 'list-detail',
+    slug: 'list-detail',
+    title: 'List + detail',
+    grid: 't128n-split',
+    description: 'List pane and detail pane with a fluid detail region.',
+  },
+  {
+    id: 'record-detail',
+    slug: 'record-detail',
+    title: 'Record detail',
+    grid: 't128n-record',
+    description: 'Metadata rail and record body.',
+  },
+  {
+    id: 'register',
+    slug: 'register',
+    title: 'Register',
+    grid: 't128n-register',
+    description: 'Header, toolbar, register body, and footer.',
+  },
+  {
+    id: 'form',
+    slug: 'form',
+    title: 'Form',
+    grid: 't128n-form-grid',
+    description: 'Aligned fields and a full-width action row.',
+  },
+  {
+    id: 'settings',
+    slug: 'settings',
+    title: 'Settings',
+    grid: 't128n-grid--2 + t128n-form-grid',
+    description: 'Section rail and form grid in two columns.',
+  },
+  {
+    id: 'mixed-grid',
+    slug: 'mixed-grid',
+    title: 'Mixed grid',
+    grid: 't128n-grid--3 + t128n-register',
+    description: 'Three-column summary strip above a register.',
+  },
+  {
+    id: 'states',
+    slug: 'states',
+    title: 'States',
+    grid: 't128n-stack',
+    description: 'Empty, loading, error, and success states in one column.',
+  },
+];
+
+export const indexPage = {
+  id: 'index',
+  slug: '',
+  title: 'Layout pages',
+  grid: '1 / 2 / 3 columns',
+  description: 'Bare skeletons for the standard layout templates.',
+};

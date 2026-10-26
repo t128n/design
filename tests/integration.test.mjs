@@ -160,6 +160,24 @@ test('repo is assembled', () => {
   assert.match(previewHtml, /\.\/assets\/[^"]+\.js/);
   assert.match(previewHtml, /\.\/assets\/[^"]+\.css/);
   assert.doesNotMatch(previewHtml, /src="\//);
+
+  for (const page of [
+    'preview/dist/pages/index.html',
+    'preview/dist/pages/one-column/index.html',
+    'preview/dist/pages/three-column/index.html',
+    'preview/dist/pages/mixed-grid/index.html',
+  ]) {
+    assert.ok(
+      existsSync(new URL(`../${page}`, import.meta.url)),
+      `${page} was not built`,
+    );
+  }
+  const nestedPage = readFileSync(
+    new URL('../preview/dist/pages/one-column/index.html', import.meta.url),
+    'utf8',
+  );
+  assert.match(nestedPage, /data-page="one-column"/);
+  assert.match(nestedPage, /src="\.\.\/\.\.\/assets\//);
 }, 30_000);
 
 test('docs and preview agree', () => {

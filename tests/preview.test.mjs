@@ -11,12 +11,13 @@ async function readText(file) {
 }
 
 test('preview is a Vite Svelte app on bits-ui primitives', async () => {
-  const [app, css, index, config, svelteConfig] = await Promise.all([
+  const [app, css, index, config, svelteConfig, theme] = await Promise.all([
     readText('preview/src/App.svelte'),
     readText('preview/src/app.css'),
     readText('preview/index.html'),
     readText('preview/vite.config.js'),
     readText('preview/svelte.config.js'),
+    readText('preview/src/ThemeSwitch.svelte'),
   ]);
 
   // Svelte and Vite wiring.
@@ -48,6 +49,7 @@ test('preview is a Vite Svelte app on bits-ui primitives', async () => {
   assert.match(app, /@primer\/octicons\/build\/svg\/copy-16\.svg\?raw/);
   assert.match(app, /\{@html copyIcon\}/);
   assert.doesNotMatch(app, /<path/);
+  assert.match(theme, /<Label\.Root for="theme-toggle">/);
 });
 
 test('preview keeps the required structure and avoids rejected treatments', async () => {
@@ -86,7 +88,6 @@ test('preview keeps the required structure and avoids rejected treatments', asyn
   // Every native/primitive input has a label or an accessible name.
   assert.match(app, /<Label\.Root for="include-archived">/);
   assert.match(app, /<Label\.Root for="auto-refresh">/);
-  assert.match(app, /<Label\.Root for="theme-toggle">/);
   assert.match(app, /aria-labelledby="environment-label"/);
   assert.match(app, /aria-label="Deployment type"/);
 

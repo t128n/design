@@ -44,6 +44,7 @@ test('docs describe the system', async () => {
   for (const link of [
     '[DESIGN.md](DESIGN.md)',
     '[layouts.css](layouts.css)',
+    '[preview/pages/](preview/pages/)',
     '[preview](preview/)',
     '[dist/tokens.css](dist/tokens.css)',
   ]) {
