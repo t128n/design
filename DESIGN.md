@@ -552,7 +552,7 @@ Each application maps its own status vocabulary onto the seven semantic roles; l
 
 ### Interface Integrity
 
-These patterns are non-conformant regardless of how they are produced.
+These patterns are non-conformant regardless of how they are produced. The positive rules they replace live in **Interaction Standards**.
 
 | Telltale | Broken principle | Normative rule | Check |
 | :--- | :--- | :--- | :--- |
@@ -793,6 +793,87 @@ Status badges use `{typography.label-sm}`, `{rounded.sm}`, `2px` padding, and a 
 - Icon buttons use `{components.icon-button}` at `28px` square.
 - Code blocks use `{components.code-block}`; tooltips use `{components.tooltip}`.
 - Error banners use `{components.error-banner}` and always include a message.
+
+## Interaction Standards
+
+These are the positive rules every view must satisfy; Interface Integrity in Overview names the anti-patterns that fail them. A view is conformant only when a reviewer can answer three questions for every control: what it is, what state it is in, and what happens when it is used.
+
+### Platform-first
+
+Build on the element that already carries the semantics and behavior. Use `button` for actions, `a href` for navigation, `form` for submission, `input` and `select` for entry, `table` for records, `dialog` for overlays, and `details` with `summary` for disclosure. A `div` with a click handler is not a control.
+
+CSS owns presentation, and native HTML owns the behavior and state the platform can express. Script is justified only for behavior the platform cannot express; before adding a script or dependency, state the native capability that was rejected and why, and record a lasting exception in the Application Profile. Keep native constraint attributes (`required`, `type`, `pattern`, `min`, `max`, `step`) as the validation source of truth; visible messages mirror them.
+
+Each view answers one question and names one primary action; a second, unrelated job belongs on another view. Prefer deleting markup, states, and options to adding them. Core tasks work with scripts disabled wherever the platform allows: links navigate, forms submit, details expand.
+
+### Controls and affordances
+
+- Every control shows its label, its current state, and the result of using it.
+- Actions use plain text labels. Icon-only controls are limited to universally understood, reversible actions and always carry an accessible name; critical workflows never depend on an ambiguous icon.
+- One primary action per view uses `{components.button-primary}` and `{colors.primary}`. Destructive actions use `{components.button-destructive}` and are visually separated from the primary cluster.
+- Disabled controls are unavailable and announced as such. Read-only fields stay focusable, selectable, and visibly marked read-only with the reason. Never use disabled to mean "not allowed yet" without saying what unlocks it.
+- Static text never looks interactive, and no control advertises an action it does not perform.
+
+### Forms
+
+- Labels are always visible and tied to their field; placeholders may show an example but never replace the label. Mark required fields, label optional fields optional, and show an example for format-sensitive fields.
+- Validate on submit with native constraint attributes; every message derives from the constraint and may explain it but never contradict it.
+- Mirror each failure inline beside its field, in the same position every time, and summarize the count above the form. A message says what is wrong and how to fix it.
+- Format-sensitive fields also validate when focus leaves them. Inline mirroring, blur validation, and moving focus to the first invalid field are script exceptions under Platform-first; none of them may duplicate or replace the native constraint.
+- On submit failure, keep every value and focus the first invalid field. Never clear input or move focus to the top of the page.
+- Document disabled and read-only behavior where the field appears. A field that cannot be edited says who can change it and how to request it.
+
+### Records and tables
+
+- Keep the identifier column first and sticky; the row's name or id never scrolls out of view. Use `{components.table-header}` and the shared table components instead of a card grid.
+- Sortable columns expose `aria-sort` on the active header and show direction in text or icon; unsorted columns look unsorted. A sort arrow that does nothing is a defect.
+- Every collection covers empty, loading, error, and no-results. Each state names itself and the next action: create the first record, retry, clear filters, or adjust the query. Loading reserves its final layout with a plain text row, never an animated gradient.
+- Bulk selection uses a header checkbox with an indeterminate state, shows the selected count, and names the scope ("12 of 340 selected"). Bulk actions are labelled with the count, and destructive ones confirm before running.
+- Long values truncate with an ellipsis, keep the full value in the accessible name, and reveal it on focus or hover with a copy affordance. Never truncate the identifier without a way to read it.
+
+### Status and feedback
+
+- The seven semantic roles carry all status meaning. Every status includes text; color, icon, and border are supplementary. A badge without a label is a defect, and users never have to learn a color legend.
+- Success states say what changed and what to do next, not just "Saved". Warning states appear before the consequence. In-progress states name the operation and offer cancel when it is safe.
+- Errors lead with recovery: what failed, what to do next, and what was preserved. Put them inline when they belong to a field, in `{components.error-banner}` when they belong to the view, and never only in a transient toast.
+- Transient messages confirm completed work; anything the user must act on stays until it is resolved or dismissed.
+- Never report success before the server confirms it.
+
+### Navigation and task flow
+
+- Back and cancel are predictable: they return to the previous view with its filters, sort, and position intact, and a dirty form confirms before discarding. Browser back and in-app back do the same thing.
+- Advanced options are collapsed by default, grouped under a labelled disclosure such as `details`, and never hide required fields.
+- Multi-step tasks show position as text ("Step 2 of 4"), preserve entered data on back and reload, offer save and resume for long tasks, and confirm completion with what changed and the next action.
+- Every view has one entry point and one exit, and no dead end: empty, error, and completion states all offer the next step.
+
+### Accessibility baseline
+
+- Every workflow completes with the keyboard alone in a logical tab order, with a visible focus indicator from `{components.focus-rule}`. Do not remove focus outlines; fix the layout instead.
+- Give controls semantic names: every input has a label, every icon button an accessible name, every dialog a title, and every table a caption and scoped headers.
+- Text meets `4.5:1` against its background and control boundaries meet `3:1`. Status never relies on color: pair it with text, and with an icon or border where the role matters.
+- Targets are at least `24px` square and primary touch actions at least `44px`. Text stays readable at `200%` zoom without loss of function or content.
+- Respect reduced-motion preferences and keep motion functional rather than decorative.
+
+### Content
+
+- Label actions by their result: "Save changes", "Delete 3 records", "Export CSV", not "Submit", "OK", or "Yes".
+- Use one term per concept across every view, matching the term used by the API and the records. Define an abbreviation the first time it appears.
+- Microcopy is short and operational: what happened, what it affects, what to do next. Errors do not blame the user and never expose a stack trace or internal code.
+- Use sentence case, no exclamation marks, and no filler. A control's label and its resulting message use the same words.
+
+### Conformance checklist
+
+Review every view against this table; a failing row blocks the change. Record approved exceptions in the Application Profile.
+
+| Check | Passes when |
+| :--- | :--- |
+| Platform fit | Each control uses the native element or attribute that already provides its behavior; any script or dependency has a stated reason. |
+| Form states | Labels are visible, required and optional are marked, inline messages say how to fix the input, and errors preserve every value. |
+| Table states | Empty, loading, error, and no-results each name the state and offer the next action; long values stay readable. |
+| Error recovery | Every failure says what failed, what to do next, and what was preserved. |
+| Keyboard flow | The whole task completes keyboard-only, focus is visible and ordered, and dialogs return focus. |
+| Status clarity | Every status has text and a semantic role; color is supplementary and no legend is required. |
+| Scope | One question and one primary action per view; optional and advanced controls are disclosed, not stacked. |
 
 ## Do's and Don'ts
 
