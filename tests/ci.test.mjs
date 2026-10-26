@@ -8,26 +8,38 @@ const source = readFileSync(
   'utf8',
 );
 
-test('workflow gates the repo', () => {
-  const workflow = parse(source);
-
+function assertGatedWorkflow(workflow, text) {
   // Triggers: push and pull_request (an empty trigger value parses as null).
   const triggers = workflow.on;
   assert.ok(triggers && typeof triggers === 'object', 'workflow needs on triggers');
-  assert.ok(Object.hasOwn(triggers, 'push'), 'workflow must run on push');
-  assert.ok(
-    Object.hasOwn(triggers, 'pull_request'),
-    'workflow must run on pull_request',
-  );
+  for (const event of ['push', 'pull_request']) {
+    assert.ok(
+      Object.hasOwn(triggers, event),
+      `workflow must run on ${event}`,
+    );
+    assert.notEqual(
+      triggers[event],
+      false,
+      `workflow must not disable the ${event} trigger`,
+    );
+  }
 
-  // Read-only token: no write scope anywhere in the workflow.
+  // Read-only token: no write scope on the workflow or on any job.
+  assert.ok(workflow.permissions, 'workflow must declare permissions');
   assert.equal(workflow.permissions.contents, 'read');
-  assert.ok(
-    !/write/.test(JSON.stringify(workflow.permissions)),
-    'workflow must not grant write permission',
-  );
+  const permissionBlocks = [
+    workflow.permissions,
+    ...Object.values(workflow.jobs ?? {}).map((job) => job.permissions),
+  ].filter(Boolean);
+  for (const block of permissionBlocks) {
+    assert.ok(
+      !/write/.test(JSON.stringify(block)),
+      `workflow must not grant write permission: ${JSON.stringify(block)}`,
+    );
+  }
 
-  const jobs = Object.values(workflow.jobs);
+  const jobs = Object.values(workflow.jobs ?? {});
+  assert.ok(jobs.length > 0, 'workflow needs at least one job');
   const steps = jobs.flatMap((job) => job.steps ?? []);
   const uses = steps.map((step) => step.uses).filter(Boolean);
   const runs = steps.map((step) => step.run).filter(Boolean);
@@ -39,10 +51,50 @@ test('workflow gates the repo', () => {
   assert.equal(String(setup.with?.['node-version']), '24');
   assert.equal(setup.with?.cache, 'npm');
 
-  for (const command of ['npm ci', 'npm test', 'npm run check']) {
-    assert.ok(runs.includes(command), `missing run step: ${command}`);
-  }
+  // npm ci must install before the test and check steps consume dependencies.
+  const commands = ['npm ci', 'npm test', 'npm run check'];
+  const positions = commands.map((command) => runs.indexOf(command));
+  positions.forEach((position, index) => {
+    assert.notEqual(position, -1, `missing run step: ${commands[index]}`);
+  });
+  assert.deepEqual(
+    positions,
+    [...positions].sort((a, b) => a - b),
+    `run steps must be ordered: ${commands.join(', ')}`,
+  );
 
   // No publish or deploy side effects.
-  assert.ok(!/publish|deploy/.test(source), 'workflow must not publish or deploy');
+  assert.ok(!/publish|deploy/i.test(text), 'workflow must not publish or deploy');
+}
+
+test('workflow gates the repo', () => {
+  assertGatedWorkflow(parse(source), source);
+});
+
+test('job-level write permission is rejected', () => {
+  const workflow = parse(source);
+  workflow.jobs.verify.permissions = { contents: 'write' };
+
+  assert.throws(
+    () => assertGatedWorkflow(workflow, source),
+    /must not grant write permission/,
+  );
+});
+
+test('disabled triggers and out-of-order run steps are rejected', () => {
+  const disabled = parse(source);
+  disabled.on.push = false;
+  assert.throws(
+    () => assertGatedWorkflow(disabled, source),
+    /must not disable the push trigger/,
+  );
+
+  const reordered = parse(source);
+  const steps = reordered.jobs.verify.steps;
+  const install = steps.findIndex((step) => step.run === 'npm ci');
+  steps.push(...steps.splice(install, 1));
+  assert.throws(
+    () => assertGatedWorkflow(reordered, source),
+    /run steps must be ordered/,
+  );
 });
