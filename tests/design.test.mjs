@@ -84,8 +84,8 @@ test('dark parity', async () => {
   const base = names.filter((name) => !name.startsWith('dark-'));
   const dark = names.filter((name) => name.startsWith('dark-'));
 
-  assert.equal(base.length, 28);
-  assert.equal(dark.length, 28);
+  assert.equal(base.length, 30);
+  assert.equal(dark.length, 30);
   for (const name of base) {
     assert.ok(names.includes(`dark-${name}`), `${name} has no dark- counterpart`);
   }
@@ -102,8 +102,8 @@ test('dark components mirror the light set', async () => {
   const base = names.filter((name) => !isDark(name));
   const lightOf = (name) => name.replace(/-dark(?=-|$)/, '');
 
-  assert.equal(base.length, 34);
-  assert.equal(dark.length, 34);
+  assert.equal(base.length, 36);
+  assert.equal(dark.length, 36);
   for (const name of dark) {
     assert.ok(names.includes(lightOf(name)), `${name} has no light counterpart`);
   }
@@ -166,11 +166,11 @@ test('token counts', async () => {
     'components',
   ]);
   assert.equal(tokens.version, 'alpha');
-  assert.equal(Object.keys(tokens.colors).length, 56);
+  assert.equal(Object.keys(tokens.colors).length, 60);
   assert.equal(Object.keys(tokens.typography).length, 9);
   assert.equal(Object.keys(tokens.spacing).length, 8);
   assert.equal(Object.keys(tokens.rounded).length, 3);
-  assert.equal(Object.keys(tokens.components).length, 68);
+  assert.equal(Object.keys(tokens.components).length, 72);
 });
 
 test('layout and shape tokens', async () => {
@@ -204,11 +204,20 @@ test('normative palette values', async () => {
   const { colors } = await readTokens();
 
   assert.equal(colors.primary, '#2E63CC');
+  assert.equal(colors.accent, '#3574F0');
+  assert.equal(colors.selection, '#DBEAFE');
   assert.equal(colors['border-control'], '#8A8F9C');
   assert.equal(colors['on-surface-muted'], '#5F6473');
   assert.equal(colors['state-disabled-fg'], '#565B66');
   assert.equal(colors.error, '#C62839');
   assert.equal(colors['dark-primary'], '#548AF7');
+  assert.equal(colors['dark-accent'], '#3574F0');
+  assert.equal(colors['dark-selection'], '#2E436E');
+  assert.equal(colors['dark-secondary'], '#B0B4BC');
+  assert.equal(colors['dark-surface-tinted'], '#191A1C');
+  assert.equal(colors['dark-surface-header'], '#26282D');
+  assert.equal(colors['dark-on-surface-muted'], '#A8ACB4');
+  assert.equal(colors['dark-border'], '#2B2D30');
 });
 
 function colorValue(tokens, ref) {
@@ -268,5 +277,27 @@ test('contrast and text floor', async () => {
       ratio >= 3,
       `${foreground} on ${background} contrast is ${ratio.toFixed(2)}:1`,
     );
+  }
+
+  for (const foreground of [
+    'dark-on-surface',
+    'dark-on-surface-muted',
+    'dark-secondary',
+  ]) {
+    for (const background of [
+      'dark-surface',
+      'dark-surface-tinted',
+      'dark-surface-header',
+      'dark-neutral',
+    ]) {
+      const ratio = contrast(
+        tokens.colors[foreground],
+        tokens.colors[background],
+      );
+      assert.ok(
+        ratio >= 4.5,
+        `${foreground} on ${background} contrast is ${ratio.toFixed(2)}:1`,
+      );
+    }
   }
 });

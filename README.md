@@ -10,6 +10,7 @@ how to consume it:
 
 - `DESIGN.md` — palette, typography, spacing, shapes, components, and rules.
 - [dist/tokens.css](dist/tokens.css) — generated light/dark CSS variables.
+- [layouts.css](layouts.css) — standard CSS grid page skeletons.
 - [preview](preview/) — Vite + Svelte + bits-ui visual acceptance app.
 
 Values live in one place.
@@ -20,6 +21,7 @@ Values live in one place.
 DESIGN.md                    Normative tokens and guidance
 scripts/build.mjs            Front-matter parser and CSS renderer
 dist/tokens.css              Generated CSS (committed, never hand-edited)
+layouts.css                  Standard CSS grid page skeletons
 preview/                     Vite + Svelte 5 + bits-ui preview app
 README.md                    This document
 CHANGELOG.md                 Version history
@@ -64,10 +66,12 @@ bun run preview:build
 
 ## Using the tokens
 
-Link the generated stylesheet and use the CSS variables it defines:
+Link the generated stylesheet and the standard layouts, then use the CSS
+variables they define:
 
 ```html
 <link rel="stylesheet" href="dist/tokens.css">
+<link rel="stylesheet" href="layouts.css">
 ```
 
 The generated CSS variables are:
@@ -87,10 +91,31 @@ Do not edit `dist/tokens.css` by hand and do not copy values into app
 stylesheets. Change `DESIGN.md`, run `bun run build`, and commit the
 regenerated artifact.
 
+## Layouts
+
+`layouts.css` provides the shared page skeletons. They use the token spacing
+and border variables, and they collapse at `800px`:
+
+```html
+<div class="t128n-app-shell">
+  <header class="t128n-app-shell__header">…</header>
+  <nav class="t128n-app-shell__nav">…</nav>
+  <main class="t128n-app-shell__main t128n-register">
+    <header class="t128n-register__header">…</header>
+    <div class="t128n-register__toolbar">…</div>
+    <div class="t128n-register__body">…</div>
+  </main>
+</div>
+```
+
+Available: `t128n-page`, `t128n-app-shell`, `t128n-register`, `t128n-split`,
+`t128n-record`, `t128n-form-grid`, `t128n-stack`, and `t128n-cluster`.
+See `DESIGN.md` for the grid definitions.
+
 ## Preview
 
-The preview is a Vite + Svelte 5 app using bits-ui primitives over the
-generated tokens. It deploys to
+The preview is a Vite + Svelte 5 app using bits-ui primitives and Octicons
+over the generated tokens. It deploys to
 [t128n.github.io/design](https://t128n.github.io/design/) on every push to
 `main`. The Pages site is public.
 
@@ -114,8 +139,8 @@ page follows the operating system. An explicit `data-theme` always wins.
 
 1. Read [DESIGN.md](DESIGN.md) and the [preview](preview/).
 2. Pin a commit of this repository and vendor
-   [dist/tokens.css](dist/tokens.css) into your app.
-3. Link `dist/tokens.css` from every page.
+   [dist/tokens.css](dist/tokens.css) and [layouts.css](layouts.css) into your app.
+3. Link both stylesheets from every page.
 4. Map the app's state vocabulary onto the seven semantic roles.
 5. Re-vendor the CSS when you bump the pinned commit.
 

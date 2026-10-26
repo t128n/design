@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import copyIcon from '@primer/octicons/build/svg/copy-16.svg?raw';
   import {
     Checkbox,
     Dialog,
@@ -159,6 +160,7 @@
 
 <a class="skip-link" href="#main">Skip to content</a>
 
+<div class="t128n-page">
 <header class="page-header">
   <div>
     <h1 class="headline-lg">t128n design system</h1>
@@ -276,7 +278,7 @@
         </thead>
         <tbody>
           {#each sorted as row (row.id)}
-            <tr>
+            <tr class:row-selected={row.id === 'DEP-1041'}>
               <td class="mono">{row.id}</td>
               <td>{row.service}</td>
               <td>{row.environment}</td>
@@ -291,14 +293,7 @@
                       aria-label="Copy record {row.id}"
                       onclick={() => copyId(row.id)}
                     >
-                      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
-                        <path
-                          d="M5 2.5h6.5v6.5H5zM3.5 5H2.5v8.5H11v-1"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="1.2"
-                        />
-                      </svg>
+                      {@html copyIcon}
                     </Tooltip.Trigger>
                     <Tooltip.Portal>
                       <Tooltip.Content class="tooltip-content" sideOffset={6}>
@@ -324,7 +319,7 @@
 
   <section class="section" aria-labelledby="form-title">
     <h2 id="form-title" class="headline-md">New deployment</h2>
-    <form class="field-grid" onsubmit={submitForm}>
+    <form class="t128n-form-grid" onsubmit={submitForm}>
       <div class="field">
         <label for="service-name">Service name</label>
         <input
@@ -425,29 +420,20 @@
 
   <section class="section" aria-labelledby="states-title">
     <h2 id="states-title" class="headline-md">Explicit states</h2>
-    <div class="empty-state">
-      <strong>No archived deployments.</strong>
-      <span class="muted">Archive a deployment to see it here.</span>
+    <div class="t128n-stack">
+      <div class="empty-state">
+        <strong>No archived deployments.</strong>
+        <span class="muted">Archive a deployment to see it here.</span>
+      </div>
+      <div class="error-banner" role="alert">
+        <strong>Deployment failed.</strong>
+        <span>The agent returned 500. Retry the deployment or inspect the log.</span>
+      </div>
+      <pre class="code-block"><code>deploy --service billing-api --environment production</code></pre>
     </div>
-    <div class="error-banner" role="alert">
-      <strong>Deployment failed.</strong>
-      <span>The agent returned 500. Retry the deployment or inspect the log.</span>
-    </div>
-    <pre class="code-block"><code>deploy --service billing-api --environment production</code></pre>
-  </section>
-
-  <section class="section" aria-labelledby="patterns-title">
-    <h2 id="patterns-title" class="headline-md">Rejected patterns</h2>
-    <ul class="patterns">
-      <li>No metric cards without a source, time window, and drill-down.</li>
-      <li>No glass, neon blur, glows, gradient borders, or panel shadows.</li>
-      <li>No decorative pills, floating chips, or uppercase mini-headers.</li>
-      <li>No dead sort arrows, chevrons, pagination dots, or segmented bars.</li>
-      <li>No layouts that only fit idealized content.</li>
-      <li>No sparkle icons on search, filter, or submit controls.</li>
-    </ul>
   </section>
 </main>
+</div>
 
 <Dialog.Root bind:open={dialogOpen}>
   <Dialog.Portal>

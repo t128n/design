@@ -8,14 +8,19 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- `DESIGN.md` as the single source of truth: 28 light/dark color pairs, nine
-  typography scales, eight spacing tokens, three radii, and 68 component
+- `DESIGN.md` as the single source of truth: 30 light/dark color pairs, nine
+  typography scales, eight spacing tokens, three radii, and 72 component
   tokens.
 - `scripts/build.mjs` and the generated, committed `dist/tokens.css` with
   `:root` light values and dark overrides for both `[data-theme="dark"]` and
   the `prefers-color-scheme` fallback.
 - `preview/` as the visual acceptance app: Vite, Svelte 5, and bits-ui
   primitives over the generated tokens, in light and dark.
+- Octicons from `@primer/octicons` for preview actions.
+- Standard CSS grid layouts in `layouts.css` for page frames, app shells,
+  registers, split views, record details, forms, stacks, and clusters.
+- Dark surfaces and text aligned to the JetBrains New UI palette, with
+  AA-safe muted text.
 - README covering purpose, layout, quick start, token usage, dark mode,
   adoption, versioning, enforcement, and contributing.
 - Bun 1.4 toolchain; `Bun.YAML` parses the front matter and `bun test` runs

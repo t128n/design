@@ -22,6 +22,7 @@ const README_PATH = 'README.md';
 const WORKFLOW_PATH = '.github/workflows/design.yml';
 const PAGES_WORKFLOW_PATH = '.github/workflows/pages.yml';
 const CSS_PATH = 'dist/tokens.css';
+const LAYOUTS_PATH = 'layouts.css';
 const ARTIFACTS = [
   DESIGN_PATH,
   BUILD_PATH,
@@ -33,6 +34,7 @@ const ARTIFACTS = [
   WORKFLOW_PATH,
   PAGES_WORKFLOW_PATH,
   CSS_PATH,
+  LAYOUTS_PATH,
 ];
 const ROLES = [
   'neutral',
@@ -83,8 +85,8 @@ test('every color pair maps in both dark selectors', () => {
   );
   const entries = Object.entries(tokens.colors);
   const bases = entries.filter(([name]) => !name.startsWith('dark-'));
-  assert.equal(bases.length, 28);
-  assert.equal(entries.length, 56);
+  assert.equal(bases.length, 30);
+  assert.equal(entries.length, 60);
 
   const rootBlock = block(committedCss, ':root {', '\n}');
   const darkBlock = block(committedCss, '[data-theme="dark"] {', '\n}');
@@ -121,12 +123,12 @@ test('repo is assembled', () => {
   assert.ok(rootBlock.includes('--space-2xl: 24px;'));
   assert.ok(rootBlock.includes('--radius-md: 3px;'));
   assert.ok(rootBlock.includes("--text-numeric-md-font-feature: 'tnum' 1;"));
-  assert.equal(colorCount(rootBlock), 28);
+  assert.equal(colorCount(rootBlock), 30);
 
   const darkBlock = block(css, '[data-theme="dark"] {', '\n}');
   assert.match(darkBlock, /color-scheme:\s*dark;/);
   assert.ok(darkBlock.includes('--color-primary: #548af7;'));
-  assert.equal(colorCount(darkBlock), 28);
+  assert.equal(colorCount(darkBlock), 30);
 
   const mediaBlock = block(
     css,
@@ -136,11 +138,11 @@ test('repo is assembled', () => {
   assert.match(mediaBlock, /:root:not\(\[data-theme\]\)/);
   assert.match(mediaBlock, /color-scheme:\s*dark;/);
   assert.ok(mediaBlock.includes('--color-primary: #548af7;'));
-  assert.equal(colorCount(mediaBlock), 28);
+  assert.equal(colorCount(mediaBlock), 30);
 
-  // Raw dark variable names never leak; the 28 dark values are inlined.
+  // Raw dark variable names never leak; the 30 dark values are inlined.
   assert.doesNotMatch(css, /--color-dark-/);
-  assert.equal([...css.matchAll(/--color-[a-z0-9-]+\s*:/g)].length, 28 * 3);
+  assert.equal([...css.matchAll(/--color-[a-z0-9-]+\s*:/g)].length, 30 * 3);
 
   const firstHash = sha256(css);
   const rebuilt = build();
@@ -169,6 +171,10 @@ test('docs and preview agree', () => {
     new URL(`../${PREVIEW_CSS}`, import.meta.url),
     'utf8',
   );
+  const layouts = readFileSync(
+    new URL(`../${LAYOUTS_PATH}`, import.meta.url),
+    'utf8',
+  );
   const readme = readFileSync(
     new URL(`../${README_PATH}`, import.meta.url),
     'utf8',
@@ -189,6 +195,8 @@ test('docs and preview agree', () => {
   assert.match(app, /from 'bits-ui'/);
   assert.match(app, /<table/);
   assert.match(appCss, /@import '\.\.\/\.\.\/dist\/tokens\.css'/);
+  assert.match(appCss, /@import '\.\.\/\.\.\/layouts\.css'/);
+  assert.match(layouts, /\.t128n-page/);
   assert.ok(readme.includes('--color-surface'));
   assert.ok(readme.includes('--color-primary'));
   assert.ok(readme.includes('bun run check'));

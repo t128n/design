@@ -36,11 +36,13 @@ test('scripts and dependencies are wired', async () => {
   assert.equal(pkg.scripts.check, 'bun run build && git diff --exit-code -- dist');
   assert.match(pkg.scripts['preview:build'], /vite build/);
   assert.equal(pkg.devDependencies['@google/design.md'], '0.4.0');
+  assert.equal(pkg.devDependencies['@primer/octicons'], '^19.42.0');
   assert.ok(!('yaml' in pkg.devDependencies), 'yaml is not a dependency');
   assert.ok(existsSync(path.join(root, 'bun.lock')), 'bun.lock is missing');
   assert.ok(!existsSync(path.join(root, 'package-lock.json')), 'package-lock.json should be gone');
   assert.ok(existsSync(path.join(root, 'preview/index.html')), 'preview index is missing');
   assert.ok(existsSync(path.join(root, 'preview/src/App.svelte')), 'preview app is missing');
+  assert.ok(existsSync(path.join(root, 'layouts.css')), 'layouts are missing');
 
   // .superlite/ is gitignored, so the runner config is validated where it exists
   // (local runs) and skipped on a clean checkout.

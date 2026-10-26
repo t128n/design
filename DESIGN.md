@@ -4,6 +4,7 @@ name: t128n Design System
 description: Dense, flat, record-first web UI for operational tools, with one accent color and full light and dark parity.
 colors:
   primary: "#2E63CC"
+  accent: "#3574F0"
   secondary: "#6C707E"
   tertiary: "#2051B5"
   neutral: "#EBECF0"
@@ -13,6 +14,7 @@ colors:
   on-surface: "#1E1F22"
   on-surface-muted: "#5F6473"
   on-primary: "#FFFFFF"
+  selection: "#DBEAFE"
   border: "#D3D5DB"
   border-strong: "#C9CCD6"
   border-control: "#8A8F9C"
@@ -32,20 +34,22 @@ colors:
   state-disabled-bg: "#E5E7EB"
   error: "#C62839"
   dark-primary: "#548AF7"
-  dark-secondary: "#A7ABB5"
+  dark-accent: "#3574F0"
+  dark-secondary: "#B0B4BC"
   dark-tertiary: "#7EA6FF"
   dark-neutral: "#2B2D30"
   dark-surface: "#1E1F22"
-  dark-surface-tinted: "#25272B"
-  dark-surface-header: "#2B2D30"
+  dark-surface-tinted: "#191A1C"
+  dark-surface-header: "#26282D"
   dark-on-surface: "#BCBEC4"
-  dark-on-surface-muted: "#92979F"
+  dark-on-surface-muted: "#A8ACB4"
   dark-on-primary: "#101114"
-  dark-border: "#393B40"
-  dark-border-strong: "#4A4D53"
+  dark-selection: "#2E436E"
+  dark-border: "#2B2D30"
+  dark-border-strong: "#393B40"
   dark-border-control: "#6B707B"
   dark-state-neutral-fg: "#C9CCD6"
-  dark-state-neutral-bg: "#2F3136"
+  dark-state-neutral-bg: "#2B2D30"
   dark-state-info-fg: "#8AB4F8"
   dark-state-info-bg: "#1E3A5F"
   dark-state-progress-fg: "#7FD1DE"
@@ -516,6 +520,24 @@ components:
     typography: "{typography.body-md}"
     rounded: "{rounded.sm}"
     padding: 8px
+  focus-rule:
+    backgroundColor: "{colors.accent}"
+    height: 2px
+  focus-rule-dark:
+    backgroundColor: "{colors.dark-accent}"
+    height: 2px
+  table-row-selected:
+    backgroundColor: "{colors.selection}"
+    textColor: "{colors.on-surface}"
+    typography: "{typography.body-md}"
+    rounded: "{rounded.none}"
+    padding: 6px
+  table-row-selected-dark:
+    backgroundColor: "{colors.dark-selection}"
+    textColor: "{colors.dark-on-surface}"
+    typography: "{typography.body-md}"
+    rounded: "{rounded.none}"
+    padding: 6px
 ---
 
 ## Overview
@@ -549,7 +571,8 @@ The palette is a neutral grayscale with one accent, plus explicit state roles fo
 
 | Token | Value | Role |
 | :--- | :--- | :--- |
-| `primary` | `#2E63CC` | Accent, links, focus, primary buttons |
+| `primary` | `#2E63CC` | Readable accent for links, text, and primary buttons |
+| `accent` | `#3574F0` | Non-text accent for focus rings and selection edges |
 | `secondary` | `#6C707E` | Monochrome metadata and secondary ink |
 | `tertiary` | `#2051B5` | Primary hover and active accent |
 | `neutral` | `#EBECF0` | Inactive controls, wells, neutral badge background |
@@ -559,6 +582,7 @@ The palette is a neutral grayscale with one accent, plus explicit state roles fo
 | `on-surface` | `#1E1F22` | Primary ink |
 | `on-surface-muted` | `#5F6473` | Labels, timestamps, captions, metadata |
 | `on-primary` | `#FFFFFF` | Ink on filled accent or destructive surfaces |
+| `selection` | `#DBEAFE` | Selected row background |
 | `border` | `#D3D5DB` | Table and section rules |
 | `border-strong` | `#C9CCD6` | Section header rules and overlay edges |
 | `border-control` | `#8A8F9C` | Interactive control boundaries, `3:1` |
@@ -585,20 +609,22 @@ Every base token has exactly one `dark-` counterpart. These values are not expos
 | Token | Value | Base token |
 | :--- | :--- | :--- |
 | `dark-primary` | `#548AF7` | `primary` |
-| `dark-secondary` | `#A7ABB5` | `secondary` |
+| `dark-accent` | `#3574F0` | `accent` |
+| `dark-secondary` | `#B0B4BC` | `secondary` |
 | `dark-tertiary` | `#7EA6FF` | `tertiary` |
 | `dark-neutral` | `#2B2D30` | `neutral` |
 | `dark-surface` | `#1E1F22` | `surface` |
-| `dark-surface-tinted` | `#25272B` | `surface-tinted` |
-| `dark-surface-header` | `#2B2D30` | `surface-header` |
+| `dark-surface-tinted` | `#191A1C` | `surface-tinted` |
+| `dark-surface-header` | `#26282D` | `surface-header` |
 | `dark-on-surface` | `#BCBEC4` | `on-surface` |
-| `dark-on-surface-muted` | `#92979F` | `on-surface-muted` |
+| `dark-on-surface-muted` | `#A8ACB4` | `on-surface-muted` |
 | `dark-on-primary` | `#101114` | `on-primary` |
-| `dark-border` | `#393B40` | `border` |
-| `dark-border-strong` | `#4A4D53` | `border-strong` |
+| `dark-selection` | `#2E436E` | `selection` |
+| `dark-border` | `#2B2D30` | `border` |
+| `dark-border-strong` | `#393B40` | `border-strong` |
 | `dark-border-control` | `#6B707B` | `border-control` |
 | `dark-state-neutral-fg` | `#C9CCD6` | `state-neutral-fg` |
-| `dark-state-neutral-bg` | `#2F3136` | `state-neutral-bg` |
+| `dark-state-neutral-bg` | `#2B2D30` | `state-neutral-bg` |
 | `dark-state-info-fg` | `#8AB4F8` | `state-info-fg` |
 | `dark-state-info-bg` | `#1E3A5F` | `state-info-bg` |
 | `dark-state-progress-fg` | `#7FD1DE` | `state-progress-fg` |
@@ -612,6 +638,28 @@ Every base token has exactly one `dark-` counterpart. These values are not expos
 | `dark-state-disabled-fg` | `#9DA1A9` | `state-disabled-fg` |
 | `dark-state-disabled-bg` | `#2B2D30` | `state-disabled-bg` |
 | `dark-error` | `#F75464` | `error` |
+
+### JetBrains New UI alignment
+
+The dark surfaces and primary text follow the JetBrains New UI dark palette: main canvas `#1E1F22`, island `#191A1C`, active tab `#26282D`, hover `#2B2D30`, selection `#2E436E`, primary text `#BCBEC4`, and accent `#3574F0`. The readable accent is `#548AF7`; `#3574F0` is used for non-text focus rings and selection edges. `#7A7E85` is the JetBrains secondary value but does not meet AA on these surfaces, so readable muted text uses `#A8ACB4` and `#7A7E85` is reserved for editor comments and non-text chrome. The light palette keeps `#2E63CC` for text and uses `#3574F0` only for non-text focus.
+
+### Editor palette
+
+These colors are for code surfaces and syntax highlighting. They are not UI state roles; UI state uses the seven roles above.
+
+| Token | Value | Use |
+| :--- | :--- | :--- |
+| Keyword | `#CF8E6D` | `if`, `return`, control flow |
+| String | `#6AAB73` | String literals |
+| Function | `#56A8F5` | Functions, methods, links in code |
+| Number | `#2AACB8` | Numbers and constants |
+| Type | `#E5C07B` | Classes, types, annotations |
+| Type alt | `#B3AE60` | Secondary type emphasis |
+| Comment | `#7A7E85` | Comments and muted editor chrome |
+| Error | `#F75464` | Error squiggles, deleted markers |
+| Warning | `#F5A623` | Warnings, inspect alerts |
+| Added | `#62B543` | Added lines, untracked files |
+| Modified | `#56A8F5` | Modified lines |
 
 ### Theme mapping
 
@@ -657,6 +705,23 @@ Layout follows a record-first, fixed-density model. Content sits in a single mai
 
 Radius is limited to `{rounded.none}`, `{rounded.sm}`, and `{rounded.md}`. There is no radius above `3px`, no pill shape, and no card grid that replaces a record table at narrow widths.
 
+### Standard Layouts
+
+`layouts.css` provides the shared CSS grid templates. Import it after `dist/tokens.css`. Applications may compose these classes, but should not replace them with a different page skeleton.
+
+| Class | Grid | Use |
+| :--- | :--- | :--- |
+| `t128n-page` | Centered `min(1120px, 100%)`, vertical grid with `lg` gap | Page frame |
+| `t128n-app-shell` | `220px minmax(0, 1fr)` with `header`, `nav`, `main` areas | Application chrome |
+| `t128n-register` | Rows: header, toolbar, register body, footer | Record registers |
+| `t128n-split` | `minmax(220px, 320px) minmax(0, 1fr)` | List and detail |
+| `t128n-record` | `minmax(180px, 240px) minmax(0, 1fr)` with `meta` and `body` areas | Record detail |
+| `t128n-form-grid` | `repeat(auto-fit, minmax(220px, 1fr))` | Forms with aligned fields |
+| `t128n-stack` | Vertical grid with `md` gap | Stacked sections and state panels |
+| `t128n-cluster` | Wrapping flex row with `xs` gap | Toolbars, actions, badges |
+
+The app shell collapses its navigation below `main` at `800px`. Split and record layouts stack at `800px`; form grids collapse by available width. Record tables keep their identifier column and scroll horizontally rather than becoming cards.
+
 ## Elevation & Depth
 
 The system is flat. Depth is expressed with surface tint, border rules, and header fills, never with shadows or blur. Records and panels do not float; they sit in the reading plane.
@@ -680,20 +745,20 @@ Use a `1px` rule for every separator. The `control-rule` token (`{colors.border-
 
 ## Iconography
 
-Icons are inline SVG drawn on a 16px grid with a consistent stroke. They are decorative by default and must be hidden from assistive technology unless they carry meaning; meaningful icons need an accessible name. Icon color follows the surrounding text: `{colors.on-surface}` for active content, `{colors.on-surface-muted}` for secondary chrome, and `{colors.primary}` for interactive emphasis.
+Icons come from **Octicons** (`@primer/octicons`), the 16px GitHub set. Carbon is the approved fallback for infrastructure glyphs Octicons does not cover. An icon is functional only—never decorative—and must be hidden from assistive technology unless it carries meaning. Icon color follows the surrounding text: `{colors.on-surface}` for active content, `{colors.on-surface-muted}` for secondary chrome, and `{colors.primary}` for interactive emphasis.
 
 | Context | Treatment |
 | :--- | :--- |
-| Toolbar and icon button | `16px` inline SVG, `{colors.on-surface-muted}` |
+| Toolbar and icon button | Octicon, `16px` grid, rendered at `14px`, `{colors.on-surface-muted}` |
 | Inline with body text | `14px`, optically aligned to the baseline |
 | Status badge | Text label first; an icon may supplement but never replace it |
 | Decorative | `aria-hidden="true"` |
 
-Do not use icon fonts, emoji as controls, or color-only icons. An icon button always has an accessible name, and its target is at least `24px` square.
+Do not use icon fonts, emoji as controls, or color-only icons. Do not hand-draw an icon when Octicons has the glyph. An icon button always has an accessible name, and its target is at least `24px` square.
 
 ## Components
 
-Components are defined as tokens rather than as a library. Each component records the properties it needs — background, text, typography, radius, and padding or size — so an implementation can reproduce it exactly in both themes. All 68 components live in the front matter: 34 light components and 34 dark counterparts. The dark counterparts use `dark-` colors and the same geometry as their light twin.
+Components are defined as tokens rather than as a library. Each component records the properties it needs — background, text, typography, radius, and padding or size — so an implementation can reproduce it exactly in both themes. All 72 components live in the front matter: 36 light components and 36 dark counterparts. The dark counterparts use `dark-` colors and the same geometry as their light twin.
 
 ### Buttons
 
@@ -701,11 +766,11 @@ Buttons are `24px` tall with `4px` padding, `{rounded.md}`, and `{typography.lab
 
 ### Inputs and fields
 
-Inputs are `24px` tall with `4px` padding and `{rounded.sm}`. The default field is `{components.input-field}`; the disabled field is `{components.input-field-disabled}`. Every input has a visible label, and the focus treatment uses the accent color. Placeholders may repeat an example but never replace a label.
+Inputs are `24px` tall with `4px` padding and `{rounded.sm}`. The default field is `{components.input-field}`; the disabled field is `{components.input-field-disabled}`. Every input has a visible label, and the focus treatment uses the accent color with the `{components.focus-rule}` line. Placeholders may repeat an example but never replace a label.
 
 ### Tables
 
-Tables are the primary record surface. Cells use `{components.table-cell}` and alternate with `{components.table-cell-alt}`. Numeric columns use `{components.table-numeric}` with tabular figures. Headers use `{components.table-header}` with `{typography.label-sm}`, `4px` padding, and a `24px` height. Keep a stable identifier column and never collapse a record table into a card grid.
+Tables are the primary record surface. Cells use `{components.table-cell}` and alternate with `{components.table-cell-alt}`. Selected rows use `{components.table-row-selected}`. Numeric columns use `{components.table-numeric}` with tabular figures. Headers use `{components.table-header}` with `{typography.label-sm}`, `4px` padding, and a `24px` height. Keep a stable identifier column and never collapse a record table into a card grid.
 
 ### Status badges
 
@@ -727,6 +792,7 @@ Status badges use `{typography.label-sm}`, `{rounded.sm}`, and `2px` padding. Ea
 Do:
 
 - Use `{colors.primary}` for one clear action per view, and keep the accent scarce.
+- Use `{colors.accent}` for visible focus rings and selection edges; never remove the focus indicator.
 - Use `{colors.border-control}` on every input, select, checkbox, radio, and button boundary.
 - Use `{colors.surface-tinted}` to alternate rows and separate secondary panels.
 - Set body and cell text in `{typography.body-md}` and numeric columns in `{typography.numeric-md}`.

@@ -26,8 +26,9 @@ test('preview is a Vite Svelte app on bits-ui primitives', async () => {
   assert.match(config, /base:\s*'\.\/'/);
   assert.match(svelteConfig, /export default/);
 
-  // The preview consumes the generated token stylesheet.
+  // The preview consumes the generated token stylesheet and the layouts.
   assert.match(css, /@import '\.\.\/\.\.\/dist\/tokens\.css'/);
+  assert.match(css, /@import '\.\.\/\.\.\/layouts\.css'/);
 
   // The interactive controls come from bits-ui.
   assert.match(app, /from 'bits-ui'/);
@@ -42,11 +43,17 @@ test('preview is a Vite Svelte app on bits-ui primitives', async () => {
   ]) {
     assert.ok(app.includes(primitive), `preview does not use ${primitive}`);
   }
+
+  // The icon is an Octicon, not a hand-drawn path.
+  assert.match(app, /@primer\/octicons\/build\/svg\/copy-16\.svg\?raw/);
+  assert.match(app, /\{@html copyIcon\}/);
+  assert.doesNotMatch(app, /<path/);
 });
 
 test('preview keeps the required structure and avoids rejected treatments', async () => {
   const app = await readText('preview/src/App.svelte');
   const css = await readText('preview/src/app.css');
+  const layouts = await readText('layouts.css');
 
   for (const fragment of [
     '<table',
@@ -65,9 +72,14 @@ test('preview keeps the required structure and avoids rejected treatments', asyn
     'Checkbox.Root',
     'RadioGroup.Root',
     'Switch.Root',
+    't128n-page',
+    't128n-form-grid',
+    't128n-stack',
   ]) {
     assert.ok(app.includes(fragment), `preview is missing ${fragment}`);
   }
+
+  assert.doesNotMatch(app, /Rejected patterns/);
 
   // Every native/primitive input has a label or an accessible name.
   assert.match(app, /<Label\.Root for="include-archived">/);
@@ -77,8 +89,10 @@ test('preview keeps the required structure and avoids rejected treatments', asyn
   assert.match(app, /aria-label="Deployment type"/);
 
   // Forbidden visual treatments.
-  assert.doesNotMatch(css, /linear-gradient|radial-gradient|backdrop-filter|box-shadow/i);
-  assert.doesNotMatch(css, /filter\s*:\s*blur|text-shadow/i);
+  for (const source of [css, layouts]) {
+    assert.doesNotMatch(source, /linear-gradient|radial-gradient|backdrop-filter|box-shadow/i);
+    assert.doesNotMatch(source, /filter\s*:\s*blur|text-shadow/i);
+  }
   assert.doesNotMatch(app, /✨/);
 
   const radii = [...css.matchAll(/border-radius\s*:\s*([^;}]+)/gi)].map((match) =>

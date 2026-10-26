@@ -3,6 +3,7 @@
 :root {
   color-scheme: light;
   --color-primary: #2e63cc;
+  --color-accent: #3574f0;
   --color-secondary: #6c707e;
   --color-tertiary: #2051b5;
   --color-neutral: #ebecf0;
@@ -12,6 +13,7 @@
   --color-on-surface: #1e1f22;
   --color-on-surface-muted: #5f6473;
   --color-on-primary: #ffffff;
+  --color-selection: #dbeafe;
   --color-border: #d3d5db;
   --color-border-strong: #c9ccd6;
   --color-border-control: #8a8f9c;
@@ -83,20 +85,22 @@
 [data-theme="dark"] {
   color-scheme: dark;
   --color-primary: #548af7;
-  --color-secondary: #a7abb5;
+  --color-accent: #3574f0;
+  --color-secondary: #b0b4bc;
   --color-tertiary: #7ea6ff;
   --color-neutral: #2b2d30;
   --color-surface: #1e1f22;
-  --color-surface-tinted: #25272b;
-  --color-surface-header: #2b2d30;
+  --color-surface-tinted: #191a1c;
+  --color-surface-header: #26282d;
   --color-on-surface: #bcbec4;
-  --color-on-surface-muted: #92979f;
+  --color-on-surface-muted: #a8acb4;
   --color-on-primary: #101114;
-  --color-border: #393b40;
-  --color-border-strong: #4a4d53;
+  --color-selection: #2e436e;
+  --color-border: #2b2d30;
+  --color-border-strong: #393b40;
   --color-border-control: #6b707b;
   --color-state-neutral-fg: #c9ccd6;
-  --color-state-neutral-bg: #2f3136;
+  --color-state-neutral-bg: #2b2d30;
   --color-state-info-fg: #8ab4f8;
   --color-state-info-bg: #1e3a5f;
   --color-state-progress-fg: #7fd1de;
@@ -116,20 +120,22 @@
   :root:not([data-theme]) {
     color-scheme: dark;
     --color-primary: #548af7;
-    --color-secondary: #a7abb5;
+    --color-accent: #3574f0;
+    --color-secondary: #b0b4bc;
     --color-tertiary: #7ea6ff;
     --color-neutral: #2b2d30;
     --color-surface: #1e1f22;
-    --color-surface-tinted: #25272b;
-    --color-surface-header: #2b2d30;
+    --color-surface-tinted: #191a1c;
+    --color-surface-header: #26282d;
     --color-on-surface: #bcbec4;
-    --color-on-surface-muted: #92979f;
+    --color-on-surface-muted: #a8acb4;
     --color-on-primary: #101114;
-    --color-border: #393b40;
-    --color-border-strong: #4a4d53;
+    --color-selection: #2e436e;
+    --color-border: #2b2d30;
+    --color-border-strong: #393b40;
     --color-border-control: #6b707b;
     --color-state-neutral-fg: #c9ccd6;
-    --color-state-neutral-bg: #2f3136;
+    --color-state-neutral-bg: #2b2d30;
     --color-state-info-fg: #8ab4f8;
     --color-state-info-bg: #1e3a5f;
     --color-state-progress-fg: #7fd1de;

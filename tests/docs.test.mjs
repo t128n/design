@@ -18,6 +18,7 @@ test('docs describe the system', async () => {
     'Repository layout',
     'Quick start',
     'Using the tokens',
+    'Layouts',
     'Preview',
     'Dark mode',
     'Adopting in an app',
@@ -42,6 +43,7 @@ test('docs describe the system', async () => {
 
   for (const link of [
     '[DESIGN.md](DESIGN.md)',
+    '[layouts.css](layouts.css)',
     '[preview](preview/)',
     '[dist/tokens.css](dist/tokens.css)',
   ]) {
