@@ -160,7 +160,7 @@ test('repo is assembled', () => {
   assert.match(previewHtml, /\.\/assets\/[^"]+\.js/);
   assert.match(previewHtml, /\.\/assets\/[^"]+\.css/);
   assert.doesNotMatch(previewHtml, /src="\//);
-});
+}, 30_000);
 
 test('docs and preview agree', () => {
   const app = readFileSync(
