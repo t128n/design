@@ -1,0 +1,69 @@
+# Progress
+
+- start 1522273897ffa4f7d7a55a277581254e0cb41601
+- tests fast passed=0 failed=1 skipped=0 seconds=0.2
+- tests fast passed=2 failed=0 skipped=0 seconds=0.3
+- tests full passed=2 failed=0 skipped=0 seconds=0.4
+- tests full passed=2 failed=0 skipped=0 seconds=0.3
+- commit T0 a5bc2a39c2 repo skeleton
+- tests fast passed=0 failed=1 skipped=0 seconds=0.3
+- tests fast passed=0 failed=1 skipped=0 seconds=0.4
+- tests fast passed=1 failed=0 skipped=0 seconds=0.4
+- tests fast passed=1 failed=0 skipped=0 seconds=0.4
+- tests fast passed=1 failed=0 skipped=0 seconds=0.3
+- tests fast passed=0 failed=1 skipped=0 seconds=0.4
+- tests fast passed=0 failed=7 skipped=0 seconds=0.5
+- tests fast passed=1 failed=0 skipped=0 seconds=0.3
+- tests fast passed=11 failed=0 skipped=0 seconds=0.6
+- tests fast passed=1 failed=0 skipped=0 seconds=0.3
+- tests fast passed=5 failed=2 skipped=0 seconds=0.8
+- tests fast passed=1 failed=0 skipped=0 seconds=0.3
+- tests fast passed=7 failed=0 skipped=0 seconds=0.8
+- tests fast passed=1 failed=0 skipped=0 seconds=0.3
+- tests fast passed=8 failed=0 skipped=0 seconds=0.8
+- tests full passed=25 failed=0 skipped=0 seconds=1.0
+- commit T1 358c2a4093 DESIGN.md
+- commit T2 48cb8683f4 build script
+- commit T3 7e2d305c7a Application Profile template
+- commit T4 4c5adc64be Specimen
+- commit T5 8c495b3d6d README and changelog
+- commit T6 e0d1d54f57 CI workflow
+- tests fast passed=1 failed=1 skipped=0 seconds=1.8
+- tests fast passed=2 failed=0 skipped=0 seconds=1.8
+- tests fast passed=1 failed=0 skipped=0 seconds=0.3
+- tests fast passed=2 failed=0 skipped=0 seconds=1.8
+- tests full passed=27 failed=0 skipped=0 seconds=2.1
+- commit T5 62a1bf0cea README and changelog
+- commit T7 db7bf81562 Integration and generated CSS
+- tests fast passed=1 failed=0 skipped=0 seconds=0.4
+- tests fast passed=15 failed=0 skipped=0 seconds=1.9
+- tests fast passed=10 failed=0 skipped=0 seconds=0.8
+- tests fast passed=5 failed=0 skipped=0 seconds=1.8
+- tests fast passed=1 failed=0 skipped=0 seconds=0.4
+- tests fast passed=3 failed=0 skipped=0 seconds=0.4
+- tests fast passed=2 failed=0 skipped=0 seconds=0.3
+- tests fast passed=13 failed=1 skipped=0 seconds=0.9
+- tests fast passed=14 failed=0 skipped=0 seconds=0.9
+- tests fast passed=14 failed=0 skipped=0 seconds=0.8
+- tests fast passed=4 failed=0 skipped=0 seconds=2.0
+- tests fast passed=17 failed=0 skipped=0 seconds=1.9
+- tests fast passed=17 failed=0 skipped=0 seconds=1.9
+- tests full passed=36 failed=0 skipped=0 seconds=2.2
+- commit T1 b220b490d0 DESIGN.md
+- commit T3 bc2e5b7298 Application Profile template
+- commit T5 0fe9f32a7f README and changelog
+- commit T7 5fa54f8944 Integration and generated CSS
+- commit T4 620307889f Specimen
+- commit T6 0dad85f893 CI workflow
+- tests full passed=36 failed=0 skipped=0 seconds=2.3
+- tests full passed=36 failed=0 skipped=0 seconds=2.3
+- Ruling: plain CSS only - user selected it - Tailwind apps can consume var() directly
+- Ruling: add dark state roles - full parity needs readable badges - 28 dark tokens
+- Ruling: 68 component tokens - covers every color and both themes - larger front matter accepted
+- Ruling: no publish - canonical repo + tooling scope - apps pin a commit and vendor dist/tokens.css
+- Ruling: primary darkened to #2E63CC - white 12px text needs WCAG AA - preserves cobalt intent
+- Ruling: pt_review contract false positive accepted - Python-only checker cannot introspect .mjs - functions are imported by the integration test
+- Ruling: probe adapter adapted for a no-arg npm check - generic arg probes hung - 101 probes now pass
+- unblocked: dispatched T0 at 01:54:30; waiting on fixes: none
+- unblocked: dispatched T1 T2 T3 T4 T5 T6 at 01:56:00; waiting on fixes: none
+- unblocked: dispatched T7 at 01:59:00; waiting on fixes: none
