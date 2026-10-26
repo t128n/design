@@ -73,6 +73,8 @@ test('preview keeps the required structure and avoids rejected treatments', asyn
     'RadioGroup.Root',
     'Switch.Root',
     't128n-page',
+    't128n-grid--2',
+    't128n-grid--3',
     't128n-form-grid',
     't128n-stack',
   ]) {

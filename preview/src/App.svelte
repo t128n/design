@@ -228,6 +228,36 @@
     </dl>
   </section>
 
+  <section class="section" aria-labelledby="grids-title">
+    <h2 id="grids-title" class="headline-md">Column grids</h2>
+    <div class="t128n-stack">
+      <div class="t128n-grid t128n-grid--3">
+        <div class="grid-cell">
+          <span class="body-sm muted">Owner</span>
+          <strong>Platform</strong>
+        </div>
+        <div class="grid-cell">
+          <span class="body-sm muted">Environment</span>
+          <strong>Production</strong>
+        </div>
+        <div class="grid-cell">
+          <span class="body-sm muted">Region</span>
+          <strong>eu-west-1</strong>
+        </div>
+      </div>
+      <div class="t128n-grid t128n-grid--2">
+        <div class="grid-cell">
+          <span class="body-sm muted">Record</span>
+          <strong>Deployments</strong>
+        </div>
+        <div class="grid-cell">
+          <span class="body-sm muted">Window</span>
+          <strong>Last 24 hours</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" aria-labelledby="status-title">
     <h2 id="status-title" class="headline-md">State vocabulary</h2>
     <div class="badge-row" role="group" aria-label="Semantic state roles">

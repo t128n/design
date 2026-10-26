@@ -224,6 +224,22 @@
         line-height: var(--text-body-md-line-height);
       }
 
+      .grid-cell {
+        display: grid;
+        gap: var(--space-xxs);
+        padding: var(--space-md);
+        background: var(--color-surface);
+        border: 1px solid var(--color-border-control);
+      }
+
+      .grid-cell strong {
+        color: var(--color-on-surface);
+        font-family: var(--font-body-md);
+        font-size: var(--text-body-md-size);
+        font-weight: var(--text-body-md-weight);
+        line-height: var(--text-body-md-line-height);
+      }
+
       .badge-row {
         display: flex;
         flex-wrap: wrap;

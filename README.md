@@ -108,9 +108,24 @@ and border variables, and they collapse at `800px`:
 </div>
 ```
 
-Available: `t128n-page`, `t128n-app-shell`, `t128n-register`, `t128n-split`,
+Available: `t128n-page`, `t128n-grid` with `t128n-grid--1/2/3` and
+`t128n-grid__full`, `t128n-app-shell`, `t128n-register`, `t128n-split`,
 `t128n-record`, `t128n-form-grid`, `t128n-stack`, and `t128n-cluster`.
 See `DESIGN.md` for the grid definitions.
+
+Equal-column example:
+
+```html
+<div class="t128n-grid t128n-grid--3">
+  <section>…</section>
+  <section>…</section>
+  <section>…</section>
+</div>
+```
+
+Override `--t128n-columns` or `--t128n-gap` on the grid element for a one-off
+composition. Three columns step down to two at `1024px` and one at `640px`;
+two columns step down to one at `800px`.
 
 ## Preview
 

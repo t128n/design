@@ -712,6 +712,9 @@ Radius is limited to `{rounded.none}`, `{rounded.sm}`, and `{rounded.md}`. There
 | Class | Grid | Use |
 | :--- | :--- | :--- |
 | `t128n-page` | Centered `min(1120px, 100%)`, vertical grid with `lg` gap | Page frame |
+| `t128n-grid` | `repeat(var(--t128n-columns), minmax(0, 1fr))`, gap `--t128n-gap` | Equal-column content grid |
+| `t128n-grid--1` / `--2` / `--3` | Sets `--t128n-columns` | One, two, or three equal columns |
+| `t128n-grid__full` | `grid-column: 1 / -1` | Span the full grid |
 | `t128n-app-shell` | `220px minmax(0, 1fr)` with `header`, `nav`, `main` areas | Application chrome |
 | `t128n-register` | Rows: header, toolbar, register body, footer | Record registers |
 | `t128n-split` | `minmax(220px, 320px) minmax(0, 1fr)` | List and detail |
@@ -721,6 +724,8 @@ Radius is limited to `{rounded.none}`, `{rounded.sm}`, and `{rounded.md}`. There
 | `t128n-cluster` | Wrapping flex row with `xs` gap | Toolbars, actions, badges |
 
 The app shell collapses its navigation below `main` at `800px`. Split and record layouts stack at `800px`; form grids collapse by available width. Record tables keep their identifier column and scroll horizontally rather than becoming cards.
+
+Equal-column grids collapse predictably: three columns become two at `1024px` and one at `640px`; two columns become one at `800px`. Override `--t128n-columns` or `--t128n-gap` on the grid element for a one-off composition.
 
 ## Elevation & Depth
 
