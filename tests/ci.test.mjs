@@ -7,6 +7,10 @@ const source = readFileSync(
   new URL('../.github/workflows/design.yml', import.meta.url),
   'utf8',
 );
+const pagesSource = readFileSync(
+  new URL('../.github/workflows/pages.yml', import.meta.url),
+  'utf8',
+);
 
 function assertGatedWorkflow(workflow, text) {
   // Triggers: push and pull_request (an empty trigger value parses as null).
@@ -98,4 +102,41 @@ test('disabled triggers and out-of-order run steps are rejected', () => {
     () => assertGatedWorkflow(reordered, source),
     /run steps must be ordered/,
   );
+});
+
+test('pages workflow deploys the specimen', () => {
+  const workflow = YAML.parse(pagesSource);
+
+  assert.ok(workflow.on.push, 'pages workflow must run on push');
+  assert.ok(workflow.on.workflow_dispatch !== undefined, 'pages workflow needs manual dispatch');
+  assert.equal(workflow.permissions.contents, 'read');
+  assert.equal(workflow.permissions.pages, 'write');
+  assert.equal(workflow.permissions['id-token'], 'write');
+
+  const job = Object.values(workflow.jobs ?? {})[0];
+  assert.equal(job.environment?.name, 'github-pages');
+  const steps = job.steps ?? [];
+  const uses = steps.map((step) => step.uses).filter(Boolean);
+  const runs = steps.map((step) => step.run).filter(Boolean);
+
+  for (const action of [
+    'actions/checkout@v4',
+    'oven-sh/setup-bun@v2',
+    'actions/configure-pages@v5',
+    'actions/upload-pages-artifact@v3',
+    'actions/deploy-pages@v4',
+  ]) {
+    assert.ok(uses.includes(action), `missing ${action}`);
+  }
+
+  assert.ok(runs.includes('bun install --frozen-lockfile'));
+  assert.ok(runs.includes('bun run check'));
+
+  const assemble = runs.find((run) => run.includes('_site'));
+  assert.ok(assemble, 'missing preview assembly step');
+  assert.match(assemble, /cp specimen\.html _site\/index\.html/);
+  assert.match(assemble, /cp dist\/tokens\.css _site\/dist\/tokens\.css/);
+
+  const upload = steps.find((step) => step.uses === 'actions/upload-pages-artifact@v3');
+  assert.equal(upload.with?.path, '_site');
 });

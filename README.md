@@ -79,6 +79,12 @@ Do not edit `dist/tokens.css` by hand and do not copy values into app
 stylesheets. Change `DESIGN.md`, run `bun run build`, and commit the
 regenerated artifact.
 
+## Preview
+
+The specimen deploys to [t128n.github.io/design](https://t128n.github.io/design/)
+on every push to `main`. The Pages site is public and contains only
+`specimen.html` and `dist/tokens.css`.
+
 ## Dark mode
 
 Set `data-theme` on the root element to pick a theme explicitly:

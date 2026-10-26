@@ -21,3 +21,5 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   the suites.
 - GitHub Actions workflow gating push and pull request with
   `bun install --frozen-lockfile`, `bun test`, and `bun run check`.
+- GitHub Pages workflow deploying `specimen.html` and the generated tokens to
+  `https://t128n.github.io/design/`.
