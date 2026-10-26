@@ -215,7 +215,7 @@
       </div>
       <div class="kv-row">
         <dt>Updated</dt>
-        <dd>2026-10-26 02:14</dd>
+        <dd class="mono">2026-10-26 02:14</dd>
       </div>
       <div class="kv-row">
         <dt>Environment</dt>
@@ -284,7 +284,7 @@
               <td>{row.environment}</td>
               <td><span class="badge badge-{row.role}">{row.status}</span></td>
               <td class="numeric">{row.duration === null ? '---' : row.duration}</td>
-              <td>{row.updated}</td>
+              <td class="mono">{row.updated}</td>
               <td class="row-actions">
                 <Tooltip.Provider>
                   <Tooltip.Root>

@@ -95,6 +95,20 @@ test('preview keeps the required structure and avoids rejected treatments', asyn
   }
   assert.doesNotMatch(app, /✨/);
 
+  // Sort is signalled by an underline and arrow, not color alone.
+  assert.match(
+    css,
+    /th\[aria-sort='ascending'\] \.th-sort[\s\S]*?text-decoration: underline/,
+  );
+  assert.match(css, /\.badge \{[^}]*border: 1px solid currentColor/);
+  assert.match(
+    css,
+    /tbody td \{[^}]*border-bottom: 1px solid var\(--color-border-control\)/,
+  );
+  assert.match(css, /\.th-sort \{[^}]*min-height: 28px/);
+  assert.match(css, /\.row-button \{[^}]*height: 28px/);
+  assert.match(css, /\.icon-button \{[^}]*width: 28px/);
+
   const radii = [...css.matchAll(/border-radius\s*:\s*([^;}]+)/gi)].map((match) =>
     match[1].trim(),
   );

@@ -3,7 +3,7 @@
 @import '../../layouts.css';
 
 :root {
-        --preview-label-width: 220px;
+        --preview-label-width: 180px;
       }
 
       *,
@@ -98,7 +98,7 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: var(--space-xs);
+        gap: var(--space-md);
         padding: var(--space-xs);
         background: var(--color-surface-header);
         border: 1px solid var(--color-border);
@@ -114,7 +114,7 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        height: 24px;
+        height: 28px;
         padding: 0 var(--space-md);
         border: 1px solid transparent;
         border-radius: var(--radius-md);
@@ -167,13 +167,13 @@
 
       .button:disabled {
         background: var(--color-state-disabled-bg);
-        border-color: var(--color-border);
+        border-color: var(--color-border-control);
         color: var(--color-state-disabled-fg);
         cursor: not-allowed;
       }
 
       .section {
-        padding-block: var(--space-lg);
+        padding-block: var(--space-xl);
         border-bottom: 1px solid var(--color-border);
       }
 
@@ -187,7 +187,7 @@
 
       .key-value {
         margin: 0;
-        border: 1px solid var(--color-border);
+        border: 1px solid var(--color-border-control);
         border-radius: var(--radius-none);
       }
 
@@ -195,8 +195,8 @@
         display: grid;
         grid-template-columns: minmax(120px, var(--preview-label-width)) 1fr;
         gap: var(--space-md);
-        padding: var(--space-xs) var(--space-md);
-        border-bottom: 1px solid var(--color-border);
+        padding: var(--space-sm) var(--space-md);
+        border-bottom: 1px solid var(--color-border-control);
       }
 
       .kv-row:last-child {
@@ -209,14 +209,19 @@
 
       .key-value dt {
         color: var(--color-on-surface-muted);
-        font-family: var(--font-label-md);
-        font-size: var(--text-label-md-size);
-        font-weight: var(--text-label-md-weight);
-        line-height: var(--text-label-md-line-height);
+        font-family: var(--font-body-md);
+        font-size: var(--text-body-md-size);
+        font-weight: var(--text-body-md-weight);
+        line-height: var(--text-body-md-line-height);
       }
 
       .key-value dd {
         margin: 0;
+        color: var(--color-on-surface);
+        font-family: var(--font-body-md);
+        font-size: var(--text-body-md-size);
+        font-weight: var(--text-body-md-weight);
+        line-height: var(--text-body-md-line-height);
       }
 
       .badge-row {
@@ -229,7 +234,7 @@
       .badge {
         display: inline-block;
         padding: var(--space-xxs) var(--space-xs);
-        border: 1px solid transparent;
+        border: 1px solid currentColor;
         border-radius: var(--radius-sm);
         font-family: var(--font-label-sm);
         font-size: var(--text-label-sm-size);
@@ -279,13 +284,13 @@
 
       table {
         width: 100%;
-        border: 1px solid var(--color-border);
+        border: 1px solid var(--color-border-control);
         border-collapse: collapse;
         border-radius: var(--radius-none);
       }
 
       caption {
-        padding-bottom: var(--space-xs);
+        padding-bottom: var(--space-sm);
         color: var(--color-on-surface-muted);
         font-family: var(--font-body-sm);
         font-size: var(--text-body-sm-size);
@@ -294,22 +299,22 @@
       }
 
       thead th {
-        height: 24px;
-        padding: var(--space-xs) var(--space-sm);
+        height: 28px;
+        padding: var(--space-sm);
         background: var(--color-surface-header);
-        border-bottom: 1px solid var(--color-border-strong);
+        border-bottom: 1px solid var(--color-border-control);
         color: var(--color-on-surface);
-        font-family: var(--font-label-sm);
-        font-size: var(--text-label-sm-size);
-        font-weight: var(--text-label-sm-weight);
-        line-height: var(--text-label-sm-line-height);
+        font-family: var(--font-label-md);
+        font-size: var(--text-label-md-size);
+        font-weight: var(--text-label-md-weight);
+        line-height: var(--text-label-md-line-height);
         text-align: left;
       }
 
       tbody td {
         padding: var(--space-sm);
         background: var(--color-surface);
-        border-bottom: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border-control);
         font-family: var(--font-body-md);
         font-size: var(--text-body-md-size);
         line-height: var(--text-body-md-line-height);
@@ -370,7 +375,7 @@
       }
 
       .control {
-        height: 24px;
+        height: 28px;
         padding: 0 var(--space-xs);
         background: var(--color-surface);
         border: 1px solid var(--color-border-control);
@@ -403,8 +408,8 @@
       }
 
       .choice input {
-        width: 16px;
-        height: 16px;
+        width: 24px;
+        height: 24px;
         accent-color: var(--color-primary);
       }
 
@@ -557,6 +562,8 @@
         display: inline-flex;
         align-items: center;
         gap: var(--space-xxs);
+        min-height: 28px;
+        width: 100%;
         padding: 0;
         border: 0;
         background: transparent;
@@ -566,10 +573,16 @@
         cursor: pointer;
       }
 
-      .th-sort:hover,
+      .th-sort:hover {
+        color: var(--color-tertiary);
+      }
+
       th[aria-sort='ascending'] .th-sort,
       th[aria-sort='descending'] .th-sort {
-        color: var(--color-primary);
+        color: var(--color-on-surface);
+        text-decoration: underline;
+        text-decoration-color: var(--color-accent);
+        text-underline-offset: 2px;
       }
 
       .row-actions {
@@ -580,7 +593,8 @@
       }
 
       .row-button {
-        height: 20px;
+        height: 28px;
+        min-height: 28px;
         padding: 0 var(--space-xs);
         font-family: var(--font-label-sm);
         font-size: var(--text-label-sm-size);
@@ -590,8 +604,8 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
         padding: 0;
         border: 1px solid transparent;
         border-radius: var(--radius-sm);
@@ -659,8 +673,8 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 16px;
-        height: 16px;
+        width: 24px;
+        height: 24px;
         padding: 0;
         background: var(--color-surface);
         border: 1px solid var(--color-border-control);
@@ -675,7 +689,7 @@
       }
 
       .checkbox-mark {
-        font-size: 10px;
+        font-size: 11px;
         font-weight: 700;
         line-height: 1;
       }
@@ -683,9 +697,9 @@
       .switch {
         display: inline-flex;
         align-items: center;
-        width: 32px;
-        height: 18px;
-        padding: 2px;
+        width: 40px;
+        height: 24px;
+        padding: 3px;
         background: var(--color-neutral);
         border: 1px solid var(--color-border-control);
         border-radius: var(--radius-sm);
@@ -699,8 +713,8 @@
 
       .switch-thumb {
         display: block;
-        width: 12px;
-        height: 12px;
+        width: 16px;
+        height: 16px;
         background: var(--color-surface);
         border: 1px solid var(--color-border-strong);
         border-radius: var(--radius-sm);
@@ -709,7 +723,7 @@
 
       .switch[data-state='checked'] .switch-thumb {
         border-color: var(--color-primary);
-        transform: translateX(14px);
+        transform: translateX(16px);
       }
 
       .radio-group {
@@ -722,6 +736,9 @@
       }
 
       .radio-item {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
         padding: 2px var(--space-sm);
         background: var(--color-surface);
         border: 1px solid var(--color-border-control);

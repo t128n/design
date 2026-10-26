@@ -21,6 +21,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   registers, split views, record details, forms, stacks, and clusters.
 - Dark surfaces and text aligned to the JetBrains New UI palette, with
   AA-safe muted text.
+- Accessibility pass: 13px body text, 11px labels, 28px controls and table
+  headers, brighter dark text, `3:1` table rules, and bordered status badges.
 - README covering purpose, layout, quick start, token usage, dark mode,
   adoption, versioning, enforcement, and contributing.
 - Bun 1.4 toolchain; `Bun.YAML` parses the front matter and `bun test` runs

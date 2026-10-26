@@ -200,6 +200,23 @@ test('secondary button typography', async () => {
   }
 });
 
+test('readable table and control scale', async () => {
+  const { components, typography } = await readTokens();
+
+  assert.equal(typography['body-md'].fontSize, '13px');
+  assert.equal(typography['label-md'].fontSize, '13px');
+  assert.equal(typography['label-sm'].fontSize, '11px');
+  assert.equal(typography['headline-md'].fontSize, '16px');
+
+  assert.equal(components['table-header'].typography, '{typography.label-md}');
+  assert.equal(components['table-header'].height, '28px');
+  assert.equal(components['key-value-label'].typography, '{typography.body-md}');
+  assert.equal(components['button-primary'].height, '28px');
+  assert.equal(components['input-field'].height, '28px');
+  assert.equal(components['icon-button'].size, '28px');
+  assert.equal(components['toolbar'].height, '36px');
+});
+
 test('normative palette values', async () => {
   const { colors } = await readTokens();
 
@@ -208,15 +225,17 @@ test('normative palette values', async () => {
   assert.equal(colors.selection, '#DBEAFE');
   assert.equal(colors['border-control'], '#8A8F9C');
   assert.equal(colors['on-surface-muted'], '#5F6473');
-  assert.equal(colors['state-disabled-fg'], '#565B66');
+  assert.equal(colors['state-disabled-fg'], '#4A5568');
   assert.equal(colors.error, '#C62839');
   assert.equal(colors['dark-primary'], '#548AF7');
   assert.equal(colors['dark-accent'], '#3574F0');
   assert.equal(colors['dark-selection'], '#2E436E');
-  assert.equal(colors['dark-secondary'], '#B0B4BC');
+  assert.equal(colors['dark-secondary'], '#C0C4CC');
   assert.equal(colors['dark-surface-tinted'], '#191A1C');
   assert.equal(colors['dark-surface-header'], '#26282D');
-  assert.equal(colors['dark-on-surface-muted'], '#A8ACB4');
+  assert.equal(colors['dark-on-surface'], '#D4D6DB');
+  assert.equal(colors['dark-on-surface-muted'], '#B4B8C0');
+  assert.equal(colors['dark-state-disabled-fg'], '#B4B8C0');
   assert.equal(colors['dark-border'], '#2B2D30');
 });
 
@@ -255,7 +274,7 @@ test('contrast and text floor', async () => {
       `${name} is below the 10px text floor`,
     );
   }
-  assert.equal(tokens.typography['body-md'].fontSize, '12px');
+  assert.equal(tokens.typography['body-md'].fontSize, '13px');
 
   for (const [name, component] of Object.entries(tokens.components)) {
     if (!component.backgroundColor || !component.textColor) continue;

@@ -30,19 +30,19 @@ colors:
   state-warning-bg: "#FEF3C7"
   state-danger-fg: "#B91C1C"
   state-danger-bg: "#FEE2E2"
-  state-disabled-fg: "#565B66"
+  state-disabled-fg: "#4A5568"
   state-disabled-bg: "#E5E7EB"
   error: "#C62839"
   dark-primary: "#548AF7"
   dark-accent: "#3574F0"
-  dark-secondary: "#B0B4BC"
+  dark-secondary: "#C0C4CC"
   dark-tertiary: "#7EA6FF"
   dark-neutral: "#2B2D30"
   dark-surface: "#1E1F22"
   dark-surface-tinted: "#191A1C"
   dark-surface-header: "#26282D"
-  dark-on-surface: "#BCBEC4"
-  dark-on-surface-muted: "#A8ACB4"
+  dark-on-surface: "#D4D6DB"
+  dark-on-surface-muted: "#B4B8C0"
   dark-on-primary: "#101114"
   dark-selection: "#2E436E"
   dark-border: "#2B2D30"
@@ -60,53 +60,53 @@ colors:
   dark-state-warning-bg: "#3D2E12"
   dark-state-danger-fg: "#F59A9A"
   dark-state-danger-bg: "#4A1D1D"
-  dark-state-disabled-fg: "#9DA1A9"
+  dark-state-disabled-fg: "#B4B8C0"
   dark-state-disabled-bg: "#2B2D30"
   dark-error: "#F75464"
 typography:
   headline-lg:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-    fontSize: 18px
+    fontSize: 20px
     fontWeight: 700
     lineHeight: "1.2"
   headline-md:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-    fontSize: 14px
+    fontSize: 16px
     fontWeight: 700
     lineHeight: "1.25"
   body-lg:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-    fontSize: 12px
+    fontSize: 13px
     fontWeight: 400
     lineHeight: "1.4"
   body-md:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+    fontSize: 13px
+    fontWeight: 400
+    lineHeight: "1.35"
+  body-sm:
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
     fontSize: 12px
     fontWeight: 400
     lineHeight: "1.3"
-  body-sm:
-    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-    fontSize: 11px
-    fontWeight: 400
-    lineHeight: "1.25"
   label-md:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-    fontSize: 12px
+    fontSize: 13px
     fontWeight: 700
     lineHeight: "1.25"
   label-sm:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-    fontSize: 10px
+    fontSize: 11px
     fontWeight: 600
     lineHeight: "1.2"
   code-md:
     fontFamily: "Consolas, Menlo, Monaco, 'Courier New', monospace"
-    fontSize: 12px
+    fontSize: 13px
     fontWeight: 400
     lineHeight: "1.3"
   numeric-md:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
-    fontSize: 12px
+    fontSize: 13px
     fontWeight: 400
     lineHeight: "1.3"
     fontFeature: "'tnum' 1"
@@ -130,140 +130,140 @@ components:
     typography: "{typography.label-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   button-primary-hover:
     backgroundColor: "{colors.tertiary}"
     textColor: "{colors.on-primary}"
     typography: "{typography.label-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   button-primary-disabled:
     backgroundColor: "{colors.state-disabled-bg}"
     textColor: "{colors.state-disabled-fg}"
     typography: "{typography.label-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   button-secondary:
     backgroundColor: "{colors.surface-tinted}"
     textColor: "{colors.on-surface}"
     typography: "{typography.body-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   button-secondary-hover:
     backgroundColor: "{colors.neutral}"
     textColor: "{colors.on-surface}"
     typography: "{typography.label-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   button-secondary-disabled:
     backgroundColor: "{colors.state-disabled-bg}"
     textColor: "{colors.state-disabled-fg}"
     typography: "{typography.body-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   button-destructive:
     backgroundColor: "{colors.state-danger-bg}"
     textColor: "{colors.state-danger-fg}"
     typography: "{typography.label-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   button-destructive-hover:
     backgroundColor: "{colors.state-danger-fg}"
     textColor: "{colors.on-primary}"
     typography: "{typography.label-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   button-primary-dark:
     backgroundColor: "{colors.dark-primary}"
     textColor: "{colors.dark-on-primary}"
     typography: "{typography.label-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   button-primary-dark-hover:
     backgroundColor: "{colors.dark-tertiary}"
     textColor: "{colors.dark-on-primary}"
     typography: "{typography.label-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   button-primary-dark-disabled:
     backgroundColor: "{colors.dark-state-disabled-bg}"
     textColor: "{colors.dark-state-disabled-fg}"
     typography: "{typography.label-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   button-secondary-dark:
     backgroundColor: "{colors.dark-surface-tinted}"
     textColor: "{colors.dark-on-surface}"
     typography: "{typography.body-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   button-secondary-dark-hover:
     backgroundColor: "{colors.dark-neutral}"
     textColor: "{colors.dark-on-surface}"
     typography: "{typography.label-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   button-secondary-dark-disabled:
     backgroundColor: "{colors.dark-state-disabled-bg}"
     textColor: "{colors.dark-state-disabled-fg}"
     typography: "{typography.body-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   button-destructive-dark:
     backgroundColor: "{colors.dark-state-danger-bg}"
     textColor: "{colors.dark-state-danger-fg}"
     typography: "{typography.label-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   button-destructive-dark-hover:
     backgroundColor: "{colors.dark-state-danger-fg}"
     textColor: "{colors.dark-on-primary}"
     typography: "{typography.label-md}"
     rounded: "{rounded.md}"
     padding: 4px
-    height: 24px
+    height: 28px
   input-field:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.on-surface}"
     typography: "{typography.body-md}"
     rounded: "{rounded.sm}"
     padding: 4px
-    height: 24px
+    height: 28px
   input-field-disabled:
     backgroundColor: "{colors.state-disabled-bg}"
     textColor: "{colors.state-disabled-fg}"
     typography: "{typography.body-md}"
     rounded: "{rounded.sm}"
     padding: 4px
-    height: 24px
+    height: 28px
   input-field-dark:
     backgroundColor: "{colors.dark-surface}"
     textColor: "{colors.dark-on-surface}"
     typography: "{typography.body-md}"
     rounded: "{rounded.sm}"
     padding: 4px
-    height: 24px
+    height: 28px
   input-field-dark-disabled:
     backgroundColor: "{colors.dark-state-disabled-bg}"
     textColor: "{colors.dark-state-disabled-fg}"
     typography: "{typography.body-md}"
     rounded: "{rounded.sm}"
     padding: 4px
-    height: 24px
+    height: 28px
   table-cell:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.on-surface}"
@@ -303,17 +303,17 @@ components:
   table-header:
     backgroundColor: "{colors.surface-header}"
     textColor: "{colors.on-surface}"
-    typography: "{typography.label-sm}"
+    typography: "{typography.label-md}"
     rounded: "{rounded.none}"
-    padding: 4px
-    height: 24px
+    padding: 6px
+    height: 28px
   table-header-dark:
     backgroundColor: "{colors.dark-surface-header}"
     textColor: "{colors.dark-on-surface}"
-    typography: "{typography.label-sm}"
+    typography: "{typography.label-md}"
     rounded: "{rounded.none}"
-    padding: 4px
-    height: 24px
+    padding: 6px
+    height: 28px
   status-badge:
     backgroundColor: "{colors.state-neutral-bg}"
     textColor: "{colors.state-neutral-fg}"
@@ -419,13 +419,13 @@ components:
     textColor: "{colors.on-surface}"
     typography: "{typography.label-md}"
     padding: 4px
-    height: 28px
+    height: 36px
   toolbar-dark:
     backgroundColor: "{colors.dark-surface-header}"
     textColor: "{colors.dark-on-surface}"
     typography: "{typography.label-md}"
     padding: 4px
-    height: 28px
+    height: 36px
   rule:
     backgroundColor: "{colors.border}"
     height: 1px
@@ -469,21 +469,21 @@ components:
   key-value-label:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.on-surface-muted}"
-    typography: "{typography.label-md}"
+    typography: "{typography.body-md}"
   key-value-label-dark:
     backgroundColor: "{colors.dark-surface}"
     textColor: "{colors.dark-on-surface-muted}"
-    typography: "{typography.label-md}"
+    typography: "{typography.body-md}"
   icon-button:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.on-surface-muted}"
     rounded: "{rounded.sm}"
-    size: 24px
+    size: 28px
   icon-button-dark:
     backgroundColor: "{colors.dark-surface}"
     textColor: "{colors.dark-on-surface-muted}"
     rounded: "{rounded.sm}"
-    size: 24px
+    size: 28px
   code-block:
     backgroundColor: "{colors.surface-tinted}"
     textColor: "{colors.on-surface}"
@@ -544,7 +544,7 @@ components:
 
 The t128n design system serves dense operational web tools: admin consoles, record browsers, audit views, and internal dashboards. The interface should feel precise, quiet, and fast to scan. Records and their fields are the primary object; chrome exists only to orient the reader and expose the next action.
 
-The visual identity is flat and monochrome by default, with a single blue accent for interaction. Surfaces step from `{colors.surface}` to `{colors.surface-tinted}` to `{colors.surface-header}` to separate layers without shadows or decoration. Body copy is set in `{typography.body-md}` at 12px, while `{typography.headline-lg}` carries the page title. Spacing stays on the compact `{spacing.xxs}`–`{spacing.3xl}` scale so that tables and forms remain legible at operational density.
+The visual identity is flat and monochrome by default, with a single blue accent for interaction. Surfaces step from `{colors.surface}` to `{colors.surface-tinted}` to `{colors.surface-header}` to separate layers without shadows or decoration. Body copy is set in `{typography.body-md}` at 13px, while `{typography.headline-lg}` carries the page title. Spacing stays on the compact `{spacing.xxs}`–`{spacing.3xl}` scale so that tables and forms remain legible at operational density.
 
 Prefer structure over embellishment: rules, headers, and aligned numeric columns do the work that cards and shadows do elsewhere. Do not soften the interface into a marketing surface.
 
@@ -598,7 +598,7 @@ The palette is a neutral grayscale with one accent, plus explicit state roles fo
 | `state-warning-bg` | `#FEF3C7` | Warning state fill |
 | `state-danger-fg` | `#B91C1C` | Danger state text |
 | `state-danger-bg` | `#FEE2E2` | Danger state fill |
-| `state-disabled-fg` | `#565B66` | Disabled state text |
+| `state-disabled-fg` | `#4A5568` | Disabled state text |
 | `state-disabled-bg` | `#E5E7EB` | Disabled state fill |
 | `error` | `#C62839` | Error banner fill |
 
@@ -610,14 +610,14 @@ Every base token has exactly one `dark-` counterpart. These values are not expos
 | :--- | :--- | :--- |
 | `dark-primary` | `#548AF7` | `primary` |
 | `dark-accent` | `#3574F0` | `accent` |
-| `dark-secondary` | `#B0B4BC` | `secondary` |
+| `dark-secondary` | `#C0C4CC` | `secondary` |
 | `dark-tertiary` | `#7EA6FF` | `tertiary` |
 | `dark-neutral` | `#2B2D30` | `neutral` |
 | `dark-surface` | `#1E1F22` | `surface` |
 | `dark-surface-tinted` | `#191A1C` | `surface-tinted` |
 | `dark-surface-header` | `#26282D` | `surface-header` |
-| `dark-on-surface` | `#BCBEC4` | `on-surface` |
-| `dark-on-surface-muted` | `#A8ACB4` | `on-surface-muted` |
+| `dark-on-surface` | `#D4D6DB` | `on-surface` |
+| `dark-on-surface-muted` | `#B4B8C0` | `on-surface-muted` |
 | `dark-on-primary` | `#101114` | `on-primary` |
 | `dark-selection` | `#2E436E` | `selection` |
 | `dark-border` | `#2B2D30` | `border` |
@@ -635,13 +635,13 @@ Every base token has exactly one `dark-` counterpart. These values are not expos
 | `dark-state-warning-bg` | `#3D2E12` | `state-warning-bg` |
 | `dark-state-danger-fg` | `#F59A9A` | `state-danger-fg` |
 | `dark-state-danger-bg` | `#4A1D1D` | `state-danger-bg` |
-| `dark-state-disabled-fg` | `#9DA1A9` | `state-disabled-fg` |
+| `dark-state-disabled-fg` | `#B4B8C0` | `state-disabled-fg` |
 | `dark-state-disabled-bg` | `#2B2D30` | `state-disabled-bg` |
 | `dark-error` | `#F75464` | `error` |
 
 ### JetBrains New UI alignment
 
-The dark surfaces and primary text follow the JetBrains New UI dark palette: main canvas `#1E1F22`, island `#191A1C`, active tab `#26282D`, hover `#2B2D30`, selection `#2E436E`, primary text `#BCBEC4`, and accent `#3574F0`. The readable accent is `#548AF7`; `#3574F0` is used for non-text focus rings and selection edges. `#7A7E85` is the JetBrains secondary value but does not meet AA on these surfaces, so readable muted text uses `#A8ACB4` and `#7A7E85` is reserved for editor comments and non-text chrome. The light palette keeps `#2E63CC` for text and uses `#3574F0` only for non-text focus.
+The dark surfaces and primary text follow the JetBrains New UI dark palette: main canvas `#1E1F22`, island `#191A1C`, active tab `#26282D`, hover `#2B2D30`, selection `#2E436E`, primary text `#BCBEC4`, and accent `#3574F0`. The readable accent is `#548AF7`; `#3574F0` is used for non-text focus rings and selection edges. The JetBrains secondary value `#7A7E85` does not meet AA on these surfaces. Readable text is brightened to `#D4D6DB` for primary ink and `#B4B8C0` for muted text; `#7A7E85` is reserved for editor comments and non-text chrome. The light palette keeps `#2E63CC` for text and uses `#3574F0` only for non-text focus.
 
 ### Editor palette
 
@@ -673,20 +673,20 @@ Typography is compact and utilitarian. The system sans stack carries prose, labe
 
 | Token | Size | Weight | Line height | Family | Use |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `headline-lg` | `18px` | `700` | `1.2` | system sans | Page title |
-| `headline-md` | `14px` | `700` | `1.25` | system sans | Section header |
-| `body-lg` | `12px` | `400` | `1.4` | system sans | Prose and comments |
-| `body-md` | `12px` | `400` | `1.3` | system sans | Default body and cells |
-| `body-sm` | `11px` | `400` | `1.25` | system sans | Dense secondary cells |
-| `label-md` | `12px` | `700` | `1.25` | system sans | Field labels |
-| `label-sm` | `10px` | `600` | `1.2` | system sans | Table headers, badges |
-| `code-md` | `12px` | `400` | `1.3` | monospace | IDs, hashes, logs |
-| `numeric-md` | `12px` | `400` | `1.3` | system sans | Right-aligned numbers, tabular figures |
+| `headline-lg` | `20px` | `700` | `1.2` | system sans | Page title |
+| `headline-md` | `16px` | `700` | `1.25` | system sans | Section header |
+| `body-lg` | `13px` | `400` | `1.4` | system sans | Prose and comments |
+| `body-md` | `13px` | `400` | `1.35` | system sans | Default body and cells |
+| `body-sm` | `12px` | `400` | `1.3` | system sans | Dense secondary cells |
+| `label-md` | `13px` | `700` | `1.25` | system sans | Field labels |
+| `label-sm` | `11px` | `600` | `1.2` | system sans | Badges |
+| `code-md` | `13px` | `400` | `1.3` | monospace | IDs, hashes, logs |
+| `numeric-md` | `13px` | `400` | `1.3` | system sans | Right-aligned numbers, tabular figures |
 
 System sans: `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`.
 Monospace: `Consolas, Menlo, Monaco, 'Courier New', monospace`.
 
-Never set text below `10px`. Body copy and table data use `{typography.body-md}`; table headers and badges use `{typography.label-sm}`; field labels use `{typography.label-md}`. Do not scale type fluidly; the compact scale is deliberate.
+Never set text below `10px`. Body copy and table data use `{typography.body-md}`; table headers and field labels use `{typography.label-md}`; badges use `{typography.label-sm}`. Do not scale type fluidly; the compact scale is deliberate.
 
 ## Layout
 
@@ -762,28 +762,28 @@ Components are defined as tokens rather than as a library. Each component record
 
 ### Buttons
 
-Buttons are `24px` tall with `4px` padding, `{rounded.md}`, and `{typography.label-md}`, except `button-secondary` and `button-secondary-disabled`, which use `{typography.body-md}`; their hover states return to `{typography.label-md}`. Primary actions use `{components.button-primary}` and darken to `{components.button-primary-hover}`. Secondary actions use `{components.button-secondary}`. Destructive actions use `{components.button-destructive}` and its hover state. Disabled buttons use the disabled state pair and keep their label visible.
+Buttons are `28px` tall with `4px` padding, `{rounded.md}`, and `{typography.label-md}`, except `button-secondary` and `button-secondary-disabled`, which use `{typography.body-md}`; their hover states return to `{typography.label-md}`. Primary actions use `{components.button-primary}` and darken to `{components.button-primary-hover}`. Secondary actions use `{components.button-secondary}`. Destructive actions use `{components.button-destructive}` and its hover state. Disabled buttons use the disabled state pair and keep their label visible. Touch surfaces use at least `44px` for primary actions.
 
 ### Inputs and fields
 
-Inputs are `24px` tall with `4px` padding and `{rounded.sm}`. The default field is `{components.input-field}`; the disabled field is `{components.input-field-disabled}`. Every input has a visible label, and the focus treatment uses the accent color with the `{components.focus-rule}` line. Placeholders may repeat an example but never replace a label.
+Inputs are `28px` tall with `4px` padding and `{rounded.sm}`. The default field is `{components.input-field}`; the disabled field is `{components.input-field-disabled}`. Every input has a visible label, and the focus treatment uses the accent color with the `{components.focus-rule}` line. Placeholders may repeat an example but never replace a label.
 
 ### Tables
 
-Tables are the primary record surface. Cells use `{components.table-cell}` and alternate with `{components.table-cell-alt}`. Selected rows use `{components.table-row-selected}`. Numeric columns use `{components.table-numeric}` with tabular figures. Headers use `{components.table-header}` with `{typography.label-sm}`, `4px` padding, and a `24px` height. Keep a stable identifier column and never collapse a record table into a card grid.
+Tables are the primary record surface. Cells use `{components.table-cell}` and alternate with `{components.table-cell-alt}`. Selected rows use `{components.table-row-selected}`. Numeric columns use `{components.table-numeric}` with tabular figures. Headers use `{components.table-header}` with `{typography.label-md}`, `6px` padding, and a `28px` height. Row and outer boundaries use `{components.control-rule}` so the structural rule meets `3:1`; keep a stable identifier column and never collapse a record table into a card grid.
 
 ### Status badges
 
-Status badges use `{typography.label-sm}`, `{rounded.sm}`, and `2px` padding. Each semantic role has a light and dark pair: neutral (`{components.status-badge}`), info, progress, success, warning, danger, and disabled. The text label is mandatory; color is supplementary. A badge that loses its label is a defect.
+Status badges use `{typography.label-sm}`, `{rounded.sm}`, `2px` padding, and a `1px solid currentColor` border. Each semantic role has a light and dark pair: neutral (`{components.status-badge}`), info, progress, success, warning, danger, and disabled. The text label is mandatory; color is supplementary. A badge that loses its label is a defect.
 
 ### Everything else
 
 - Links use `{components.link}`; metadata uses `{components.metadata}`.
-- Toolbars use `{components.toolbar}` at `28px` height.
+- Toolbars use `{components.toolbar}` at `36px` height with at least `8px` between actions.
 - Rules use `{components.rule}`, `{components.rule-strong}`, and `{components.control-rule}`.
 - Dialogs use `{components.dialog}` with a native `dialog` element.
-- Empty states use `{components.empty-state}`; key-value labels use `{components.key-value-label}`.
-- Icon buttons use `{components.icon-button}` at `24px` square.
+- Empty states use `{components.empty-state}`; key-value labels use `{components.key-value-label}` in regular `{typography.body-md}` and muted ink, with values in `{colors.on-surface}`.
+- Icon buttons use `{components.icon-button}` at `28px` square.
 - Code blocks use `{components.code-block}`; tooltips use `{components.tooltip}`.
 - Error banners use `{components.error-banner}` and always include a message.
 
