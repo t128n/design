@@ -4,17 +4,17 @@
   "private": true,
   "type": "module",
   "description": "Canonical t128n design tokens, generated CSS, and adoption tooling.",
+  "packageManager": "bun@1.4.3",
   "engines": {
-    "node": ">=20"
+    "bun": ">=1.4.0"
   },
   "scripts": {
-    "lint": "designmd lint DESIGN.md",
-    "build": "npm run lint && node scripts/build.mjs",
-    "check": "npm run build && git diff --exit-code -- dist",
-    "test": "node --test"
+    "lint": "bunx --bun designmd lint DESIGN.md",
+    "build": "bun run lint && bun scripts/build.mjs",
+    "check": "bun run build && git diff --exit-code -- dist",
+    "test": "bun test"
   },
   "devDependencies": {
-    "@google/design.md": "0.4.0",
-    "yaml": "2.8.1"
+    "@google/design.md": "0.4.0"
   }
 }

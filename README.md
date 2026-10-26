@@ -1,8 +1,6 @@
 # t128n Design System
 
-Canonical design tokens, generated CSS, and adoption tooling for every t128n
-web app. Plain CSS only: no component library, no Tailwind preset, no npm
-publish.
+Canonical design tokens, generated CSS, and tooling for t128n web apps.
 
 ## Purpose
 
@@ -12,11 +10,9 @@ how to consume it:
 
 - `DESIGN.md` — palette, typography, spacing, shapes, components, and rules.
 - [dist/tokens.css](dist/tokens.css) — generated light/dark CSS variables.
-- [app-profile.template.md](app-profile.template.md) — the one-page record
-  each app fills in when it adopts the system.
 - [specimen.html](specimen.html) — visual acceptance page for the tokens.
 
-Values live in one place. Apps consume them; they do not fork them.
+Values live in one place.
 
 ## Repository layout
 
@@ -24,38 +20,38 @@ Values live in one place. Apps consume them; they do not fork them.
 DESIGN.md                    Normative tokens and guidance
 scripts/build.mjs            Front-matter parser and CSS renderer
 dist/tokens.css              Generated CSS (committed, never hand-edited)
-app-profile.template.md      Application Profile template
 specimen.html                Visual acceptance page
 README.md                    This document
 CHANGELOG.md                 Version history
 package.json                 Scripts and pinned toolchain
+bun.lock                     Locked dependency graph
 .github/workflows/design.yml CI gate (push and pull request)
-tests/*.test.mjs             Focused node:test suites
+tests/*.test.mjs             Focused Bun tests
 ```
 
 ## Quick start
 
-Requires Node `>=20`.
+Requires Bun `>=1.4.0`.
 
 ```sh
-npm ci
-npm test
-npm run check
+bun install
+bun test
+bun run check
 ```
 
-- `npm ci` installs the exact toolchain from `package-lock.json`.
-- `npm test` runs the test suites with `node --test`.
-- `npm run check` runs the build and fails if `dist/` is dirty.
+- `bun install` installs the exact toolchain from `bun.lock`.
+- `bun test` runs the test suites.
+- `bun run check` runs the build and fails if `dist/` is dirty.
 
 Build the artifact yourself, or lint the source directly:
 
 ```sh
-npm run build
-designmd lint DESIGN.md
+bun run build
+bun run lint
 ```
 
-`npm run build` runs `designmd lint DESIGN.md`, then
-`node scripts/build.mjs`. `npm run check` is the same as `npm run build`
+`bun run build` runs `bun run lint`, then
+`bun scripts/build.mjs`. `bun run check` is the same as `bun run build`
 followed by `git diff --exit-code -- dist`.
 
 ## Using the tokens
@@ -80,7 +76,7 @@ The generated CSS variables are:
 theme.
 
 Do not edit `dist/tokens.css` by hand and do not copy values into app
-stylesheets. Change `DESIGN.md`, run `npm run build`, and commit the
+stylesheets. Change `DESIGN.md`, run `bun run build`, and commit the
 regenerated artifact.
 
 ## Dark mode
@@ -102,15 +98,11 @@ page follows the operating system. An explicit `data-theme` always wins.
 ## Adopting in an app
 
 1. Read [DESIGN.md](DESIGN.md) and the [specimen](specimen.html).
-2. Pin a commit of this repository in your app's dependencies or vendor
-   metadata; the system has no release artifact and no npm publish.
-3. Vendor [dist/tokens.css](dist/tokens.css) from that commit into your app and
-   link it from every page.
-4. Record the adoption in an [Application Profile](app-profile.template.md),
-   including records, status vocabulary, transitions, mobile table strategy,
-   exceptions, and the conformance checklist.
-5. Re-vendor the CSS when you bump the pinned commit. Never fork token values
-   into the app: exceptions are recorded, not silently hard-coded.
+2. Pin a commit of this repository and vendor
+   [dist/tokens.css](dist/tokens.css) into your app.
+3. Link `dist/tokens.css` from every page.
+4. Map the app's state vocabulary onto the seven semantic roles.
+5. Re-vendor the CSS when you bump the pinned commit.
 
 ## Versioning
 
@@ -120,15 +112,14 @@ spec, not the system version. History lives in [CHANGELOG.md](CHANGELOG.md).
 
 ## Enforcement
 
-CI (`.github/workflows/design.yml`) runs on push and pull request on Node 24:
-`npm ci`, `npm test`, then `npm run check`. Because `npm run check` rebuilds and
-asserts `git diff --exit-code -- dist`, a change to `DESIGN.md` that was not
-followed by `npm run build` fails the build. `designmd lint DESIGN.md` must
-report `0 errors` and `0 warnings`.
+CI (`.github/workflows/design.yml`) runs on push and pull request on Bun 1.4:
+`bun install --frozen-lockfile`, `bun test`, then `bun run check`. Because
+`bun run check` rebuilds and asserts `git diff --exit-code -- dist`, a change to
+`DESIGN.md` that was not followed by `bun run build` fails the build.
+`bun run lint` must report `0 errors` and `0 warnings`.
 
 ## Contributing
 
 1. Change `DESIGN.md` only. Do not hand-edit `dist/tokens.css`.
-2. Run `npm run build`, then `npm test` and `npm run check`.
+2. Run `bun run build`, then `bun test` and `bun run check`.
 3. Commit the source change and the regenerated `dist/tokens.css` together.
-4. Keep the SPEC in `docs/specs/` and `docs/plans/` in sync with behaviour.

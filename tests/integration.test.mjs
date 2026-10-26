@@ -3,18 +3,17 @@ import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import test from 'node:test';
+import { test } from 'bun:test';
 
 import { readDesignTokens, renderTokensCss } from '../scripts/build.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const cssPath = new URL('../dist/tokens.css', import.meta.url);
-// Snapshot the committed artifact before any test runs `npm run build`, so the
+// Snapshot the committed artifact before any test runs `bun run build`, so the
 // provenance assertions below inspect what is in the tree, not what a rebuild wrote.
 const committedCss = readFileSync(cssPath, 'utf8');
 const DESIGN_PATH = 'DESIGN.md';
 const BUILD_PATH = 'scripts/build.mjs';
-const PROFILE_PATH = 'app-profile.template.md';
 const SPECIMEN_PATH = 'specimen.html';
 const README_PATH = 'README.md';
 const WORKFLOW_PATH = '.github/workflows/design.yml';
@@ -22,7 +21,6 @@ const CSS_PATH = 'dist/tokens.css';
 const ARTIFACTS = [
   DESIGN_PATH,
   BUILD_PATH,
-  PROFILE_PATH,
   SPECIMEN_PATH,
   README_PATH,
   WORKFLOW_PATH,
@@ -39,7 +37,7 @@ const ROLES = [
 ];
 
 function build() {
-  execFileSync('npm', ['run', 'build'], {
+  execFileSync('bun', ['run', 'build'], {
     cwd: root,
     stdio: 'pipe',
     encoding: 'utf8',
@@ -150,8 +148,8 @@ test('docs and specimen agree', () => {
     new URL(`../${README_PATH}`, import.meta.url),
     'utf8',
   );
-  const profile = readFileSync(
-    new URL(`../${PROFILE_PATH}`, import.meta.url),
+  const design = readFileSync(
+    new URL(`../${DESIGN_PATH}`, import.meta.url),
     'utf8',
   );
   const workflow = readFileSync(
@@ -163,10 +161,10 @@ test('docs and specimen agree', () => {
   assert.ok(specimen.includes('--color-surface'));
   assert.ok(readme.includes('--color-surface'));
   assert.ok(readme.includes('--color-primary'));
-  assert.ok(readme.includes('npm run check'));
-  assert.ok(workflow.includes('npm run check'));
+  assert.ok(readme.includes('bun run check'));
+  assert.ok(workflow.includes('bun run check'));
 
   for (const role of ROLES) {
-    assert.ok(profile.includes(`\`${role}\``), role);
+    assert.ok(design.includes(`state-${role}-fg`), role);
   }
 });

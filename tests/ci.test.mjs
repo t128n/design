@@ -1,7 +1,7 @@
-import { test } from 'node:test';
+import { test } from 'bun:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { parse } from 'yaml';
+import { YAML } from 'bun';
 
 const source = readFileSync(
   new URL('../.github/workflows/design.yml', import.meta.url),
@@ -46,13 +46,12 @@ function assertGatedWorkflow(workflow, text) {
 
   assert.ok(uses.includes('actions/checkout@v4'), 'missing checkout@v4');
 
-  const setup = steps.find((step) => step.uses === 'actions/setup-node@v4');
-  assert.ok(setup, 'missing setup-node@v4');
-  assert.equal(String(setup.with?.['node-version']), '24');
-  assert.equal(setup.with?.cache, 'npm');
+  const setup = steps.find((step) => step.uses === 'oven-sh/setup-bun@v2');
+  assert.ok(setup, 'missing oven-sh/setup-bun@v2');
+  assert.equal(String(setup.with?.['bun-version']), '1.4.3');
 
-  // npm ci must install before the test and check steps consume dependencies.
-  const commands = ['npm ci', 'npm test', 'npm run check'];
+  // The frozen install must finish before the test and check steps consume it.
+  const commands = ['bun install --frozen-lockfile', 'bun test', 'bun run check'];
   const positions = commands.map((command) => runs.indexOf(command));
   positions.forEach((position, index) => {
     assert.notEqual(position, -1, `missing run step: ${commands[index]}`);
@@ -68,11 +67,11 @@ function assertGatedWorkflow(workflow, text) {
 }
 
 test('workflow gates the repo', () => {
-  assertGatedWorkflow(parse(source), source);
+  assertGatedWorkflow(YAML.parse(source), source);
 });
 
 test('job-level write permission is rejected', () => {
-  const workflow = parse(source);
+  const workflow = YAML.parse(source);
   workflow.jobs.verify.permissions = { contents: 'write' };
 
   assert.throws(
@@ -82,16 +81,18 @@ test('job-level write permission is rejected', () => {
 });
 
 test('disabled triggers and out-of-order run steps are rejected', () => {
-  const disabled = parse(source);
+  const disabled = YAML.parse(source);
   disabled.on.push = false;
   assert.throws(
     () => assertGatedWorkflow(disabled, source),
     /must not disable the push trigger/,
   );
 
-  const reordered = parse(source);
+  const reordered = YAML.parse(source);
   const steps = reordered.jobs.verify.steps;
-  const install = steps.findIndex((step) => step.run === 'npm ci');
+  const install = steps.findIndex(
+    (step) => step.run === 'bun install --frozen-lockfile',
+  );
   steps.push(...steps.splice(install, 1));
   assert.throws(
     () => assertGatedWorkflow(reordered, source),

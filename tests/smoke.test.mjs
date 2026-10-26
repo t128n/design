@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
+import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
-import { test } from 'node:test';
+import { test } from 'bun:test';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -19,14 +20,16 @@ test('scripts and dependencies are wired', async () => {
 
   assert.equal(pkg.private, true);
   assert.equal(pkg.type, 'module');
-  assert.equal(pkg.engines.node, '>=20');
+  assert.equal(pkg.engines.bun, '>=1.4.0');
   assert.deepEqual(Object.keys(pkg.scripts).sort(), ['build', 'check', 'lint', 'test']);
-  assert.equal(pkg.scripts.test, 'node --test');
-  assert.equal(pkg.scripts.lint, 'designmd lint DESIGN.md');
-  assert.match(pkg.scripts.build, /scripts\/build\.mjs/);
-  assert.equal(pkg.scripts.check, 'npm run build && git diff --exit-code -- dist');
+  assert.equal(pkg.scripts.test, 'bun test');
+  assert.equal(pkg.scripts.lint, 'bunx --bun designmd lint DESIGN.md');
+  assert.match(pkg.scripts.build, /bun scripts\/build\.mjs/);
+  assert.equal(pkg.scripts.check, 'bun run build && git diff --exit-code -- dist');
   assert.equal(pkg.devDependencies['@google/design.md'], '0.4.0');
-  assert.equal(pkg.devDependencies.yaml, '2.8.1');
+  assert.ok(!('yaml' in pkg.devDependencies), 'yaml is not a dependency');
+  assert.ok(existsSync(path.join(root, 'bun.lock')), 'bun.lock is missing');
+  assert.ok(!existsSync(path.join(root, 'package-lock.json')), 'package-lock.json should be gone');
 
   // .superlite/ is gitignored, so the runner config is validated where it exists
   // (local runs) and skipped on a clean checkout.
@@ -41,9 +44,9 @@ test('scripts and dependencies are wired', async () => {
       assert.ok(key in cmd, `test-cmd.json is missing ${key}`);
     }
     assert.equal(cmd.language, 'javascript');
-    assert.equal(cmd.test, 'npm test');
-    assert.match(cmd.test_file, /^npm test -- \{files\}/);
-    assert.match(cmd.setup, /^npm (ci|install)$/);
+    assert.equal(cmd.test, 'bun test');
+    assert.match(cmd.test_file, /^bun test \{files\}$/);
+    assert.match(cmd.setup, /^bun install/);
   }
 });
 

@@ -1,16 +1,14 @@
+import { test } from 'bun:test';
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
-import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
-
-import YAML from 'yaml';
+import { YAML } from 'bun';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const designPath = path.join(root, 'DESIGN.md');
-const designmd = path.join(root, 'node_modules', '.bin', 'designmd');
 const run = promisify(execFile);
 
 const SECTIONS = [
@@ -50,7 +48,7 @@ function hasPath(tree, dotted) {
 }
 
 test('lint is clean', async () => {
-  const { stdout } = await run(designmd, ['lint', designPath], { cwd: root });
+  const { stdout } = await run('bunx', ['--bun', 'designmd', 'lint', designPath], { cwd: root });
   const report = JSON.parse(stdout);
 
   assert.equal(report.summary.errors, 0);
@@ -125,26 +123,32 @@ test('sections ordered', async () => {
   assert.deepEqual(headings, SECTIONS);
 });
 
-test('application profile is required', async () => {
+test('interface integrity rules are present', async () => {
   const { body } = splitFrontMatter(await readDesign());
+  const lower = body.toLowerCase();
 
-  assert.match(body, /one-page Application Profile/);
-  assert.ok(
-    body.includes('app-profile.template.md'),
-    'DESIGN.md does not point at the Application Profile template',
-  );
-  for (const part of [
-    'records',
-    'status vocabulary',
-    'transitions',
-    'mobile table strategy',
-    'exceptions',
-    'conformance checklist',
+  for (const telltale of [
+    'bento grid',
+    'glass',
+    'neon blur',
+    'orphaned micro-elements',
+    'vestigial interactivity',
+    'happy-path-only data',
+    'sparkle icons',
   ]) {
-    assert.ok(
-      body.toLowerCase().includes(part),
-      `Application Profile requirement does not name ${part}`,
-    );
+    assert.ok(lower.includes(telltale), `missing interface integrity rule: ${telltale}`);
+  }
+
+  for (const requirement of [
+    'defined source',
+    'drill-down',
+    '40-character',
+    'no clipping',
+    'every control performs',
+    'no sparkle or ai icon',
+    'static text never looks interactive',
+  ]) {
+    assert.ok(lower.includes(requirement), `missing interface integrity requirement: ${requirement}`);
   }
 });
 

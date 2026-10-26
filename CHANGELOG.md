@@ -14,16 +14,10 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `scripts/build.mjs` and the generated, committed `dist/tokens.css` with
   `:root` light values and dark overrides for both `[data-theme="dark"]` and
   the `prefers-color-scheme` fallback.
-- `app-profile.template.md` for recording adoption: records, status
-  vocabulary, transitions, mobile table strategy, exceptions, and a
-  conformance checklist.
 - `specimen.html` as the visual acceptance page in light and dark.
 - README covering purpose, layout, quick start, token usage, dark mode,
   adoption, versioning, enforcement, and contributing.
-- GitHub Actions workflow gating push and pull request with `npm ci`,
-  `npm test`, and `npm run check`.
-
-### Notes
-
-- Plain CSS only. No component library, no Tailwind preset, and no npm
-  publish; apps pin a commit and vendor `dist/tokens.css`.
+- Bun 1.4 toolchain; `Bun.YAML` parses the front matter and `bun test` runs
+  the suites.
+- GitHub Actions workflow gating push and pull request with
+  `bun install --frozen-lockfile`, `bun test`, and `bun run check`.

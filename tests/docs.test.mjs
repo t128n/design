@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { test } from 'node:test';
+import { test } from 'bun:test';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -28,18 +28,17 @@ test('docs describe the system', async () => {
   }
 
   for (const command of [
-    'npm ci',
-    'npm test',
-    'npm run check',
-    'npm run build',
-    'designmd lint DESIGN.md',
+    'bun install',
+    'bun test',
+    'bun run check',
+    'bun run build',
+    'bun run lint',
   ]) {
     assert.ok(readme.includes(command), `README does not document ${command}`);
   }
 
   for (const link of [
     '[DESIGN.md](DESIGN.md)',
-    '[app-profile.template.md](app-profile.template.md)',
     '[specimen.html](specimen.html)',
     '[dist/tokens.css](dist/tokens.css)',
   ]) {
@@ -56,12 +55,9 @@ test('docs describe the system', async () => {
     assert.ok(readme.includes(variable), `README does not document ${variable}`);
   }
 
-  assert.ok(readme.includes('Application Profile'), 'README does not mention the Application Profile');
   assert.ok(readme.includes('data-theme'), 'README does not explain data-theme');
   assert.match(readme, /prefers-color-scheme/, 'README does not explain the media-query fallback');
   assert.match(readme, /pin a commit/i, 'README does not say to pin a commit');
-  assert.match(readme, /never fork/i, 'README does not say to never fork values');
-  assert.match(readme, /no npm publish|not published/i, 'README does not record the no-publish scope');
 
   const changelog = await readText('CHANGELOG.md');
   assert.match(changelog, /^#\s*Changelog\s*$/m);

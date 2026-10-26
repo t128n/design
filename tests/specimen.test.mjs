@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { test } from 'node:test';
+import { test } from 'bun:test';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -65,6 +65,8 @@ test('specimen is conformant', async () => {
 
   // Forbidden visual treatments.
   assert.doesNotMatch(html, /linear-gradient|radial-gradient|backdrop-filter|box-shadow/i);
+  assert.doesNotMatch(html, /filter\s*:\s*blur|text-shadow/i);
+  assert.doesNotMatch(html, /✨|sparkle/i);
 
   const radii = [...html.matchAll(/border-radius\s*:\s*([^;}]+)/gi)].map((match) => match[1].trim());
   assert.ok(radii.length > 0, 'specimen must set radius from tokens');

@@ -526,7 +526,20 @@ The visual identity is flat and monochrome by default, with a single blue accent
 
 Prefer structure over embellishment: rules, headers, and aligned numeric columns do the work that cards and shadows do elsewhere. Do not soften the interface into a marketing surface.
 
-Every adopting application keeps a one-page Application Profile, based on [`app-profile.template.md`](app-profile.template.md). It records the app's records, status vocabulary, transitions, mobile table strategy, exceptions, and conformance checklist; a view is not adopted until that profile is current.
+Each application maps its own status vocabulary onto the seven semantic roles; local status names are welcome, but local state colors are not.
+
+### Interface Integrity
+
+These patterns are non-conformant regardless of how they are produced.
+
+| Telltale | Broken principle | Normative rule | Check |
+| :--- | :--- | :--- | :--- |
+| Bento grid of meaningless metrics | Form follows function; hierarchy | A metric appears only with a defined source, time window, owner, and drill-down. Dashboards are registers, not grids of equal-weight cards. No arbitrary trendlines or percentage pills. | Every metric opens the filtered records or definition that produced it. |
+| Glass, neon blur, and glows | Accessibility; functionalism | No frosted glass, neon blur, glows, gradient borders, or shadows on records, forms, tables, or chrome. Separation is `1px` rules, tints, and spacing. | CSS scan finds none; text stays legible at 200% zoom. |
+| Orphaned micro-elements | Hierarchy; affordance | No decorative pills, floating chips, or uppercase mini-headers above titles. Every label belongs to a field, state, or section it names. | Remove it; if no navigation, grouping, or state meaning is lost, it stays removed. |
+| Vestigial interactivity | Affordance and signifiers | Every control performs its advertised action. Sort arrows sort, chevrons open, pagination pages, segmented controls change the view. Static text never looks interactive. | Keyboard and pointer test every control; no dead target and no placeholder route. |
+| Happy-path-only data | Visibility of system status; robustness | Design with 40-character names, long numbers, missing values, empty collections, loading, partial failure, and 500 errors. No clipping, overlap, or layout collapse. | Fixtures cover long text, empty, loading, error, and 0/1/many rows. |
+| Sparkle icons | Consistency; affordance | Standard search, filter, and submit actions use plain labels and standard icons. No sparkle or AI icon unless the action is genuinely generative and explains its input, output, and cost. | Search and filter controls carry no sparkle; any generative action is labelled. |
 
 ## Colors
 
@@ -721,10 +734,13 @@ Do:
 - Verify keyboard order, visible focus, and 200% zoom before shipping a view.
 - Name every status with text and a role, not color alone.
 - Use a native dialog for overlays and return focus when it closes.
+- Give every metric a source, time window, owner, and drill-down.
+- Exercise long labels, empty, loading, error, and 0/1/many-row fixtures.
+- Make every control perform its advertised action; leave static text static.
 
 Don't:
 
-- Don't add shadows, gradients, glass effects, or blur.
+- Don't add shadows, gradients, glass effects, blur, glows, or gradient borders to records, forms, tables, or chrome.
 - Don't use a radius above `{rounded.md}` or turn badges and buttons into pills.
 - Don't replace a record table with a card grid at narrow widths.
 - Don't use `{colors.border}` or `{colors.border-strong}` as an interactive boundary.
@@ -732,3 +748,7 @@ Don't:
 - Don't invent colors, spacing, or radii; every value must come from the front matter.
 - Don't use placeholder-only labels or icon-only controls without an accessible name.
 - Don't use color alone to signal success, warning, danger, or disabled state.
+- Don't use bento grids, arbitrary trendlines, or percentage pills without a source and drill-down.
+- Don't add decorative pills, floating chips, uppercase mini-headers, or sparkle icons.
+- Don't ship dead sort arrows, pagination dots, chevrons, or segmented controls.
+- Don't design for idealized content; real names, missing values, and errors must fit.
