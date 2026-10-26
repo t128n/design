@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { test } from 'bun:test';
 import { fileURLToPath } from 'node:url';
@@ -64,9 +65,19 @@ test('docs describe the system', async () => {
   assert.ok(readme.includes('data-theme'), 'README does not explain data-theme');
   assert.match(readme, /prefers-color-scheme/, 'README does not explain the media-query fallback');
   assert.match(readme, /pin a commit/i, 'README does not say to pin a commit');
+  assert.match(
+    readme,
+    /single normative source/i,
+    'README must state DESIGN.md as the authoritative source',
+  );
   assert.ok(
     readme.includes('https://t128n.github.io/design/'),
     'README does not link the Pages preview',
+  );
+  assert.equal(
+    existsSync(path.join(root, 'docs/specs')),
+    false,
+    'docs/specs must not exist; DESIGN.md is authoritative',
   );
 
   const changelog = await readText('CHANGELOG.md');
