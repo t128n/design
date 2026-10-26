@@ -68,7 +68,8 @@ Link the generated stylesheet and use the CSS variables it defines:
 
 Variables follow the contract in DESIGN.md:
 
-- `--color-<name>` for light colors, e.g. `var(--color-primary)`.
+- `--color-<name>` for light colors, e.g. `var(--color-primary)` or
+  `var(--color-surface)`.
 - `--font-<type>` and `--text-<type>-size|weight|line-height|letter-spacing|font-feature`.
 - `--space-<name>` for spacing.
 - `--radius-<name>` for corners.
