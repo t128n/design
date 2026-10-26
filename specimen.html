@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>t128n Design System — Specimen</title>
+    <link rel="stylesheet" href="dist/tokens.css">
+    <style>
+      :root {
+        --specimen-max: 1120px;
+        --specimen-label-width: 220px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        background: var(--color-surface);
+        color: var(--color-on-surface);
+      }
+
+      body {
+        max-width: var(--specimen-max);
+        margin: 0 auto;
+        padding: var(--space-xl);
+        background: var(--color-surface);
+        color: var(--color-on-surface);
+        font-family: var(--font-body-md);
+        font-size: var(--text-body-md-size);
+        font-weight: var(--text-body-md-weight);
+        line-height: var(--text-body-md-line-height);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      .headline-lg {
+        font-family: var(--font-headline-lg);
+        font-size: var(--text-headline-lg-size);
+        font-weight: var(--text-headline-lg-weight);
+        line-height: var(--text-headline-lg-line-height);
+      }
+
+      .headline-md {
+        font-family: var(--font-headline-md);
+        font-size: var(--text-headline-md-size);
+        font-weight: var(--text-headline-md-weight);
+        line-height: var(--text-headline-md-line-height);
+      }
+
+      .body-sm {
+        font-family: var(--font-body-sm);
+        font-size: var(--text-body-sm-size);
+        font-weight: var(--text-body-sm-weight);
+        line-height: var(--text-body-sm-line-height);
+      }
+
+      .muted {
+        color: var(--color-on-surface-muted);
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+      }
+
+      .skip-link {
+        position: absolute;
+        top: calc(-1 * var(--space-3xl));
+        left: var(--space-md);
+        padding: var(--space-xs) var(--space-sm);
+        background: var(--color-surface);
+        color: var(--color-primary);
+        border: 1px solid var(--color-border-control);
+      }
+
+      .skip-link:focus {
+        top: var(--space-md);
+      }
+
+      .page-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: var(--space-lg);
+        padding-bottom: var(--space-lg);
+        border-bottom: 1px solid var(--color-border-strong);
+      }
+
+      .page-header .body-sm {
+        margin-top: var(--space-xxs);
+        color: var(--color-on-surface-muted);
+      }
+
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-xs);
+        margin-block: var(--space-lg);
+        padding: var(--space-xs);
+        background: var(--color-surface-header);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-none);
+      }
+
+      .toolbar .body-sm {
+        margin-left: auto;
+        color: var(--color-on-surface-muted);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 24px;
+        padding: 0 var(--space-md);
+        border: 1px solid transparent;
+        border-radius: var(--radius-md);
+        background: var(--color-surface-tinted);
+        color: var(--color-on-surface);
+        font-family: var(--font-label-md);
+        font-size: var(--text-label-md-size);
+        font-weight: var(--text-label-md-weight);
+        line-height: var(--text-label-md-line-height);
+        cursor: pointer;
+      }
+
+      .button-primary {
+        background: var(--color-primary);
+        border-color: var(--color-primary);
+        color: var(--color-on-primary);
+      }
+
+      .button-primary:hover {
+        background: var(--color-tertiary);
+        border-color: var(--color-tertiary);
+      }
+
+      .button-secondary {
+        background: var(--color-surface-tinted);
+        border-color: var(--color-border-control);
+        color: var(--color-on-surface);
+      }
+
+      .button-secondary:hover {
+        background: var(--color-neutral);
+      }
+
+      .button-destructive {
+        background: var(--color-state-danger-bg);
+        border-color: var(--color-state-danger-fg);
+        color: var(--color-state-danger-fg);
+      }
+
+      .button-destructive:hover {
+        background: var(--color-state-danger-fg);
+        color: var(--color-on-primary);
+      }
+
+      .button:disabled {
+        background: var(--color-state-disabled-bg);
+        border-color: var(--color-border);
+        color: var(--color-state-disabled-fg);
+        cursor: not-allowed;
+      }
+
+      .section {
+        padding-block: var(--space-lg);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .section:last-of-type {
+        border-bottom: none;
+      }
+
+      .section > h2 {
+        margin-bottom: var(--space-md);
+      }
+
+      .key-value {
+        margin: 0;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-none);
+      }
+
+      .kv-row {
+        display: grid;
+        grid-template-columns: minmax(120px, var(--specimen-label-width)) 1fr;
+        gap: var(--space-md);
+        padding: var(--space-xs) var(--space-md);
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .kv-row:last-child {
+        border-bottom: none;
+      }
+
+      .kv-row:nth-child(even) {
+        background: var(--color-surface-tinted);
+      }
+
+      .key-value dt {
+        color: var(--color-on-surface-muted);
+        font-family: var(--font-label-md);
+        font-size: var(--text-label-md-size);
+        font-weight: var(--text-label-md-weight);
+        line-height: var(--text-label-md-line-height);
+      }
+
+      .key-value dd {
+        margin: 0;
+      }
+
+      .badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-xs);
+        margin-bottom: var(--space-md);
+      }
+
+      .badge {
+        display: inline-block;
+        padding: var(--space-xxs) var(--space-xs);
+        border: 1px solid transparent;
+        border-radius: var(--radius-sm);
+        font-family: var(--font-label-sm);
+        font-size: var(--text-label-sm-size);
+        font-weight: var(--text-label-sm-weight);
+        line-height: var(--text-label-sm-line-height);
+        white-space: nowrap;
+      }
+
+      .badge-neutral {
+        background: var(--color-state-neutral-bg);
+        color: var(--color-state-neutral-fg);
+      }
+
+      .badge-info {
+        background: var(--color-state-info-bg);
+        color: var(--color-state-info-fg);
+      }
+
+      .badge-progress {
+        background: var(--color-state-progress-bg);
+        color: var(--color-state-progress-fg);
+      }
+
+      .badge-success {
+        background: var(--color-state-success-bg);
+        color: var(--color-state-success-fg);
+      }
+
+      .badge-warning {
+        background: var(--color-state-warning-bg);
+        color: var(--color-state-warning-fg);
+      }
+
+      .badge-danger {
+        background: var(--color-state-danger-bg);
+        color: var(--color-state-danger-fg);
+      }
+
+      .badge-disabled {
+        background: var(--color-state-disabled-bg);
+        color: var(--color-state-disabled-fg);
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border: 1px solid var(--color-border);
+        border-collapse: collapse;
+        border-radius: var(--radius-none);
+      }
+
+      caption {
+        padding-bottom: var(--space-xs);
+        color: var(--color-on-surface-muted);
+        font-family: var(--font-body-sm);
+        font-size: var(--text-body-sm-size);
+        line-height: var(--text-body-sm-line-height);
+        text-align: left;
+      }
+
+      thead th {
+        height: 24px;
+        padding: var(--space-xs) var(--space-sm);
+        background: var(--color-surface-header);
+        border-bottom: 1px solid var(--color-border-strong);
+        color: var(--color-on-surface);
+        font-family: var(--font-label-sm);
+        font-size: var(--text-label-sm-size);
+        font-weight: var(--text-label-sm-weight);
+        line-height: var(--text-label-sm-line-height);
+        text-align: left;
+      }
+
+      tbody td {
+        padding: var(--space-sm);
+        background: var(--color-surface);
+        border-bottom: 1px solid var(--color-border);
+        font-family: var(--font-body-md);
+        font-size: var(--text-body-md-size);
+        line-height: var(--text-body-md-line-height);
+        vertical-align: middle;
+      }
+
+      tbody tr:nth-child(even) td {
+        background: var(--color-surface-tinted);
+      }
+
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+
+      .numeric {
+        font-family: var(--font-numeric-md);
+        font-size: var(--text-numeric-md-size);
+        font-weight: var(--text-numeric-md-weight);
+        line-height: var(--text-numeric-md-line-height);
+        font-feature-settings: var(--text-numeric-md-font-feature, 'tnum' 1);
+        text-align: right;
+      }
+
+      fieldset {
+        margin: 0;
+        padding: var(--space-md);
+        background: var(--color-surface-tinted);
+        border: 1px solid var(--color-border-control);
+        border-radius: var(--radius-none);
+      }
+
+      legend {
+        padding-inline: var(--space-xs);
+        color: var(--color-on-surface);
+        font-family: var(--font-label-md);
+        font-size: var(--text-label-md-size);
+        font-weight: var(--text-label-md-weight);
+        line-height: var(--text-label-md-line-height);
+      }
+
+      .field-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: var(--space-md);
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xxs);
+      }
+
+      .field > label,
+      .choice > label {
+        color: var(--color-on-surface);
+        font-family: var(--font-label-md);
+        font-size: var(--text-label-md-size);
+        font-weight: var(--text-label-md-weight);
+        line-height: var(--text-label-md-line-height);
+      }
+
+      .control {
+        height: 24px;
+        padding: 0 var(--space-xs);
+        background: var(--color-surface);
+        border: 1px solid var(--color-border-control);
+        border-radius: var(--radius-sm);
+        color: var(--color-on-surface);
+        font-family: var(--font-body-md);
+        font-size: var(--text-body-md-size);
+        line-height: var(--text-body-md-line-height);
+      }
+
+      .control:hover {
+        border-color: var(--color-primary);
+      }
+
+      .choice-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-md);
+      }
+
+      .spaced-top {
+        margin-top: var(--space-md);
+      }
+
+      .choice {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+      }
+
+      .choice input {
+        width: 16px;
+        height: 16px;
+        accent-color: var(--color-primary);
+      }
+
+      .radio-group {
+        background: var(--color-surface);
+        border-color: var(--color-border);
+        padding: var(--space-sm);
+      }
+
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: var(--space-xs);
+        margin-top: var(--space-md);
+      }
+
+      .feedback {
+        display: grid;
+        gap: var(--space-md);
+      }
+
+      .empty-state {
+        padding: var(--space-lg);
+        background: var(--color-surface-tinted);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-none);
+        color: var(--color-on-surface-muted);
+      }
+
+      .error-banner {
+        padding: var(--space-md);
+        background: var(--color-error);
+        border-radius: var(--radius-sm);
+        color: var(--color-on-primary);
+      }
+
+      .code-block {
+        margin: 0;
+        padding: var(--space-md);
+        overflow-x: auto;
+        background: var(--color-surface-tinted);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+        color: var(--color-on-surface);
+        font-family: var(--font-code-md);
+        font-size: var(--text-code-md-size);
+        line-height: var(--text-code-md-line-height);
+      }
+
+      .tooltip-wrap {
+        position: relative;
+        display: inline-block;
+      }
+
+      .tooltip {
+        position: absolute;
+        bottom: calc(100% + var(--space-xs));
+        left: 0;
+        z-index: 10;
+        display: none;
+        max-width: 280px;
+        padding: var(--space-xs) var(--space-sm);
+        background: var(--color-on-surface);
+        border-radius: var(--radius-sm);
+        color: var(--color-surface);
+        font-family: var(--font-body-sm);
+        font-size: var(--text-body-sm-size);
+        line-height: var(--text-body-sm-line-height);
+      }
+
+      .tooltip-wrap:hover .tooltip,
+      .tooltip-wrap:focus-within .tooltip {
+        display: block;
+      }
+
+      .dialog-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-md);
+      }
+
+      dialog {
+        width: min(440px, calc(100vw - var(--space-2xl)));
+        padding: var(--space-lg);
+        background: var(--color-surface);
+        border: 1px solid var(--color-border-strong);
+        border-radius: var(--radius-none);
+        color: var(--color-on-surface);
+        font-family: var(--font-body-md);
+        font-size: var(--text-body-md-size);
+        line-height: var(--text-body-md-line-height);
+      }
+
+      dialog::backdrop {
+        background: var(--color-on-surface);
+        opacity: 0.3;
+      }
+
+      dialog p {
+        margin-block: var(--space-sm);
+        color: var(--color-on-surface-muted);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="page-header">
+      <div>
+        <h1 class="headline-lg">t128n design system</h1>
+        <p class="body-sm">Visual acceptance specimen: records, controls, status, and both themes.</p>
+      </div>
+      <button
+        type="button"
+        class="button button-secondary"
+        data-theme-toggle
+        aria-label="Dark theme"
+        aria-pressed="false"
+      >Dark theme</button>
+    </header>
+
+    <div class="toolbar" role="toolbar" aria-label="Specimen toolbar">
+      <button type="button" class="button button-primary">Primary</button>
+      <button type="button" class="button button-secondary">Secondary</button>
+      <button type="button" class="button button-destructive">Destructive</button>
+      <button type="button" class="button" disabled>Disabled</button>
+      <span class="body-sm">24px control height</span>
+    </div>
+
+    <main id="main">
+      <section class="section" aria-labelledby="kv-title">
+        <h2 id="kv-title" class="headline-md">Key-value grid</h2>
+        <dl class="key-value">
+          <div class="kv-row">
+            <dt>Application</dt>
+            <dd>Specimen</dd>
+          </div>
+          <div class="kv-row">
+            <dt>Owner</dt>
+            <dd>Design Systems</dd>
+          </div>
+          <div class="kv-row">
+            <dt>Profile version</dt>
+            <dd>1.0</dd>
+          </div>
+          <div class="kv-row">
+            <dt>Review date</dt>
+            <dd>2026-11-26</dd>
+          </div>
+          <div class="kv-row">
+            <dt>Design-system version</dt>
+            <dd>0.1.0</dd>
+          </div>
+          <div class="kv-row">
+            <dt>Stack</dt>
+            <dd>Plain CSS, Node 24</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="section" aria-labelledby="table-title">
+        <h2 id="table-title" class="headline-md">Records</h2>
+        <div class="badge-row" role="group" aria-label="Status vocabulary">
+          <span class="badge badge-neutral">Neutral</span>
+          <span class="badge badge-info">Info</span>
+          <span class="badge badge-progress">Progress</span>
+          <span class="badge badge-success">Success</span>
+          <span class="badge badge-warning">Warning</span>
+          <span class="badge badge-danger">Danger</span>
+          <span class="badge badge-disabled">Disabled</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <caption>Recent deployments (all durations in seconds)</caption>
+            <thead>
+              <tr>
+                <th scope="col">Deployment</th>
+                <th scope="col">Environment</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="numeric">Duration</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>api-2026-10-26-01</td>
+                <td>production</td>
+                <td><span class="badge badge-success">Success</span></td>
+                <td class="numeric">1.2 s</td>
+              </tr>
+              <tr>
+                <td>web-2026-10-26-02</td>
+                <td>staging</td>
+                <td><span class="badge badge-progress">Progress</span></td>
+                <td class="numeric">---</td>
+              </tr>
+              <tr>
+                <td>worker-2026-10-26-03</td>
+                <td>production</td>
+                <td><span class="badge badge-warning">Warning</span></td>
+                <td class="numeric">0.9 s</td>
+              </tr>
+              <tr>
+                <td>index-2026-10-26-04</td>
+                <td>production</td>
+                <td>---</td>
+                <td class="numeric">2.4 s</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="form-title">
+        <h2 id="form-title" class="headline-md">Controls</h2>
+        <form>
+          <fieldset>
+            <legend>New deployment</legend>
+            <div class="field-grid">
+              <div class="field">
+                <label for="service">Service</label>
+                <input id="service" class="control" type="text" name="service" placeholder="api" autocomplete="off">
+              </div>
+              <div class="field">
+                <label for="environment">Environment</label>
+                <select id="environment" class="control" name="environment">
+                  <option value="production">production</option>
+                  <option value="staging">staging</option>
+                  <option value="development">development</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="choice-row spaced-top">
+              <div class="choice">
+                <input id="notify-failure" type="checkbox" name="notify" checked>
+                <label for="notify-failure">Notify on failure</label>
+              </div>
+              <div class="choice">
+                <input id="audit-write" type="checkbox" name="audit">
+                <label for="audit-write">Write audit entry</label>
+              </div>
+            </div>
+
+            <fieldset class="radio-group spaced-top">
+              <legend>Strategy</legend>
+              <div class="choice-row">
+                <div class="choice">
+                  <input id="strategy-rolling" type="radio" name="strategy" value="rolling" checked>
+                  <label for="strategy-rolling">Rolling</label>
+                </div>
+                <div class="choice">
+                  <input id="strategy-canary" type="radio" name="strategy" value="canary">
+                  <label for="strategy-canary">Canary</label>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="actions">
+              <button type="reset" class="button button-secondary">Reset</button>
+              <button type="submit" class="button button-primary">Deploy</button>
+            </div>
+          </fieldset>
+        </form>
+      </section>
+
+      <section class="section" aria-labelledby="feedback-title">
+        <h2 id="feedback-title" class="headline-md">Feedback and overlays</h2>
+        <div class="feedback">
+          <div class="empty-state" role="status">
+            No deployments recorded. Choose a service and environment to create the first one.
+          </div>
+          <div class="error-banner" role="alert">
+            Deployment failed: the target environment rejected the manifest. Nothing was changed.
+          </div>
+          <pre class="code-block"><code>deploy --service api --env production --strategy rolling</code></pre>
+          <div class="dialog-row">
+            <div class="tooltip-wrap">
+              <button
+                type="button"
+                class="button button-secondary"
+                aria-describedby="duration-help"
+              >What is duration?</button>
+              <span class="tooltip" role="tooltip" id="duration-help">
+                Wall-clock time from rollout start to the last healthy instance.
+              </span>
+            </div>
+            <button
+              type="button"
+              class="button button-secondary"
+              data-dialog-open
+              aria-haspopup="dialog"
+            >Open dialog</button>
+          </div>
+        </div>
+
+        <dialog id="rollback-dialog" aria-labelledby="rollback-title">
+          <h2 id="rollback-title" class="headline-md">Roll back deployment?</h2>
+          <p class="body-sm">
+            Rolling back returns production to the previous stable release. The audit log records the actor and time.
+          </p>
+          <form method="dialog" class="actions">
+            <button type="submit" class="button button-secondary" value="cancel">Cancel</button>
+            <button type="submit" class="button button-destructive" value="confirm">Roll back</button>
+          </form>
+        </dialog>
+      </section>
+    </main>
+
+    <script>
+      const toggle = document.querySelector('[data-theme-toggle]');
+
+      function activeTheme() {
+        const theme = document.documentElement.dataset.theme;
+        if (theme === 'light' || theme === 'dark') {
+          return theme;
+        }
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      function paintToggle() {
+        toggle.setAttribute('aria-pressed', String(activeTheme() === 'dark'));
+      }
+
+      toggle.addEventListener('click', () => {
+        const next = activeTheme() === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        paintToggle();
+      });
+
+      paintToggle();
+
+      const dialog = document.getElementById('rollback-dialog');
+      document.querySelector('[data-dialog-open]').addEventListener('click', () => {
+        if (typeof dialog.showModal === 'function') {
+          dialog.showModal();
+        } else {
+          dialog.setAttribute('open', '');
+        }
+      });
+    </script>
+  </body>
+</html>
