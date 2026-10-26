@@ -70,7 +70,7 @@ critical path: T0 → T1 → T7 (5.5 min) · peak width 6 · predicted build 5.5
 
 ## File structure
 
-`DESIGN.md` (tokens and guidance), `scripts/build.mjs` (front-matter parser and CSS renderer), `dist/tokens.css` (generated light/dark CSS), `app-profile.template.md` (adoption record), `specimen.html` (visual acceptance), `README.md` and `CHANGELOG.md` (usage and history), `package.json`, `.github/workflows/design.yml` (CI), and `tests/*.test.mjs` (eight focused suites).
+`DESIGN.md`, `scripts/build.mjs`, `dist/tokens.css`, `app-profile.template.md`, `specimen.html`, `README.md`, `CHANGELOG.md`, `package.json`, `.github/workflows/design.yml`, `tests/*.test.mjs`.
 
 ### T0 repo skeleton · Complexity 2 · Est. context 24k
 **Owns:** package.json, package-lock.json, .gitignore, .superlite/test-cmd.json, tests/smoke.test.mjs
@@ -183,8 +183,9 @@ Packages and categories:
 - **Build (T2, T7):** encoding, file, numeric, state. Risks: a dark token leaking into `:root`, non-deterministic output, a missing newline, a broken reference.
 - **Web surface (T4):** protocol, encoding, state. Risks: inaccessible labels, forbidden radius/shadow, a theme toggle that leaves unreadable text.
 - **CI (T6):** protocol, file. Risks: a workflow that runs on the wrong branch, lacks `npm ci`, or grants write access.
+- **Build seam:** pt_review is Python-only; T2 functions are tested by tests/integration.test.mjs.
 
-Probe entry: `run=npm run check` · `serve=npx serve .` for the specimen.
+**Probe entry:** run=npm run check
 
 ## Self-review
 
