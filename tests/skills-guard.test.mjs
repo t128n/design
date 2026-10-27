@@ -23,7 +23,7 @@ const TOKEN_VALUE =
   /--(?:color|space|radius)-[\w-]*\s*:\s*(?:#[0-9a-f]{3,8}\b|\d+(?:\.\d+)?(?:px|rem|em|%)\b|(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color|var)\([^)\n]*\))/i;
 const TOKEN_TABLE =
   /^\s*\|[^\n]*--(?:color|space|radius)-[\w-]*[^\n]*\|\s*[^|\n]*(?:#[0-9a-f]{3,8}\b|\b\d+(?:\.\d+)?(?:px|rem|em)\b|\b(?:rgba?|hsla?)\()/im;
-const T128N_BLOCK = /(?:^|[{;])\s*\.t128n-[\w-]+[^\n{}]*\{/m;
+const T128N_BLOCK = /\.t128n-[\w-]+[^\n{}]*\{/;
 
 const PATH_TOKEN = /^(?:[\w.-]+\/)+[\w.-]*$/;
 const FILE_TOKEN = /^[\w.-]+\.(?:md|css|mjs|js|json|svelte|html)$/;
@@ -226,4 +226,17 @@ test('rule thresholds are not token tables', () => {
     ),
     'a copied layout block must fail',
   );
+});
+
+test('guard rejects an inline or listed layout block', () => {
+  for (const copy of [
+    '.panel{display:block}.t128n-page{display:grid}',
+    '.panel, .t128n-page { display: grid; }',
+  ]) {
+    assert.deepEqual(
+      pointerViolations(copy),
+      ['t128n CSS block'],
+      `a copied layout block must fail even when it does not start a line: ${copy}`,
+    );
+  }
 });
