@@ -62,13 +62,19 @@ Grade each condition against every bullet in `expected_output`:
 - `n/a` — the check does not apply, with a one-line reason.
 
 For review prompts, grade the report rather than the page: a finding must carry
-severity, evidence, and the `DESIGN.md` rule it breaks. Exactly seven findings
-are expected from the broken-page fixture.
+severity, evidence, the smallest fix, and the `DESIGN.md` rule it breaks. These
+are the primary checks: a report that lists findings without a `DESIGN.md` rule
+and a smallest fix for each one fails, however many it lists. The broken-page
+fixture contains exactly seven findings, so the count is necessary but not
+sufficient — seven findings with no rule citations still fail.
 
 ## The broken-page fixture
 
 `fixtures/broken-page.html` is a small standalone deployments page, not a copy
-of the preview. Each planted violation is preceded by a marker comment:
+of the preview. Each planted violation is preceded by a marker comment. CSS
+violations use `/* t128n-eval: name */`; markup violations use
+`<!-- t128n-eval: name -->`. The test matches the substring `t128n-eval: <name>`
+in either form, so the comment delimiters are not part of the marker:
 
 | Marker | Violation |
 | :--- | :--- |
