@@ -186,7 +186,7 @@
 
 @media (min-width: 800px) {
   .t128n-page {
-    padding-inline: var(--space-3xl);
+    padding-inline: max(var(--space-3xl), env(safe-area-inset-left)) max(var(--space-3xl), env(safe-area-inset-right));
   }
 
   .t128n-grid--2 {

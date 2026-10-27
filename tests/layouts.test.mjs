@@ -87,7 +87,12 @@ test('page gutters are mobile-first with safe areas', async () => {
   );
   assert.match(
     css,
-    /@media \(min-width: 800px\)[\s\S]*?\.t128n-page \{[\s\S]*?padding-inline: var\(--space-3xl\);/,
+    /@media \(min-width: 800px\)[\s\S]*?\.t128n-page \{[\s\S]*?padding-inline: max\(var\(--space-3xl\), env\(safe-area-inset-left\)\) max\(var\(--space-3xl\), env\(safe-area-inset-right\)\);/,
+  );
+  assert.doesNotMatch(
+    css,
+    /\.t128n-page \{[\s\S]*?padding-inline: var\(--space-(?:xl|3xl)\);/,
+    'page gutters must keep safe-area insets at every breakpoint',
   );
 });
 
