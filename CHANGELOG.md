@@ -17,7 +17,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `preview/` as the visual acceptance app: Vite, Svelte 5, and bits-ui
   primitives over the generated tokens, in light and dark.
 - Octicons from `@primer/octicons` for preview actions.
-- Standard CSS grid layouts in `layouts.css` for page frames, app shells,
+- Standard CSS grid layouts in `dist/layouts.css` for page frames, app shells,
   registers, split views, record details, forms, stacks, clusters, and
   one/two/three-column grids.
 - Bare layout skeletons under `preview/pages/` for each standard grid and
@@ -35,3 +35,10 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `bun install --frozen-lockfile`, `bun test`, and `bun run check`.
 - GitHub Pages workflow deploying the built preview to
   `https://t128n.github.io/design/`.
+
+### Changed
+
+- Standard layout CSS now lives in the `DESIGN.md` Layout section and is
+  generated to `dist/layouts.css`; the root copy is removed.
+- `preview/` and the tests read the generated `dist/layouts.css` instead of a
+  root layout stylesheet.

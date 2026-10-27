@@ -44,7 +44,12 @@ test('scripts and dependencies are wired', async () => {
   assert.ok(existsSync(path.join(root, 'preview/src/App.svelte')), 'preview app is missing');
   assert.ok(existsSync(path.join(root, 'preview/pages/index.html')), 'layout pages are missing');
   assert.ok(existsSync(path.join(root, 'preview/src/pages/layouts.js')), 'layout registry is missing');
-  assert.ok(existsSync(path.join(root, 'layouts.css')), 'layouts are missing');
+  const layoutsArtifact = path.join(root, 'dist/layouts.css');
+  assert.ok(existsSync(layoutsArtifact), 'layout artifact is missing');
+  assert.ok(
+    !existsSync(path.join(root, path.basename(layoutsArtifact))),
+    'the root layout source is still present',
+  );
 
   // .superlite/ is gitignored, so the runner config is validated where it exists
   // (local runs) and skipped on a clean checkout.

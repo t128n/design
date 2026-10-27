@@ -7,7 +7,7 @@ import path from 'node:path';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 test('standard layouts are token-driven CSS grids', async () => {
-  const css = await readFile(path.join(root, 'layouts.css'), 'utf8');
+  const css = await readFile(path.join(root, 'dist/layouts.css'), 'utf8');
 
   for (const className of [
     '.t128n-page',
@@ -24,7 +24,7 @@ test('standard layouts are token-driven CSS grids', async () => {
     '.t128n-stack',
     '.t128n-cluster',
   ]) {
-    assert.ok(css.includes(className), `layouts.css is missing ${className}`);
+    assert.ok(css.includes(className), `layout artifact is missing ${className}`);
   }
 
   for (const fragment of [
@@ -42,7 +42,7 @@ test('standard layouts are token-driven CSS grids', async () => {
     'var(--space-md)',
     'var(--color-border)',
   ]) {
-    assert.ok(css.includes(fragment), `layouts.css is missing ${fragment}`);
+    assert.ok(css.includes(fragment), `layout artifact is missing ${fragment}`);
   }
 
   assert.match(css, /t128n-app-shell__nav/);

@@ -1,6 +1,6 @@
 /* Preview styles. Tokens come from the generated stylesheet. */
 @import '../../dist/tokens.css';
-@import '../../layouts.css';
+@import '../../dist/layouts.css';
 
 :root {
         --preview-label-width: 180px;
