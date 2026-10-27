@@ -21,14 +21,22 @@
 
 .layout-nav {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: var(--space-xs);
   padding-block: var(--space-sm);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
   border-bottom: 1px solid var(--color-border);
 }
 
 .layout-nav a {
-  padding: var(--space-xs) var(--space-sm);
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  min-height: var(--space-touch);
+  padding: var(--space-xs) var(--space-md);
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   color: var(--color-on-surface);
@@ -36,6 +44,7 @@
   font-size: var(--text-body-sm-size);
   line-height: var(--text-body-sm-line-height);
   text-decoration: none;
+  touch-action: manipulation;
 }
 
 .layout-nav a:hover {
@@ -54,7 +63,7 @@
   align-content: start;
   gap: var(--space-xxs);
   min-height: 64px;
-  padding: var(--space-md);
+  padding: var(--space-lg);
   background: var(--color-surface-tinted);
   border: 1px dashed var(--color-border-control);
   color: var(--color-on-surface);
@@ -89,9 +98,10 @@
 
 .form-actions {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: var(--space-xs);
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-sm);
+  padding-bottom: max(var(--space-xs), env(safe-area-inset-bottom));
 }
 
 .layout-card {
@@ -129,4 +139,27 @@
   font-family: var(--font-body-sm);
   font-size: var(--text-body-sm-size);
   line-height: var(--text-body-sm-line-height);
+}
+
+@media (min-width: 800px) {
+  .layout-nav {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+
+  .layout-nav a {
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .sketch-region {
+    padding: var(--space-md);
+  }
+
+  .form-actions {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-xs);
+    padding-bottom: 0;
+  }
 }
