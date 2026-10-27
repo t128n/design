@@ -73,3 +73,13 @@ test('docs describe the system', async () => {
   assert.match(changelog, /^#\s*Changelog\s*$/m);
   assert.ok(/^## \[?0\.1\.0\]?/m.test(changelog), 'CHANGELOG does not start at 0.1.0');
 });
+
+test('docs describe mobile-first behavior', async () => {
+  const readme = await readText('README.md');
+  for (const text of ['### Mobile', 'mobile-first', '44px', '16px', '640px', '800px', '1024px', 'safe-area', 't128n-table-scroll', '--space-touch']) {
+    assert.ok(readme.includes(text), `README is missing ${text}`);
+  }
+  const changelog = await readText('CHANGELOG.md');
+  assert.match(changelog, /## \[Unreleased\]/);
+  assert.match(changelog, /mobile/i);
+});
