@@ -82,25 +82,42 @@ test('build skill stays under the line budget', async () => {
   assert.ok(lines > 40, 'SKILL.md is a procedure, not a stub');
 });
 
+function assertRuleExplained(rule, heading, file) {
+  assert.match(
+    rule,
+    /\*\*Because\*\*\s+\S/,
+    `${file} rule "${heading}" states its reason`,
+  );
+  assert.match(
+    rule,
+    /\*\*Verify\*\*\s+\S/,
+    `${file} rule "${heading}" states its verification`,
+  );
+}
+
 test('every rule carries a reason and a check', async () => {
   for (const file of ALL_FILES) {
     const text = await readSkillFile(file);
     const rules = text.split(/^### /m).slice(1);
     assert.ok(rules.length > 0, `${file} states numbered rules`);
     for (const rule of rules) {
-      const heading = rule.split('\n')[0];
-      assert.match(
-        rule,
-        /\*\*Because\*\* \S/,
-        `${file} rule "${heading}" states its reason`,
-      );
-      assert.match(
-        rule,
-        /\*\*Verify\*\* \S/,
-        `${file} rule "${heading}" states its verification`,
-      );
+      assertRuleExplained(rule, rule.split('\n')[0], file);
     }
   }
+});
+
+test('a rule passes when its reason and check wrap onto the next line', () => {
+  const rule = [
+    'Keep the record header on one line',
+    '',
+    '**Because**',
+    'prose wraps to the next line.',
+    '',
+    '**Verify**',
+    'the header still renders on one line.',
+  ].join('\n');
+
+  assertRuleExplained(rule, 'wrapped prose', 'fixture.md');
 });
 
 test('status is text plus one of seven roles', async () => {
