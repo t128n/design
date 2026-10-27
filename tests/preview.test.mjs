@@ -108,9 +108,21 @@ test('preview keeps the required structure and avoids rejected treatments', asyn
     css,
     /tbody td \{[^}]*border-bottom: 1px solid var\(--color-border-control\)/,
   );
-  assert.match(css, /\.th-sort \{[^}]*min-height: 32px/);
-  assert.match(css, /\.row-button \{[^}]*height: 28px/);
-  assert.match(css, /\.icon-button \{[^}]*width: 28px/);
+  assert.match(css, /\.th-sort \{[^}]*min-height: var\(--space-touch\)/);
+  assert.match(css, /\.row-button \{[^}]*height: var\(--space-touch\)/);
+  assert.match(css, /\.icon-button \{[^}]*width: var\(--space-touch\)/);
+  assert.match(
+    css,
+    /@media \(min-width: 800px\)[\s\S]*?\.th-sort \{[^}]*min-height: 32px/,
+  );
+  assert.match(
+    css,
+    /@media \(min-width: 800px\)[\s\S]*?\.row-button \{[^}]*height: 28px/,
+  );
+  assert.match(
+    css,
+    /@media \(min-width: 800px\)[\s\S]*?\.icon-button \{[^}]*width: 28px/,
+  );
 
   const radii = [...css.matchAll(/border-radius\s*:\s*([^;}]+)/gi)].map((match) =>
     match[1].trim(),
@@ -123,4 +135,17 @@ test('preview keeps the required structure and avoids rejected treatments', asyn
       `border-radius must stay within token radii (3px max): ${radius}`,
     );
   }
+});
+
+test('preview is mobile-first and touch-sized', async () => {
+  const css = await readText('preview/src/app.css');
+  assert.doesNotMatch(css, /@media \(max-width/);
+  assert.match(css, /@media \(min-width: 800px\)/);
+  assert.match(css, /\.button \{[\s\S]*?height: var\(--space-touch\)/);
+  assert.match(css, /@media \(min-width: 800px\)[\s\S]*?\.button \{[\s\S]*?height: 28px/);
+  assert.match(css, /\.table-wrap \{[\s\S]*?--t128n-table-min: 52rem/);
+  assert.match(css, /\.toolbar \{[\s\S]*?grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
+  assert.match(css, /\.kv-row \{[\s\S]*?grid-template-columns: 1fr/);
+  assert.match(css, /\.dialog-content \{[\s\S]*?bottom: 0/);
+  assert.match(css, /\.dialog-content \{[\s\S]*?max-height: calc\(100dvh - var\(--space-2xl\)\)/);
 });
