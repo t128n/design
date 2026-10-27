@@ -71,7 +71,8 @@ test('preview pages are mobile-native', async () => {
   assert.match(css, /@media \(min-width: 800px\)[\s\S]*?\.layout-nav \{[\s\S]*?flex-wrap: wrap/);
   for (const file of ['preview/index.html', 'preview/pages/index.html', ...layouts.map((layout) => `preview/pages/${layout.slug}/index.html`)]) {
     const html = await readText(file);
-    assert.match(html, /viewport-fit=cover/);
-    assert.match(html, /color-scheme: light dark/);
+    assert.match(html, /name="viewport" content="[^"]*viewport-fit=cover/);
+    assert.match(html, /name="color-scheme" content="light dark"/);
+    assert.doesNotMatch(html, /style="color-scheme/, `${file} must not override the theme color-scheme inline`);
   }
 });
