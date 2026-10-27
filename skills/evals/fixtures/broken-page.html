@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Deployments — broken t128n eval fixture</title>
+    <style>
+      :root {
+        --ok: green;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        font-size: 14px;
+      }
+
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background: Canvas;
+        border-bottom: 1px solid CanvasText;
+      }
+
+      /* t128n-eval: hardcoded-color */
+      .toolbar-accent {
+        background: #7B45D8;
+        color: Canvas;
+        padding: 4px 8px;
+      }
+
+      .search {
+        min-width: 240px;
+        padding: 4px;
+      }
+
+      main {
+        padding: 16px;
+      }
+
+      /* t128n-eval: shadow */
+      .panel {
+        padding: 12px;
+        background: Canvas;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 6px;
+        text-align: left;
+        border-bottom: 1px solid CanvasText;
+      }
+
+      th {
+        font-weight: 700;
+      }
+
+      .sort-button {
+        border: 0;
+        background: transparent;
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+      }
+
+      /* t128n-eval: color-only-status */
+      .status-color-only {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+        background: var(--ok);
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 2px;
+        border: 1px solid currentColor;
+        border-radius: 2px;
+        font-size: 12px;
+      }
+
+      /* t128n-eval: oversized-radius */
+      .record-card {
+        border-radius: 8px;
+      }
+
+      /* t128n-eval: card-grid-collapse */
+      @media (max-width: 800px) {
+        .panel table,
+        .panel thead,
+        .panel tbody,
+        .panel tr,
+        .panel th,
+        .panel td {
+          display: block;
+        }
+
+        .panel tbody {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+        }
+
+        .panel thead {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="toolbar">
+      <strong>Deployments</strong>
+      <div class="toolbar-accent">Prod</div>
+
+      <!-- t128n-eval: placeholder-only-label -->
+      <input class="search" type="search" placeholder="Search deployments" />
+
+      <label for="environment">Environment</label>
+      <select id="environment">
+        <option>All</option>
+        <option>Production</option>
+        <option>Staging</option>
+      </select>
+    </header>
+
+    <main>
+      <h1>Deployments</h1>
+      <section class="panel">
+        <table>
+          <thead>
+            <tr>
+              <th>Service</th>
+              <!-- t128n-eval: dead-sort -->
+              <th aria-sort="ascending">
+                <button class="sort-button" type="button">Environment</button>
+              </th>
+              <th>Commit</th>
+              <th>Deployer</th>
+              <th>Started</th>
+              <th>Duration</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="record-card">
+              <td>checkout-api-with-a-forty-character-name</td>
+              <td>Production</td>
+              <td>9f2c1ab</td>
+              <td>Mira Chen</td>
+              <td>2026-10-27 09:14</td>
+              <td>2h 41m</td>
+              <td><span class="status-color-only" aria-hidden="true"></span></td>
+            </tr>
+            <tr class="record-card">
+              <td>billing-worker</td>
+              <td>Staging</td>
+              <td>41d8c02</td>
+              <td>Unknown</td>
+              <td>2026-10-26 18:02</td>
+              <td>26h 05m</td>
+              <td><span class="badge">Failed</span></td>
+            </tr>
+            <tr class="record-card">
+              <td>search-indexer</td>
+              <td>Production</td>
+              <td>77aa910</td>
+              <td>Owen Park</td>
+              <td>2026-10-26 11:47</td>
+              <td>4m</td>
+              <td><span class="badge">Success</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <p>Showing 3 of 3 deployments.</p>
+    </main>
+  </body>
+</html>
