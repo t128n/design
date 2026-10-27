@@ -136,10 +136,10 @@ Bare skeletons for every layout live in
 
 ### Mobile
 
-Phones are the base viewport, not a fallback. Import both stylesheets as
-above and compose the single-column layout first; the breakpoints are
-`min-width` values at `640px`, `800px`, and `1024px`, and no component relies
-on a desktop-first `max-width` override.
+Phones are the base viewport, not a fallback. The stylesheets are mobile-first:
+import both as above and compose the single-column layout first. The
+breakpoints are `min-width` values at `640px`, `800px`, and `1024px`, and no
+component relies on a desktop-first `max-width` override.
 
 - Page gutters are `--space-xl` (16px) at the base and `--space-3xl` (32px)
   from `800px`, using `max()` with `env(safe-area-inset-left)` and
