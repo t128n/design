@@ -141,11 +141,29 @@ test('preview is mobile-first and touch-sized', async () => {
   const css = await readText('preview/src/app.css');
   assert.doesNotMatch(css, /@media \(max-width/);
   assert.match(css, /@media \(min-width: 800px\)/);
-  assert.match(css, /\.button \{[\s\S]*?height: var\(--space-touch\)/);
-  assert.match(css, /@media \(min-width: 800px\)[\s\S]*?\.button \{[\s\S]*?height: 28px/);
-  assert.match(css, /\.table-wrap \{[\s\S]*?--t128n-table-min: 52rem/);
-  assert.match(css, /\.toolbar \{[\s\S]*?grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
-  assert.match(css, /\.kv-row \{[\s\S]*?grid-template-columns: 1fr/);
-  assert.match(css, /\.dialog-content \{[\s\S]*?bottom: 0/);
-  assert.match(css, /\.dialog-content \{[\s\S]*?max-height: calc\(100dvh - var\(--space-2xl\)\)/);
+  assert.match(css, /\n\.button \{[^}]*height: var\(--space-touch\)/);
+  assert.match(css, /@media \(min-width: 800px\)[\s\S]*?\n  \.button \{[^}]*height: 28px/);
+  assert.match(css, /\.table-wrap \{[^}]*--t128n-table-min: 52rem/);
+  assert.match(css, /\.toolbar \{[^}]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
+  assert.match(css, /\.kv-row \{[^}]*grid-template-columns: 1fr/);
+  assert.match(css, /\.dialog-content \{[^}]*bottom: 0/);
+  assert.match(
+    css,
+    /\.dialog-content \{[^}]*max-height: calc\(100vh - var\(--space-2xl\)\);\n  max-height: calc\(100dvh - var\(--space-2xl\)\)/,
+  );
+
+  // The 44px header is the sort target height, not padding stacked on top of it.
+  assert.match(
+    css,
+    /thead th \{[^}]*height: var\(--space-touch\)[^}]*padding: 0 var\(--space-md\)/,
+  );
+  assert.match(
+    css,
+    /@media \(min-width: 800px\)[\s\S]*?thead th \{[^}]*height: 32px[^}]*padding: 0 var\(--space-sm\)/,
+  );
+
+  // Every interactive control, including the switch track, is 44px at the base.
+  assert.match(css, /\n\.switch \{[^}]*width: var\(--space-touch\)/);
+  assert.match(css, /\n\.switch \{[^}]*height: var\(--space-touch\)/);
+  assert.match(css, /@media \(min-width: 800px\)[\s\S]*?\n  \.switch \{[^}]*width: 40px/);
 });

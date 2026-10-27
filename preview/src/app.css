@@ -333,9 +333,10 @@ caption {
   text-align: left;
 }
 
+/* The 44px header is real: the sort button owns the whole cell height. */
 thead th {
   height: var(--space-touch);
-  padding: var(--space-md);
+  padding: 0 var(--space-md);
   background: var(--color-surface-header);
   border-bottom: 1px solid var(--color-border-control);
   color: var(--color-on-surface);
@@ -757,11 +758,11 @@ th[aria-sort='descending'] .th-sort {
   line-height: 1;
 }
 
-/* The switch keeps its 40px track but grows to a 44px touch target. */
+/* The switch track is a full 44px touch target on phones. */
 .switch {
   display: inline-flex;
   align-items: center;
-  width: 40px;
+  width: var(--space-touch);
   height: var(--space-touch);
   padding: 3px;
   background: var(--color-neutral);
@@ -788,7 +789,7 @@ th[aria-sort='descending'] .th-sort {
 
 .switch[data-state='checked'] .switch-thumb {
   border-color: var(--color-primary);
-  transform: translateX(16px);
+  transform: translateX(20px);
 }
 
 .radio-group {
@@ -848,6 +849,7 @@ th[aria-sort='descending'] .th-sort {
   left: 0;
   z-index: 50;
   width: 100%;
+  max-height: calc(100vh - var(--space-2xl));
   max-height: calc(100dvh - var(--space-2xl));
   overflow-y: auto;
   padding: var(--space-lg);
@@ -911,7 +913,7 @@ th[aria-sort='descending'] .th-sort {
 
   thead th {
     height: 32px;
-    padding: var(--space-sm);
+    padding: 0 var(--space-sm);
   }
 
   tbody td {
@@ -975,7 +977,12 @@ th[aria-sort='descending'] .th-sort {
   }
 
   .switch {
+    width: 40px;
     height: 24px;
+  }
+
+  .switch[data-state='checked'] .switch-thumb {
+    transform: translateX(16px);
   }
 
   .radio-item {
