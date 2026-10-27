@@ -248,7 +248,7 @@
     <h2 id="table-title" class="headline-md">Deployments</h2>
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
     <div
-      class="table-wrap"
+      class="table-wrap t128n-table-scroll t128n-table-scroll--pin-first"
       role="region"
       aria-label="Recent deployments"
       tabindex="0"

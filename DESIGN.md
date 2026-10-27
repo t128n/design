@@ -119,6 +119,7 @@ spacing:
   xl: 16px
   2xl: 24px
   3xl: 32px
+  touch: 44px
 rounded:
   none: 0px
   sm: 2px
@@ -552,7 +553,7 @@ Each application maps its own status vocabulary onto the seven semantic roles; l
 
 ### Interface Integrity
 
-These patterns are non-conformant regardless of how they are produced.
+These patterns are non-conformant regardless of how they are produced. The positive rules they replace live in **Interaction Standards**.
 
 | Telltale | Broken principle | Normative rule | Check |
 | :--- | :--- | :--- | :--- |
@@ -690,7 +691,7 @@ No text may fall below `12px`. Body copy and table data use `{typography.body-md
 
 ## Layout
 
-Layout follows a record-first, fixed-density model. Content sits in a single main column or in a table that fills the available width. Panels use flat surfaces and spacing, not cards. At narrow widths, tables keep their record structure: preserve the identifier column and horizontal scroll rather than replacing the table with a card grid.
+Layout follows a record-first, fixed-density model composed mobile-first. The phone composition is the default: one column, real page gutters, and full-width touch targets. Content sits in a single main column or in a table that fills the available width; columns are added with `min-width` upgrades, never removed with `max-width` patches. Panels use flat surfaces and spacing, not cards. At narrow widths, tables keep their record structure: preserve the identifier column and horizontal scroll rather than replacing the table with a card grid.
 
 | Token | Value | Use |
 | :--- | :--- | :--- |
@@ -699,11 +700,22 @@ Layout follows a record-first, fixed-density model. Content sits in a single mai
 | `sm` | `6px` | Table cell padding |
 | `md` | `8px` | Default gap between related elements |
 | `lg` | `12px` | Panel and dialog padding |
-| `xl` | `16px` | Section gap |
-| `2xl` | `24px` | Page gutter, major section break |
-| `3xl` | `32px` | Page top and bottom margin |
+| `xl` | `16px` | Mobile page gutter, section gap |
+| `2xl` | `24px` | Dialog inset, major section break |
+| `3xl` | `32px` | Desktop page gutter, page top and bottom margin |
+| `touch` | `44px` | Minimum touch target on phones |
 
 Radius is limited to `{rounded.none}`, `{rounded.sm}`, and `{rounded.md}`. There is no radius above `3px`, no pill shape, and no card grid that replaces a record table at narrow widths.
+
+### Mobile and touch
+
+Phones are the base viewport, not a fallback. Compose the single-column layout first and add columns with `min-width` upgrades at `640px`, `800px`, and `1024px`; never start from a desktop composition and subtract.
+
+- Page gutters are `{spacing.xl}` (16px) at the base and `{spacing.3xl}` (32px) from `800px`, applied with `max()` against `env(safe-area-inset-left)` and `env(safe-area-inset-right)` so content clears notches, rounded corners, and home indicators.
+- Interactive targets — buttons, inputs, icon buttons, row actions, and navigation links — present at least `{spacing.touch}` (44px) at the base. Desktop `28px` control geometry returns at `800px`; a phone never gets a target smaller than the touch size.
+- App shells and full-height panes use `100dvh` with a `100vh` fallback so mobile browser chrome cannot clip content.
+- Record tables stay tables. Wrap them in `.t128n-table-scroll` with an explicit minimum width, and add `.t128n-table-scroll--pin-first` to keep the identifier column visible below `800px`. Horizontal scroll is the mobile behavior; a card grid is not.
+- Type stays on the nine scales above, with no reading text below `12px`. The mobile fix is composition, padding, gutters, and target size — never a smaller type scale.
 
 ### Standard Layouts
 
@@ -711,7 +723,7 @@ Radius is limited to `{rounded.none}`, `{rounded.sm}`, and `{rounded.md}`. There
 
 | Class | Grid | Use |
 | :--- | :--- | :--- |
-| `t128n-page` | Centered `min(1120px, 100%)`, vertical grid with `lg` gap | Page frame |
+| `t128n-page` | Centered `calc(1120px + 2 * 32px)` frame with `16px` mobile gutters | Page frame |
 | `t128n-grid` | `repeat(var(--t128n-columns), minmax(0, 1fr))`, gap `--t128n-gap` | Equal-column content grid |
 | `t128n-grid--1` / `--2` / `--3` | Sets `--t128n-columns` | One, two, or three equal columns |
 | `t128n-grid__full` | `grid-column: 1 / -1` | Span the full grid |
@@ -722,10 +734,12 @@ Radius is limited to `{rounded.none}`, `{rounded.sm}`, and `{rounded.md}`. There
 | `t128n-form-grid` | `repeat(auto-fit, minmax(220px, 1fr))` | Forms with aligned fields |
 | `t128n-stack` | Vertical grid with `md` gap | Stacked sections and state panels |
 | `t128n-cluster` | Wrapping flex row with `xs` gap | Toolbars, actions, badges |
+| `t128n-table-scroll` | Horizontal scroll container with a `44rem` minimum table width | Wide record tables on phones |
+| `t128n-table-scroll--pin-first` | Sticky first cell with a `{colors.surface}` background below `800px` | Keeps the identifier visible while scrolling |
 
-The app shell collapses its navigation below `main` at `800px`. Split and record layouts stack at `800px`; form grids collapse by available width. Record tables keep their identifier column and scroll horizontally rather than becoming cards.
+The app shell is a single column at the phone base and splits into `220px` navigation plus main at `800px`. Split and record layouts stack below `800px`; form grids stay one column until `800px`. Record tables keep their identifier column and scroll horizontally rather than becoming cards.
 
-Equal-column grids collapse predictably: three columns become two at `1024px` and one at `640px`; two columns become one at `800px`. Override `--t128n-columns` or `--t128n-gap` on the grid element for a one-off composition.
+Equal-column grids start at one column and add width: three-column grids become two at `640px` and three at `1024px`; two-column grids split at `800px`. Override `--t128n-columns` or `--t128n-gap` on the grid element for a one-off composition.
 
 Bare skeletons for every template live under `preview/pages/` and deploy at `/pages/` in the preview.
 
@@ -733,9 +747,11 @@ Bare skeletons for every template live under `preview/pages/` and deploy at `/pa
 ```css
 .t128n-page {
   box-sizing: border-box;
-  width: min(calc(100% - var(--space-3xl)), 1120px);
+  width: 100%;
+  max-width: calc(1120px + 2 * var(--space-3xl));
   margin-inline: auto;
   padding-block: var(--space-xl);
+  padding-inline: max(var(--space-xl), env(safe-area-inset-left)) max(var(--space-xl), env(safe-area-inset-right));
   display: grid;
   gap: var(--space-lg);
 }
@@ -758,11 +774,11 @@ Bare skeletons for every template live under `preview/pages/` and deploy at `/pa
 }
 
 .t128n-grid--2 {
-  --t128n-columns: 2;
+  --t128n-columns: 1;
 }
 
 .t128n-grid--3 {
-  --t128n-columns: 3;
+  --t128n-columns: 1;
 }
 
 .t128n-grid__full {
@@ -772,12 +788,14 @@ Bare skeletons for every template live under `preview/pages/` and deploy at `/pa
 .t128n-app-shell {
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
   grid-template-areas:
-    'header header'
-    'nav main';
+    'header'
+    'main'
+    'nav';
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .t128n-app-shell__header {
@@ -787,7 +805,7 @@ Bare skeletons for every template live under `preview/pages/` and deploy at `/pa
 .t128n-app-shell__nav {
   grid-area: nav;
   min-width: 0;
-  border-right: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border);
 }
 
 .t128n-app-shell__main {
@@ -829,7 +847,7 @@ Bare skeletons for every template live under `preview/pages/` and deploy at `/pa
 .t128n-split {
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-lg);
   min-height: 0;
 }
@@ -837,8 +855,10 @@ Bare skeletons for every template live under `preview/pages/` and deploy at `/pa
 .t128n-record {
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
-  grid-template-areas: 'meta body';
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'meta'
+    'body';
   gap: var(--space-lg);
 }
 
@@ -855,7 +875,7 @@ Bare skeletons for every template live under `preview/pages/` and deploy at `/pa
 .t128n-form-grid {
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-md);
 }
 
@@ -875,51 +895,79 @@ Bare skeletons for every template live under `preview/pages/` and deploy at `/pa
   gap: var(--space-xs);
 }
 
-@media (max-width: 1024px) {
+.t128n-table-scroll {
+  --t128n-table-min: 44rem;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.t128n-table-scroll > table {
+  min-width: var(--t128n-table-min);
+}
+
+.t128n-table-scroll--pin-first > table > * > tr > :first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--color-surface);
+}
+
+.t128n-table-scroll--pin-first > table > thead > tr > :first-child {
+  background: var(--color-surface-header);
+}
+
+@media (min-width: 640px) {
   .t128n-grid--3 {
     --t128n-columns: 2;
   }
 }
 
-@media (max-width: 800px) {
+@media (min-width: 800px) {
   .t128n-page {
-    width: min(calc(100% - var(--space-xl)), 1120px);
-    padding-block: var(--space-lg);
+    padding-inline: max(var(--space-3xl), env(safe-area-inset-left)) max(var(--space-3xl), env(safe-area-inset-right));
   }
 
   .t128n-grid--2 {
-    --t128n-columns: 1;
+    --t128n-columns: 2;
   }
 
   .t128n-app-shell {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-columns: 220px minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
     grid-template-areas:
-      'header'
-      'main'
-      'nav';
+      'header header'
+      'nav main';
   }
 
   .t128n-app-shell__nav {
-    border-top: 1px solid var(--color-border);
-    border-right: 0;
+    border-top: 0;
+    border-right: 1px solid var(--color-border);
   }
 
-  .t128n-split,
-  .t128n-record {
-    grid-template-columns: minmax(0, 1fr);
+  .t128n-split {
+    grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
   }
 
   .t128n-record {
-    grid-template-areas:
-      'meta'
-      'body';
+    grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+    grid-template-areas: 'meta body';
+  }
+
+  .t128n-form-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .t128n-table-scroll--pin-first > table > * > tr > :first-child {
+    position: static;
   }
 }
 
-@media (max-width: 640px) {
+@media (min-width: 1024px) {
   .t128n-grid--3 {
-    --t128n-columns: 1;
+    --t128n-columns: 3;
   }
 }
 ```
@@ -957,7 +1005,7 @@ Icons come from **Octicons** (`@primer/octicons`), the 16px GitHub set. Carbon i
 | Status badge | Text label first; an icon may supplement but never replace it |
 | Decorative | `aria-hidden="true"` |
 
-Do not use icon fonts, emoji as controls, or color-only icons. Do not hand-draw an icon when Octicons has the glyph. An icon button always has an accessible name, and its target is at least `24px` square.
+Do not use icon fonts, emoji as controls, or color-only icons. Do not hand-draw an icon when Octicons has the glyph. An icon button always has an accessible name, and its target is at least `{spacing.touch}` square on phones and `28px` square on desktop.
 
 ## Components
 
@@ -965,7 +1013,7 @@ Components are defined as tokens rather than as a library. Each component record
 
 ### Buttons
 
-Buttons are `28px` tall with `4px` padding, `{rounded.md}`, and `{typography.label-md}`, except `button-secondary` and `button-secondary-disabled`, which use `{typography.body-md}`; their hover states return to `{typography.label-md}`. Primary actions use `{components.button-primary}` and darken to `{components.button-primary-hover}`. Secondary actions use `{components.button-secondary}`. Destructive actions use `{components.button-destructive}` and its hover state. Disabled buttons use the disabled state pair and keep their label visible. Touch surfaces use at least `44px` for primary actions.
+Buttons are `28px` tall with `4px` padding, `{rounded.md}`, and `{typography.label-md}`, except `button-secondary` and `button-secondary-disabled`, which use `{typography.body-md}`; their hover states return to `{typography.label-md}`. Primary actions use `{components.button-primary}` and darken to `{components.button-primary-hover}`. Secondary actions use `{components.button-secondary}`. Destructive actions use `{components.button-destructive}` and its hover state. Disabled buttons use the disabled state pair and keep their label visible. On phones buttons are at least `{spacing.touch}` tall; the `28px` geometry returns at `800px`.
 
 ### Inputs and fields
 
@@ -973,7 +1021,7 @@ Inputs are `28px` tall with `4px` padding and `{rounded.sm}`. The default field 
 
 ### Tables
 
-Tables are the primary record surface. Cells use `{components.table-cell}` and alternate with `{components.table-cell-alt}`. Selected rows use `{components.table-row-selected}`. Numeric columns use `{components.table-numeric}` with tabular figures. Headers use `{components.table-header}` with `{typography.label-md}`, `6px` padding, and a `32px` height. Row and outer boundaries use `{components.control-rule}` so the structural rule meets `3:1`; keep a stable identifier column and never collapse a record table into a card grid.
+Tables are the primary record surface. Cells use `{components.table-cell}` and alternate with `{components.table-cell-alt}`. Selected rows use `{components.table-row-selected}`. Numeric columns use `{components.table-numeric}` with tabular figures. Headers use `{components.table-header}` with `{typography.label-md}`, `6px` padding, and a `32px` height; below `800px` the header grows to `{spacing.touch}` and cells pad to `12px` inside `.t128n-table-scroll`. Row and outer boundaries use `{components.control-rule}` so the structural rule meets `3:1`; keep a stable identifier column and never collapse a record table into a card grid.
 
 ### Status badges
 
@@ -990,6 +1038,87 @@ Status badges use `{typography.label-sm}`, `{rounded.sm}`, `2px` padding, and a 
 - Code blocks use `{components.code-block}`; tooltips use `{components.tooltip}`.
 - Error banners use `{components.error-banner}` and always include a message.
 
+## Interaction Standards
+
+These are the positive rules every view must satisfy; Interface Integrity in Overview names the anti-patterns that fail them. A view is conformant only when a reviewer can answer three questions for every control: what it is, what state it is in, and what happens when it is used.
+
+### Platform-first
+
+Build on the element that already carries the semantics and behavior. Use `button` for actions, `a href` for navigation, `form` for submission, `input` and `select` for entry, `table` for records, `dialog` for overlays, and `details` with `summary` for disclosure. A `div` with a click handler is not a control.
+
+CSS owns presentation, and native HTML owns the behavior and state the platform can express. Script is justified only for behavior the platform cannot express; before adding a script or dependency, state the native capability that was rejected and why, and record a lasting exception in the Application Profile. Keep native constraint attributes (`required`, `type`, `pattern`, `min`, `max`, `step`) as the validation source of truth; visible messages mirror them.
+
+Each view answers one question and names one primary action; a second, unrelated job belongs on another view. Prefer deleting markup, states, and options to adding them. Core tasks work with scripts disabled wherever the platform allows: links navigate, forms submit, details expand.
+
+### Controls and affordances
+
+- Every control shows its label, its current state, and the result of using it.
+- Actions use plain text labels. Icon-only controls are limited to universally understood, reversible actions and always carry an accessible name; critical workflows never depend on an ambiguous icon.
+- One primary action per view uses `{components.button-primary}` and `{colors.primary}`. Destructive actions use `{components.button-destructive}` and are visually separated from the primary cluster.
+- Disabled controls are unavailable and announced as such. Read-only fields stay focusable, selectable, and visibly marked read-only with the reason. Never use disabled to mean "not allowed yet" without saying what unlocks it.
+- Static text never looks interactive, and no control advertises an action it does not perform.
+
+### Forms
+
+- Labels are always visible and tied to their field; placeholders may show an example but never replace the label. Mark required fields, label optional fields optional, and show an example for format-sensitive fields.
+- Validate on submit with native constraint attributes; every message derives from the constraint and may explain it but never contradict it.
+- Mirror each failure inline beside its field, in the same position every time, and summarize the count above the form. A message says what is wrong and how to fix it.
+- Format-sensitive fields also validate when focus leaves them. Inline mirroring, blur validation, and moving focus to the first invalid field are script exceptions under Platform-first; none of them may duplicate or replace the native constraint.
+- On submit failure, keep every value and focus the first invalid field. Never clear input or move focus to the top of the page.
+- Document disabled and read-only behavior where the field appears. A field that cannot be edited says who can change it and how to request it.
+
+### Records and tables
+
+- Keep the identifier column first and sticky; the row's name or id never scrolls out of view. Use `{components.table-header}` and the shared table components instead of a card grid.
+- Sortable columns expose `aria-sort` on the active header and show direction in text or icon; unsorted columns look unsorted. A sort arrow that does nothing is a defect.
+- Every collection covers empty, loading, error, and no-results. Each state names itself and the next action: create the first record, retry, clear filters, or adjust the query. Loading reserves its final layout with a plain text row, never an animated gradient.
+- Bulk selection uses a header checkbox with an indeterminate state, shows the selected count, and names the scope ("12 of 340 selected"). Bulk actions are labelled with the count, and destructive ones confirm before running.
+- Long values truncate with an ellipsis, keep the full value in the accessible name, and reveal it on focus or hover with a copy affordance. Never truncate the identifier without a way to read it.
+
+### Status and feedback
+
+- The seven semantic roles carry all status meaning. Every status includes text; color, icon, and border are supplementary. A badge without a label is a defect, and users never have to learn a color legend.
+- Success states say what changed and what to do next, not just "Saved". Warning states appear before the consequence. In-progress states name the operation and offer cancel when it is safe.
+- Errors lead with recovery: what failed, what to do next, and what was preserved. Put them inline when they belong to a field, in `{components.error-banner}` when they belong to the view, and never only in a transient toast.
+- Transient messages confirm completed work; anything the user must act on stays until it is resolved or dismissed.
+- Never report success before the server confirms it.
+
+### Navigation and task flow
+
+- Back and cancel are predictable: they return to the previous view with its filters, sort, and position intact, and a dirty form confirms before discarding. Browser back and in-app back do the same thing.
+- Advanced options are collapsed by default, grouped under a labelled disclosure such as `details`, and never hide required fields.
+- Multi-step tasks show position as text ("Step 2 of 4"), preserve entered data on back and reload, offer save and resume for long tasks, and confirm completion with what changed and the next action.
+- Every view has one entry point and one exit, and no dead end: empty, error, and completion states all offer the next step.
+
+### Accessibility baseline
+
+- Every workflow completes with the keyboard alone in a logical tab order, with a visible focus indicator from `{components.focus-rule}`. Do not remove focus outlines; fix the layout instead.
+- Give controls semantic names: every input has a label, every icon button an accessible name, every dialog a title, and every table a caption and scoped headers.
+- Text meets `4.5:1` against its background and control boundaries meet `3:1`. Status never relies on color: pair it with text, and with an icon or border where the role matters.
+- Targets are at least `24px` square and primary touch actions at least `44px`. Text stays readable at `200%` zoom without loss of function or content.
+- Respect reduced-motion preferences and keep motion functional rather than decorative.
+
+### Content
+
+- Label actions by their result: "Save changes", "Delete 3 records", "Export CSV", not "Submit", "OK", or "Yes".
+- Use one term per concept across every view, matching the term used by the API and the records. Define an abbreviation the first time it appears.
+- Microcopy is short and operational: what happened, what it affects, what to do next. Errors do not blame the user and never expose a stack trace or internal code.
+- Use sentence case, no exclamation marks, and no filler. A control's label and its resulting message use the same words.
+
+### Conformance checklist
+
+Review every view against this table; a failing row blocks the change. Record approved exceptions in the Application Profile.
+
+| Check | Passes when |
+| :--- | :--- |
+| Platform fit | Each control uses the native element or attribute that already provides its behavior; any script or dependency has a stated reason. |
+| Form states | Labels are visible, required and optional are marked, inline messages say how to fix the input, and errors preserve every value. |
+| Table states | Empty, loading, error, and no-results each name the state and offer the next action; long values stay readable. |
+| Error recovery | Every failure says what failed, what to do next, and what was preserved. |
+| Keyboard flow | The whole task completes keyboard-only, focus is visible and ordered, and dialogs return focus. |
+| Status clarity | Every status has text and a semantic role; color is supplementary and no legend is required. |
+| Scope | One question and one primary action per view; optional and advanced controls are disclosed, not stacked. |
+
 ## Do's and Don'ts
 
 Do:
@@ -999,7 +1128,7 @@ Do:
 - Use `{colors.border-control}` on every input, select, checkbox, radio, and button boundary.
 - Use `{colors.surface-tinted}` to alternate rows and separate secondary panels.
 - Set body and cell text in `{typography.body-md}` and numeric columns in `{typography.numeric-md}`.
-- Keep spacing on the `{spacing.xxs}` through `{spacing.3xl}` scale.
+- Keep spacing on the `{spacing.xxs}` through `{spacing.3xl}` scale, and use `{spacing.touch}` for touch targets.
 - Verify keyboard order, visible focus, and 200% zoom before shipping a view.
 - Name every status with text and a role, not color alone.
 - Use a native dialog for overlays and return focus when it closes.

@@ -2,9 +2,11 @@
 
 .t128n-page {
   box-sizing: border-box;
-  width: min(calc(100% - var(--space-3xl)), 1120px);
+  width: 100%;
+  max-width: calc(1120px + 2 * var(--space-3xl));
   margin-inline: auto;
   padding-block: var(--space-xl);
+  padding-inline: max(var(--space-xl), env(safe-area-inset-left)) max(var(--space-xl), env(safe-area-inset-right));
   display: grid;
   gap: var(--space-lg);
 }
@@ -27,11 +29,11 @@
 }
 
 .t128n-grid--2 {
-  --t128n-columns: 2;
+  --t128n-columns: 1;
 }
 
 .t128n-grid--3 {
-  --t128n-columns: 3;
+  --t128n-columns: 1;
 }
 
 .t128n-grid__full {
@@ -41,12 +43,14 @@
 .t128n-app-shell {
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
   grid-template-areas:
-    'header header'
-    'nav main';
+    'header'
+    'main'
+    'nav';
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .t128n-app-shell__header {
@@ -56,7 +60,7 @@
 .t128n-app-shell__nav {
   grid-area: nav;
   min-width: 0;
-  border-right: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border);
 }
 
 .t128n-app-shell__main {
@@ -98,7 +102,7 @@
 .t128n-split {
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-lg);
   min-height: 0;
 }
@@ -106,8 +110,10 @@
 .t128n-record {
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
-  grid-template-areas: 'meta body';
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'meta'
+    'body';
   gap: var(--space-lg);
 }
 
@@ -124,7 +130,7 @@
 .t128n-form-grid {
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-md);
 }
 
@@ -144,50 +150,78 @@
   gap: var(--space-xs);
 }
 
-@media (max-width: 1024px) {
+.t128n-table-scroll {
+  --t128n-table-min: 44rem;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.t128n-table-scroll > table {
+  min-width: var(--t128n-table-min);
+}
+
+.t128n-table-scroll--pin-first > table > * > tr > :first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--color-surface);
+}
+
+.t128n-table-scroll--pin-first > table > thead > tr > :first-child {
+  background: var(--color-surface-header);
+}
+
+@media (min-width: 640px) {
   .t128n-grid--3 {
     --t128n-columns: 2;
   }
 }
 
-@media (max-width: 800px) {
+@media (min-width: 800px) {
   .t128n-page {
-    width: min(calc(100% - var(--space-xl)), 1120px);
-    padding-block: var(--space-lg);
+    padding-inline: max(var(--space-3xl), env(safe-area-inset-left)) max(var(--space-3xl), env(safe-area-inset-right));
   }
 
   .t128n-grid--2 {
-    --t128n-columns: 1;
+    --t128n-columns: 2;
   }
 
   .t128n-app-shell {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-columns: 220px minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
     grid-template-areas:
-      'header'
-      'main'
-      'nav';
+      'header header'
+      'nav main';
   }
 
   .t128n-app-shell__nav {
-    border-top: 1px solid var(--color-border);
-    border-right: 0;
+    border-top: 0;
+    border-right: 1px solid var(--color-border);
   }
 
-  .t128n-split,
-  .t128n-record {
-    grid-template-columns: minmax(0, 1fr);
+  .t128n-split {
+    grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
   }
 
   .t128n-record {
-    grid-template-areas:
-      'meta'
-      'body';
+    grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+    grid-template-areas: 'meta body';
+  }
+
+  .t128n-form-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .t128n-table-scroll--pin-first > table > * > tr > :first-child {
+    position: static;
   }
 }
 
-@media (max-width: 640px) {
+@media (min-width: 1024px) {
   .t128n-grid--3 {
-    --t128n-columns: 1;
+    --t128n-columns: 3;
   }
 }

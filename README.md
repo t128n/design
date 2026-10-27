@@ -82,7 +82,8 @@ The generated CSS variables are:
 - `--color-<name>` for light colors, e.g. `var(--color-primary)` or
   `var(--color-surface)`.
 - `--font-<type>` and `--text-<type>-size|weight|line-height|letter-spacing|font-feature`.
-- `--space-<name>` for spacing.
+- `--space-<name>` for spacing, including `--space-touch` (44px) for touch
+  targets.
 - `--radius-<name>` for corners.
 
 `:root` carries the light values and `color-scheme: light`. There are no
@@ -97,8 +98,9 @@ commit the regenerated artifacts.
 ## Layouts
 
 `dist/layouts.css` provides the shared page skeletons. It is generated from the
-canonical block in `DESIGN.md`. The skeletons use the token spacing and border
-variables, and they collapse at `800px`:
+canonical block in `DESIGN.md`. The skeletons are mobile-first: the phone
+composition is the base, and `min-width` upgrades add columns and restore
+desktop density. They use the token spacing and border variables.
 
 ```html
 <div class="t128n-app-shell">
@@ -114,7 +116,8 @@ variables, and they collapse at `800px`:
 
 Available: `t128n-page`, `t128n-grid` with `t128n-grid--1/2/3` and
 `t128n-grid__full`, `t128n-app-shell`, `t128n-register`, `t128n-split`,
-`t128n-record`, `t128n-form-grid`, `t128n-stack`, and `t128n-cluster`.
+`t128n-record`, `t128n-form-grid`, `t128n-stack`, `t128n-cluster`,
+`t128n-table-scroll`, and `t128n-table-scroll--pin-first`.
 See `DESIGN.md` for the grid definitions.
 
 Equal-column example:
@@ -128,12 +131,35 @@ Equal-column example:
 ```
 
 Override `--t128n-columns` or `--t128n-gap` on the grid element for a one-off
-composition. Three columns step down to two at `1024px` and one at `640px`;
-two columns step down to one at `800px`.
+composition. Equal-column grids start at one column: three-column grids become
+two at `640px` and three at `1024px`; two-column grids split at `800px`.
 
 Bare skeletons for every layout live in
 [preview/pages/](preview/pages/) and are deployed at
 [t128n.github.io/design/pages/](https://t128n.github.io/design/pages/).
+
+### Mobile
+
+Phones are the base viewport, not a fallback. The stylesheets are mobile-first:
+import both as above and compose the single-column layout first. The
+breakpoints are `min-width` values at `640px`, `800px`, and `1024px`, and no
+component relies on a desktop-first `max-width` override.
+
+- Page gutters are `--space-xl` (16px) at the base and `--space-3xl` (32px)
+  from `800px`, using `max()` with `env(safe-area-inset-left)` and
+  `env(safe-area-inset-right)` so content clears notches and rounded corners.
+- Interactive targets — buttons, inputs, icon buttons, row actions, and
+  navigation links — are at least `--space-touch` (44px) tall on phones.
+  Desktop `28px` control geometry returns at `800px`.
+- App shells use `100dvh` with a `100vh` fallback so mobile browser chrome
+  cannot clip content.
+- Record tables stay tables. Wrap them in `t128n-table-scroll` with an
+  explicit minimum width, and add `t128n-table-scroll--pin-first` to keep the
+  identifier column visible while the rest scrolls horizontally below
+  `800px`. Never replace a record table with a card grid.
+
+Run the preview on a phone-sized viewport to check gutters, touch targets, and
+table scrolling before shipping a layout change.
 
 ## Agent skills
 

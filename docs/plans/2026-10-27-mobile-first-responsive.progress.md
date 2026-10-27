@@ -1,0 +1,35 @@
+- start f6a0266
+- orchestrator: AI (user chose hands-off)
+- tests full passed=1 failed=0 skipped=0 seconds=4.1
+- tests full passed=1 failed=0 skipped=0 seconds=4.1
+- tests full passed=39 failed=1 skipped=0 seconds=4.1
+- tests full passed=1 failed=0 skipped=0 seconds=4.2
+- tests fast passed=0 failed=1 skipped=0 seconds=0.3
+- tests fast passed=1 failed=0 skipped=0 seconds=0.0
+- tests fast passed=1 failed=0 skipped=0 seconds=0.3
+- commit T1 6292630d0c Mobile tokens and DESIGN contract
+- commit T2 769f57215b Mobile-first layouts
+- tests fast passed=1 failed=0 skipped=0 seconds=0.4
+- tests fast passed=1 failed=0 skipped=0 seconds=0.3
+- tests fast passed=1 failed=0 skipped=0 seconds=0.0
+- commit T2 20d900b3ed Mobile-first layouts
+- commit T3 e69602652e Mobile-first preview component sheet
+- tests fast passed=1 failed=0 skipped=0 seconds=0.1
+- tests fast passed=1 failed=0 skipped=0 seconds=0.0
+- tests fast passed=1 failed=0 skipped=0 seconds=0.3
+- tests full passed=1 failed=0 skipped=0 seconds=4.5
+- tests fast passed=1 failed=0 skipped=0 seconds=0.0
+- commit T3 954a8e4b05 Mobile-first preview component sheet
+- commit T4 a6726e994e Mobile preview markup and pages
+- tests fast passed=1 failed=0 skipped=0 seconds=0.0
+- tests fast passed=1 failed=0 skipped=0 seconds=0.0
+- tests fast passed=1 failed=0 skipped=0 seconds=0.0
+- tests fast passed=1 failed=0 skipped=0 seconds=0.1
+- commit T4 e00e6e864d Mobile preview markup and pages
+- commit T5 f3abe78fc1 Mobile docs and changelog
+- tests fast passed=1 failed=0 skipped=0 seconds=0.1
+- tests fast passed=0 failed=1 skipped=0 seconds=0.1
+- tests fast passed=1 failed=0 skipped=0 seconds=0.0
+- tests fast passed=1 failed=0 skipped=0 seconds=3.8
+- commit T5 d903a1f635 Mobile docs and changelog
+- tests full passed=1 failed=0 skipped=0 seconds=4.1

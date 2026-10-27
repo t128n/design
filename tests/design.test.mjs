@@ -20,6 +20,7 @@ const SECTIONS = [
   'Shapes',
   'Iconography',
   'Components',
+  'Interaction Standards',
   "Do's and Don'ts",
 ];
 
@@ -168,7 +169,7 @@ test('token counts', async () => {
   assert.equal(tokens.version, 'alpha');
   assert.equal(Object.keys(tokens.colors).length, 60);
   assert.equal(Object.keys(tokens.typography).length, 9);
-  assert.equal(Object.keys(tokens.spacing).length, 8);
+  assert.equal(Object.keys(tokens.spacing).length, 9);
   assert.equal(Object.keys(tokens.rounded).length, 3);
   assert.equal(Object.keys(tokens.components).length, 72);
 });
@@ -185,8 +186,20 @@ test('layout and shape tokens', async () => {
     xl: '16px',
     '2xl': '24px',
     '3xl': '32px',
+    touch: '44px',
   });
   assert.deepEqual(rounded, { none: '0px', sm: '2px', md: '3px' });
+});
+
+test('mobile token and contract', async () => {
+  const { spacing } = await readTokens();
+  assert.equal(spacing.touch, '44px');
+  const { body } = splitFrontMatter(await readDesign());
+  for (const text of ['### Mobile and touch', '44px', '640px', '800px', '1024px', 'safe-area-inset', 't128n-table-scroll', '100dvh']) {
+    assert.ok(body.includes(text), `DESIGN.md is missing ${text}`);
+  }
+  const dist = await readFile(path.join(root, 'dist/tokens.css'), 'utf8');
+  assert.match(dist, /:root \{[\s\S]*?--space-touch: 44px;/);
 });
 
 test('secondary button typography', async () => {
