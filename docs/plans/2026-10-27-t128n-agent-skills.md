@@ -113,7 +113,7 @@ critical path: T1 → T2 (6.1 min) · peak width 6 · predicted build 6.1 min ·
 **Tests:** fast
 **Kind:** design
 **Model:** sonnet
-**Produces:** `readLayoutCss(markdown: string) -> string` · `renderLayoutsCss(markdown: string) -> string` · CLI writes `dist/layouts.css`; `DESIGN.md` Layout section carries the canonical CSS between the markers; root `layouts.css` deleted.
+**Produces:** `scripts/build.mjs`: `readLayoutCss(markdown: string) -> string` · `renderLayoutsCss(markdown: string) -> string` · CLI writes `dist/layouts.css`; `DESIGN.md` Layout section carries the canonical CSS between the markers; root `layouts.css` deleted.
 e.g. `readLayoutCss(md with one css fence) -> exact fence body`; `renderLayoutsCss(md) -> generated header + that body`.
 **Review Focus:** deep: extraction returns exact fence bytes, including trailing newline, and is idempotent. state: a missing marker or more than one block throws a named error; the generator never reads root `layouts.css`. encoding: the artifact starts with the generated header and contains no marker comments. file: the root file is gone.
 **Named tests:** `extracts exact block`: fixture returns the fence body byte for byte. `missing markers throw`: markdown without markers throws `/t128n:layouts:start/`. `two blocks throw`: two blocks between markers throws `/ambiguous/`. `writes both artifacts`: `bun run build` leaves both files and the layout header. `artifact matches source`: `readFile("dist/layouts.css") == renderLayoutsCss(readFile("DESIGN.md"))`.
@@ -163,7 +163,7 @@ e.g. `readLayoutCss(md with one css fence) -> exact fence body`; `renderLayoutsC
 **Tests:** fast
 **Kind:** design
 **Model:** sonnet
-**Produces:** `auditCss(source: string) -> Finding[]` where `Finding = { rule, line, severity, message }` and severity is `error` or `warning`; CLI prints JSON and exits 1 when any error exists.
+**Produces:** `skills/t128n-ui-review/scripts/audit-css.mjs`: `auditCss(source: string) -> Finding[]` where `Finding = { rule, line, severity, message }` and severity is `error` or `warning`; CLI prints JSON and exits 1 when any error exists.
 e.g. `auditCss(".x { box-shadow: 0 1px 2px #000; }") -> no-shadow and no-hardcoded-color at line 1`; `auditCss(".x { border-radius: 3px; }") -> []`.
 **Review Focus:** deep: line numbers match the source. numeric: radius above `3px` and font size below `12px` are errors; the boundary values pass. encoding: comments ignored; hex colors, gradients, blur, and shadows are errors; JSON is valid and exit 1 only for errors.
 **Named tests:** `flags banned patterns`: fixture with shadow, gradient, blur, `border-radius: 8px`, `font-size: 10px`, and `#123456` returns six findings with the right rules and lines. `allows boundaries`: `border-radius: 3px` and `font-size: 12px` return `[]`. `cli exits`: an error fixture exits 1 with a JSON array.
