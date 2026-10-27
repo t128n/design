@@ -32,6 +32,14 @@ function checklistRows(checklist) {
     .map((line) => line.split('|').map((cell) => cell.trim()).filter(Boolean));
 }
 
+function checklistSection(checklist, heading) {
+  const start = checklist.indexOf(`## ${heading}`);
+  assert.ok(start >= 0, `checklist has no "${heading}" section`);
+  const rest = checklist.slice(start + `## ${heading}`.length);
+  const end = rest.indexOf('\n## ');
+  return end === -1 ? rest : rest.slice(0, end);
+}
+
 test('review skill is actionable', async () => {
   assert.ok(existsSync(path.join(root, skillFile)), `${skillFile} is missing`);
   assert.ok(existsSync(path.join(root, checklistFile)), `${checklistFile} is missing`);
@@ -136,6 +144,38 @@ test('checklist covers integrity tells status roles and themes', async () => {
 
   for (const theme of ['data-theme="dark"', 'prefers-color-scheme']) {
     assert.ok(checklist.includes(theme), `theme case "${theme}" is not covered`);
+  }
+});
+
+test('integrity tells section is exactly R1-R6 with all six tells named', async () => {
+  const section = checklistSection(await readText(checklistFile), 'Integrity tells');
+  const rows = section
+    .split('\n')
+    .filter((line) => /^\|\s*R\d+\s*\|/.test(line))
+    .map((line) => line.split('|').map((cell) => cell.trim()).filter(Boolean));
+
+  assert.deepEqual(
+    rows.map((cells) => cells[0]),
+    ['R1', 'R2', 'R3', 'R4', 'R5', 'R6'],
+    'the Integrity tells section must hold exactly R1-R6',
+  );
+
+  const tells = {
+    R1: ['bento'],
+    R2: ['shadow', 'glass', 'glow'],
+    R3: ['orphaned', 'micro-element'],
+    R4: ['vestigial', 'dead sort'],
+    R5: ['happy-path'],
+    R6: ['sparkle icon'],
+  };
+
+  for (const [id, keywords] of Object.entries(tells)) {
+    const cells = rows.find((cells) => cells[0] === id);
+    assert.ok(cells, `integrity tell ${id} is missing`);
+    const rule = [cells[1], cells[2]].join(' ').toLowerCase();
+    for (const keyword of keywords) {
+      assert.ok(rule.includes(keyword), `integrity tell ${id} does not name "${keyword}"`);
+    }
   }
 });
 
