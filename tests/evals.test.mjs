@@ -91,6 +91,16 @@ test('fixture is broken', async () => {
     /display:\s*grid[\s\S]*grid-template-columns/,
     'the card-grid marker must sit next to the collapsing grid rule',
   );
+  const shadowLine = html
+    .split('\n')
+    .find((line) => line.includes('box-shadow'));
+  assert.ok(shadowLine, 'the fixture must carry a shadow declaration');
+  assert.doesNotMatch(
+    shadowLine,
+    /#[0-9a-f]{3,8}\b|rgba?\(/i,
+    'the shadow must not add a second hard-coded color violation',
+  );
+
   assert.match(html, /class="status-color-only" aria-hidden="true"/, 'the status dot must carry no text');
   assert.match(html, /<th aria-sort="ascending">/, 'the dead sort must expose an aria-sort state');
   assert.doesNotMatch(html, /addEventListener|onclick=/, 'the fixture controls must be dead');
