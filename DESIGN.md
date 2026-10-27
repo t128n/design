@@ -707,7 +707,7 @@ Radius is limited to `{rounded.none}`, `{rounded.sm}`, and `{rounded.md}`. There
 
 ### Standard Layouts
 
-`layouts.css` provides the shared CSS grid templates. Import it after `dist/tokens.css`. Applications may compose these classes, but should not replace them with a different page skeleton.
+`dist/layouts.css` is the generated artifact that provides the shared CSS grid templates. It is built from the fenced block below; edit the block here, never the generated file. Import it after `dist/tokens.css`. Applications may compose these classes, but should not replace them with a different page skeleton.
 
 | Class | Grid | Use |
 | :--- | :--- | :--- |
@@ -728,6 +728,202 @@ The app shell collapses its navigation below `main` at `800px`. Split and record
 Equal-column grids collapse predictably: three columns become two at `1024px` and one at `640px`; two columns become one at `800px`. Override `--t128n-columns` or `--t128n-gap` on the grid element for a one-off composition.
 
 Bare skeletons for every template live under `preview/pages/` and deploy at `/pages/` in the preview.
+
+<!-- t128n:layouts:start -->
+```css
+.t128n-page {
+  box-sizing: border-box;
+  width: min(calc(100% - var(--space-3xl)), 1120px);
+  margin-inline: auto;
+  padding-block: var(--space-xl);
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.t128n-grid {
+  --t128n-columns: 1;
+  --t128n-gap: var(--space-md);
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(var(--t128n-columns), minmax(0, 1fr));
+  gap: var(--t128n-gap);
+}
+
+.t128n-grid > * {
+  min-width: 0;
+}
+
+.t128n-grid--1 {
+  --t128n-columns: 1;
+}
+
+.t128n-grid--2 {
+  --t128n-columns: 2;
+}
+
+.t128n-grid--3 {
+  --t128n-columns: 3;
+}
+
+.t128n-grid__full {
+  grid-column: 1 / -1;
+}
+
+.t128n-app-shell {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-areas:
+    'header header'
+    'nav main';
+  min-height: 100vh;
+}
+
+.t128n-app-shell__header {
+  grid-area: header;
+}
+
+.t128n-app-shell__nav {
+  grid-area: nav;
+  min-width: 0;
+  border-right: 1px solid var(--color-border);
+}
+
+.t128n-app-shell__main {
+  grid-area: main;
+  min-width: 0;
+}
+
+.t128n-register {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    'header'
+    'toolbar'
+    'body'
+    'footer';
+  gap: var(--space-md);
+  min-height: 0;
+}
+
+.t128n-register__header {
+  grid-area: header;
+}
+
+.t128n-register__toolbar {
+  grid-area: toolbar;
+}
+
+.t128n-register__body {
+  grid-area: body;
+  min-width: 0;
+  min-height: 0;
+}
+
+.t128n-register__footer {
+  grid-area: footer;
+}
+
+.t128n-split {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+  gap: var(--space-lg);
+  min-height: 0;
+}
+
+.t128n-record {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+  grid-template-areas: 'meta body';
+  gap: var(--space-lg);
+}
+
+.t128n-record__meta {
+  grid-area: meta;
+  min-width: 0;
+}
+
+.t128n-record__body {
+  grid-area: body;
+  min-width: 0;
+}
+
+.t128n-form-grid {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-md);
+}
+
+.t128n-form-grid__wide {
+  grid-column: 1 / -1;
+}
+
+.t128n-stack {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.t128n-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+@media (max-width: 1024px) {
+  .t128n-grid--3 {
+    --t128n-columns: 2;
+  }
+}
+
+@media (max-width: 800px) {
+  .t128n-page {
+    width: min(calc(100% - var(--space-xl)), 1120px);
+    padding-block: var(--space-lg);
+  }
+
+  .t128n-grid--2 {
+    --t128n-columns: 1;
+  }
+
+  .t128n-app-shell {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-areas:
+      'header'
+      'main'
+      'nav';
+  }
+
+  .t128n-app-shell__nav {
+    border-top: 1px solid var(--color-border);
+    border-right: 0;
+  }
+
+  .t128n-split,
+  .t128n-record {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .t128n-record {
+    grid-template-areas:
+      'meta'
+      'body';
+  }
+}
+
+@media (max-width: 640px) {
+  .t128n-grid--3 {
+    --t128n-columns: 1;
+  }
+}
+```
+<!-- t128n:layouts:end -->
 
 ## Elevation & Depth
 
