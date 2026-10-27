@@ -82,5 +82,40 @@ test('docs describe the system', async () => {
 
   const changelog = await readText('CHANGELOG.md');
   assert.match(changelog, /^#\s*Changelog\s*$/m);
-  assert.ok(/^## \[?0\.1\.0\]?/m.test(changelog), 'CHANGELOG does not start at 0.1.0');
+  assert.ok(/^## \[?0\.1\.0\]?/m.test(changelog), 'CHANGELOG does not contain the 0.1.0 release');
+});
+
+test('docs describe mobile-first behavior', async () => {
+  const readme = await readText('README.md');
+  const layouts = readme.match(/^## Layouts\n([\s\S]*?)(?=^## )/m);
+  assert.ok(layouts, 'README is missing the Layouts section');
+  assert.match(layouts[1], /^### Mobile$/m, '### Mobile is not under ## Layouts');
+  assert.doesNotMatch(readme, /^## Mobile$/m, 'README adds a ## Mobile heading');
+
+  const mobile = layouts[1].slice(layouts[1].indexOf('### Mobile'));
+  for (const text of ['mobile-first', '44px', '16px', '640px', '800px', '1024px', 'safe-area', 't128n-table-scroll', '--space-touch']) {
+    assert.ok(mobile.includes(text), `README's Mobile section is missing ${text}`);
+  }
+
+  const ladder = mobile.match(/`min-width` values at `(\d+)px`, `(\d+)px`, and `(\d+)px`/);
+  assert.ok(ladder, 'README does not state the min-width breakpoint ladder');
+  const breakpoints = (css) => [...new Set([...css.matchAll(/@media \(min-width: (\d+)px\)/g)].map((m) => Number(m[1])))].sort((a, b) => a - b);
+  const [layoutsCss, previewCss] = await Promise.all([
+    readText('layouts.css'),
+    readText('preview/src/app.css'),
+  ]);
+  const documented = ladder.slice(1).map(Number);
+  assert.deepEqual(documented, breakpoints(layoutsCss), 'README breakpoints do not match layouts.css');
+  for (const width of breakpoints(previewCss)) {
+    assert.ok(documented.includes(width), `README does not document the preview ${width}px breakpoint`);
+  }
+
+  const changelog = await readText('CHANGELOG.md');
+  const unreleased = changelog.indexOf('## [Unreleased]');
+  const release = changelog.indexOf('## [0.1.0]');
+  assert.ok(unreleased >= 0, 'CHANGELOG is missing ## [Unreleased]');
+  assert.match(changelog, /^## \[Unreleased\]$/m, 'CHANGELOG is missing an Unreleased section');
+  assert.ok(unreleased < release, '## [Unreleased] must precede ## [0.1.0]');
+  const versions = [...changelog.matchAll(/^## \[([^\]]+)\]/gm)].map((m) => m[1]);
+  assert.deepEqual(versions, ['Unreleased', '0.1.0'], 'CHANGELOG claims an unreleased version');
 });

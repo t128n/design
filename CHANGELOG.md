@@ -4,6 +4,27 @@ All notable changes to the t128n design system are recorded here. The format
 follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- `spacing.touch` (`--space-touch: 44px`) and a `Mobile and touch` contract in
+  `DESIGN.md`: mobile-first breakpoints, page gutters, safe-area insets, and
+  table scrolling.
+- `.t128n-table-scroll` and `.t128n-table-scroll--pin-first` in `layouts.css`
+  for record tables that scroll horizontally while the identifier stays
+  visible.
+
+### Changed
+
+- `layouts.css` is mobile-first: the one-column phone composition is the base,
+  with `min-width` upgrades at `640px`, `800px`, and `1024px`.
+- The preview is mobile-native: 44px controls, 16px page gutters, a
+  bottom-sheet dialog, a scrolling layout nav, and stacked form actions, with
+  desktop geometry returning at `800px`.
+- README documents the mobile-first composition, touch targets, safe-area
+  insets, and `t128n-table-scroll`.
+
 ## [0.1.0] - 2026-10-26
 
 ### Added

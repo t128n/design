@@ -60,3 +60,19 @@ test('every layout page has a real Vite entry', async () => {
     assert.match(html, /src="\/src\/pages\/main\.js"/);
   }
 });
+
+test('preview pages are mobile-native', async () => {
+  const app = await readText('preview/src/App.svelte');
+  const css = await readText('preview/src/pages/pages.css');
+  assert.match(app, /t128n-table-scroll t128n-table-scroll--pin-first/);
+  assert.doesNotMatch(css, /@media \(max-width/);
+  assert.match(css, /\.layout-nav \{[\s\S]*?flex-wrap: nowrap/);
+  assert.match(css, /\.layout-nav a \{[\s\S]*?min-height: var\(--space-touch\)/);
+  assert.match(css, /@media \(min-width: 800px\)[\s\S]*?\.layout-nav \{[\s\S]*?flex-wrap: wrap/);
+  for (const file of ['preview/index.html', 'preview/pages/index.html', ...layouts.map((layout) => `preview/pages/${layout.slug}/index.html`)]) {
+    const html = await readText(file);
+    assert.match(html, /name="viewport" content="[^"]*viewport-fit=cover/);
+    assert.match(html, /name="color-scheme" content="light dark"/);
+    assert.doesNotMatch(html, /style="color-scheme/, `${file} must not override the theme color-scheme inline`);
+  }
+});

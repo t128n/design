@@ -119,6 +119,7 @@ spacing:
   xl: 16px
   2xl: 24px
   3xl: 32px
+  touch: 44px
 rounded:
   none: 0px
   sm: 2px
@@ -690,7 +691,7 @@ No text may fall below `12px`. Body copy and table data use `{typography.body-md
 
 ## Layout
 
-Layout follows a record-first, fixed-density model. Content sits in a single main column or in a table that fills the available width. Panels use flat surfaces and spacing, not cards. At narrow widths, tables keep their record structure: preserve the identifier column and horizontal scroll rather than replacing the table with a card grid.
+Layout follows a record-first, fixed-density model composed mobile-first. The phone composition is the default: one column, real page gutters, and full-width touch targets. Content sits in a single main column or in a table that fills the available width; columns are added with `min-width` upgrades, never removed with `max-width` patches. Panels use flat surfaces and spacing, not cards. At narrow widths, tables keep their record structure: preserve the identifier column and horizontal scroll rather than replacing the table with a card grid.
 
 | Token | Value | Use |
 | :--- | :--- | :--- |
@@ -699,11 +700,22 @@ Layout follows a record-first, fixed-density model. Content sits in a single mai
 | `sm` | `6px` | Table cell padding |
 | `md` | `8px` | Default gap between related elements |
 | `lg` | `12px` | Panel and dialog padding |
-| `xl` | `16px` | Section gap |
-| `2xl` | `24px` | Page gutter, major section break |
-| `3xl` | `32px` | Page top and bottom margin |
+| `xl` | `16px` | Mobile page gutter, section gap |
+| `2xl` | `24px` | Dialog inset, major section break |
+| `3xl` | `32px` | Desktop page gutter, page top and bottom margin |
+| `touch` | `44px` | Minimum touch target on phones |
 
 Radius is limited to `{rounded.none}`, `{rounded.sm}`, and `{rounded.md}`. There is no radius above `3px`, no pill shape, and no card grid that replaces a record table at narrow widths.
+
+### Mobile and touch
+
+Phones are the base viewport, not a fallback. Compose the single-column layout first and add columns with `min-width` upgrades at `640px`, `800px`, and `1024px`; never start from a desktop composition and subtract.
+
+- Page gutters are `{spacing.xl}` (16px) at the base and `{spacing.3xl}` (32px) from `800px`, applied with `max()` against `env(safe-area-inset-left)` and `env(safe-area-inset-right)` so content clears notches, rounded corners, and home indicators.
+- Interactive targets — buttons, inputs, icon buttons, row actions, and navigation links — present at least `{spacing.touch}` (44px) at the base. Desktop `28px` control geometry returns at `800px`; a phone never gets a target smaller than the touch size.
+- App shells and full-height panes use `100dvh` with a `100vh` fallback so mobile browser chrome cannot clip content.
+- Record tables stay tables. Wrap them in `.t128n-table-scroll` with an explicit minimum width, and add `.t128n-table-scroll--pin-first` to keep the identifier column visible below `800px`. Horizontal scroll is the mobile behavior; a card grid is not.
+- Type stays on the nine scales above, with no reading text below `12px`. The mobile fix is composition, padding, gutters, and target size — never a smaller type scale.
 
 ### Standard Layouts
 
@@ -711,7 +723,7 @@ Radius is limited to `{rounded.none}`, `{rounded.sm}`, and `{rounded.md}`. There
 
 | Class | Grid | Use |
 | :--- | :--- | :--- |
-| `t128n-page` | Centered `min(1120px, 100%)`, vertical grid with `lg` gap | Page frame |
+| `t128n-page` | Centered `calc(1120px + 2 * 32px)` frame with `16px` mobile gutters | Page frame |
 | `t128n-grid` | `repeat(var(--t128n-columns), minmax(0, 1fr))`, gap `--t128n-gap` | Equal-column content grid |
 | `t128n-grid--1` / `--2` / `--3` | Sets `--t128n-columns` | One, two, or three equal columns |
 | `t128n-grid__full` | `grid-column: 1 / -1` | Span the full grid |
@@ -722,10 +734,12 @@ Radius is limited to `{rounded.none}`, `{rounded.sm}`, and `{rounded.md}`. There
 | `t128n-form-grid` | `repeat(auto-fit, minmax(220px, 1fr))` | Forms with aligned fields |
 | `t128n-stack` | Vertical grid with `md` gap | Stacked sections and state panels |
 | `t128n-cluster` | Wrapping flex row with `xs` gap | Toolbars, actions, badges |
+| `t128n-table-scroll` | Horizontal scroll container with a `44rem` minimum table width | Wide record tables on phones |
+| `t128n-table-scroll--pin-first` | Sticky first cell with a `{colors.surface}` background below `800px` | Keeps the identifier visible while scrolling |
 
-The app shell collapses its navigation below `main` at `800px`. Split and record layouts stack at `800px`; form grids collapse by available width. Record tables keep their identifier column and scroll horizontally rather than becoming cards.
+The app shell is a single column at the phone base and splits into `220px` navigation plus main at `800px`. Split and record layouts stack below `800px`; form grids stay one column until `800px`. Record tables keep their identifier column and scroll horizontally rather than becoming cards.
 
-Equal-column grids collapse predictably: three columns become two at `1024px` and one at `640px`; two columns become one at `800px`. Override `--t128n-columns` or `--t128n-gap` on the grid element for a one-off composition.
+Equal-column grids start at one column and add width: three-column grids become two at `640px` and three at `1024px`; two-column grids split at `800px`. Override `--t128n-columns` or `--t128n-gap` on the grid element for a one-off composition.
 
 Bare skeletons for every template live under `preview/pages/` and deploy at `/pages/` in the preview.
 
@@ -761,7 +775,7 @@ Icons come from **Octicons** (`@primer/octicons`), the 16px GitHub set. Carbon i
 | Status badge | Text label first; an icon may supplement but never replace it |
 | Decorative | `aria-hidden="true"` |
 
-Do not use icon fonts, emoji as controls, or color-only icons. Do not hand-draw an icon when Octicons has the glyph. An icon button always has an accessible name, and its target is at least `24px` square.
+Do not use icon fonts, emoji as controls, or color-only icons. Do not hand-draw an icon when Octicons has the glyph. An icon button always has an accessible name, and its target is at least `{spacing.touch}` square on phones and `28px` square on desktop.
 
 ## Components
 
@@ -769,7 +783,7 @@ Components are defined as tokens rather than as a library. Each component record
 
 ### Buttons
 
-Buttons are `28px` tall with `4px` padding, `{rounded.md}`, and `{typography.label-md}`, except `button-secondary` and `button-secondary-disabled`, which use `{typography.body-md}`; their hover states return to `{typography.label-md}`. Primary actions use `{components.button-primary}` and darken to `{components.button-primary-hover}`. Secondary actions use `{components.button-secondary}`. Destructive actions use `{components.button-destructive}` and its hover state. Disabled buttons use the disabled state pair and keep their label visible. Touch surfaces use at least `44px` for primary actions.
+Buttons are `28px` tall with `4px` padding, `{rounded.md}`, and `{typography.label-md}`, except `button-secondary` and `button-secondary-disabled`, which use `{typography.body-md}`; their hover states return to `{typography.label-md}`. Primary actions use `{components.button-primary}` and darken to `{components.button-primary-hover}`. Secondary actions use `{components.button-secondary}`. Destructive actions use `{components.button-destructive}` and its hover state. Disabled buttons use the disabled state pair and keep their label visible. On phones buttons are at least `{spacing.touch}` tall; the `28px` geometry returns at `800px`.
 
 ### Inputs and fields
 
@@ -777,7 +791,7 @@ Inputs are `28px` tall with `4px` padding and `{rounded.sm}`. The default field 
 
 ### Tables
 
-Tables are the primary record surface. Cells use `{components.table-cell}` and alternate with `{components.table-cell-alt}`. Selected rows use `{components.table-row-selected}`. Numeric columns use `{components.table-numeric}` with tabular figures. Headers use `{components.table-header}` with `{typography.label-md}`, `6px` padding, and a `32px` height. Row and outer boundaries use `{components.control-rule}` so the structural rule meets `3:1`; keep a stable identifier column and never collapse a record table into a card grid.
+Tables are the primary record surface. Cells use `{components.table-cell}` and alternate with `{components.table-cell-alt}`. Selected rows use `{components.table-row-selected}`. Numeric columns use `{components.table-numeric}` with tabular figures. Headers use `{components.table-header}` with `{typography.label-md}`, `6px` padding, and a `32px` height; below `800px` the header grows to `{spacing.touch}` and cells pad to `12px` inside `.t128n-table-scroll`. Row and outer boundaries use `{components.control-rule}` so the structural rule meets `3:1`; keep a stable identifier column and never collapse a record table into a card grid.
 
 ### Status badges
 
@@ -884,7 +898,7 @@ Do:
 - Use `{colors.border-control}` on every input, select, checkbox, radio, and button boundary.
 - Use `{colors.surface-tinted}` to alternate rows and separate secondary panels.
 - Set body and cell text in `{typography.body-md}` and numeric columns in `{typography.numeric-md}`.
-- Keep spacing on the `{spacing.xxs}` through `{spacing.3xl}` scale.
+- Keep spacing on the `{spacing.xxs}` through `{spacing.3xl}` scale, and use `{spacing.touch}` for touch targets.
 - Verify keyboard order, visible focus, and 200% zoom before shipping a view.
 - Name every status with text and a role, not color alone.
 - Use a native dialog for overlays and return focus when it closes.
