@@ -3,7 +3,7 @@
 **Goal:** ship a single, lint-clean DESIGN.md source of truth plus the smallest toolchain that makes it consistent across all t128n web apps: generated light/dark CSS, an Application Profile template, a visual specimen, and CI enforcement.
 **Architecture:** `DESIGN.md` holds all tokens and prose. `scripts/build.mjs` parses its front matter and emits deterministic `dist/tokens.css`; apps consume that file and the profile template. No component library and no publish step.
 **Tech stack:** Node 24, npm, `@google/design.md@0.4.0`, `yaml@2.8.1`, `node:test`, GitHub Actions.
-**Spec path:** `docs/specs/2026-10-26-t128n-design-system.md` (all `§` references below).
+**Spec path:** `DESIGN.md` (all `§` references below).
 **Detail:** contracts. **Target-min:** 8. **Orchestrator:** AI.
 
 ## Global constraints

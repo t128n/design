@@ -123,6 +123,26 @@ test('preview keeps the required structure and avoids rejected treatments', asyn
     css,
     /@media \(min-width: 800px\)[\s\S]*?\.icon-button \{[^}]*width: 28px/,
   );
+  assert.match(
+    css,
+    /\.toolbar \{[\s\S]*?min-height: 36px;[\s\S]*?font-family: var\(--font-label-md\);/,
+  );
+  assert.match(
+    css,
+    /\.button-secondary \{[\s\S]*?font-family: var\(--font-body-md\);[\s\S]*?font-size: var\(--text-body-md-size\);/,
+  );
+  assert.match(
+    css,
+    /\.button-secondary:hover \{[\s\S]*?font-family: var\(--font-label-md\);[\s\S]*?font-size: var\(--text-label-md-size\);/,
+  );
+  assert.match(css, /\.badge \{[^}]*padding: var\(--space-xxs\);/);
+  assert.match(css, /\.th-sort \{[^}]*min-height: 32px/);
+  assert.match(css, /\.row-button \{[^}]*height: 28px/);
+  assert.match(
+    css,
+    /\.icon-button \{[\s\S]*?width: 28px;[\s\S]*?height: 28px;[\s\S]*?border: 1px solid var\(--color-border-control\);[\s\S]*?background: var\(--color-surface\);/,
+  );
+  assert.match(css, /\.tooltip-content \{[^}]*padding: var\(--space-xs\);/);
 
   const radii = [...css.matchAll(/border-radius\s*:\s*([^;}]+)/gi)].map((match) =>
     match[1].trim(),

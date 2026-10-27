@@ -3,7 +3,7 @@
 **Goal:** Make the design system and its preview treat phones as a first-class viewport: mobile-first layout bases, real page gutters, 44px touch targets, readable table scrolling, and mobile-native dialogs and forms.
 **Architecture:** `DESIGN.md` gains a normative mobile contract and one `spacing.touch` token. `layouts.css` becomes a mobile-first base with `min-width` upgrades. The preview consumes those foundations and moves its component geometry to a mobile base plus one desktop override. Docs and tests pin the contract.
 **Tech stack:** Bun 1.4, Svelte 5, Vite 8, bits-ui, generated CSS custom properties.
-**Spec path:** `docs/specs/2026-10-27-mobile-first-responsive.md`.
+**Spec path:** `DESIGN.md` (Layout, Components, Interaction Standards, Do's and Don'ts).
 **Detail:** tests. **Target-min:** 14. **Orchestrator:** AI.
 
 ## Global constraints

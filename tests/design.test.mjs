@@ -20,6 +20,7 @@ const SECTIONS = [
   'Shapes',
   'Iconography',
   'Components',
+  'Interaction Standards',
   "Do's and Don'ts",
 ];
 
