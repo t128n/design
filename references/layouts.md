@@ -1,9 +1,10 @@
 # Layout choice
 
 Choose exactly one skeleton per page and name its selector before writing
-markup. The grid definitions live in the Layout section of `DESIGN.md`; the
-shipped skeleton stylesheet is `dist/layouts.css`. Skeletons compose: a page
-frame holds a shell, a shell holds a register, a register holds a table.
+markup. The grid definitions live in the Layout section of
+`references/DESIGN.md`; the shipped skeleton stylesheet is `assets/layouts.css`.
+Skeletons compose: a page frame holds a shell, a shell holds a register, a
+register holds a table.
 
 ## Decision table
 
@@ -30,9 +31,9 @@ Span a full-width row inside any grid with `.t128n-grid__full`. This is how a
 toolbar or a table sits under an equal-column summary without breaking the
 column count.
 
-Collapse behaviour belongs to `dist/layouts.css` and is described in
-`DESIGN.md`: equal-column grids step down, split and record layouts stack, and
-the shell moves navigation below the main region. Do not add your own
+Collapse behaviour belongs to `assets/layouts.css` and is described in
+`references/DESIGN.md`: equal-column grids step down, split and record layouts
+stack, and the shell moves navigation below the main region. Do not add your own
 breakpoints or widths to reproduce those steps.
 
 Use `preview/pages/` to see the bare skeleton for every row above before you
@@ -58,8 +59,8 @@ selector from the decision table, and the diff uses that selector.
 
 ### L3 Compose skeletons, do not re-implement them
 
-Override only the grid custom properties that `DESIGN.md` documents for a
-one-off composition. Do not restate grid templates in app CSS.
+Override only the grid custom properties that `references/DESIGN.md` documents
+for a one-off composition. Do not restate grid templates in app CSS.
 **Because** re-declaring a skeleton copies the system into the app and the
 copy stops tracking the generated stylesheet. **Verify** the app stylesheet
 contains no grid template or page width of its own, only the documented

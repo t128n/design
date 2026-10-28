@@ -1,27 +1,31 @@
 ---
 name: t128n-ui
-description: "Use when building or changing any interface in a t128n app, including admin consoles, record browsers, audit views, internal dashboards, register tables, record detail screens, forms, and dialogs. Trigger on new pages, added columns, filters, sorting, status badges, empty or error states, and on requests to match the app, make a screen consistent, or restyle a view, even when t128n is not named."
+description: "Build or audit any t128n interface: admin consoles, record browsers, audit views, internal dashboards, register tables, record detail screens, forms, and dialogs. Use for building or changing a view — new pages, added columns, filters, sorting, status badges, empty or error states, or a request to match the app, make a screen consistent, or restyle a view, even when t128n is not named. Also use for design conformance audits, consistency checks across screens, accessibility passes, and sign-off: open the rendered view, run the CSS audit helper, check each rule against observed evidence, and report findings with severity and spec pointers."
 ---
 
 # t128n UI
 
 A t128n view is a working surface for dense operational data. Build it by
 deciding, in order: what kind of screen this is, which layout selector carries
-it, how records and statuses read, and how input and overlays behave. This file is the procedure. The references carry the detail for the
-decision in front of you. `DESIGN.md` carries the norm.
+it, how records and statuses read, and how input and overlays behave. This file
+is the procedure. The references carry the detail for the decision in front of
+you. `references/DESIGN.md` carries the norm.
 
 Link the generated stylesheets and name their tokens. Never copy a value out of
 a source into the app: a second copy is a second source. If a value is missing,
-change `DESIGN.md` and rebuild rather than improvising a local colour, size, or
-radius.
+change `references/DESIGN.md` and rebuild rather than improvising a local
+colour, size, or radius.
+
+This skill has two modes. Building or changing a view is the procedure below.
+Auditing a view that already exists is the review route at the end of this file.
 
 ## Sources
 
 | File | What it is | Open it when |
 | :--- | :--- | :--- |
-| `DESIGN.md` | Normative tokens, rules, layout definitions | Any disagreement about a value or rule |
-| `dist/tokens.css` | Generated variables for both themes | Linking a page, naming a token |
-| `dist/layouts.css` | Generated page skeletons | Building any page frame |
+| `references/DESIGN.md` | Normative tokens, rules, layout definitions | Any disagreement about a value or rule |
+| `assets/tokens.css` | Generated variables for both themes | Linking a page, naming a token |
+| `assets/layouts.css` | Generated page skeletons | Building any page frame |
 | `preview/pages/` | Bare skeleton for every standard layout | Checking the expected structure |
 | `preview/src/pages/` | Working examples with real controls | Copying a pattern, not its values |
 | `references/layouts.md` | Skeleton decision table | Step 2 |
@@ -55,11 +59,11 @@ radius.
 
 ### R1 Link only the generated stylesheets
 
-Load `dist/tokens.css`, then `dist/layouts.css`, and no local palette, theme,
-or type scale. **Because** the artifacts are generated from `DESIGN.md`; a local
-copy drifts silently and defeats every later audit. **Verify** the page head
-names exactly those two stylesheets and the view's own CSS declares no colours,
-font stacks, spacing scale, or radii.
+Load `assets/tokens.css`, then `assets/layouts.css`, and no local palette, theme,
+or type scale. **Because** the artifacts are generated from
+`references/DESIGN.md`; a local copy drifts silently and defeats every later
+audit. **Verify** the page head names exactly those two stylesheets and the
+view's own CSS declares no colours, font stacks, spacing scale, or radii.
 
 ### R2 Keep one accent action per view
 
@@ -148,6 +152,24 @@ theme-specific values. **Because** the generated stylesheet maps dark values
 onto the same token names, so a view that branches on theme will drift from
 the system. **Verify** toggle `data-theme` and compare: same hierarchy, same
 status meanings, and no unreadable text in either.
+
+## Reviewing an existing view
+
+Use this route when the request is a conformance audit, a consistency check
+across screens, an accessibility pass, or a sign-off, rather than building a
+new view. Open `references/review.md` and follow its eight ordered steps; it
+names the evidence rules, the stable report format, and the hard stops. The
+checklist that the report is scored against is `references/checklist.md`
+(R1–R30). Run the static scan with:
+
+```sh
+bun scripts/audit-css.mjs path/to/app.css
+```
+
+The review mode does not restate the design system and does not accept a
+description of a view as evidence: every rule is a test against the rendered
+interface, and `references/DESIGN.md` is the authority, cited rather than
+copied. If the view cannot be rendered or inspected, stop and report BLOCKED.
 
 ## Done
 
