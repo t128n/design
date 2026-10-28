@@ -15,9 +15,9 @@ uses to grade the result.
 
 ## Before you run
 
-Install both skills as described in `../README.md` so the agent can discover
-`t128n-ui` and `t128n-ui-review`. Run the prompts from the repository root so
-the canonical files (`DESIGN.md`, `dist/`, and `preview/`) are available.
+Install the skill as described in `README.md` so the agent can discover
+`t128n-ui`. Run the prompts from the repository root so the canonical files
+(`references/DESIGN.md`, `assets/`, and `preview/`) are available.
 
 Create a workspace outside the repository for every run. Do not write generated
 pages or reports into the checkout:
@@ -30,23 +30,23 @@ mkdir -p /tmp/opencode/t128n-evals/<eval-id>/<condition>
 
 ## With the skill
 
-1. Start a fresh agent session in the repository with both skills installed.
+1. Start a fresh agent session in the repository with the skill installed.
 2. Paste the prompt from `evals.json` unchanged. For a review prompt, keep the
-   named target path; the fixture lives at `fixtures/broken-page.html`.
+   named target path; the fixture lives at `evals/fixtures/broken-page.html`.
 3. Tell the agent to write its page or report to
    `/tmp/opencode/t128n-evals/<eval-id>/with-skill/`.
 4. Save the transcript and the output. Do not coach or revise the prompt.
 
-The build skill should trigger on the build prompts and the review skill on the
-review prompts. Record whether the expected skill actually loaded; a run where
-it did not is a triggering failure, not a design failure.
+The skill should trigger on the build prompts and route to review on the review
+prompts. Record whether the expected mode actually loaded; a run where it did
+not is a triggering failure, not a design failure.
 
 ## Baseline
 
 Repeat the same prompt, model, and workspace layout in a fresh session with the
-skills unavailable — uninstall or hide them for the run. Do not point the agent
-at `DESIGN.md`, `dist/`, `preview/`, or this eval set, and do not add design
-hints. Write the result to the `baseline` condition directory.
+skill unavailable — uninstall or hide it for the run. Do not point the agent
+at `references/DESIGN.md`, `assets/`, `preview/`, or this eval set, and do not
+add design hints. Write the result to the `baseline` condition directory.
 
 Compare the two outputs against the same `expected_output` checks. The point is
 not that the baseline is bad everywhere; it is that the with-skill output clears
@@ -62,15 +62,16 @@ Grade each condition against every bullet in `expected_output`:
 - `n/a` — the check does not apply, with a one-line reason.
 
 For review prompts, grade the report rather than the page: a finding must carry
-severity, evidence, the smallest fix, and the `DESIGN.md` rule it breaks. These
-are the primary checks: a report that lists findings without a `DESIGN.md` rule
-and a smallest fix for each one fails, however many it lists. The broken-page
-fixture contains exactly seven findings, so the count is necessary but not
-sufficient — seven findings with no rule citations still fail.
+severity, evidence, the smallest fix, and the `references/DESIGN.md` rule it
+breaks. These are the primary checks: a report that lists findings without a `references/DESIGN.md` rule
+and a smallest fix for each one fails, however many
+it lists. The broken-page fixture contains exactly seven findings, so the count
+is necessary but not sufficient — seven findings with no rule citations still
+fail.
 
 ## The broken-page fixture
 
-`fixtures/broken-page.html` is a small standalone deployments page, not a copy
+`evals/fixtures/broken-page.html` is a small standalone deployments page, not a copy
 of the preview. Each planted violation is preceded by a marker comment. CSS
 violations use `/* t128n-eval: name */`; markup violations use
 `<!-- t128n-eval: name -->`. The test matches the substring `t128n-eval: <name>`
@@ -86,6 +87,6 @@ in either form, so the comment delimiters are not part of the marker:
 | `placeholder-only-label` | Search input with a placeholder but no label. |
 | `dead-sort` | Sort header with `aria-sort` and a button that never sorts. |
 
-Use `grep -n "t128n-eval:" fixtures/broken-page.html` to list the markers when
+Use `grep -n "t128n-eval:" evals/fixtures/broken-page.html` to list the markers when
 checking a review run. The fixture is intentionally unrepaired: do not use it as
 a build example.

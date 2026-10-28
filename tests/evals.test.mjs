@@ -21,7 +21,7 @@ const MARKERS = [
 ];
 
 test('eval set is complete', async () => {
-  const evals = JSON.parse(await readText('skills/evals/evals.json'));
+  const evals = JSON.parse(await readText('evals/evals.json'));
 
   assert.ok(Array.isArray(evals), 'evals.json must be an array of evals');
   assert.equal(evals.length, 5, 'the set must have five evals');
@@ -62,7 +62,7 @@ test('eval set is complete', async () => {
 });
 
 test('fixture is broken', async () => {
-  const html = await readText('skills/evals/fixtures/broken-page.html');
+  const html = await readText('evals/fixtures/broken-page.html');
 
   assert.equal(
     (html.match(/t128n-eval:/g) ?? []).length,
@@ -111,19 +111,19 @@ test('fixture is broken', async () => {
 });
 
 test('readme documents runs', async () => {
-  const readme = await readText('skills/evals/README.md');
+  const readme = await readText('evals/README.md');
 
   assert.match(readme, /with[- ]skill/i, 'README must explain the with-skill run');
   assert.match(readme, /baseline|without the skill/i, 'README must explain the baseline run');
   assert.match(readme, /workspace/i, 'README must say where outputs go');
-  assert.match(readme, /t128n-ui-review/, 'README must name the review skill');
-  assert.match(readme, /t128n-ui\b/, 'README must name the build skill');
+  assert.match(readme, /t128n-ui\b/, 'README must name the skill');
+  assert.doesNotMatch(readme, /t128n-ui-review/, 'README must not name a separate review skill');
   assert.match(readme, /evals\.json/, 'README must point at the eval set');
-  assert.match(readme, /fixtures\/broken-page\.html/, 'README must point at the fixture');
+  assert.match(readme, /evals\/fixtures\/broken-page\.html/, 'README must point at the fixture');
 });
 
 test('readme documents markers and review grading', async () => {
-  const readme = await readText('skills/evals/README.md');
+  const readme = await readText('evals/README.md');
 
   assert.match(readme, /\/\* t128n-eval: name \*\//, 'README must document the CSS marker form');
   assert.match(readme, /<!-- t128n-eval: name -->/, 'README must document the markup marker form');
@@ -132,16 +132,16 @@ test('readme documents markers and review grading', async () => {
   assert.match(readme, /necessary but not\s+sufficient/, 'README must say the count alone does not pass');
   assert.match(
     readme,
-    /without a `DESIGN\.md` rule/,
-    'README must fail a report that lists findings without a DESIGN.md rule',
+    /without a `references\/DESIGN\.md` rule/,
+    'README must fail a report that lists findings without a references/DESIGN.md rule',
   );
 
-  const evals = JSON.parse(await readText('skills/evals/evals.json'));
+  const evals = JSON.parse(await readText('evals/evals.json'));
   const review = evals.find((item) => item.id === 'review-broken-page-conformance');
 
   assert.ok(review, 'the broken-page review eval must exist');
   assert.match(review.expected_output, /Primary: each finding cites/, 'the review eval must lead with rule citation');
-  assert.match(review.expected_output, /DESIGN\.md rule/, 'the review eval must require a DESIGN.md rule per finding');
+  assert.match(review.expected_output, /references\/DESIGN\.md rule/, 'the review eval must require a references/DESIGN.md rule per finding');
   assert.match(review.expected_output, /smallest fix/, 'the review eval must require the smallest fix');
   assert.match(
     review.expected_output,
