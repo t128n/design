@@ -8,22 +8,33 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- The repository is now one first-class Agent Skill, `t128n-ui`, at the repo
+  root, with a build mode and a merged review mode. Install with
+  `npx skills add t128n/design` (published) or `npx skills add . --copy`
+  (local copy); both install to `~/.agents/skills/t128n-ui/`.
+- `references/review.md` and `references/checklist.md` carry the conformance
+  audit workflow (eight ordered steps) and its R1–R30 checklist, with
+  `scripts/audit-css.mjs` as the static scan helper.
 - `spacing.touch` (`--space-touch: 44px`) and a `Mobile and touch` contract in
-  `DESIGN.md`: mobile-first breakpoints, page gutters, safe-area insets, and
-  table scrolling.
-- `.t128n-table-scroll` and `.t128n-table-scroll--pin-first` in `dist/layouts.css`
+  `references/DESIGN.md`: mobile-first breakpoints, page gutters, safe-area
+  insets, and table scrolling.
+- `.t128n-table-scroll` and `.t128n-table-scroll--pin-first` in `assets/layouts.css`
   for record tables that scroll horizontally while the identifier stays
   visible.
 
 ### Changed
 
-- `dist/layouts.css` is mobile-first: the one-column phone composition is the base,
+- The skill moved to an Agent Skill layout: the normative spec now lives at
+  `references/DESIGN.md`, generated CSS under `assets/` (`assets/tokens.css`
+  and `assets/layouts.css`), and the build procedure at the root `SKILL.md`.
+  The previous `skills/` tree and `dist/` output are gone.
+- `assets/layouts.css` is mobile-first: the one-column phone composition is the base,
   with `min-width` upgrades at `640px`, `800px`, and `1024px`.
 - The preview is mobile-native: 44px controls, 16px page gutters, a
   bottom-sheet dialog, a scrolling layout nav, and stacked form actions, with
   desktop geometry returning at `800px`.
-- README documents the mobile-first composition, touch targets, safe-area
-  insets, and `t128n-table-scroll`.
+- README documents the single-skill install, the mobile-first composition,
+  touch targets, safe-area insets, and `t128n-table-scroll`.
 
 ## [0.1.0] - 2026-10-26
 

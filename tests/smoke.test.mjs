@@ -31,9 +31,9 @@ test('scripts and dependencies are wired', async () => {
     'test',
   ]);
   assert.equal(pkg.scripts.test, 'bun test');
-  assert.equal(pkg.scripts.lint, 'bunx --bun designmd lint DESIGN.md');
+  assert.equal(pkg.scripts.lint, 'bunx --bun designmd lint references/DESIGN.md');
   assert.match(pkg.scripts.build, /bun scripts\/build\.mjs/);
-  assert.equal(pkg.scripts.check, 'bun run build && git diff --exit-code -- dist');
+  assert.equal(pkg.scripts.check, 'bun run build && git diff --exit-code -- assets');
   assert.match(pkg.scripts['preview:build'], /vite build/);
   assert.equal(pkg.devDependencies['@google/design.md'], '0.4.0');
   assert.equal(pkg.devDependencies['@primer/octicons'], '^19.42.0');
@@ -44,7 +44,7 @@ test('scripts and dependencies are wired', async () => {
   assert.ok(existsSync(path.join(root, 'preview/src/App.svelte')), 'preview app is missing');
   assert.ok(existsSync(path.join(root, 'preview/pages/index.html')), 'layout pages are missing');
   assert.ok(existsSync(path.join(root, 'preview/src/pages/layouts.js')), 'layout registry is missing');
-  const layoutsArtifact = path.join(root, 'dist/layouts.css');
+  const layoutsArtifact = path.join(root, 'assets/layouts.css');
   assert.ok(existsSync(layoutsArtifact), 'layout artifact is missing');
   assert.ok(
     !existsSync(path.join(root, path.basename(layoutsArtifact))),
@@ -64,8 +64,8 @@ test('scripts and dependencies are wired', async () => {
       assert.ok(key in cmd, `test-cmd.json is missing ${key}`);
     }
     assert.equal(cmd.language, 'javascript');
-    assert.equal(cmd.test, 'bun test');
-    assert.match(cmd.test_file, /^bun test \{files\}$/);
+    assert.match(cmd.test, /^bun test\b/);
+    assert.match(cmd.test_file, /^bun test\b.*\{files\}$/);
     assert.match(cmd.setup, /^bun install/);
   }
 });
@@ -79,4 +79,8 @@ test('git tracks generated tokens', async () => {
   assert.ok(ignored.includes('node_modules/'));
   assert.ok(ignored.includes('.superlite/'));
   assert.ok(!ignored.some((line) => /^\/?dist\/?$/.test(line)));
+  assert.ok(
+    !ignored.some((line) => /^\/?assets\/?$/.test(line)),
+    'assets/ must be tracked, not ignored',
+  );
 });

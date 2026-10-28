@@ -16,6 +16,7 @@ test('docs describe the system', async () => {
 
   for (const heading of [
     'Purpose',
+    'Install',
     'Repository layout',
     'Quick start',
     'Using the tokens',
@@ -43,11 +44,11 @@ test('docs describe the system', async () => {
   }
 
   for (const link of [
-    '[DESIGN.md](DESIGN.md)',
-    '[dist/layouts.css](dist/layouts.css)',
+    '[references/DESIGN.md](references/DESIGN.md)',
+    '[assets/layouts.css](assets/layouts.css)',
     '[preview/pages/](preview/pages/)',
     '[preview](preview/)',
-    '[dist/tokens.css](dist/tokens.css)',
+    '[assets/tokens.css](assets/tokens.css)',
   ]) {
     assert.ok(readme.includes(link), `README does not link ${link}`);
   }
@@ -68,7 +69,7 @@ test('docs describe the system', async () => {
   assert.match(
     readme,
     /single normative source/i,
-    'README must state DESIGN.md as the authoritative source',
+    'README must state references/DESIGN.md as the authoritative source',
   );
   assert.ok(
     readme.includes('https://t128n.github.io/design/'),
@@ -77,7 +78,7 @@ test('docs describe the system', async () => {
   assert.equal(
     existsSync(path.join(root, 'docs/specs')),
     false,
-    'docs/specs must not exist; DESIGN.md is authoritative',
+    'docs/specs must not exist; references/DESIGN.md is authoritative',
   );
 
   const changelog = await readText('CHANGELOG.md');
@@ -85,32 +86,45 @@ test('docs describe the system', async () => {
   assert.ok(/^## \[?0\.1\.0\]?/m.test(changelog), 'CHANGELOG does not contain the 0.1.0 release');
   assert.match(
     changelog,
-    /### Changed[\s\S]*?DESIGN\.md[\s\S]*?dist\/layouts\.css/,
+    /### Changed[\s\S]*?references\/DESIGN\.md[\s\S]*?assets\/layouts\.css/,
     'CHANGELOG does not record the layout move',
   );
 });
 
-test('no root references', async () => {
-  const owned = [
-    'preview/src/app.css',
-    'README.md',
-    'CHANGELOG.md',
-    'skills/README.md',
-    'tests/layouts.test.mjs',
-    'tests/smoke.test.mjs',
-    'tests/preview.test.mjs',
-    'tests/docs.test.mjs',
-    'tests/skills-docs.test.mjs',
-    'tests/integration.test.mjs',
-  ];
-  const stale = new RegExp('(?<!dist/)layouts\\.css');
+test('install commands are exact', async () => {
+  const readme = await readText('README.md');
+  assert.ok(
+    readme.includes('npx skills add t128n/design'),
+    'README does not document the published install command',
+  );
+  assert.ok(
+    readme.includes('npx skills add . --copy'),
+    'README does not document the local install command',
+  );
+});
 
-  for (const file of owned) {
-    const text = await readText(file);
-    assert.doesNotMatch(
-      text,
-      stale,
-      `${file} points at the root layout file instead of the generated artifact`,
+test('no root references', async () => {
+  const readme = await readText('README.md');
+  assert.doesNotMatch(readme, /dist\//, 'README still references the removed dist/ tree');
+  assert.doesNotMatch(readme, /skills\//, 'README still references the removed skills/ tree');
+  assert.doesNotMatch(
+    readme,
+    /(?<!references\/)DESIGN\.md/,
+    'README references a root DESIGN.md instead of references/DESIGN.md',
+  );
+});
+
+test('every README link resolves', async () => {
+  const readme = await readText('README.md');
+  const links = [...readme.matchAll(/\[[^\]]*\]\(([^)]+)\)/g)].map((m) => m[1]);
+  assert.ok(links.length > 0, 'README has no markdown links');
+
+  for (const target of links) {
+    if (/^(https?:|#)/.test(target)) continue;
+    const resolved = target.split('#')[0];
+    assert.ok(
+      existsSync(path.join(root, resolved)),
+      `README links to a missing path: ${target}`,
     );
   }
 });
@@ -131,11 +145,11 @@ test('docs describe mobile-first behavior', async () => {
   assert.ok(ladder, 'README does not state the min-width breakpoint ladder');
   const breakpoints = (css) => [...new Set([...css.matchAll(/@media \(min-width: (\d+)px\)/g)].map((m) => Number(m[1])))].sort((a, b) => a - b);
   const [layoutsCss, previewCss] = await Promise.all([
-    readText('dist/layouts.css'),
+    readText('assets/layouts.css'),
     readText('preview/src/app.css'),
   ]);
   const documented = ladder.slice(1).map(Number);
-  assert.deepEqual(documented, breakpoints(layoutsCss), 'README breakpoints do not match dist/layouts.css');
+  assert.deepEqual(documented, breakpoints(layoutsCss), 'README breakpoints do not match assets/layouts.css');
   for (const width of breakpoints(previewCss)) {
     assert.ok(documented.includes(width), `README does not document the preview ${width}px breakpoint`);
   }
