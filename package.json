@@ -1,17 +1,17 @@
 {
-  "name": "t128n-design-system",
+  "name": "t128n-personal-design-system",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Canonical t128n design tokens, generated CSS, and adoption tooling.",
+  "description": "t128n's personal design system: dense, flat, record-first UI tokens, generated CSS, and adoption tooling for t128n's own tools.",
   "packageManager": "bun@1.4.3",
   "engines": {
     "bun": ">=1.4.0"
   },
   "scripts": {
-    "lint": "bunx --bun designmd lint references/DESIGN.md",
-    "build": "bun run lint && bun scripts/build.mjs",
-    "check": "bun run build && git diff --exit-code -- assets",
+    "lint": "bunx --bun designmd lint skills/t128n-ui/references/DESIGN.md",
+    "build": "bun run lint && bun skills/t128n-ui/scripts/build.mjs",
+    "check": "bun run build && git diff --exit-code -- skills/t128n-ui/assets",
     "test": "bun test",
     "preview:dev": "vite --config preview/vite.config.js",
     "preview:build": "vite build --config preview/vite.config.js",
