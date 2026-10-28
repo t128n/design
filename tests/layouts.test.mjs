@@ -7,7 +7,7 @@ import path from 'node:path';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 test('standard layouts are token-driven CSS grids', async () => {
-  const css = await readFile(path.join(root, 'dist/layouts.css'), 'utf8');
+  const css = await readFile(path.join(root, 'assets/layouts.css'), 'utf8');
 
   for (const className of [
     '.t128n-page',
@@ -65,7 +65,7 @@ test('standard layouts are token-driven CSS grids', async () => {
 });
 
 test('layouts are mobile-first', async () => {
-  const css = await readFile(path.join(root, 'dist/layouts.css'), 'utf8');
+  const css = await readFile(path.join(root, 'assets/layouts.css'), 'utf8');
   assert.doesNotMatch(css, /@media \(max-width/);
   assert.match(css, /@media \(min-width: 640px\)[\s\S]*?\.t128n-grid--3 \{\s*--t128n-columns: 2;/);
   assert.match(css, /@media \(min-width: 800px\)[\s\S]*?\.t128n-grid--2 \{\s*--t128n-columns: 2;/);
@@ -75,7 +75,7 @@ test('layouts are mobile-first', async () => {
 });
 
 test('page gutters are mobile-first with safe areas', async () => {
-  const css = await readFile(path.join(root, 'dist/layouts.css'), 'utf8');
+  const css = await readFile(path.join(root, 'assets/layouts.css'), 'utf8');
 
   assert.match(
     css,
@@ -97,7 +97,7 @@ test('page gutters are mobile-first with safe areas', async () => {
 });
 
 test('page skeletons stack at the phone base', async () => {
-  const css = await readFile(path.join(root, 'dist/layouts.css'), 'utf8');
+  const css = await readFile(path.join(root, 'assets/layouts.css'), 'utf8');
 
   assert.match(
     css,
@@ -124,7 +124,7 @@ test('page skeletons stack at the phone base', async () => {
 });
 
 test('tables scroll horizontally with a readable pinned first column', async () => {
-  const css = await readFile(path.join(root, 'dist/layouts.css'), 'utf8');
+  const css = await readFile(path.join(root, 'assets/layouts.css'), 'utf8');
 
   assert.match(
     css,

@@ -1,0 +1,33 @@
+# Progress ledger
+
+- tests full passed=1 failed=0 skipped=0 seconds=4.5
+- tests full passed=100 failed=1 skipped=0 seconds=4.4
+- tests fast passed=18 failed=0 skipped=0 seconds=0.1
+- tests fast passed=1 failed=9 skipped=0 seconds=0.1
+- tests fast passed=10 failed=0 skipped=0 seconds=0.0
+- tests fast passed=0 failed=9 skipped=0 seconds=0.1
+- tests fast passed=17 failed=0 skipped=0 seconds=0.1
+- commit T1 af798dbc2d Relocate source and artifacts
+- commit T3 0c5f40a86f Skill entry and build references
+- commit T4 d29b4742c5 Review reference and helper
+- unblocked: dispatched T2 T6 T7 at 02:38:54; waiting on T5 for T7
+- tests fast passed=8 failed=0 skipped=0 seconds=4.1
+- tests fast passed=3 failed=4 skipped=0 seconds=0.1
+- tests fast passed=28 failed=4 skipped=0 seconds=0.3
+- tests fast passed=6 failed=1 skipped=0 seconds=0.1
+- tests fast passed=6 failed=1 skipped=0 seconds=0.1
+- tests fast passed=7 failed=0 skipped=0 seconds=0.0
+- tests fast passed=31 failed=1 skipped=0 seconds=0.4
+- tests fast passed=32 failed=0 skipped=0 seconds=0.3
+- commit T2 b7d4c2e025 Preview consumers
+- commit T6 adc0bfe5c9 Docs and changelog
+- commit T7 cfe574c98f Evals and remaining path tests
+- tests fast passed=8 failed=0 skipped=0 seconds=0.1
+- tests full passed=107 failed=0 skipped=0 seconds=4.5
+- commit T5 b2cb2e0aaa Skill spec guard
+- tests fast passed=64 failed=0 skipped=0 seconds=0.3
+- tests full passed=109 failed=0 skipped=0 seconds=4.7
+- commit T5 d01a024481 Skill spec guard
+- commit T6 42314f084d Docs and changelog
+- tests full passed=109 failed=0 skipped=0 seconds=4.5
+- tests full passed=109 failed=0 skipped=0 seconds=4.7

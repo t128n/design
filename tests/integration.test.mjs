@@ -8,11 +8,11 @@ import { test } from 'bun:test';
 import { readDesignTokens, renderLayoutsCss, renderTokensCss } from '../scripts/build.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const cssPath = new URL('../dist/tokens.css', import.meta.url);
+const cssPath = new URL('../assets/tokens.css', import.meta.url);
 // Snapshot the committed artifact before any test runs `bun run build`, so the
 // provenance assertions below inspect what is in the tree, not what a rebuild wrote.
 const committedCss = readFileSync(cssPath, 'utf8');
-const DESIGN_PATH = 'DESIGN.md';
+const DESIGN_PATH = 'references/DESIGN.md';
 const BUILD_PATH = 'scripts/build.mjs';
 const PREVIEW_INDEX = 'preview/index.html';
 const PREVIEW_CONFIG = 'preview/vite.config.js';
@@ -21,12 +21,9 @@ const PREVIEW_CSS = 'preview/src/app.css';
 const README_PATH = 'README.md';
 const WORKFLOW_PATH = '.github/workflows/design.yml';
 const PAGES_WORKFLOW_PATH = '.github/workflows/pages.yml';
-const CSS_PATH = 'dist/tokens.css';
-const LAYOUTS_PATH = 'dist/layouts.css';
-const ROOT_LAYOUTS_URL = new URL(
-  `../${LAYOUTS_PATH.replace('dist/', '')}`,
-  import.meta.url,
-);
+const CSS_PATH = 'assets/tokens.css';
+const LAYOUTS_PATH = 'assets/layouts.css';
+const ROOT_LAYOUTS_URL = new URL('../layouts.css', import.meta.url);
 const ARTIFACTS = [
   DESIGN_PATH,
   BUILD_PATH,
@@ -232,8 +229,8 @@ test('docs and preview agree', () => {
 
   assert.match(app, /from 'bits-ui'/);
   assert.match(app, /<table/);
-  assert.match(appCss, /@import '\.\.\/\.\.\/dist\/tokens\.css'/);
-  assert.match(appCss, /@import '\.\.\/\.\.\/dist\/layouts\.css'/);
+  assert.match(appCss, /@import '\.\.\/\.\.\/assets\/tokens\.css'/);
+  assert.match(appCss, /@import '\.\.\/\.\.\/assets\/layouts\.css'/);
   assert.match(layouts, /\.t128n-page/);
   assert.ok(readme.includes('--color-surface'));
   assert.ok(readme.includes('--color-primary'));

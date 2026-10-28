@@ -8,7 +8,7 @@ import { promisify } from 'node:util';
 import { YAML } from 'bun';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const designPath = path.join(root, 'DESIGN.md');
+const designPath = path.join(root, 'references', 'DESIGN.md');
 const run = promisify(execFile);
 
 const SECTIONS = [
@@ -198,7 +198,7 @@ test('mobile token and contract', async () => {
   for (const text of ['### Mobile and touch', '44px', '640px', '800px', '1024px', 'safe-area-inset', 't128n-table-scroll', '100dvh']) {
     assert.ok(body.includes(text), `DESIGN.md is missing ${text}`);
   }
-  const dist = await readFile(path.join(root, 'dist/tokens.css'), 'utf8');
+  const dist = await readFile(path.join(root, 'assets', 'tokens.css'), 'utf8');
   assert.match(dist, /:root \{[\s\S]*?--space-touch: 44px;/);
 });
 

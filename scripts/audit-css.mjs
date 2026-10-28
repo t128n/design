@@ -186,7 +186,7 @@ export function auditCss(source) {
       add(
         'no-hardcoded-color',
         valueStart + color.index,
-        `Hard-coded color ${color[0]}; use a color token from DESIGN.md.`,
+        `Hard-coded color ${color[0]}; use a color token from references/DESIGN.md.`,
       );
     }
   }

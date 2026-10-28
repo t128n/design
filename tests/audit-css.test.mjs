@@ -6,10 +6,10 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { auditCss } from '../skills/t128n-ui-review/scripts/audit-css.mjs';
+import { auditCss } from '../scripts/audit-css.mjs';
 
 const AUDIT_SCRIPT = fileURLToPath(
-  new URL('../skills/t128n-ui-review/scripts/audit-css.mjs', import.meta.url),
+  new URL('../scripts/audit-css.mjs', import.meta.url),
 );
 
 const BANNED = `.card {

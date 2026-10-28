@@ -1,23 +1,20 @@
----
-name: t128n-ui-review
-description: Audit and conformance-review a real t128n interface, including admin consoles, record browsers, audit views, dashboards, tables, forms, and dialogs. Use this whenever asked for a design conformance audit, design review, consistency check across screens, accessibility pass, or sign-off. It opens the rendered view, runs the CSS audit helper by path, checks every checklist rule against observed evidence, and reports findings with severity and spec pointers.
----
-
 # t128n UI review
 
 This skill audits a view that already exists. It does not restate the design system
 and it does not accept a description of a view as evidence. Every rule is a test
-against the rendered interface; `DESIGN.md` is the authority and is cited, never
-copied.
+against the rendered interface; `references/DESIGN.md` is the authority and is
+cited, never copied.
 
 Read `references/checklist.md` before starting. It holds every rule, its pass
-condition, and the `DESIGN.md` section that governs it.
+condition, and the `references/DESIGN.md` section that governs it.
 
 ## Inputs
 
 - The view: a URL or route, plus the source that renders it.
-- The generated CSS the view loads: `dist/tokens.css` and `dist/layouts.css`.
-- The spec: `DESIGN.md`. Working examples: `preview/` and `preview/pages/`.
+- The generated CSS the view loads: `assets/tokens.css` and `assets/layouts.css`.
+- The spec: `references/DESIGN.md`. Worked examples: `preview/` and the
+  deliberately broken `evals/fixtures/broken-page.html` for self-testing the
+  workflow.
 
 If you cannot render or inspect the view, stop and report BLOCKED. Reviewing from
 memory, from a screenshot alone, or from the request text is not a review.
@@ -41,7 +38,7 @@ used to reach them.
 Run the static scan against every stylesheet the view loads:
 
 ```sh
-bun skills/t128n-ui-review/scripts/audit-css.mjs path/to/app.css
+bun scripts/audit-css.mjs path/to/app.css
 ```
 
 The helper prints a JSON array of findings with `rule`, `line`, `severity`, and
@@ -61,7 +58,7 @@ does not apply. Do not repair anything yet.
 Check the six integrity tells and the layout rules against the live view. Render
 at a wide width and at a narrow width; for a register, narrow means the table must
 keep its identifier column and scroll rather than become a card grid. Compare the
-skeleton with the classes defined in `dist/layouts.css`.
+skeleton with the classes defined in `assets/layouts.css`.
 
 ### Step 5 — Audit status, color, and both themes (R13–R19)
 
@@ -92,15 +89,15 @@ rows, and add a re-test section. A row is cleared only by observed evidence.
 
 ## Rules of evidence
 
-- Every finding names its severity, evidence, and the governing `DESIGN.md` section.
+- Every finding names its severity, evidence, and the governing `references/DESIGN.md` section.
 - Severity is `error`, `warning`, or `info`. Use `error` for a rule broken in the
   rendered view, `warning` for drift that will break under real content or the
   other theme, and `info` for a permitted choice worth noting.
 - Evidence is a file and line plus an observation, or a helper rule and line. A
   selector, a screenshot path, a key sequence, or a fixture value counts. "Looks
   off" does not.
-- Cite the section instead of paraphrasing it. If `DESIGN.md` is silent, report
-  `info` and propose a spec change; do not invent a rule.
+- Cite the section instead of paraphrasing it. If `references/DESIGN.md` is silent,
+  report `info` and propose a spec change; do not invent a rule.
 - Report only rules in `references/checklist.md`. Do not turn personal preference
   into a finding when the spec permits the choice.
 - Do not certify a row you did not exercise. Mark it skipped with the reason.

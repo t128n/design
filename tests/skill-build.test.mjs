@@ -7,7 +7,6 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const skillDir = path.join(root, 'skills/t128n-ui');
 
 const SKILL = 'SKILL.md';
 const REFERENCES = [
@@ -27,7 +26,7 @@ const ROLES = [
 ];
 
 async function readSkillFile(file) {
-  const absolute = path.join(skillDir, file);
+  const absolute = path.join(root, file);
   assert.ok(existsSync(absolute), `${file} exists`);
   return readFile(absolute, 'utf8');
 }
@@ -38,7 +37,7 @@ function frontMatter(markdown) {
   return YAML.parse(match[1]);
 }
 
-test('build skill is scoped', async () => {
+test('skill is scoped', async () => {
   const skill = await readSkillFile(SKILL);
   const meta = frontMatter(skill);
 
@@ -46,7 +45,16 @@ test('build skill is scoped', async () => {
   assert.equal(typeof meta.description, 'string');
 
   const description = meta.description.toLowerCase();
-  for (const term of ['admin console', 'record', 'dashboard', 'table']) {
+  for (const term of [
+    'building',
+    'admin console',
+    'record',
+    'dashboard',
+    'table',
+    'audit',
+    'conformance',
+    'accessibility',
+  ]) {
     assert.ok(
       description.includes(term),
       `description must trigger on "${term}"`,
@@ -55,8 +63,8 @@ test('build skill is scoped', async () => {
 
   for (const file of REFERENCES) {
     assert.ok(
-      existsSync(path.join(skillDir, file)),
-      `${file} exists next to SKILL.md`,
+      existsSync(path.join(root, file)),
+      `${file} exists at the skill root`,
     );
     assert.ok(skill.includes(file), `SKILL.md cites ${file}`);
   }
@@ -80,6 +88,57 @@ test('build skill stays under the line budget', async () => {
   const lines = skill.split('\n').length;
   assert.ok(lines < 500, `SKILL.md is ${lines} lines, must stay under 500`);
   assert.ok(lines > 40, 'SKILL.md is a procedure, not a stub');
+});
+
+test('build references cite the new canonical paths', async () => {
+  for (const file of REFERENCES) {
+    const text = await readSkillFile(file);
+    assert.match(
+      text,
+      /references\/DESIGN\.md/,
+      `${file} cites references/DESIGN.md`,
+    );
+    assert.match(
+      text,
+      /assets\/(tokens|layouts)\.css/,
+      `${file} cites a generated asset`,
+    );
+  }
+});
+
+test('review routing names references/review.md', async () => {
+  const skill = await readSkillFile(SKILL);
+  assert.match(
+    skill,
+    /references\/review\.md/,
+    'SKILL.md routes to the review workflow',
+  );
+  assert.match(
+    skill,
+    /references\/checklist\.md/,
+    'SKILL.md cites the review checklist',
+  );
+  assert.match(
+    skill,
+    /scripts\/audit-css\.mjs/,
+    'SKILL.md names the audit helper',
+  );
+});
+
+test('no pointer escapes', async () => {
+  for (const file of ALL_FILES) {
+    const text = await readSkillFile(file);
+    assert.doesNotMatch(
+      text,
+      /\.\.\//,
+      `${file} cites no path outside the skill`,
+    );
+    assert.doesNotMatch(text, /dist\//, `${file} cites no dist/ path`);
+    assert.ok(
+      !text.includes('`DESIGN.md`'),
+      `${file} cites DESIGN.md only as references/DESIGN.md`,
+    );
+  }
 });
 
 function assertRuleExplained(rule, heading, file) {
@@ -170,18 +229,6 @@ test('layout choice names the selector', async () => {
       cells[2] ?? '',
       /\.t128n-[a-z-]+/,
       `decision row names a selector: ${row}`,
-    );
-  }
-});
-
-test('references cite the canonical sources', async () => {
-  for (const file of REFERENCES) {
-    const text = await readSkillFile(file);
-    assert.match(text, /DESIGN\.md/, `${file} cites DESIGN.md`);
-    assert.match(
-      text,
-      /dist\/(tokens|layouts)\.css/,
-      `${file} cites a generated artifact`,
     );
   }
 });

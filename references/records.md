@@ -2,8 +2,9 @@
 
 A record is a row plus the detail that explains it. The register lists records;
 the record view opens one. Everything visible here comes from the Tables,
-Status badges, and Components sections of `DESIGN.md` and from the variables in
-`dist/tokens.css`. This file orders the decisions and names their checks.
+Status badges, and Components sections of `references/DESIGN.md` and from the
+variables in `assets/tokens.css`. This file orders the decisions and names
+their checks.
 
 ## Register anatomy
 
@@ -83,10 +84,10 @@ cannot name.
 ### RC3 Numbers align as numbers
 
 Right-align quantities and use the numeric typography; keep identifiers in the
-text or monospaced style that `DESIGN.md` assigns. **Because** comparison by
-magnitude is the register's main job and mixed alignment breaks it.
-**Verify** scan the numeric columns: one alignment, one figure style, units in
-the header only.
+text or monospaced style that `references/DESIGN.md` assigns. **Because**
+comparison by magnitude is the register's main job and mixed alignment breaks
+it. **Verify** scan the numeric columns: one alignment, one figure style, units
+in the header only.
 
 ### RC4 Status is text plus one role
 

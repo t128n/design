@@ -719,7 +719,7 @@ Phones are the base viewport, not a fallback. Compose the single-column layout f
 
 ### Standard Layouts
 
-`dist/layouts.css` is the generated artifact that provides the shared CSS grid templates. It is built from the fenced block below; edit the block here, never the generated file. Import it after `dist/tokens.css`. Applications may compose these classes, but should not replace them with a different page skeleton.
+`assets/layouts.css` is the generated artifact that provides the shared CSS grid templates. It is built from the fenced block below; edit the block here, never the generated file. Import it after `assets/tokens.css`. Applications may compose these classes, but should not replace them with a different page skeleton.
 
 | Class | Grid | Use |
 | :--- | :--- | :--- |
