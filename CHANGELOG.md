@@ -1,39 +1,49 @@
 # Changelog
 
-All notable changes to the t128n design system are recorded here. The format
-follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the
-project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+All notable changes to t128n's personal design system are recorded here. The
+format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
+the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
 ### Added
 
-- The repository is now one first-class Agent Skill, `t128n-ui`, at the repo
-  root, with a build mode and a merged review mode. Install with
-  `npx skills add t128n/design` (published) or a symlink to the repo root from
-  a stable checkout (local); both install to `~/.agents/skills/t128n-ui/`.
-- `references/review.md` and `references/checklist.md` carry the conformance
-  audit workflow (eight ordered steps) and its R1–R30 checklist, with
-  `scripts/audit-css.mjs` as the static scan helper.
+- The repository is now a strictly spec-compliant Agent Skill, `t128n-ui`,
+  under `skills/t128n-ui/`, whose folder name matches its `name` and whose
+  every cited path resolves inside the skill. Install with
+  `npx skills add t128n/design` (published), `npx skills add ./skills/t128n-ui`
+  (local copy of just the skill), or
+  `ln -sfn "$PWD/skills/t128n-ui" ~/.agents/skills/t128n-ui` (local symlink);
+  the repo root is never symlinked.
+- `skills/t128n-ui/references/review.md` and
+  `skills/t128n-ui/references/checklist.md` carry the conformance audit
+  workflow (eight ordered steps) and its R1–R30 checklist, with
+  `skills/t128n-ui/scripts/audit-css.mjs` as the static scan helper.
 - `spacing.touch` (`--space-touch: 44px`) and a `Mobile and touch` contract in
-  `references/DESIGN.md`: mobile-first breakpoints, page gutters, safe-area
-  insets, and table scrolling.
-- `.t128n-table-scroll` and `.t128n-table-scroll--pin-first` in `assets/layouts.css`
-  for record tables that scroll horizontally while the identifier stays
-  visible.
+  `skills/t128n-ui/references/DESIGN.md`: mobile-first breakpoints, page
+  gutters, safe-area insets, and table scrolling.
+- `.t128n-table-scroll` and `.t128n-table-scroll--pin-first` in
+  `skills/t128n-ui/assets/layouts.css` for record tables that scroll
+  horizontally while the identifier stays visible.
 
 ### Changed
 
-- The skill moved to an Agent Skill layout: the normative spec now lives at
-  `references/DESIGN.md`, generated CSS under `assets/` (`assets/tokens.css`
-  and `assets/layouts.css`), and the build procedure at the root `SKILL.md`.
-  The previous `skills/` tree and `dist/` output are gone.
-- `assets/layouts.css` is mobile-first: the one-column phone composition is the base,
-  with `min-width` upgrades at `640px`, `800px`, and `1024px`.
+- The project is now t128n's personal design system — a personal system for
+  t128n's own tools and interfaces, not a product or company design system.
+  Titles, descriptions, preview headings, eval prompts, and docs say so.
+- The skill moved into a strict `skills/t128n-ui/` directory: the normative
+  spec now lives at `skills/t128n-ui/references/DESIGN.md`, generated CSS under
+  `skills/t128n-ui/assets/`, build and audit helpers under
+  `skills/t128n-ui/scripts/`, and the entry point at
+  `skills/t128n-ui/SKILL.md`. The previous root-level skill files and `dist/`
+  output are gone, and the skill no longer cites `preview/` or `evals/`.
+- `skills/t128n-ui/assets/layouts.css` is mobile-first: the one-column phone
+  composition is the base, with `min-width` upgrades at `640px`, `800px`, and
+  `1024px`.
 - The preview is mobile-native: 44px controls, 16px page gutters, a
   bottom-sheet dialog, a scrolling layout nav, and stacked form actions, with
   desktop geometry returning at `800px`.
-- README documents the single-skill install, the mobile-first composition,
+- README documents the three install commands, the mobile-first composition,
   touch targets, safe-area insets, and `t128n-table-scroll`.
 
 ## [0.1.0] - 2026-10-26

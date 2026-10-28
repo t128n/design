@@ -11,8 +11,13 @@ async function readText(file) {
   return readFile(path.join(root, file), 'utf8');
 }
 
-test('docs describe the system', async () => {
+test('docs describe the personal system', async () => {
   const readme = await readText('README.md');
+
+  assert.match(readme, /^# t128n's personal design system$/m, 'README title is not the personal system name');
+  assert.match(readme, /t128n's own tools/i, 'README does not describe a personal system for t128n\'s own tools');
+  assert.match(readme, /personal design system/i, 'README does not say personal design system');
+  assert.doesNotMatch(readme, /platform design system/i, 'README must not use "platform design system"');
 
   for (const heading of [
     'Purpose',
@@ -39,18 +44,30 @@ test('docs describe the system', async () => {
     'bun run lint',
     'bun run preview:dev',
     'bun run preview:build',
+    'bunx --bun designmd lint skills/t128n-ui/references/DESIGN.md',
+    'git diff --exit-code -- skills/t128n-ui/assets',
   ]) {
     assert.ok(readme.includes(command), `README does not document ${command}`);
   }
 
   for (const link of [
-    '[references/DESIGN.md](references/DESIGN.md)',
-    '[assets/layouts.css](assets/layouts.css)',
+    '[skills/t128n-ui/references/DESIGN.md](skills/t128n-ui/references/DESIGN.md)',
+    '[skills/t128n-ui/assets/tokens.css](skills/t128n-ui/assets/tokens.css)',
+    '[skills/t128n-ui/assets/layouts.css](skills/t128n-ui/assets/layouts.css)',
     '[preview/pages/](preview/pages/)',
     '[preview](preview/)',
-    '[assets/tokens.css](assets/tokens.css)',
+    '[evals](evals/)',
   ]) {
     assert.ok(readme.includes(link), `README does not link ${link}`);
+  }
+
+  for (const path of [
+    'skills/t128n-ui/references/DESIGN.md',
+    'skills/t128n-ui/assets/tokens.css',
+    'skills/t128n-ui/assets/layouts.css',
+    'skills/t128n-ui/scripts/audit-css.mjs',
+  ]) {
+    assert.ok(readme.includes(path), `README does not mention ${path}`);
   }
 
   for (const variable of [
@@ -69,25 +86,21 @@ test('docs describe the system', async () => {
   assert.match(
     readme,
     /single normative source/i,
-    'README must state references/DESIGN.md as the authoritative source',
+    'README must state skills/t128n-ui/references/DESIGN.md as the authoritative source',
   );
   assert.ok(
     readme.includes('https://t128n.github.io/design/'),
     'README does not link the Pages preview',
   );
-  assert.equal(
-    existsSync(path.join(root, 'docs/specs')),
-    false,
-    'docs/specs must not exist; references/DESIGN.md is authoritative',
-  );
 
   const changelog = await readText('CHANGELOG.md');
   assert.match(changelog, /^#\s*Changelog\s*$/m);
+  assert.match(changelog, /t128n's personal design system/i, 'CHANGELOG is not rebranded');
   assert.ok(/^## \[?0\.1\.0\]?/m.test(changelog), 'CHANGELOG does not contain the 0.1.0 release');
   assert.match(
     changelog,
-    /### Changed[\s\S]*?references\/DESIGN\.md[\s\S]*?assets\/layouts\.css/,
-    'CHANGELOG does not record the layout move',
+    /### Changed[\s\S]*?skills\/t128n-ui\/references\/DESIGN\.md/,
+    'CHANGELOG does not record the strict skill move',
   );
 });
 
@@ -98,33 +111,45 @@ test('install commands are exact', async () => {
     'README does not document the published install command',
   );
   assert.ok(
-    readme.includes('ln -sfn "$PWD" ~/.agents/skills/t128n-ui'),
-    'README does not document the local symlink install',
+    readme.includes('npx skills add ./skills/t128n-ui'),
+    'README does not document the local copy install command',
+  );
+  assert.ok(
+    readme.includes('mkdir -p ~/.agents/skills'),
+    'README does not document creating the skills directory',
+  );
+  assert.ok(
+    readme.includes('ln -sfn "$PWD/skills/t128n-ui" ~/.agents/skills/t128n-ui'),
+    'README does not document the local symlink of the skill directory',
   );
 });
 
-test('README does not recommend a local --copy install', async () => {
+test('README never symlinks the repo root', async () => {
   const readme = await readText('README.md');
+  assert.match(
+    readme,
+    /never symlink the repo root/i,
+    'README does not warn against symlinking the repo root',
+  );
   assert.doesNotMatch(
     readme,
-    /npx skills add \. --copy/,
-    'README must not recommend npx skills add . --copy; use the symlink',
+    /ln -sfn "\$PWD" ~\/\.agents\/skills\/t128n-ui/,
+    'README must not symlink the repo root ($PWD) into the skills directory',
+  );
+  assert.doesNotMatch(
+    readme,
+    /npx skills add \.(?!\/)/,
+    'README must not recommend installing the repo root; install the skill directory',
   );
 });
 
-test('no root references', async () => {
+test('no root skill paths', async () => {
   const readme = await readText('README.md');
   assert.doesNotMatch(readme, /dist\//, 'README still references the removed dist/ tree');
-  assert.doesNotMatch(
-    readme,
-    /(?<!~\/\.agents\/)skills\//,
-    'README still references the removed skills/ tree (the ~/.agents/skills/ install path is allowed)',
-  );
-  assert.doesNotMatch(
-    readme,
-    /(?<!references\/)DESIGN\.md/,
-    'README references a root DESIGN.md instead of references/DESIGN.md',
-  );
+  assert.doesNotMatch(readme, /\[SKILL\.md\]/, 'README links a root SKILL.md');
+  assert.doesNotMatch(readme, /\(assets\//, 'README links a root assets/ path');
+  assert.doesNotMatch(readme, /\(references\//, 'README links a root references/ path');
+  assert.doesNotMatch(readme, /\(scripts\//, 'README links a root scripts/ path');
 });
 
 test('every README link resolves', async () => {
@@ -158,11 +183,11 @@ test('docs describe mobile-first behavior', async () => {
   assert.ok(ladder, 'README does not state the min-width breakpoint ladder');
   const breakpoints = (css) => [...new Set([...css.matchAll(/@media \(min-width: (\d+)px\)/g)].map((m) => Number(m[1])))].sort((a, b) => a - b);
   const [layoutsCss, previewCss] = await Promise.all([
-    readText('assets/layouts.css'),
+    readText('skills/t128n-ui/assets/layouts.css'),
     readText('preview/src/app.css'),
   ]);
   const documented = ladder.slice(1).map(Number);
-  assert.deepEqual(documented, breakpoints(layoutsCss), 'README breakpoints do not match assets/layouts.css');
+  assert.deepEqual(documented, breakpoints(layoutsCss), 'README breakpoints do not match skills/t128n-ui/assets/layouts.css');
   for (const width of breakpoints(previewCss)) {
     assert.ok(documented.includes(width), `README does not document the preview ${width}px breakpoint`);
   }

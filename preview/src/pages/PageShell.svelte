@@ -12,7 +12,7 @@
   <header class="page-header">
     <div>
       <p class="body-sm layout-kicker">
-        <a href={home}>t128n design system</a>
+        <a href={home}>t128n's personal design system</a>
         <span aria-hidden="true">/</span>
         Layout pages
       </p>

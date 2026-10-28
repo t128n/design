@@ -142,7 +142,7 @@
 </script>
 
 <svelte:head>
-  <title>t128n Design System — Preview</title>
+  <title>t128n's personal design system — Preview</title>
 </svelte:head>
 
 <a class="skip-link" href="#main">Skip to content</a>
@@ -150,7 +150,7 @@
 <div class="t128n-page">
 <header class="page-header">
   <div>
-    <h1 class="headline-lg">t128n design system</h1>
+    <h1 class="headline-lg">t128n's personal design system</h1>
     <p class="body-sm">
       Svelte 5, Vite, and bits-ui primitives over the generated tokens.
     </p>

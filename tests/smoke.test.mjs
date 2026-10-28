@@ -18,6 +18,8 @@ async function readJson(file) {
 test('scripts and dependencies are wired', async () => {
   const pkg = await readJson('package.json');
 
+  assert.equal(pkg.name, 't128n-personal-design-system');
+  assert.match(pkg.description, /personal design system/i);
   assert.equal(pkg.private, true);
   assert.equal(pkg.type, 'module');
   assert.equal(pkg.engines.bun, '>=1.4.0');
@@ -31,9 +33,15 @@ test('scripts and dependencies are wired', async () => {
     'test',
   ]);
   assert.equal(pkg.scripts.test, 'bun test');
-  assert.equal(pkg.scripts.lint, 'bunx --bun designmd lint references/DESIGN.md');
-  assert.match(pkg.scripts.build, /bun scripts\/build\.mjs/);
-  assert.equal(pkg.scripts.check, 'bun run build && git diff --exit-code -- assets');
+  assert.equal(
+    pkg.scripts.lint,
+    'bunx --bun designmd lint skills/t128n-ui/references/DESIGN.md',
+  );
+  assert.match(pkg.scripts.build, /bun skills\/t128n-ui\/scripts\/build\.mjs/);
+  assert.equal(
+    pkg.scripts.check,
+    'bun run build && git diff --exit-code -- skills/t128n-ui/assets',
+  );
   assert.match(pkg.scripts['preview:build'], /vite build/);
   assert.equal(pkg.devDependencies['@google/design.md'], '0.4.0');
   assert.equal(pkg.devDependencies['@primer/octicons'], '^19.42.0');
@@ -44,10 +52,16 @@ test('scripts and dependencies are wired', async () => {
   assert.ok(existsSync(path.join(root, 'preview/src/App.svelte')), 'preview app is missing');
   assert.ok(existsSync(path.join(root, 'preview/pages/index.html')), 'layout pages are missing');
   assert.ok(existsSync(path.join(root, 'preview/src/pages/layouts.js')), 'layout registry is missing');
-  const layoutsArtifact = path.join(root, 'assets/layouts.css');
-  assert.ok(existsSync(layoutsArtifact), 'layout artifact is missing');
   assert.ok(
-    !existsSync(path.join(root, path.basename(layoutsArtifact))),
+    existsSync(path.join(root, 'skills/t128n-ui/assets/layouts.css')),
+    'skill layout artifact is missing',
+  );
+  assert.ok(
+    existsSync(path.join(root, 'skills/t128n-ui/assets/tokens.css')),
+    'skill token artifact is missing',
+  );
+  assert.ok(
+    !existsSync(path.join(root, 'layouts.css')),
     'the root layout source is still present',
   );
 
@@ -82,5 +96,9 @@ test('git tracks generated tokens', async () => {
   assert.ok(
     !ignored.some((line) => /^\/?assets\/?$/.test(line)),
     'assets/ must be tracked, not ignored',
+  );
+  assert.ok(
+    !ignored.some((line) => /^\/?skills\/t128n-ui\/assets\/?$/.test(line)),
+    'skills/t128n-ui/assets/ must be tracked, not ignored',
   );
 });

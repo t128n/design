@@ -1,72 +1,86 @@
-# t128n UI
+# t128n's personal design system
 
 A first-class Agent Skill for building and reviewing t128n web interfaces:
 canonical design tokens, generated CSS, and the tooling that keeps them in
-sync. One skill, two modes — build a view, or audit one that already exists.
+sync. This is t128n's personal design system — a private set of tokens and
+patterns for t128n's own tools and interfaces, not a product or a company
+design system. One skill, two modes — build a view, or audit one that already
+exists.
 
 ## Purpose
 
-[references/DESIGN.md](references/DESIGN.md) is the single normative source for
-tokens and design guidance. Everything else in this repository is derived from
-it or describes how to consume it:
+[skills/t128n-ui/references/DESIGN.md](skills/t128n-ui/references/DESIGN.md) is
+the single normative source for tokens and design guidance. Everything else in
+this repository is derived from it or describes how to consume it:
 
-- `references/DESIGN.md` — palette, typography, spacing, shapes, components,
-  layout CSS, and rules.
-- [assets/tokens.css](assets/tokens.css) — generated light/dark CSS variables.
-- [assets/layouts.css](assets/layouts.css) — generated standard CSS grid page
-  skeletons.
-- [references/review.md](references/review.md) and
-  [references/checklist.md](references/checklist.md) — the conformance-audit
-  workflow and its R1–R30 checklist.
-- [scripts/audit-css.mjs](scripts/audit-css.mjs) — static CSS scan helper for
-  the review workflow.
+- `skills/t128n-ui/references/DESIGN.md` — palette, typography, spacing,
+  shapes, components, layout CSS, and rules.
+- [skills/t128n-ui/assets/tokens.css](skills/t128n-ui/assets/tokens.css) —
+  generated light/dark CSS variables.
+- [skills/t128n-ui/assets/layouts.css](skills/t128n-ui/assets/layouts.css) —
+  generated standard CSS grid page skeletons.
+- `skills/t128n-ui/references/review.md` and
+  `skills/t128n-ui/references/checklist.md` — the conformance-audit workflow
+  and its R1–R30 checklist.
+- `skills/t128n-ui/scripts/audit-css.mjs` — static CSS scan helper for the
+  review workflow.
 - [preview](preview/) — Vite + Svelte + bits-ui visual acceptance app.
+- [evals](evals/) — build and review prompts and fixtures for the skill.
 
 Values live in one place.
 
 ## Install
 
-This repository is one Agent Skill, `t128n-ui`. Install it from the published
-package:
+This repository is one Agent Skill, `t128n-ui`, kept under `skills/t128n-ui/`.
+Install the published package:
 
 ```sh
 npx skills add t128n/design
 ```
 
-For local development, symlink the repository root instead of copying it. Run
-the command from a stable checkout; the link breaks if the checkout moves:
+For local development, copy just the skill folder. This copies only
+`skills/t128n-ui/` — never the repo's toolchain, docs, tests, preview, or
+evals:
+
+```sh
+npx skills add ./skills/t128n-ui
+```
+
+To work against a live checkout instead of a copy, symlink the skill directory
+itself. Run the command from a stable checkout; the link breaks if the checkout
+moves:
 
 ```sh
 mkdir -p ~/.agents/skills
-ln -sfn "$PWD" ~/.agents/skills/t128n-ui
+ln -sfn "$PWD/skills/t128n-ui" ~/.agents/skills/t128n-ui
 ```
 
-`npx skills add .` / `--copy` is avoided locally because it copies the
-checkout's toolchain and orchestrator state (`node_modules`, `.superlite/`, and
-the worktree `.git` file) into the install. Either install puts the skill under
-the name `t128n-ui`, with `SKILL.md`, `references/`, `assets/`, `scripts/`,
-`preview/`, and `evals/` inside, and every path the skill cites lives inside
-that folder.
+Never symlink the repo root: the skill directory itself is named `t128n-ui`,
+and pointing the install at the repository would pull the whole toolchain into
+the skill. Every install puts the skill under the name `t128n-ui`, with
+`SKILL.md`, `references/`, `assets/`, and `scripts/` inside, and every path the
+skill cites lives inside that folder.
 
 ## Repository layout
 
 ```
-SKILL.md                     Build and review entry point
-references/DESIGN.md         Normative tokens and guidance
-references/*.md              On-demand build and review detail
-scripts/build.mjs            Front-matter parser and CSS renderer
-scripts/audit-css.mjs        Review CSS audit helper
-assets/tokens.css            Generated CSS (committed, never hand-edited)
-assets/layouts.css           Generated layout CSS (committed, never hand-edited)
-preview/                     Vite + Svelte 5 + bits-ui preview app
-evals/                       Build and review prompts and fixtures
-README.md                    This document
-CHANGELOG.md                 Version history
-package.json                 Scripts and pinned toolchain
-bun.lock                     Locked dependency graph
-.github/workflows/design.yml CI gate (push and pull request)
-.github/workflows/pages.yml  Preview deployment
-tests/*.test.mjs             Focused Bun tests
+skills/t128n-ui/SKILL.md              Build and review entry point
+skills/t128n-ui/references/DESIGN.md  Normative tokens and guidance
+skills/t128n-ui/references/*.md       On-demand build and review detail
+skills/t128n-ui/scripts/build.mjs     Front-matter parser and CSS renderer
+skills/t128n-ui/scripts/audit-css.mjs Review CSS audit helper
+skills/t128n-ui/assets/tokens.css     Generated CSS (committed, never hand-edited)
+skills/t128n-ui/assets/layouts.css    Generated layout CSS (committed, never hand-edited)
+preview/                              Vite + Svelte 5 + bits-ui preview app
+evals/                                Build and review prompts and fixtures
+tests/                                Focused Bun tests
+docs/plans/                           Run records
+README.md                             This document
+CHANGELOG.md                          Version history
+package.json                          Scripts and pinned toolchain
+bun.lock                              Locked dependency graph
+.github/workflows/design.yml          CI gate (push and pull request)
+.github/workflows/pages.yml           Preview deployment
 ```
 
 ## Quick start
@@ -81,7 +95,8 @@ bun run check
 
 - `bun install` installs the exact toolchain from `bun.lock`.
 - `bun test` runs the test suites.
-- `bun run check` runs the build and fails if `assets/` is dirty.
+- `bun run check` runs the build and fails if `skills/t128n-ui/assets/` is
+  dirty.
 
 Build the artifact yourself, or lint the source directly:
 
@@ -91,8 +106,11 @@ bun run lint
 ```
 
 `bun run build` runs `bun run lint`, then
-[bun scripts/build.mjs](scripts/build.mjs). `bun run check` is the same as
-`bun run build` followed by `git diff --exit-code -- assets`.
+[bun skills/t128n-ui/scripts/build.mjs](skills/t128n-ui/scripts/build.mjs).
+`bun run lint` runs
+`bunx --bun designmd lint skills/t128n-ui/references/DESIGN.md`. `bun run check`
+is the same as `bun run build` followed by
+`git diff --exit-code -- skills/t128n-ui/assets`.
 
 Preview the app locally with Vite:
 
@@ -107,8 +125,8 @@ Link the generated stylesheets and the standard layouts, then use the CSS
 variables they define:
 
 ```html
-<link rel="stylesheet" href="assets/tokens.css">
-<link rel="stylesheet" href="assets/layouts.css">
+<link rel="stylesheet" href="skills/t128n-ui/assets/tokens.css">
+<link rel="stylesheet" href="skills/t128n-ui/assets/layouts.css">
 ```
 
 The generated CSS variables are:
@@ -125,16 +143,18 @@ The generated CSS variables are:
 `--color-*` names inside the dark selectors, so components never branch on
 theme.
 
-Do not edit `assets/tokens.css` or `assets/layouts.css` by hand and do not copy
-values into app stylesheets. Change `references/DESIGN.md`, run
+Do not edit `skills/t128n-ui/assets/tokens.css` or
+`skills/t128n-ui/assets/layouts.css` by hand and do not copy values into app
+stylesheets. Change `skills/t128n-ui/references/DESIGN.md`, run
 `bun run build`, and commit the regenerated artifacts.
 
 ## Layouts
 
-`assets/layouts.css` provides the shared page skeletons. It is generated from
-the canonical block in `references/DESIGN.md`. The skeletons are mobile-first:
-the phone composition is the base, and `min-width` upgrades add columns and
-restore desktop density. They use the token spacing and border variables.
+`skills/t128n-ui/assets/layouts.css` provides the shared page skeletons. It is
+generated from the canonical block in `skills/t128n-ui/references/DESIGN.md`.
+The skeletons are mobile-first: the phone composition is the base, and
+`min-width` upgrades add columns and restore desktop density. They use the
+token spacing and border variables.
 
 ```html
 <div class="t128n-app-shell">
@@ -152,7 +172,7 @@ Available: `t128n-page`, `t128n-grid` with `t128n-grid--1/2/3` and
 `t128n-grid__full`, `t128n-app-shell`, `t128n-register`, `t128n-split`,
 `t128n-record`, `t128n-form-grid`, `t128n-stack`, `t128n-cluster`,
 `t128n-table-scroll`, and `t128n-table-scroll--pin-first`.
-See `references/DESIGN.md` for the grid definitions.
+See `skills/t128n-ui/references/DESIGN.md` for the grid definitions.
 
 Equal-column example:
 
@@ -220,11 +240,12 @@ page follows the operating system. An explicit `data-theme` always wins.
 
 ## Adopting in an app
 
-1. Read [references/DESIGN.md](references/DESIGN.md) and the
-   [preview](preview/).
+1. Read [skills/t128n-ui/references/DESIGN.md](skills/t128n-ui/references/DESIGN.md)
+   and the [preview](preview/).
 2. Pin a commit of this repository and vendor
-   [assets/tokens.css](assets/tokens.css) and
-   [assets/layouts.css](assets/layouts.css) into your app.
+   [skills/t128n-ui/assets/tokens.css](skills/t128n-ui/assets/tokens.css) and
+   [skills/t128n-ui/assets/layouts.css](skills/t128n-ui/assets/layouts.css)
+   into your app.
 3. Link both stylesheets from every page.
 4. Map the app's state vocabulary onto the seven semantic roles.
 5. Re-vendor the CSS when you bump the pinned commit.
@@ -232,22 +253,24 @@ page follows the operating system. An explicit `data-theme` always wins.
 ## Versioning
 
 The design system's version is `package.json` (`0.1.0` at present). The
-`version: alpha` value in `references/DESIGN.md` is the format version of the
-spec, not the system version. History lives in
+`version: alpha` value in `skills/t128n-ui/references/DESIGN.md` is the format
+version of the spec, not the system version. History lives in
 [CHANGELOG.md](CHANGELOG.md).
 
 ## Enforcement
 
 CI (`.github/workflows/design.yml`) runs on push and pull request on Bun 1.4:
 `bun install --frozen-lockfile`, `bun test`, then `bun run check`. Because
-`bun run check` rebuilds and asserts `git diff --exit-code -- assets`, a change
-to `references/DESIGN.md` that was not followed by `bun run build` fails the
-build. `bun run lint` must report `0 errors` and `0 warnings`.
+`bun run check` rebuilds and asserts `git diff --exit-code -- skills/t128n-ui/assets`,
+a change to `skills/t128n-ui/references/DESIGN.md` that was not followed by
+`bun run build` fails the build. `bun run lint` must report `0 errors` and
+`0 warnings`.
 
 ## Contributing
 
-1. Change `references/DESIGN.md` only. Do not hand-edit either generated
-   stylesheet.
+1. Change `skills/t128n-ui/references/DESIGN.md` only. Do not hand-edit either
+   generated stylesheet.
 2. Run `bun run build`, then `bun test` and `bun run check`.
-3. Commit the source change and the regenerated `assets/tokens.css` and
-   `assets/layouts.css` together.
+3. Commit the source change and the regenerated
+   `skills/t128n-ui/assets/tokens.css` and
+   `skills/t128n-ui/assets/layouts.css` together.
