@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { copyFile, mkdir, mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -247,6 +248,53 @@ test('install copy rebuilds assets', async () => {
       stderr: 'pipe',
     });
     assert.equal(audit.exitCode, 1, 'audit helper must exit 1 when a shadow is present');
+  } finally {
+    await rm(tmp, { recursive: true, force: true });
+  }
+});
+
+test('git archive copy rebuilds and audits without the toolchain', async () => {
+  const tmp = await mkdtemp(path.join(tmpdir(), 't128n-archive-'));
+  try {
+    const archivePath = path.join(tmp, 'skill.tar');
+    const skillDir = path.join(tmp, 't128n-ui');
+
+    const archive = spawnSync('git', ['archive', 'HEAD', '--output', archivePath], {
+      cwd: root,
+      encoding: 'utf8',
+    });
+    assert.equal(archive.status, 0, archive.stderr);
+    await mkdir(skillDir);
+    const extract = spawnSync('tar', ['-xf', archivePath, '-C', skillDir], {
+      encoding: 'utf8',
+    });
+    assert.equal(extract.status, 0, extract.stderr);
+
+    // A clean archive carries only tracked files: no node_modules, .superlite,
+    // or generated preview/dist may be required by the installed skill.
+    assert.equal(existsSync(path.join(skillDir, 'node_modules')), false, 'archive must exclude node_modules');
+    assert.equal(existsSync(path.join(skillDir, '.superlite')), false, 'archive must exclude .superlite');
+    assert.equal(existsSync(path.join(skillDir, 'preview', 'dist')), false, 'archive must exclude preview/dist');
+
+    const build = Bun.spawnSync([BUN, 'scripts/build.mjs'], {
+      cwd: skillDir,
+      stdout: 'pipe',
+      stderr: 'pipe',
+    });
+    assert.equal(build.exitCode, 0, `build failed: ${build.stderr.toString()}`);
+
+    for (const artifact of ['tokens.css', 'layouts.css']) {
+      const generated = await readFile(path.join(skillDir, 'assets', artifact), 'utf8');
+      const committed = await readFile(path.join(root, 'assets', artifact), 'utf8');
+      assert.equal(generated, committed, `archive regenerated assets/${artifact} differs from the committed artifact`);
+    }
+
+    const audit = Bun.spawnSync([BUN, 'scripts/audit-css.mjs', 'assets/layouts.css'], {
+      cwd: skillDir,
+      stdout: 'pipe',
+      stderr: 'pipe',
+    });
+    assert.equal(audit.exitCode, 0, `audit failed on the archive: ${audit.stderr.toString()}`);
   } finally {
     await rm(tmp, { recursive: true, force: true });
   }
