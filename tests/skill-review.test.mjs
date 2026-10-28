@@ -6,23 +6,12 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const skillFile = 'skills/t128n-ui-review/SKILL.md';
-const checklistFile = 'skills/t128n-ui-review/references/checklist.md';
-const helperPath = 'skills/t128n-ui-review/scripts/audit-css.mjs';
+const reviewFile = 'references/review.md';
+const checklistFile = 'references/checklist.md';
+const helperPath = 'scripts/audit-css.mjs';
 
 async function readText(file) {
   return readFile(path.join(root, file), 'utf8');
-}
-
-function frontmatter(source) {
-  const match = /^---\n([\s\S]*?)\n---\n/.exec(source);
-  assert.ok(match, 'SKILL.md has no parseable frontmatter');
-  const fields = {};
-  for (const line of match[1].split('\n')) {
-    const field = /^([a-zA-Z-]+):\s*(.+)$/.exec(line);
-    if (field) fields[field[1]] = field[2].trim();
-  }
-  return fields;
 }
 
 function checklistRows(checklist) {
@@ -40,18 +29,12 @@ function checklistSection(checklist, heading) {
   return end === -1 ? rest : rest.slice(0, end);
 }
 
-test('review skill is actionable', async () => {
-  assert.ok(existsSync(path.join(root, skillFile)), `${skillFile} is missing`);
+test('review reference is actionable', async () => {
+  assert.ok(existsSync(path.join(root, reviewFile)), `${reviewFile} is missing`);
   assert.ok(existsSync(path.join(root, checklistFile)), `${checklistFile} is missing`);
 
-  const skill = await readText(skillFile);
+  const review = await readText(reviewFile);
   const checklist = await readText(checklistFile);
-  const meta = frontmatter(skill);
-
-  assert.equal(meta.name, 't128n-ui-review');
-  const description = (meta.description ?? '').toLowerCase();
-  assert.ok(description.includes('audit'), 'description does not mention audit');
-  assert.ok(description.includes('conformance'), 'description does not mention conformance');
 
   for (const term of [
     'shadow',
@@ -69,7 +52,7 @@ test('review skill is actionable', async () => {
   }
 
   for (const [file, source] of [
-    [skillFile, skill],
+    [reviewFile, review],
     [checklistFile, checklist],
   ]) {
     assert.doesNotMatch(source, /#[0-9a-fA-F]{3,8}\b/, `${file} contains a hex color`);
@@ -77,42 +60,42 @@ test('review skill is actionable', async () => {
 });
 
 test('workflow is fixed and ordered', async () => {
-  const skill = await readText(skillFile);
-  const steps = [...skill.matchAll(/^### Step (\d+) — /gm)].map((match) => Number(match[1]));
+  const review = await readText(reviewFile);
+  const steps = [...review.matchAll(/^### Step (\d+) — /gm)].map((match) => Number(match[1]));
 
   assert.deepEqual(steps, [1, 2, 3, 4, 5, 6, 7, 8], 'workflow must run eight ordered steps');
 
-  const helper = skill.indexOf(helperPath);
-  const step2 = skill.indexOf('### Step 2 —');
-  const step3 = skill.indexOf('### Step 3 —');
+  const helper = review.indexOf(helperPath);
+  const step2 = review.indexOf('### Step 2 —');
+  const step3 = review.indexOf('### Step 3 —');
   assert.ok(helper > step2 && helper < step3, 'the helper runs by path inside step 2');
 
-  assert.match(skill, /### Step 3 — Verify the helper findings by hand/);
-  assert.match(skill, /### Step 8 — Report/);
+  assert.match(review, /### Step 3 — Verify the helper findings by hand/);
+  assert.match(review, /### Step 8 — Report/);
 });
 
 test('every finding carries severity evidence and spec section', async () => {
-  const skill = await readText(skillFile);
+  const review = await readText(reviewFile);
 
   assert.ok(
-    skill.includes('| ID | Severity | Evidence | Rule | DESIGN.md | Fix |'),
+    review.includes('| ID | Severity | Evidence | Rule | DESIGN.md | Fix |'),
     'the report table does not fix the finding columns',
   );
-  assert.match(skill, /severity, evidence, and the governing `DESIGN\.md` section/);
-  assert.match(skill, /`error`, `warning`, or `info`/);
-  assert.match(skill, /file and line|file:line/);
+  assert.match(review, /severity, evidence, and the governing `references\/DESIGN\.md` section/);
+  assert.match(review, /`error`, `warning`, or `info`/);
+  assert.match(review, /file and line|file:line/);
 });
 
 test('checklist rows have pass conditions and spec pointers', async () => {
   const rows = checklistRows(await readText(checklistFile));
 
-  assert.ok(rows.length >= 28, `expected at least 28 rules, found ${rows.length}`);
+  assert.equal(rows.length, 30, `expected 30 rules, found ${rows.length}`);
   for (const cells of rows) {
     assert.equal(cells.length, 4, `rule ${cells[0]} must have four columns`);
     const [, rule, pass, spec] = cells;
     assert.ok(rule.length > 3, `rule ${cells[0]} has no name`);
     assert.ok(pass.length > 20, `rule ${cells[0]} has no checkable pass condition`);
-    assert.ok(spec.includes('DESIGN.md'), `rule ${cells[0]} has no DESIGN.md pointer`);
+    assert.ok(spec.includes('references/DESIGN.md'), `rule ${cells[0]} has no references/DESIGN.md pointer`);
   }
 });
 
@@ -187,18 +170,18 @@ test('checklist covers keyboard order and 200% zoom', async () => {
   }
 });
 
-test('skill points at canonical artifacts instead of copying them', async () => {
-  const skill = await readText(skillFile);
+test('review points at canonical artifacts instead of copying them', async () => {
+  const review = await readText(reviewFile);
   const checklist = await readText(checklistFile);
 
-  assert.ok(skill.split('\n').length < 500, 'SKILL.md must stay under 500 lines');
+  assert.ok(review.split('\n').length < 500, 'review reference must stay under 500 lines');
 
-  for (const pointer of ['DESIGN.md', 'dist/tokens.css', 'dist/layouts.css', 'preview/']) {
-    assert.ok(skill.includes(pointer), `SKILL.md does not cite ${pointer}`);
+  for (const pointer of ['references/DESIGN.md', 'assets/tokens.css', 'assets/layouts.css', 'preview/']) {
+    assert.ok(review.includes(pointer), `review reference does not cite ${pointer}`);
   }
 
   for (const [file, source] of [
-    [skillFile, skill],
+    [reviewFile, review],
     [checklistFile, checklist],
   ]) {
     assert.doesNotMatch(source, /--(?:color|space|radius)-[a-z]/, `${file} defines tokens`);
@@ -208,8 +191,8 @@ test('skill points at canonical artifacts instead of copying them', async () => 
 });
 
 test('audit helper is invoked by script path', async () => {
-  const skill = await readText(skillFile);
+  const review = await readText(reviewFile);
 
-  assert.ok(skill.includes(`bun ${helperPath}`), 'SKILL.md must invoke the helper by path');
-  assert.match(skill, /exit status|exits `1`|exit 1/i);
+  assert.ok(review.includes(`bun ${helperPath}`), 'review reference must invoke the helper by path');
+  assert.match(review, /exit status|exits `1`|exit 1/i);
 });
