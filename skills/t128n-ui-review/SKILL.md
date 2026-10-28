@@ -1,6 +1,6 @@
 ---
 name: t128n-ui-review
-description: Audit and conformance-review a real t128n interface. Use this whenever asked for a design conformance audit, design review, consistency check across screens, accessibility pass, or sign-off of an admin console, record browser, audit view, dashboard, table, form, or dialog. It opens the rendered view, runs the CSS audit helper by path, checks every checklist rule against observed evidence, and reports findings with severity and spec pointers.
+description: Audit and conformance-review a real t128n interface, including admin consoles, record browsers, audit views, dashboards, tables, forms, and dialogs. Use this whenever asked for a design conformance audit, design review, consistency check across screens, accessibility pass, or sign-off. It opens the rendered view, runs the CSS audit helper by path, checks every checklist rule against observed evidence, and reports findings with severity and spec pointers.
 ---
 
 # t128n UI review
