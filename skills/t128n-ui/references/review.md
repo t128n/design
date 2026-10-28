@@ -12,9 +12,8 @@ condition, and the `references/DESIGN.md` section that governs it.
 
 - The view: a URL or route, plus the source that renders it.
 - The generated CSS the view loads: `assets/tokens.css` and `assets/layouts.css`.
-- The spec: `references/DESIGN.md`. Worked examples: `preview/` and the
-  deliberately broken `evals/fixtures/broken-page.html` for self-testing the
-  workflow.
+- The spec: `references/DESIGN.md`. The audit runs against the rendered view and
+  the skill's references only; there are no worked examples to lean on.
 
 If you cannot render or inspect the view, stop and report BLOCKED. Reviewing from
 memory, from a screenshot alone, or from the request text is not a review.
@@ -113,7 +112,7 @@ data.
 
 | ID | Severity | Evidence | Rule | DESIGN.md | Fix |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| R4 | error | `preview/src/App.svelte:41` click leaves row order unchanged | Dead sort control | § Tables | Wire the sort handler or remove the arrow |
+| R4 | error | `records-table.svelte:41` click leaves row order unchanged | Dead sort control | § Tables | Wire the sort handler or remove the arrow |
 
 The `ID` is the checklist rule or the helper rule. Every row carries all six
 columns; an empty `Fix` column means the finding is informational.

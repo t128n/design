@@ -6,8 +6,8 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const reviewFile = 'references/review.md';
-const checklistFile = 'references/checklist.md';
+const reviewFile = 'skills/t128n-ui/references/review.md';
+const checklistFile = 'skills/t128n-ui/references/checklist.md';
 const helperPath = 'scripts/audit-css.mjs';
 
 async function readText(file) {
@@ -176,7 +176,7 @@ test('review points at canonical artifacts instead of copying them', async () =>
 
   assert.ok(review.split('\n').length < 500, 'review reference must stay under 500 lines');
 
-  for (const pointer of ['references/DESIGN.md', 'assets/tokens.css', 'assets/layouts.css', 'preview/']) {
+  for (const pointer of ['references/DESIGN.md', 'assets/tokens.css', 'assets/layouts.css', 'scripts/audit-css.mjs']) {
     assert.ok(review.includes(pointer), `review reference does not cite ${pointer}`);
   }
 
@@ -187,6 +187,19 @@ test('review points at canonical artifacts instead of copying them', async () =>
     assert.doesNotMatch(source, /--(?:color|space|radius)-[a-z]/, `${file} defines tokens`);
     assert.doesNotMatch(source, /(?:box-shadow|border-radius)\s*:/, `${file} copies CSS`);
     assert.doesNotMatch(source, /\.t128n-[a-z-]+\s*\{/, `${file} copies a layout block`);
+  }
+});
+
+test('review and checklist cite no preview or evals paths', async () => {
+  const review = await readText(reviewFile);
+  const checklist = await readText(checklistFile);
+
+  for (const [file, source] of [
+    [reviewFile, review],
+    [checklistFile, checklist],
+  ]) {
+    assert.doesNotMatch(source, /preview\//, `${file} cites preview/`);
+    assert.doesNotMatch(source, /evals\//, `${file} cites evals/`);
   }
 });
 
