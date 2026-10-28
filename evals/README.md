@@ -17,7 +17,7 @@ uses to grade the result.
 
 Install the skill as described in `README.md` so the agent can discover
 `t128n-ui`. Run the prompts from the repository root so the canonical files
-(`references/DESIGN.md`, `assets/`, and `preview/`) are available.
+(`skills/t128n-ui/references/DESIGN.md`, `skills/t128n-ui/assets/`, and `preview/`) are available.
 
 Create a workspace outside the repository for every run. Do not write generated
 pages or reports into the checkout:
@@ -45,7 +45,7 @@ not is a triggering failure, not a design failure.
 
 Repeat the same prompt, model, and workspace layout in a fresh session with the
 skill unavailable — uninstall or hide it for the run. Do not point the agent
-at `references/DESIGN.md`, `assets/`, `preview/`, or this eval set, and do not
+at `skills/t128n-ui/references/DESIGN.md`, `skills/t128n-ui/assets/`, `preview/`, or this eval set, and do not
 add design hints. Write the result to the `baseline` condition directory.
 
 Compare the two outputs against the same `expected_output` checks. The point is
@@ -62,8 +62,8 @@ Grade each condition against every bullet in `expected_output`:
 - `n/a` — the check does not apply, with a one-line reason.
 
 For review prompts, grade the report rather than the page: a finding must carry
-severity, evidence, the smallest fix, and the `references/DESIGN.md` rule it
-breaks. These are the primary checks: a report that lists findings without a `references/DESIGN.md` rule
+severity, evidence, the smallest fix, and the `skills/t128n-ui/references/DESIGN.md` rule it
+breaks. These are the primary checks: a report that lists findings without a `skills/t128n-ui/references/DESIGN.md` rule
 and a smallest fix for each one fails, however many
 it lists. The broken-page fixture contains exactly seven findings, so the count
 is necessary but not sufficient — seven findings with no rule citations still

@@ -5,15 +5,15 @@ import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { test } from 'bun:test';
 
-import { readDesignTokens, renderLayoutsCss, renderTokensCss } from '../scripts/build.mjs';
+import { readDesignTokens, renderLayoutsCss, renderTokensCss } from '../skills/t128n-ui/scripts/build.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const cssPath = new URL('../assets/tokens.css', import.meta.url);
+const cssPath = new URL('../skills/t128n-ui/assets/tokens.css', import.meta.url);
 // Snapshot the committed artifact before any test runs `bun run build`, so the
 // provenance assertions below inspect what is in the tree, not what a rebuild wrote.
 const committedCss = readFileSync(cssPath, 'utf8');
-const DESIGN_PATH = 'references/DESIGN.md';
-const BUILD_PATH = 'scripts/build.mjs';
+const DESIGN_PATH = 'skills/t128n-ui/references/DESIGN.md';
+const BUILD_PATH = 'skills/t128n-ui/scripts/build.mjs';
 const PREVIEW_INDEX = 'preview/index.html';
 const PREVIEW_CONFIG = 'preview/vite.config.js';
 const PREVIEW_APP = 'preview/src/App.svelte';
@@ -21,8 +21,8 @@ const PREVIEW_CSS = 'preview/src/app.css';
 const README_PATH = 'README.md';
 const WORKFLOW_PATH = '.github/workflows/design.yml';
 const PAGES_WORKFLOW_PATH = '.github/workflows/pages.yml';
-const CSS_PATH = 'assets/tokens.css';
-const LAYOUTS_PATH = 'assets/layouts.css';
+const CSS_PATH = 'skills/t128n-ui/assets/tokens.css';
+const LAYOUTS_PATH = 'skills/t128n-ui/assets/layouts.css';
 const ROOT_LAYOUTS_URL = new URL('../layouts.css', import.meta.url);
 const ARTIFACTS = [
   DESIGN_PATH,
@@ -229,8 +229,8 @@ test('docs and preview agree', () => {
 
   assert.match(app, /from 'bits-ui'/);
   assert.match(app, /<table/);
-  assert.match(appCss, /@import '\.\.\/\.\.\/assets\/tokens\.css'/);
-  assert.match(appCss, /@import '\.\.\/\.\.\/assets\/layouts\.css'/);
+  assert.match(appCss, /@import '\.\.\/\.\.\/skills\/t128n-ui\/assets\/tokens\.css'/);
+  assert.match(appCss, /@import '\.\.\/\.\.\/skills\/t128n-ui\/assets\/layouts\.css'/);
   assert.match(layouts, /\.t128n-page/);
   assert.ok(readme.includes('--color-surface'));
   assert.ok(readme.includes('--color-primary'));

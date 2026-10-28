@@ -59,6 +59,30 @@ test('eval set is complete', async () => {
   for (const topic of ['audit', 'conformance']) {
     assert.ok(prompts.includes(topic), `the review set is missing a ${topic} prompt`);
   }
+
+  // Rebrand: build prompts name t128n's personal design system, never the product phrase.
+  assert.ok(
+    prompts.includes("t128n's personal design system"),
+    'build prompts must name t128n\'s personal design system',
+  );
+  assert.ok(
+    !prompts.includes('t128n design system'),
+    'prompts must not use the product phrase "t128n design system"',
+  );
+
+  // Paths: every cited DESIGN.md path resolves inside the skill, never the root.
+  const cited = evals
+    .map((item) => `${item.prompt}\n${item.expected_output}`)
+    .join('\n');
+  assert.ok(
+    cited.includes('skills/t128n-ui/references/DESIGN.md'),
+    'evals must cite the skill DESIGN.md path',
+  );
+  assert.equal(
+    cited.split('references/DESIGN.md').length - 1,
+    cited.split('skills/t128n-ui/references/DESIGN.md').length - 1,
+    'every references/DESIGN.md citation must be the skill-internal path',
+  );
 });
 
 test('fixture is broken', async () => {
@@ -120,6 +144,8 @@ test('readme documents runs', async () => {
   assert.doesNotMatch(readme, /t128n-ui-review/, 'README must not name a separate review skill');
   assert.match(readme, /evals\.json/, 'README must point at the eval set');
   assert.match(readme, /evals\/fixtures\/broken-page\.html/, 'README must point at the fixture');
+  assert.match(readme, /skills\/t128n-ui\/references\/DESIGN\.md/, 'README must point at the skill DESIGN.md');
+  assert.match(readme, /skills\/t128n-ui\/assets\//, 'README must point at the skill assets');
 });
 
 test('readme documents markers and review grading', async () => {
@@ -132,8 +158,8 @@ test('readme documents markers and review grading', async () => {
   assert.match(readme, /necessary but not\s+sufficient/, 'README must say the count alone does not pass');
   assert.match(
     readme,
-    /without a `references\/DESIGN\.md` rule/,
-    'README must fail a report that lists findings without a references/DESIGN.md rule',
+    /without a `skills\/t128n-ui\/references\/DESIGN\.md` rule/,
+    'README must fail a report that lists findings without a skills/t128n-ui/references/DESIGN.md rule',
   );
 
   const evals = JSON.parse(await readText('evals/evals.json'));
@@ -141,7 +167,7 @@ test('readme documents markers and review grading', async () => {
 
   assert.ok(review, 'the broken-page review eval must exist');
   assert.match(review.expected_output, /Primary: each finding cites/, 'the review eval must lead with rule citation');
-  assert.match(review.expected_output, /references\/DESIGN\.md rule/, 'the review eval must require a references/DESIGN.md rule per finding');
+  assert.match(review.expected_output, /skills\/t128n-ui\/references\/DESIGN\.md rule/, 'the review eval must require a skills/t128n-ui/references/DESIGN.md rule per finding');
   assert.match(review.expected_output, /smallest fix/, 'the review eval must require the smallest fix');
   assert.match(
     review.expected_output,

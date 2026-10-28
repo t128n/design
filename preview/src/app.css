@@ -1,6 +1,6 @@
 /* Preview styles. Tokens come from the generated stylesheet. */
-@import '../../assets/tokens.css';
-@import '../../assets/layouts.css';
+@import '../../skills/t128n-ui/assets/tokens.css';
+@import '../../skills/t128n-ui/assets/layouts.css';
 
 :root {
   --preview-label-width: 180px;

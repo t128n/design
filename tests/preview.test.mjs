@@ -27,9 +27,9 @@ test('preview is a Vite Svelte app on bits-ui primitives', async () => {
   assert.match(config, /base:\s*'\.\/'/);
   assert.match(svelteConfig, /export default/);
 
-  // The preview consumes both generated stylesheets.
-  assert.match(css, /@import '\.\.\/\.\.\/assets\/tokens\.css'/);
-  assert.ok(css.includes("@import '../../assets/layouts.css';"));
+  // The preview consumes both generated stylesheets from the skill assets.
+  assert.match(css, /@import '\.\.\/\.\.\/skills\/t128n-ui\/assets\/tokens\.css'/);
+  assert.ok(css.includes("@import '../../skills/t128n-ui/assets/layouts.css';"));
 
   // The interactive controls come from bits-ui.
   assert.match(app, /from 'bits-ui'/);
@@ -55,7 +55,7 @@ test('preview is a Vite Svelte app on bits-ui primitives', async () => {
 test('preview keeps the required structure and avoids rejected treatments', async () => {
   const app = await readText('preview/src/App.svelte');
   const css = await readText('preview/src/app.css');
-  const layouts = await readText('assets/layouts.css');
+  const layouts = await readText('skills/t128n-ui/assets/layouts.css');
 
   for (const fragment of [
     '<table',
