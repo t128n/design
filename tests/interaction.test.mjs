@@ -5,7 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const designPath = path.join(root, 'references', 'DESIGN.md');
+const designPath = path.join(root, 'skills', 't128n-ui', 'references', 'DESIGN.md');
 
 const SUBSECTIONS = [
   'Platform-first',

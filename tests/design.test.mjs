@@ -8,7 +8,7 @@ import { promisify } from 'node:util';
 import { YAML } from 'bun';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const designPath = path.join(root, 'references', 'DESIGN.md');
+const designPath = path.join(root, 'skills', 't128n-ui', 'references', 'DESIGN.md');
 const run = promisify(execFile);
 
 const SECTIONS = [
@@ -65,6 +65,21 @@ test('front matter is the only token block', async () => {
   const { body } = splitFrontMatter(await readDesign());
 
   assert.doesNotMatch(body, /^```ya?ml\b/m);
+});
+
+test('design names the personal design system', async () => {
+  const { yaml, body } = splitFrontMatter(await readDesign());
+  const meta = YAML.parse(yaml);
+
+  assert.equal(meta.name, "t128n's personal design system");
+  assert.ok(
+    body.includes("# t128n's personal design system"),
+    'H1 uses the personal name',
+  );
+  assert.ok(
+    body.includes("t128n's personal design system serves"),
+    'Overview paragraph uses the personal name',
+  );
 });
 
 test('all refs resolve', async () => {
@@ -198,7 +213,7 @@ test('mobile token and contract', async () => {
   for (const text of ['### Mobile and touch', '44px', '640px', '800px', '1024px', 'safe-area-inset', 't128n-table-scroll', '100dvh']) {
     assert.ok(body.includes(text), `DESIGN.md is missing ${text}`);
   }
-  const dist = await readFile(path.join(root, 'assets', 'tokens.css'), 'utf8');
+  const dist = await readFile(path.join(root, 'skills', 't128n-ui', 'assets', 'tokens.css'), 'utf8');
   assert.match(dist, /:root \{[\s\S]*?--space-touch: 44px;/);
 });
 

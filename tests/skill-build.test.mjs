@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
+const SKILL_DIR = 'skills/t128n-ui';
 const SKILL = 'SKILL.md';
 const REFERENCES = [
   'references/layouts.md',
@@ -26,7 +27,7 @@ const ROLES = [
 ];
 
 async function readSkillFile(file) {
-  const absolute = path.join(root, file);
+  const absolute = path.join(root, SKILL_DIR, file);
   assert.ok(existsSync(absolute), `${file} exists`);
   return readFile(absolute, 'utf8');
 }
@@ -54,6 +55,7 @@ test('skill is scoped', async () => {
     'audit',
     'conformance',
     'accessibility',
+    'personal design system',
   ]) {
     assert.ok(
       description.includes(term),
@@ -63,7 +65,7 @@ test('skill is scoped', async () => {
 
   for (const file of REFERENCES) {
     assert.ok(
-      existsSync(path.join(root, file)),
+      existsSync(path.join(root, SKILL_DIR, file)),
       `${file} exists at the skill root`,
     );
     assert.ok(skill.includes(file), `SKILL.md cites ${file}`);
@@ -139,6 +141,36 @@ test('no pointer escapes', async () => {
       `${file} cites DESIGN.md only as references/DESIGN.md`,
     );
   }
+});
+
+test('sources are skill-internal', async () => {
+  for (const file of ALL_FILES) {
+    const text = await readSkillFile(file);
+    assert.doesNotMatch(
+      text,
+      /(?:preview|evals)\//,
+      `${file} cites no preview/ or evals/ path`,
+    );
+  }
+
+  const skill = await readSkillFile(SKILL);
+  for (const match of skill.matchAll(/`([^`\n]+)`/g)) {
+    const cited = match[1].trim();
+    if (!/^(?:references|assets|scripts)\//.test(cited)) continue;
+    if (!/\.(?:md|css|mjs)$/.test(cited)) continue;
+    assert.ok(
+      existsSync(path.join(root, SKILL_DIR, cited)),
+      `SKILL.md cites ${cited}, which is missing from the skill`,
+    );
+  }
+});
+
+test('skill names the personal design system', async () => {
+  const skill = await readSkillFile(SKILL);
+  assert.ok(
+    skill.includes("t128n's personal design system"),
+    "SKILL.md names t128n's personal design system",
+  );
 });
 
 function assertRuleExplained(rule, heading, file) {

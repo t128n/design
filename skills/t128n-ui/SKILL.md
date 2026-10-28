@@ -1,9 +1,12 @@
 ---
 name: t128n-ui
-description: "Build or audit any t128n interface: admin consoles, record browsers, audit views, internal dashboards, register tables, record detail screens, forms, and dialogs. Use for building or changing a view — new pages, added columns, filters, sorting, status badges, empty or error states, or a request to match the app, make a screen consistent, or restyle a view, even when t128n is not named. Also use for design conformance audits, consistency checks across screens, accessibility passes, and sign-off: open the rendered view, run the CSS audit helper, check each rule against observed evidence, and report findings with severity and spec pointers."
+description: "Build or audit any t128n interface with t128n's personal design system: admin consoles, record browsers, audit views, internal dashboards, register tables, record detail screens, forms, and dialogs. Use for building or changing a view — new pages, added columns, filters, sorting, status badges, empty or error states, or a request to match the app, make a screen consistent, or restyle a view, even when t128n is not named. Also use for design conformance audits, consistency checks across screens, accessibility passes, and sign-off: open the rendered view, run the CSS audit helper, check each rule against observed evidence, and report findings with severity and spec pointers."
 ---
 
 # t128n UI
+
+`t128n's personal design system` is the system for t128n's own tools and
+interfaces. It is a personal system for dense operational data.
 
 A t128n view is a working surface for dense operational data. Build it by
 deciding, in order: what kind of screen this is, which layout selector carries
@@ -26,8 +29,6 @@ Auditing a view that already exists is the review route at the end of this file.
 | `references/DESIGN.md` | Normative tokens, rules, layout definitions | Any disagreement about a value or rule |
 | `assets/tokens.css` | Generated variables for both themes | Linking a page, naming a token |
 | `assets/layouts.css` | Generated page skeletons | Building any page frame |
-| `preview/pages/` | Bare skeleton for every standard layout | Checking the expected structure |
-| `preview/src/pages/` | Working examples with real controls | Copying a pattern, not its values |
 | `references/layouts.md` | Skeleton decision table | Step 2 |
 | `references/records.md` | Registers, records, status, states | Step 3 |
 | `references/forms-and-dialogs.md` | Fields, validation, overlays | Step 4 |

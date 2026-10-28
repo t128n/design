@@ -1,6 +1,6 @@
 ---
 version: alpha
-name: t128n Design System
+name: "t128n's personal design system"
 description: Dense, flat, record-first web UI for operational tools, with one accent color and full light and dark parity.
 colors:
   primary: "#2E63CC"
@@ -541,9 +541,11 @@ components:
     padding: 6px
 ---
 
+# t128n's personal design system
+
 ## Overview
 
-The t128n design system serves dense operational web tools: admin consoles, record browsers, audit views, and internal dashboards. The interface should feel precise, quiet, and fast to scan. Records and their fields are the primary object; chrome exists only to orient the reader and expose the next action.
+t128n's personal design system serves dense operational web tools: admin consoles, record browsers, audit views, and internal dashboards. The interface should feel precise, quiet, and fast to scan. Records and their fields are the primary object; chrome exists only to orient the reader and expose the next action.
 
 The visual identity is flat and monochrome by default, with a single blue accent for interaction. Surfaces step from `{colors.surface}` to `{colors.surface-tinted}` to `{colors.surface-header}` to separate layers without shadows or decoration. Body copy is set in `{typography.body-md}` at 14px, while `{typography.headline-lg}` carries the page title. Spacing stays on the compact `{spacing.xxs}`–`{spacing.3xl}` scale so that tables and forms remain legible at operational density.
 
@@ -740,8 +742,6 @@ Phones are the base viewport, not a fallback. Compose the single-column layout f
 The app shell is a single column at the phone base and splits into `220px` navigation plus main at `800px`. Split and record layouts stack below `800px`; form grids stay one column until `800px`. Record tables keep their identifier column and scroll horizontally rather than becoming cards.
 
 Equal-column grids start at one column and add width: three-column grids become two at `640px` and three at `1024px`; two-column grids split at `800px`. Override `--t128n-columns` or `--t128n-gap` on the grid element for a one-off composition.
-
-Bare skeletons for every template live under `preview/pages/` and deploy at `/pages/` in the preview.
 
 <!-- t128n:layouts:start -->
 ```css

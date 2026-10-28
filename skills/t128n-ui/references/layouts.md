@@ -36,10 +36,6 @@ Collapse behaviour belongs to `assets/layouts.css` and is described in
 stack, and the shell moves navigation below the main region. Do not add your own
 breakpoints or widths to reproduce those steps.
 
-Use `preview/pages/` to see the bare skeleton for every row above before you
-write markup. Use `preview/src/pages/` to see the same skeletons carrying real
-controls; copy the structure, never the values.
-
 ## Rules
 
 ### L1 One skeleton per page
