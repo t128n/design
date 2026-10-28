@@ -1,14 +1,13 @@
 ---
 name: t128n-ui
-description: "Use when building or changing anything in a t128n app: an admin console, record browser, audit view, internal dashboard, register table, record detail screen, form, or dialog. Trigger on new pages, added columns, filters, sort, status badges, empty or error states, and on requests like \"match the app\", \"make this screen consistent\", or \"restyle this view\" even when t128n is not named."
+description: "Use when building or changing any interface in a t128n app, including admin consoles, record browsers, audit views, internal dashboards, register tables, record detail screens, forms, and dialogs. Trigger on new pages, added columns, filters, sorting, status badges, empty or error states, and on requests to match the app, make a screen consistent, or restyle a view, even when t128n is not named."
 ---
 
 # t128n UI
 
-A t128n view is a working surface for dense operational data, not a marketing
-page. Build it by deciding, in order: what kind of screen this is, which layout
-selector carries it, how records and statuses read, and how input and overlays
-behave. This file is the procedure. The references carry the detail for the
+A t128n view is a working surface for dense operational data. Build it by
+deciding, in order: what kind of screen this is, which layout selector carries
+it, how records and statuses read, and how input and overlays behave. This file is the procedure. The references carry the detail for the
 decision in front of you. `DESIGN.md` carries the norm.
 
 Link the generated stylesheets and name their tokens. Never copy a value out of

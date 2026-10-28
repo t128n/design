@@ -17,7 +17,7 @@ frame holds a shell, a shell holds a register, a register holds a table.
 | A short settings or create page | `.t128n-page` wrapping `.t128n-form-grid` | A single reading column keeps a short form from stretching across a wide screen. |
 | A summary above a working register | `.t128n-grid` with `.t128n-grid--3` above `.t128n-register` | Summary and detail are one screen when the summary explains the register below it. |
 | Two related panels of equal weight | `.t128n-grid` with `.t128n-grid--2` | Two comparable regions need equal columns and one shared reading order. |
-| Three related panels of equal weight | `.t128n-grid` with `.t128n-grid--3` | Three regions that are genuinely parallel; not a place for unrelated metrics. |
+| Three related panels of equal weight | `.t128n-grid` with `.t128n-grid--3` | Three regions that are genuinely parallel. |
 | A stack of states or sections | `.t128n-stack` | One column, one gap, so empty, loading, and error panels read in sequence. |
 | A row of actions, filters, or badges | `.t128n-cluster` | A wrapping row keeps controls together when the viewport narrows. |
 

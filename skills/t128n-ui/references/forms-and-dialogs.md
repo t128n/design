@@ -1,6 +1,6 @@
 # Forms and dialogs
 
-A form is the record in an editable state, not a separate visual language. Use
+A form is the record in an editable state; use the record's layout and tokens. Use
 the field materials described in the Inputs and fields and Components sections
 of `DESIGN.md`, and the variables generated into `dist/tokens.css`. The form
 grid skeleton comes from `dist/layouts.css`. This file covers the order of the
