@@ -9,9 +9,9 @@
     "bun": ">=1.4.0"
   },
   "scripts": {
-    "lint": "bunx --bun designmd lint DESIGN.md",
+    "lint": "bunx --bun designmd lint references/DESIGN.md",
     "build": "bun run lint && bun scripts/build.mjs",
-    "check": "bun run build && git diff --exit-code -- dist",
+    "check": "bun run build && git diff --exit-code -- assets",
     "test": "bun test",
     "preview:dev": "vite --config preview/vite.config.js",
     "preview:build": "vite build --config preview/vite.config.js",
