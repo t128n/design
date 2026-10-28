@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
+import { existsSync, readdirSync, statSync } from 'node:fs';
 import { copyFile, mkdir, mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -9,6 +8,7 @@ import { test } from 'bun:test';
 import { YAML } from 'bun';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const SKILL_ROOT = path.join(root, 'skills', 't128n-ui');
 const BUN = process.execPath;
 
 // A skill is a pointer. These patterns catch a fork of the design source, not
@@ -21,9 +21,11 @@ const TOKEN_TABLE =
   /^\s*\|[^\n]*--(?:color|space|radius)-[\w-]*[^\n]*\|\s*[^|\n]*(?:#[0-9a-f]{3,8}\b|\b\d+(?:\.\d+)?(?:px|rem|em)\b|\b(?:rgba?|hsla?)\()/im;
 const T128N_BLOCK = /\.t128n-[\w-]+[^\n{}]*\{/;
 
+// A citation is a relative path (contains a slash) or a bare file with a known
+// extension. A `file:line` evidence reference such as `records-table.svelte:41`
+// is not a skill citation, so it is not collected.
 const PATH_TOKEN = /^(?:[\w.-]+\/)+[\w.-]*$/;
 const FILE_TOKEN = /^[\w.-]+\.(?:md|css|mjs|js|json|svelte|html)$/;
-const LINE_SUFFIX = /:\d+(?:-\d+)?$/;
 
 const NAME_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ALLOWED_FIELDS = ['name', 'description', 'license', 'compatibility', 'metadata', 'allowed-tools'];
@@ -40,18 +42,9 @@ const REQUIRED_COMPONENTS = [
   'assets/layouts.css',
   'scripts/build.mjs',
   'scripts/audit-css.mjs',
-  'preview/pages',
-  'evals/fixtures/broken-page.html',
 ];
 
-const EXCLUDED_REL = new Set([
-  '.git',
-  'node_modules',
-  'docs',
-  'tests',
-  '.superlite',
-  'preview/dist',
-]);
+const COPY_EXCLUDED = new Set(['node_modules', '.superlite', 'dist']);
 
 function pointerViolations(text) {
   const violations = [];
@@ -70,40 +63,67 @@ function frontmatter(source, label) {
   return YAML.parse(match[1]);
 }
 
-function citedPaths(markdown) {
-  const found = new Set();
-  for (const match of markdown.matchAll(/`([^`\n]+)`/g)) {
-    const cited = match[1].trim().replace(LINE_SUFFIX, '');
-    if (PATH_TOKEN.test(cited) || FILE_TOKEN.test(cited)) found.add(cited);
-  }
-  return [...found];
-}
-
+// SKILL.md plus every reference except DESIGN.md (the token source itself).
 async function instructionFiles() {
-  const refs = await readdir(path.join(root, 'references'));
+  const refs = await readdir(path.join(SKILL_ROOT, 'references'));
   const markdown = refs
     .filter((name) => name.endsWith('.md') && name !== 'DESIGN.md')
     .map((name) => `references/${name}`);
   return ['SKILL.md', ...markdown].sort();
 }
 
-async function copyTree(src, dest, rel = '') {
+function citedPaths(markdown) {
+  const found = new Set();
+  for (const match of markdown.matchAll(/`([^`\n]+)`/g)) {
+    const cited = match[1].trim();
+    if (PATH_TOKEN.test(cited) || FILE_TOKEN.test(cited)) found.add(cited);
+  }
+  return [...found];
+}
+
+function externalViolation(cited) {
+  if (cited.startsWith('../')) return `${cited} escapes the skill root`;
+  if (/^(?:\.\/)?(?:preview|evals|dist)\//.test(cited)) {
+    return `${cited} names a root maintainer path`;
+  }
+  if (/^(?:\.\/)?DESIGN\.md$/.test(cited)) {
+    return `${cited} cites root DESIGN.md; use references/DESIGN.md`;
+  }
+  if (/^(?:\.\/)?(?:tokens|layouts)\.css$/.test(cited)) {
+    return `${cited} cites a root asset path; use assets/`;
+  }
+  return null;
+}
+
+// A root skill "tree" is gone when it has no files: an empty leftover directory
+// is not tracked by git and is not a skill tree.
+function treeIsGone(rel) {
+  const target = path.join(root, rel);
+  if (!existsSync(target)) return true;
+  try {
+    if (statSync(target).isDirectory()) return readdirSync(target).length === 0;
+  } catch {
+    /* fall through to treat as present */
+  }
+  return false;
+}
+
+async function copyTree(src, dest) {
   await mkdir(dest, { recursive: true });
   for (const entry of await readdir(src, { withFileTypes: true })) {
-    const entryRel = rel ? `${rel}/${entry.name}` : entry.name;
-    if (EXCLUDED_REL.has(entryRel)) continue;
+    if (COPY_EXCLUDED.has(entry.name)) continue;
     const srcPath = path.join(src, entry.name);
     const destPath = path.join(dest, entry.name);
     if (entry.isDirectory()) {
-      await copyTree(srcPath, destPath, entryRel);
+      await copyTree(srcPath, destPath);
     } else if (entry.isFile()) {
       await copyFile(srcPath, destPath);
     }
   }
 }
 
-test('frontmatter matches Agent Skills spec', async () => {
-  const source = await readFile(path.join(root, 'SKILL.md'), 'utf8');
+test('frontmatter is strict', async () => {
+  const source = await readFile(path.join(SKILL_ROOT, 'SKILL.md'), 'utf8');
   const meta = frontmatter(source, 'SKILL.md');
 
   for (const key of Object.keys(meta)) {
@@ -114,15 +134,22 @@ test('frontmatter matches Agent Skills spec', async () => {
   }
 
   assert.equal(typeof meta.name, 'string', 'SKILL.md needs a name');
-  assert.ok(meta.name.length >= 1 && meta.name.length <= 64, 'name must be 1-64 chars');
+  assert.equal(meta.name, 't128n-ui', 'name must be t128n-ui');
+  assert.equal(meta.name, path.basename(SKILL_ROOT), 'name must equal the skill folder name');
   assert.match(meta.name, NAME_RE, 'name must be lowercase kebab-case');
-  assert.ok(!/^-|-$|--/.test(meta.name), 'name has no leading, trailing, or double hyphen');
+  assert.ok(meta.name.length >= 1 && meta.name.length <= 64, 'name must be 1-64 chars');
 
   assert.equal(typeof meta.description, 'string', 'SKILL.md needs a description');
   assert.ok(
     meta.description.length >= 1 && meta.description.length <= 1024,
     'description must be 1-1024 chars',
   );
+  const lower = meta.description.toLowerCase();
+  assert.ok(lower.includes('personal design system'), 'description must name the personal design system');
+  assert.ok(lower.includes('build'), 'description must cover building');
+  assert.ok(lower.includes('audit'), 'description must cover auditing');
+  assert.ok(lower.includes('conformance'), 'description must cover conformance');
+  assert.ok(lower.includes('accessibility'), 'description must cover accessibility');
 
   if (meta.compatibility !== undefined) {
     assert.equal(typeof meta.compatibility, 'string', 'compatibility must be a string');
@@ -148,53 +175,42 @@ test('frontmatter matches Agent Skills spec', async () => {
   assert.ok(source.split('\n').length < 500, 'SKILL.md must stay under 500 lines');
 });
 
-test('staged install name matches frontmatter', async () => {
-  const tmp = await mkdtemp(path.join(tmpdir(), 't128n-name-'));
-  try {
-    const skillDir = path.join(tmp, 't128n-ui');
-    await mkdir(skillDir);
-    await copyFile(path.join(root, 'SKILL.md'), path.join(skillDir, 'SKILL.md'));
-    const source = await readFile(path.join(skillDir, 'SKILL.md'), 'utf8');
-    const meta = frontmatter(source, 'staged SKILL.md');
-    assert.equal(path.basename(skillDir), meta.name, 'install folder basename must equal the name');
-  } finally {
-    await rm(tmp, { recursive: true, force: true });
-  }
-});
-
-test('every citation resolves inside the skill', async () => {
+test('skill has no external citations', async () => {
   let citations = 0;
   for (const rel of await instructionFiles()) {
-    const text = await readFile(path.join(root, rel), 'utf8');
+    const text = await readFile(path.join(SKILL_ROOT, rel), 'utf8');
     for (const cited of citedPaths(text)) {
       citations += 1;
-      assert.ok(!cited.startsWith('../'), `${rel} cites ${cited}, which escapes the skill root`);
-      assert.ok(!/^(dist|skills)\//.test(cited), `${rel} cites obsolete path ${cited}`);
+      const violation = externalViolation(cited);
+      assert.ok(violation === null, `${rel} has an external citation: ${violation}`);
       assert.ok(
-        !/^(\.\/)?DESIGN\.md$/.test(cited),
-        `${rel} cites root DESIGN.md; use references/DESIGN.md`,
+        existsSync(path.join(SKILL_ROOT, cited)),
+        `${rel} cites missing path ${cited}`,
       );
-      assert.ok(existsSync(path.join(root, cited)), `${rel} cites missing path ${cited}`);
     }
   }
   assert.ok(citations > 0, 'expected at least one cited path');
 });
 
-test('required skill components exist', () => {
+test('required components exist', async () => {
   for (const rel of REQUIRED_COMPONENTS) {
-    assert.ok(existsSync(path.join(root, rel)), `${rel} is missing`);
+    assert.ok(existsSync(path.join(SKILL_ROOT, rel)), `${rel} is missing`);
   }
+
+  const skill = await readFile(path.join(SKILL_ROOT, 'SKILL.md'), 'utf8');
+  assert.ok(skill.includes('`references/review.md`'), 'SKILL.md must cite references/review.md directly');
+  assert.ok(skill.includes('`references/checklist.md`'), 'SKILL.md must cite references/checklist.md directly');
 });
 
-test('obsolete trees are gone', () => {
-  for (const rel of ['skills', 'dist', 'DESIGN.md']) {
-    assert.ok(!existsSync(path.join(root, rel)), `obsolete ${rel} must be gone`);
+test('root skill trees are gone', () => {
+  for (const rel of ['SKILL.md', 'references', 'assets', 'scripts', 'dist']) {
+    assert.ok(treeIsGone(rel), `root ${rel} must be gone`);
   }
 });
 
 test('instruction files do not copy the spec', async () => {
   for (const rel of await instructionFiles()) {
-    const text = await readFile(path.join(root, rel), 'utf8');
+    const text = await readFile(path.join(SKILL_ROOT, rel), 'utf8');
     assert.deepEqual(
       pointerViolations(text),
       [],
@@ -217,11 +233,14 @@ test('copy guard rejects real copies, not rule language', () => {
   );
 });
 
-test('install copy rebuilds assets', async () => {
-  const tmp = await mkdtemp(path.join(tmpdir(), 't128n-install-'));
+test('copied skill rebuilds and audits', async () => {
+  const tmp = await mkdtemp(path.join(tmpdir(), 't128n-skill-'));
   try {
     const skillDir = path.join(tmp, 't128n-ui');
-    await copyTree(root, skillDir);
+    await copyTree(SKILL_ROOT, skillDir);
+
+    // Force the copy to regenerate both artifacts from its own DESIGN.md.
+    await rm(path.join(skillDir, 'assets'), { recursive: true, force: true });
 
     const build = Bun.spawnSync([BUN, 'scripts/build.mjs'], {
       cwd: skillDir,
@@ -232,15 +251,15 @@ test('install copy rebuilds assets', async () => {
 
     for (const artifact of ['tokens.css', 'layouts.css']) {
       const generated = await readFile(path.join(skillDir, 'assets', artifact), 'utf8');
-      const committed = await readFile(path.join(root, 'assets', artifact), 'utf8');
+      const committed = await readFile(path.join(SKILL_ROOT, 'assets', artifact), 'utf8');
       assert.equal(
         generated,
         committed,
-        `installed copy regenerated assets/${artifact} differs from the committed artifact`,
+        `copied skill regenerated assets/${artifact} differs from the committed artifact`,
       );
     }
 
-    const shadow = path.join(tmp, 'shadow.css');
+    const shadow = path.join(skillDir, 'shadow.css');
     await writeFile(shadow, '.panel { box-shadow: 0 1px 2px rgba(0,0,0,.2); }\n', 'utf8');
     const audit = Bun.spawnSync([BUN, 'scripts/audit-css.mjs', shadow], {
       cwd: skillDir,
@@ -248,53 +267,6 @@ test('install copy rebuilds assets', async () => {
       stderr: 'pipe',
     });
     assert.equal(audit.exitCode, 1, 'audit helper must exit 1 when a shadow is present');
-  } finally {
-    await rm(tmp, { recursive: true, force: true });
-  }
-});
-
-test('git archive copy rebuilds and audits without the toolchain', async () => {
-  const tmp = await mkdtemp(path.join(tmpdir(), 't128n-archive-'));
-  try {
-    const archivePath = path.join(tmp, 'skill.tar');
-    const skillDir = path.join(tmp, 't128n-ui');
-
-    const archive = spawnSync('git', ['archive', 'HEAD', '--output', archivePath], {
-      cwd: root,
-      encoding: 'utf8',
-    });
-    assert.equal(archive.status, 0, archive.stderr);
-    await mkdir(skillDir);
-    const extract = spawnSync('tar', ['-xf', archivePath, '-C', skillDir], {
-      encoding: 'utf8',
-    });
-    assert.equal(extract.status, 0, extract.stderr);
-
-    // A clean archive carries only tracked files: no node_modules, .superlite,
-    // or generated preview/dist may be required by the installed skill.
-    assert.equal(existsSync(path.join(skillDir, 'node_modules')), false, 'archive must exclude node_modules');
-    assert.equal(existsSync(path.join(skillDir, '.superlite')), false, 'archive must exclude .superlite');
-    assert.equal(existsSync(path.join(skillDir, 'preview', 'dist')), false, 'archive must exclude preview/dist');
-
-    const build = Bun.spawnSync([BUN, 'scripts/build.mjs'], {
-      cwd: skillDir,
-      stdout: 'pipe',
-      stderr: 'pipe',
-    });
-    assert.equal(build.exitCode, 0, `build failed: ${build.stderr.toString()}`);
-
-    for (const artifact of ['tokens.css', 'layouts.css']) {
-      const generated = await readFile(path.join(skillDir, 'assets', artifact), 'utf8');
-      const committed = await readFile(path.join(root, 'assets', artifact), 'utf8');
-      assert.equal(generated, committed, `archive regenerated assets/${artifact} differs from the committed artifact`);
-    }
-
-    const audit = Bun.spawnSync([BUN, 'scripts/audit-css.mjs', 'assets/layouts.css'], {
-      cwd: skillDir,
-      stdout: 'pipe',
-      stderr: 'pipe',
-    });
-    assert.equal(audit.exitCode, 0, `audit failed on the archive: ${audit.stderr.toString()}`);
   } finally {
     await rm(tmp, { recursive: true, force: true });
   }
