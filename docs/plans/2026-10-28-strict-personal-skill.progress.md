@@ -1,0 +1,22 @@
+# Progress ledger
+
+- start e5d682f546986094ec5586f77b3ba9089a6cb8a0
+- unblocked: dispatched T1 at 03:12:56; waiting on T1 for T2 T3 T4 T5
+- tests fast passed=20 failed=0 skipped=0 seconds=0.2
+- commit T1 4a5e271ba5 Relocate skill core and build pipeline
+- tests fast passed=18 failed=0 skipped=0 seconds=0.1
+- tests fast passed=7 failed=1 skipped=0 seconds=0.1
+- tests fast passed=8 failed=0 skipped=0 seconds=0.0
+- tests fast passed=20 failed=0 skipped=0 seconds=3.9
+- tests fast passed=36 failed=0 skipped=0 seconds=0.3
+- commit T2 de01b58e66 Relocate review detail and helper
+- commit T3 1500465d39 Strict skill instructions and rebrand
+- commit T4 faf300b9d7 Preview evals and path consumers
+- commit T5 16462baa5d Docs branding and install
+- tests fast passed=7 failed=0 skipped=0 seconds=0.1
+- tests full passed=113 failed=0 skipped=0 seconds=5.0
+- commit T6 a3c9e7122e Strict skill guard
+- tests full passed=113 failed=0 skipped=0 seconds=5.0
+- tests fast passed=64 failed=0 skipped=0 seconds=0.2
+- tests full passed=113 failed=0 skipped=0 seconds=4.7
+- tests full passed=113 failed=0 skipped=0 seconds=4.3

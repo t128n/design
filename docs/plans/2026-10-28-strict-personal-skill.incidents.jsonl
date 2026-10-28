@@ -1,0 +1,46 @@
+{"file": "tests/audit-css.test.mjs", "line": 0, "context": "run_tests full: 8 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:05:51"}
+{"file": "tests/build.test.mjs", "line": 0, "context": "run_tests full: 18 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:05:51"}
+{"file": "tests/ci.test.mjs", "line": 0, "context": "run_tests full: 4 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:05:51"}
+{"file": "tests/design.test.mjs", "line": 0, "context": "run_tests full: 14 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:05:51"}
+{"file": "tests/docs.test.mjs", "line": 0, "context": "run_tests full: 6 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:05:51"}
+{"file": "tests/evals.test.mjs", "line": 0, "context": "run_tests full: 4 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:05:51"}
+{"file": "tests/integration.test.mjs", "line": 0, "context": "run_tests full: 5 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:05:51"}
+{"file": "tests/interaction.test.mjs", "line": 0, "context": "run_tests full: 9 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:05:51"}
+{"file": "tests/layouts.test.mjs", "line": 0, "context": "run_tests full: 5 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:05:51"}
+{"file": "tests/pages.test.mjs", "line": 0, "context": "run_tests full: 3 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:05:51"}
+{"file": "tests/preview.test.mjs", "line": 0, "context": "run_tests full: 3 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:05:51"}
+{"file": "tests/skill-build.test.mjs", "line": 0, "context": "run_tests full: 10 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:05:51"}
+{"file": "tests/skill-review.test.mjs", "line": 0, "context": "run_tests full: 9 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:05:51"}
+{"file": "tests/skill-spec.test.mjs", "line": 0, "context": "run_tests full: 9 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:05:51"}
+{"file": "tests/smoke.test.mjs", "line": 0, "context": "run_tests full: 2 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:05:51"}
+{"file": "tests/docs.test.mjs", "line": 139, "context": "README never symlinks the repo root: README must not recommend installing the repo root; install the skill directory", "agent": "run_tests", "kind": "test-failure", "resolution": "open", "time": "03:23:17"}
+{"file": "", "line": 0, "context": "verified: seam T1↔T2", "agent": "pt_review", "kind": "verified", "time": "03:26:30"}
+{"file": "", "line": 0, "context": "verified: seam T1↔T3", "agent": "pt_review", "kind": "verified", "time": "03:26:30"}
+{"file": "", "line": 0, "context": "verified: seam T1↔T4", "agent": "pt_review", "kind": "verified", "time": "03:26:30"}
+{"file": "", "line": 0, "context": "verified: seam T1↔T5", "agent": "pt_review", "kind": "verified", "time": "03:26:30"}
+{"file": "tests/build.test.mjs", "line": 0, "context": "run_tests full: 20 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:34:21"}
+{"file": "tests/design.test.mjs", "line": 0, "context": "run_tests full: 15 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:34:21"}
+{"file": "tests/skill-build.test.mjs", "line": 0, "context": "run_tests full: 12 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:34:21"}
+{"file": "tests/skill-review.test.mjs", "line": 0, "context": "run_tests full: 10 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:34:21"}
+{"file": "tests/skill-spec.test.mjs", "line": 0, "context": "run_tests full: 7 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:34:21"}
+{"file": "", "line": 0, "context": "verified: seam T2↔T6", "agent": "pt_review", "kind": "verified", "time": "03:34:37"}
+{"file": "", "line": 0, "context": "verified: seam T3↔T6", "agent": "pt_review", "kind": "verified", "time": "03:34:37"}
+{"file": "skills/t128n-ui/scripts/build.mjs", "line": 1, "context": "verified: file - clean skill copy has only skill files and rebuilds assets", "agent": "coordinator", "kind": "verified", "resolution": "fixed", "confidence": "high", "time": "03:39:49"}
+{"file": "skills/t128n-ui/scripts/build.mjs", "line": 1, "context": "verified: encoding - generated assets byte-identical and all citations stay inside the skill", "agent": "coordinator", "kind": "verified", "resolution": "fixed", "confidence": "high", "time": "03:39:49"}
+{"file": "skills/t128n-ui/scripts/build.mjs", "line": 1, "context": "verified: deep - name equals parent and frontmatter follows the spec", "agent": "coordinator", "kind": "verified", "resolution": "fixed", "confidence": "high", "time": "03:39:49"}
+{"file": "skills/t128n-ui/scripts/audit-css.mjs", "line": 1, "context": "verified: protocol - audit helper exits 1 and preview build passes", "agent": "coordinator", "kind": "verified", "resolution": "fixed", "confidence": "high", "time": "03:39:49"}
+{"file": "tests/audit-css.test.mjs", "line": 0, "context": "run_tests full: 8 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:40:12"}
+{"file": "tests/build.test.mjs", "line": 0, "context": "run_tests full: 20 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:40:12"}
+{"file": "tests/ci.test.mjs", "line": 0, "context": "run_tests full: 4 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:40:12"}
+{"file": "tests/design.test.mjs", "line": 0, "context": "run_tests full: 15 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:40:12"}
+{"file": "tests/docs.test.mjs", "line": 0, "context": "run_tests full: 6 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:40:12"}
+{"file": "tests/evals.test.mjs", "line": 0, "context": "run_tests full: 4 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:40:12"}
+{"file": "tests/integration.test.mjs", "line": 0, "context": "run_tests full: 5 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:40:12"}
+{"file": "tests/interaction.test.mjs", "line": 0, "context": "run_tests full: 9 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:40:12"}
+{"file": "tests/layouts.test.mjs", "line": 0, "context": "run_tests full: 5 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:40:12"}
+{"file": "tests/pages.test.mjs", "line": 0, "context": "run_tests full: 3 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:40:12"}
+{"file": "tests/preview.test.mjs", "line": 0, "context": "run_tests full: 3 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:40:12"}
+{"file": "tests/skill-build.test.mjs", "line": 0, "context": "run_tests full: 12 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:40:12"}
+{"file": "tests/skill-review.test.mjs", "line": 0, "context": "run_tests full: 10 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:40:12"}
+{"file": "tests/skill-spec.test.mjs", "line": 0, "context": "run_tests full: 7 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:40:12"}
+{"file": "tests/smoke.test.mjs", "line": 0, "context": "run_tests full: 2 tests pass", "agent": "run_tests", "kind": "verified", "time": "03:40:12"}
