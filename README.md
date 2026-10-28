@@ -33,16 +33,20 @@ package:
 npx skills add t128n/design
 ```
 
-Or install it from a local checkout by copying this folder:
+For local development, symlink the repository root instead of copying it. Run
+the command from a stable checkout; the link breaks if the checkout moves:
 
 ```sh
-npx skills add . --copy
+mkdir -p ~/.agents/skills
+ln -sfn "$PWD" ~/.agents/skills/t128n-ui
 ```
 
-Both install the skill as a folder named `t128n-ui` containing `SKILL.md`,
-`references/`, `assets/`, `scripts/`, `preview/`, and `evals/`. Every path the
-skill cites lives inside that installed folder, so no pointer dangles after
-install.
+`npx skills add .` / `--copy` is avoided locally because it copies the
+checkout's toolchain and orchestrator state (`node_modules`, `.superlite/`, and
+the worktree `.git` file) into the install. Either install puts the skill under
+the name `t128n-ui`, with `SKILL.md`, `references/`, `assets/`, `scripts/`,
+`preview/`, and `evals/` inside, and every path the skill cites lives inside
+that folder.
 
 ## Repository layout
 

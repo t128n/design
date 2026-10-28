@@ -98,15 +98,28 @@ test('install commands are exact', async () => {
     'README does not document the published install command',
   );
   assert.ok(
-    readme.includes('npx skills add . --copy'),
-    'README does not document the local install command',
+    readme.includes('ln -sfn "$PWD" ~/.agents/skills/t128n-ui'),
+    'README does not document the local symlink install',
+  );
+});
+
+test('README does not recommend a local --copy install', async () => {
+  const readme = await readText('README.md');
+  assert.doesNotMatch(
+    readme,
+    /npx skills add \. --copy/,
+    'README must not recommend npx skills add . --copy; use the symlink',
   );
 });
 
 test('no root references', async () => {
   const readme = await readText('README.md');
   assert.doesNotMatch(readme, /dist\//, 'README still references the removed dist/ tree');
-  assert.doesNotMatch(readme, /skills\//, 'README still references the removed skills/ tree');
+  assert.doesNotMatch(
+    readme,
+    /(?<!~\/\.agents\/)skills\//,
+    'README still references the removed skills/ tree (the ~/.agents/skills/ install path is allowed)',
+  );
   assert.doesNotMatch(
     readme,
     /(?<!references\/)DESIGN\.md/,

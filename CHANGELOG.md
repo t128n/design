@@ -10,8 +10,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - The repository is now one first-class Agent Skill, `t128n-ui`, at the repo
   root, with a build mode and a merged review mode. Install with
-  `npx skills add t128n/design` (published) or `npx skills add . --copy`
-  (local copy); both install to `~/.agents/skills/t128n-ui/`.
+  `npx skills add t128n/design` (published) or a symlink to the repo root from
+  a stable checkout (local); both install to `~/.agents/skills/t128n-ui/`.
 - `references/review.md` and `references/checklist.md` carry the conformance
   audit workflow (eight ordered steps) and its R1–R30 checklist, with
   `scripts/audit-css.mjs` as the static scan helper.
