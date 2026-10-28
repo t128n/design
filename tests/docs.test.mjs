@@ -44,7 +44,7 @@ test('docs describe the system', async () => {
 
   for (const link of [
     '[DESIGN.md](DESIGN.md)',
-    '[layouts.css](layouts.css)',
+    '[dist/layouts.css](dist/layouts.css)',
     '[preview/pages/](preview/pages/)',
     '[preview](preview/)',
     '[dist/tokens.css](dist/tokens.css)',
@@ -83,6 +83,36 @@ test('docs describe the system', async () => {
   const changelog = await readText('CHANGELOG.md');
   assert.match(changelog, /^#\s*Changelog\s*$/m);
   assert.ok(/^## \[?0\.1\.0\]?/m.test(changelog), 'CHANGELOG does not contain the 0.1.0 release');
+  assert.match(
+    changelog,
+    /### Changed[\s\S]*?DESIGN\.md[\s\S]*?dist\/layouts\.css/,
+    'CHANGELOG does not record the layout move',
+  );
+});
+
+test('no root references', async () => {
+  const owned = [
+    'preview/src/app.css',
+    'README.md',
+    'CHANGELOG.md',
+    'skills/README.md',
+    'tests/layouts.test.mjs',
+    'tests/smoke.test.mjs',
+    'tests/preview.test.mjs',
+    'tests/docs.test.mjs',
+    'tests/skills-docs.test.mjs',
+    'tests/integration.test.mjs',
+  ];
+  const stale = new RegExp('(?<!dist/)layouts\\.css');
+
+  for (const file of owned) {
+    const text = await readText(file);
+    assert.doesNotMatch(
+      text,
+      stale,
+      `${file} points at the root layout file instead of the generated artifact`,
+    );
+  }
 });
 
 test('docs describe mobile-first behavior', async () => {
@@ -101,11 +131,11 @@ test('docs describe mobile-first behavior', async () => {
   assert.ok(ladder, 'README does not state the min-width breakpoint ladder');
   const breakpoints = (css) => [...new Set([...css.matchAll(/@media \(min-width: (\d+)px\)/g)].map((m) => Number(m[1])))].sort((a, b) => a - b);
   const [layoutsCss, previewCss] = await Promise.all([
-    readText('layouts.css'),
+    readText('dist/layouts.css'),
     readText('preview/src/app.css'),
   ]);
   const documented = ladder.slice(1).map(Number);
-  assert.deepEqual(documented, breakpoints(layoutsCss), 'README breakpoints do not match layouts.css');
+  assert.deepEqual(documented, breakpoints(layoutsCss), 'README breakpoints do not match dist/layouts.css');
   for (const width of breakpoints(previewCss)) {
     assert.ok(documented.includes(width), `README does not document the preview ${width}px breakpoint`);
   }

@@ -8,9 +8,11 @@ Canonical design tokens, generated CSS, and tooling for t128n web apps.
 guidance. Everything else in this repository is derived from it or describes
 how to consume it:
 
-- `DESIGN.md` — palette, typography, spacing, shapes, components, and rules.
+- `DESIGN.md` — palette, typography, spacing, shapes, components, layout CSS,
+  and rules.
 - [dist/tokens.css](dist/tokens.css) — generated light/dark CSS variables.
-- [layouts.css](layouts.css) — standard CSS grid page skeletons.
+- [dist/layouts.css](dist/layouts.css) — generated standard CSS grid page
+  skeletons.
 - [preview](preview/) — Vite + Svelte + bits-ui visual acceptance app.
 
 Values live in one place.
@@ -21,8 +23,9 @@ Values live in one place.
 DESIGN.md                    Normative tokens and guidance
 scripts/build.mjs            Front-matter parser and CSS renderer
 dist/tokens.css              Generated CSS (committed, never hand-edited)
-layouts.css                  Standard CSS grid page skeletons
+dist/layouts.css             Generated layout CSS (committed, never hand-edited)
 preview/                     Vite + Svelte 5 + bits-ui preview app
+skills/                      Agent skills for building and reviewing pages
 README.md                    This document
 CHANGELOG.md                 Version history
 package.json                 Scripts and pinned toolchain
@@ -71,7 +74,7 @@ variables they define:
 
 ```html
 <link rel="stylesheet" href="dist/tokens.css">
-<link rel="stylesheet" href="layouts.css">
+<link rel="stylesheet" href="dist/layouts.css">
 ```
 
 The generated CSS variables are:
@@ -88,15 +91,16 @@ The generated CSS variables are:
 `--color-*` names inside the dark selectors, so components never branch on
 theme.
 
-Do not edit `dist/tokens.css` by hand and do not copy values into app
-stylesheets. Change `DESIGN.md`, run `bun run build`, and commit the
-regenerated artifact.
+Do not edit `dist/tokens.css` or `dist/layouts.css` by hand and do not copy
+values into app stylesheets. Change `DESIGN.md`, run `bun run build`, and
+commit the regenerated artifacts.
 
 ## Layouts
 
-`layouts.css` provides the shared page skeletons. They are mobile-first: the
-phone composition is the base, and `min-width` upgrades add columns and
-restore desktop density:
+`dist/layouts.css` provides the shared page skeletons. It is generated from the
+canonical block in `DESIGN.md`. The skeletons are mobile-first: the phone
+composition is the base, and `min-width` upgrades add columns and restore
+desktop density. They use the token spacing and border variables.
 
 ```html
 <div class="t128n-app-shell">
@@ -157,6 +161,12 @@ component relies on a desktop-first `max-width` override.
 Run the preview on a phone-sized viewport to check gutters, touch targets, and
 table scrolling before shipping a layout change.
 
+## Agent skills
+
+Two skills under `skills/` teach coding agents to build and review t128n
+interfaces from the canonical files instead of restating them. Install them
+with [skills/README.md](skills/README.md).
+
 ## Preview
 
 The preview is a Vite + Svelte 5 app using bits-ui primitives and Octicons
@@ -184,7 +194,8 @@ page follows the operating system. An explicit `data-theme` always wins.
 
 1. Read [DESIGN.md](DESIGN.md) and the [preview](preview/).
 2. Pin a commit of this repository and vendor
-   [dist/tokens.css](dist/tokens.css) and [layouts.css](layouts.css) into your app.
+   [dist/tokens.css](dist/tokens.css) and
+   [dist/layouts.css](dist/layouts.css) into your app.
 3. Link both stylesheets from every page.
 4. Map the app's state vocabulary onto the seven semantic roles.
 5. Re-vendor the CSS when you bump the pinned commit.
@@ -205,6 +216,7 @@ CI (`.github/workflows/design.yml`) runs on push and pull request on Bun 1.4:
 
 ## Contributing
 
-1. Change `DESIGN.md` only. Do not hand-edit `dist/tokens.css`.
+1. Change `DESIGN.md` only. Do not hand-edit either generated stylesheet.
 2. Run `bun run build`, then `bun test` and `bun run check`.
-3. Commit the source change and the regenerated `dist/tokens.css` together.
+3. Commit the source change and the regenerated `dist/tokens.css` and
+   `dist/layouts.css` together.

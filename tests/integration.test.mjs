@@ -5,7 +5,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { test } from 'bun:test';
 
-import { readDesignTokens, renderTokensCss } from '../scripts/build.mjs';
+import { readDesignTokens, renderLayoutsCss, renderTokensCss } from '../scripts/build.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const cssPath = new URL('../dist/tokens.css', import.meta.url);
@@ -22,7 +22,11 @@ const README_PATH = 'README.md';
 const WORKFLOW_PATH = '.github/workflows/design.yml';
 const PAGES_WORKFLOW_PATH = '.github/workflows/pages.yml';
 const CSS_PATH = 'dist/tokens.css';
-const LAYOUTS_PATH = 'layouts.css';
+const LAYOUTS_PATH = 'dist/layouts.css';
+const ROOT_LAYOUTS_URL = new URL(
+  `../${LAYOUTS_PATH.replace('dist/', '')}`,
+  import.meta.url,
+);
 const ARTIFACTS = [
   DESIGN_PATH,
   BUILD_PATH,
@@ -79,6 +83,18 @@ test('committed css is the renderer output', () => {
   assert.equal(committedCss, renderTokensCss(readDesignTokens(markdown)));
 });
 
+test('artifact matches source', () => {
+  const markdown = readFileSync(
+    new URL(`../${DESIGN_PATH}`, import.meta.url),
+    'utf8',
+  );
+  const artifact = readFileSync(
+    new URL(`../${LAYOUTS_PATH}`, import.meta.url),
+    'utf8',
+  );
+  assert.equal(artifact, renderLayoutsCss(markdown));
+});
+
 test('every color pair maps in both dark selectors', () => {
   const tokens = readDesignTokens(
     readFileSync(new URL(`../${DESIGN_PATH}`, import.meta.url), 'utf8'),
@@ -114,6 +130,10 @@ test('repo is assembled', () => {
   for (const artifact of ARTIFACTS) {
     assert.ok(existsSync(new URL(`../${artifact}`, import.meta.url)), artifact);
   }
+  assert.ok(
+    !existsSync(ROOT_LAYOUTS_URL),
+    'the root layout source should be gone',
+  );
 
   assert.match(css, /^\/\*[\s\S]*generated[\s\S]*DESIGN\.md[\s\S]*\*\//i);
 
@@ -213,7 +233,7 @@ test('docs and preview agree', () => {
   assert.match(app, /from 'bits-ui'/);
   assert.match(app, /<table/);
   assert.match(appCss, /@import '\.\.\/\.\.\/dist\/tokens\.css'/);
-  assert.match(appCss, /@import '\.\.\/\.\.\/layouts\.css'/);
+  assert.match(appCss, /@import '\.\.\/\.\.\/dist\/layouts\.css'/);
   assert.match(layouts, /\.t128n-page/);
   assert.ok(readme.includes('--color-surface'));
   assert.ok(readme.includes('--color-primary'));

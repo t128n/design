@@ -719,7 +719,7 @@ Phones are the base viewport, not a fallback. Compose the single-column layout f
 
 ### Standard Layouts
 
-`layouts.css` provides the shared CSS grid templates. Import it after `dist/tokens.css`. Applications may compose these classes, but should not replace them with a different page skeleton.
+`dist/layouts.css` is the generated artifact that provides the shared CSS grid templates. It is built from the fenced block below; edit the block here, never the generated file. Import it after `dist/tokens.css`. Applications may compose these classes, but should not replace them with a different page skeleton.
 
 | Class | Grid | Use |
 | :--- | :--- | :--- |
@@ -742,6 +742,236 @@ The app shell is a single column at the phone base and splits into `220px` navig
 Equal-column grids start at one column and add width: three-column grids become two at `640px` and three at `1024px`; two-column grids split at `800px`. Override `--t128n-columns` or `--t128n-gap` on the grid element for a one-off composition.
 
 Bare skeletons for every template live under `preview/pages/` and deploy at `/pages/` in the preview.
+
+<!-- t128n:layouts:start -->
+```css
+.t128n-page {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(1120px + 2 * var(--space-3xl));
+  margin-inline: auto;
+  padding-block: var(--space-xl);
+  padding-inline: max(var(--space-xl), env(safe-area-inset-left)) max(var(--space-xl), env(safe-area-inset-right));
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.t128n-grid {
+  --t128n-columns: 1;
+  --t128n-gap: var(--space-md);
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(var(--t128n-columns), minmax(0, 1fr));
+  gap: var(--t128n-gap);
+}
+
+.t128n-grid > * {
+  min-width: 0;
+}
+
+.t128n-grid--1 {
+  --t128n-columns: 1;
+}
+
+.t128n-grid--2 {
+  --t128n-columns: 1;
+}
+
+.t128n-grid--3 {
+  --t128n-columns: 1;
+}
+
+.t128n-grid__full {
+  grid-column: 1 / -1;
+}
+
+.t128n-app-shell {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    'header'
+    'main'
+    'nav';
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.t128n-app-shell__header {
+  grid-area: header;
+}
+
+.t128n-app-shell__nav {
+  grid-area: nav;
+  min-width: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.t128n-app-shell__main {
+  grid-area: main;
+  min-width: 0;
+}
+
+.t128n-register {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    'header'
+    'toolbar'
+    'body'
+    'footer';
+  gap: var(--space-md);
+  min-height: 0;
+}
+
+.t128n-register__header {
+  grid-area: header;
+}
+
+.t128n-register__toolbar {
+  grid-area: toolbar;
+}
+
+.t128n-register__body {
+  grid-area: body;
+  min-width: 0;
+  min-height: 0;
+}
+
+.t128n-register__footer {
+  grid-area: footer;
+}
+
+.t128n-split {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-lg);
+  min-height: 0;
+}
+
+.t128n-record {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'meta'
+    'body';
+  gap: var(--space-lg);
+}
+
+.t128n-record__meta {
+  grid-area: meta;
+  min-width: 0;
+}
+
+.t128n-record__body {
+  grid-area: body;
+  min-width: 0;
+}
+
+.t128n-form-grid {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-md);
+}
+
+.t128n-form-grid__wide {
+  grid-column: 1 / -1;
+}
+
+.t128n-stack {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.t128n-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.t128n-table-scroll {
+  --t128n-table-min: 44rem;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.t128n-table-scroll > table {
+  min-width: var(--t128n-table-min);
+}
+
+.t128n-table-scroll--pin-first > table > * > tr > :first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--color-surface);
+}
+
+.t128n-table-scroll--pin-first > table > thead > tr > :first-child {
+  background: var(--color-surface-header);
+}
+
+@media (min-width: 640px) {
+  .t128n-grid--3 {
+    --t128n-columns: 2;
+  }
+}
+
+@media (min-width: 800px) {
+  .t128n-page {
+    padding-inline: max(var(--space-3xl), env(safe-area-inset-left)) max(var(--space-3xl), env(safe-area-inset-right));
+  }
+
+  .t128n-grid--2 {
+    --t128n-columns: 2;
+  }
+
+  .t128n-app-shell {
+    grid-template-columns: 220px minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas:
+      'header header'
+      'nav main';
+  }
+
+  .t128n-app-shell__nav {
+    border-top: 0;
+    border-right: 1px solid var(--color-border);
+  }
+
+  .t128n-split {
+    grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+  }
+
+  .t128n-record {
+    grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+    grid-template-areas: 'meta body';
+  }
+
+  .t128n-form-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .t128n-table-scroll--pin-first > table > * > tr > :first-child {
+    position: static;
+  }
+}
+
+@media (min-width: 1024px) {
+  .t128n-grid--3 {
+    --t128n-columns: 3;
+  }
+}
+```
+<!-- t128n:layouts:end -->
 
 ## Elevation & Depth
 
