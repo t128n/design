@@ -107,7 +107,7 @@ critical path: T1 → T7 → T5 (8.3 min) · peak width 4 · predicted build 8.3
 **Tests:** fast
 **Model:** sonnet
 **Consumes:** none
-**Produces:** `buildArtifacts(root: string) -> Promise<void>` · `readDesignTokens(markdown: string) -> Tokens` · `renderTokensCss(tokens: Tokens) -> string` · `readLayoutCss(markdown: string) -> string` · `renderLayoutsCss(markdown: string) -> string`
+**Produces:** `scripts/build.mjs` reads `references/DESIGN.md` and writes `assets/tokens.css` and `assets/layouts.css`; it exports the existing parse and render functions used by `tests/build.test.mjs`.
 **Review Focus:** file: source at `references/DESIGN.md`, outputs in `assets/`, absent source names the new path. encoding: both headers name `references/DESIGN.md`; artifacts are byte-identical on rerun. deep: front-matter parsing and layout extraction keep their current contracts.
 **Named tests:** `writes both artifacts under assets`: temp root with `references/DESIGN.md` yields `assets/tokens.css` and `assets/layouts.css`. `missing source names references/DESIGN.md`: stderr contains that path. `artifact matches source`: committed `assets/layouts.css` equals `renderLayoutsCss(references/DESIGN.md)`. `package paths point at references and assets`: lint, build, and check strings.
 **Steps:** 1 adjust tests, 2 run: FAIL, 3 move `DESIGN.md`, `dist/*.css`; update `scripts/build.mjs`, `package.json`, and the `dist/` mention inside the spec, 4 run: PASS.
@@ -186,7 +186,7 @@ critical path: T1 → T7 → T5 (8.3 min) · peak width 4 · predicted build 8.3
 
 ## Review Focus
 
-**Package:** file generator + web UI + CLI.
+**scripts:** file generator + web UI + CLI.
 - file: relocated source and artifacts, staged install copy, obsolete trees.
 - encoding: relative imports, generated headers, no path escapes, no copied values.
 - deep: front-matter parsing, layout extraction, citation resolution.
