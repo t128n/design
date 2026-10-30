@@ -37,6 +37,14 @@ select {
   outline-offset: 2px;
 }
 
+.u-right {
+  text-align: right;
+}
+
+.u-numeric {
+  font-variant-numeric: tabular-nums;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

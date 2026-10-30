@@ -1,0 +1,37 @@
+<script module lang="ts">
+  import { defineMeta } from '@storybook/addon-svelte-csf';
+  import { Alert } from '../index.js';
+  import '../styles/index.css';
+
+  const { Story } = defineMeta({
+    title: 'Components/Alert',
+    component: Alert,
+    tags: ['autodocs'],
+    parameters: { layout: 'centered' }
+  });
+</script>
+
+<Story name="Tones" asChild>
+  <div class="stack">
+    <Alert tone="info" title="Deployment scheduled">
+      The next release starts at 14:00 UTC.
+    </Alert>
+    <Alert tone="success" title="Project archived">
+      The project is now read-only for everyone.
+    </Alert>
+    <Alert tone="warning" title="Review required">
+      Two projects have no owner assigned.
+    </Alert>
+    <Alert tone="danger" title="Import failed">
+      Fix the invalid rows and try again.
+    </Alert>
+  </div>
+</Story>
+
+<style>
+  .stack {
+    display: grid;
+    gap: var(--space-sm);
+    width: min(32rem, calc(100vw - 2rem));
+  }
+</style>

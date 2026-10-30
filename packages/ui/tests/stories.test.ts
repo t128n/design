@@ -20,7 +20,20 @@ describe('Storybook stories', () => {
       ['Select', 'Primitives/Select'],
       ['Tabs', 'Primitives/Tabs'],
       ['Dialog', 'Primitives/Dialog'],
-      ['Tooltip', 'Primitives/Tooltip']
+      ['Tooltip', 'Primitives/Tooltip'],
+      ['Badge', 'Components/Badge'],
+      ['Alert', 'Components/Alert'],
+      ['Table', 'Components/Table'],
+      ['Breadcrumbs', 'Components/Breadcrumbs'],
+      ['Navbar', 'Layouts/Navbar'],
+      ['Sidebar', 'Layouts/Sidebar'],
+      ['AppShell', 'Layouts/App shell'],
+      ['PageHeader', 'Layouts/Page header'],
+      ['Hero', 'Layouts/Hero'],
+      ['Footer', 'Layouts/Footer'],
+      ['Landing', 'Views/Landing'],
+      ['Dashboard', 'Views/Dashboard'],
+      ['Settings', 'Views/Settings']
     ];
 
     for (const [file, title] of stories) {

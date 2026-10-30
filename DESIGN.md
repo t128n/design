@@ -13,7 +13,16 @@ colors:
   accent: "#0F62FE"
   on-accent: "#FFFFFF"
   focus: "#0F62FE"
+  info: "#0043CE"
+  info-surface: "#EDF5FF"
+  progress: "#6929C4"
+  progress-surface: "#F6F2FF"
+  success: "#0E6027"
+  success-surface: "#DEFBE6"
+  warning: "#684E00"
+  warning-surface: "#FCF4D6"
   danger: "#DA1E28"
+  danger-surface: "#FFF1F1"
   scrim: "rgb(22 22 22 / 45%)"
   disabled-bg: "#DDE1E6"
   disabled-text: "#697077"
@@ -48,6 +57,11 @@ typography:
     fontSize: 0.875rem
     fontWeight: 500
     lineHeight: 1.4
+  caption:
+    fontFamily: "IBM Plex Sans, system-ui, sans-serif"
+    fontSize: 0.75rem
+    fontWeight: 500
+    lineHeight: 1.3
 rounded:
   sm: 2px
   md: 4px
@@ -102,7 +116,8 @@ Use [Base16 Oxocarbon Light](https://github.com/nyoom-engineering/base16-oxocarb
 - White `#FFFFFF` is an intentional application-surface extension, not an Oxocarbon Base16 palette token.
 - Use **only one expressive primary accent: blue `#0F62FE`**. Reserve it for primary actions, selected states, meaningful links, and focus indicators.
 - Most of the interface should be neutral. Do not color every card, heading, number, or icon blue.
-- Danger `#DA1E28` is the one status token defined so far. Use it only for invalid input, destructive actions, and error text; it passes AA on both canvas and surface. Success and warning tokens are **not defined yet**; add them deliberately rather than inferring status from the accent color.
+- Status roles are **neutral, info, progress, success, warning, danger, and disabled**. Each has a text token and, where useful, a surface tint. Status is always text plus one role; never colour alone.
+- Status text tokens pass AA on their own surfaces and on canvas. Use status colour for state and feedback, not decoration. Danger remains the only role for invalid input and destructive actions.
 - Meet WCAG AA contrast for ordinary text and visible focus indicators. Do not rely on color alone to convey state. Recheck contrast for muted text and disabled variants.
 
 ## Typography
@@ -152,6 +167,13 @@ Use **IBM Plex Sans** for headings, body text, labels, and controls. Use system 
 - **Tabs** switch between peer sections with one accent underline. Do not place a primary action inside the tab strip.
 - **Dialog** is for a focused task or confirmation: trap focus, close on Escape, return focus to the trigger, and place the scrim behind it. **Tooltip** is supplementary; never make it the only place an action or error is explained.
 - [Bits UI](https://bits-ui.com/) supplies behavior and accessibility. The styled wrappers own tokens, layout, and visual states.
+
+### Layouts and views
+
+- **AppShell** owns the frame: sidebar, navbar, a focusable main region, and a skip link. **Sidebar** and **Navbar** are independent so an app can use either alone.
+- **PageHeader** carries breadcrumbs, title, description, and page actions. **Hero** is for landing or empty-state moments, not for ordinary application pages.
+- **Badge** and **Alert** encode status as text plus one role. **Table** keeps rows aligned and scrolls horizontally rather than turning into cards.
+- Composed pages live under **Views** in Storybook. They are examples of the pieces working together, not extra primitives.
 
 ### Iconography — concrete choice
 

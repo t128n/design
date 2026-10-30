@@ -11,12 +11,17 @@ describe('design tokens', () => {
     expect(tokens).toContain('--color-surface: #FFFFFF');
     expect(tokens).toContain('--color-text-primary: #161616');
     expect(tokens).toContain('--color-accent: #0F62FE');
+    expect(tokens).toContain('--color-info: #0043CE');
+    expect(tokens).toContain('--color-success: #0E6027');
+    expect(tokens).toContain('--color-warning: #684E00');
     expect(tokens).toContain('--color-danger: #DA1E28');
     expect(tokens).toContain('--font-family-sans: "IBM Plex Sans", system-ui, sans-serif');
     expect(tokens).toContain('--font-family-mono: "IBM Plex Mono", ui-monospace, monospace');
+    expect(tokens).toContain('--font-size-caption: 0.75rem');
     expect(tokens).toContain('--space-xs: 4px');
     expect(tokens).toContain('--radius-md: 4px');
-    expect(tokens).not.toMatch(/dark|success|warning/i);
+    expect(tokens).toContain('--control-height: 36px');
+    expect(tokens).not.toMatch(/dark/i);
   });
 
   it('provides globally scoped base styles with reduced-motion support', async () => {
