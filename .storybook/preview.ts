@@ -8,29 +8,6 @@ const preview: Preview = {
     controls: {
       expanded: true
     }
-  },
-  globalTypes: {
-    theme: {
-      description: 'Color theme',
-      defaultValue: 'light',
-      toolbar: {
-        items: ['light', 'dark']
-      }
-    },
-    density: {
-      description: 'Interface density',
-      defaultValue: 'default',
-      toolbar: {
-        items: ['compact', 'default', 'comfortable']
-      }
-    },
-    lines: {
-      description: 'Line treatment',
-      defaultValue: 'faint',
-      toolbar: {
-        items: ['none', 'faint', 'visible']
-      }
-    }
   }
 };
 

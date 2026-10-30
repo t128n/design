@@ -13,6 +13,8 @@ colors:
   accent: "#0F62FE"
   on-accent: "#FFFFFF"
   focus: "#0F62FE"
+  danger: "#DA1E28"
+  scrim: "rgb(22 22 22 / 45%)"
   disabled-bg: "#DDE1E6"
   disabled-text: "#697077"
 typography:
@@ -47,41 +49,41 @@ typography:
     fontWeight: 500
     lineHeight: 1.4
 rounded:
-  sm: 4px
-  md: 8px
-  lg: 12px
+  sm: 2px
+  md: 4px
+  lg: 6px
 spacing:
   xs: 4px
   sm: 8px
-  md: 16px
-  lg: 24px
-  xl: 32px
-  2xl: 48px
-  3xl: 64px
+  md: 12px
+  lg: 16px
+  xl: 24px
+  2xl: 32px
+  3xl: 48px
 components:
   button-primary:
     backgroundColor: "{colors.accent}"
     textColor: "{colors.on-accent}"
     rounded: "{rounded.md}"
-    height: 40px
+    height: 36px
     padding: 12px
   button-secondary:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.text-primary}"
     rounded: "{rounded.md}"
-    height: 40px
+    height: 36px
     padding: 12px
   input:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.text-primary}"
     rounded: "{rounded.md}"
-    height: 40px
+    height: 36px
     padding: 12px
   card:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.text-primary}"
     rounded: "{rounded.md}"
-    padding: 24px
+    padding: 16px
 ---
 
 ## Overview
@@ -100,7 +102,7 @@ Use [Base16 Oxocarbon Light](https://github.com/nyoom-engineering/base16-oxocarb
 - White `#FFFFFF` is an intentional application-surface extension, not an Oxocarbon Base16 palette token.
 - Use **only one expressive primary accent: blue `#0F62FE`**. Reserve it for primary actions, selected states, meaningful links, and focus indicators.
 - Most of the interface should be neutral. Do not color every card, heading, number, or icon blue.
-- Semantic success, warning, and error tokens are **not defined yet**. When a product needs them, add accessible semantic tokens deliberately; do not infer status from the accent color alone.
+- Danger `#DA1E28` is the one status token defined so far. Use it only for invalid input, destructive actions, and error text; it passes AA on both canvas and surface. Success and warning tokens are **not defined yet**; add them deliberately rather than inferring status from the accent color.
 - Meet WCAG AA contrast for ordinary text and visible focus indicators. Do not rely on color alone to convey state. Recheck contrast for muted text and disabled variants.
 
 ## Typography
@@ -115,7 +117,7 @@ Use **IBM Plex Sans** for headings, body text, labels, and controls. Use system 
 ## Layout
 
 - Prefer generous outer margins and generous separation **between groups**, not oversized padding on every single control.
-- Start from a 4px base spacing grid, with 8, 16, 24, and 32px as common steps.
+- Start from a 4px base spacing grid, with 8, 12, 16, and 24px as common steps. Favor compact groups over generous padding.
 - Keep forms and reading surfaces at comfortable widths; do not spread short content across the whole viewport.
 - Use **contextual, minimal navigation** as the default: breadcrumbs, concise headers, task-specific controls, and menus where helpful.
 - Persistent sidebars are allowed for genuinely complex application navigation, not as the automatic starting template.
@@ -130,7 +132,7 @@ Use **IBM Plex Sans** for headings, body text, labels, and controls. Use system 
 
 ## Shapes
 
-- Default control radius: **8px**; small elements: 4px; larger surfaces: 12px if their scale warrants it.
+- Default control radius: **4px**; small elements: 2px; larger surfaces: 6px if their scale warrants it. Keep corners sharp enough to read as technical, not rounded.
 - Keep corners modest and consistent. Avoid excessive rounding and pill-shaped controls unless the interaction calls for them.
 - Prefer clean geometric alignment, consistent strokes, and restrained decoration.
 
@@ -140,8 +142,16 @@ Use **IBM Plex Sans** for headings, body text, labels, and controls. Use system 
 
 - Use a primary button only for the main action of a region or workflow; ordinary actions should be quieter.
 - Controls should clearly show hover, keyboard focus, pressed, disabled, loading, and error states as applicable.
-- Default control height is **40px**; this is provisional and must be tested for actual usability.
+- Default control height is **36px**; this is provisional and must be tested for actual usability.
 - Use explicit labels over icon-only buttons where space permits.
+
+### Selection and overlay controls
+
+- Use **Checkbox** for independent binary choices, **Switch** for settings that take effect immediately, and **Select** for one choice from a short list. Keep labels visible and put consequences in helper text, not placeholders.
+- Invalid controls use danger `#DA1E28` for the border, message, and focus ring. The message names the field and the fix.
+- **Tabs** switch between peer sections with one accent underline. Do not place a primary action inside the tab strip.
+- **Dialog** is for a focused task or confirmation: trap focus, close on Escape, return focus to the trigger, and place the scrim behind it. **Tooltip** is supplementary; never make it the only place an action or error is explained.
+- [Bits UI](https://bits-ui.com/) supplies behavior and accessibility. The styled wrappers own tokens, layout, and visual states.
 
 ### Iconography — concrete choice
 
@@ -187,5 +197,5 @@ Use **IBM Plex Sans** for headings, body text, labels, and controls. Use system 
 1. Test IBM Plex Sans sizes, weights, and line heights in an actual form and dashboard.
 2. Compare selective borders against borderless sections in a realistic app screen.
 3. Confirm primary blue contrast in all interactive states; define semantic status colors if needed.
-4. Test 40px controls, Carbon 16px/20px visual alignment with IBM Plex Sans, and 44px icon-only touch targets.
+4. Test 36px controls, Carbon 16px/20px visual alignment with IBM Plex Sans, and 44px icon-only touch targets.
 5. Define and validate the dark theme independently.
