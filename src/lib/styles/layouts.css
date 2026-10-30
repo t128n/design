@@ -1,0 +1,158 @@
+/*
+ * Layout skeletons (DESIGN.md sections 2.7, 6.6 and 8).
+ * Widths, insets, gaps and heights come from tokens. Layouts respond to their
+ * own container: below 1060px (66.1875rem) detail panes hide, below 760px
+ * (47.5rem) the sidebar hides and panels go full-bleed.
+ */
+
+.t128n-page {
+  container-type: inline-size;
+  min-width: 0;
+  padding: var(--space-6) var(--page-inset);
+}
+
+/* App shell: sidebar on the app surface, content in a panel. */
+.t128n-app-shell {
+  container-type: inline-size;
+  display: flex;
+  min-height: 100vh;
+  background: var(--surface-app);
+}
+
+.t128n-app-shell__nav {
+  flex: 0 0 auto;
+  min-width: 0;
+  padding: var(--space-2);
+  overflow-y: auto;
+  background: var(--surface-app);
+}
+
+.t128n-app-shell__main {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: var(--space-2);
+  overflow: auto;
+  background: var(--surface-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+/* Split view: list plus a fixed detail pane. The detail hides on its own
+ * container width; a flex list then fills the whole pane. */
+.t128n-split {
+  container-type: inline-size;
+  display: flex;
+  min-height: 0;
+}
+
+.t128n-split__list {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: auto;
+}
+
+.t128n-split__detail {
+  flex: 0 0 var(--width-detail);
+  min-width: 0;
+  overflow: auto;
+  border-left: 1px solid var(--border);
+}
+
+/* Long-form record: one reading column. */
+.t128n-record {
+  container-type: inline-size;
+  width: 100%;
+  max-width: var(--width-reading);
+  margin-inline: auto;
+  padding: var(--space-6) var(--page-inset);
+}
+
+/* Register: a data view filling its pane, with a scrolling table. */
+.t128n-register {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.t128n-register__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+
+.t128n-register__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--row-h-sm);
+  padding: 0 var(--page-inset);
+  border-top: 1px solid var(--border);
+}
+
+/* Grids: equal columns on the 4px rhythm. */
+.t128n-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.t128n-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.t128n-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.t128n-grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.t128n-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.t128n-stack--tight {
+  gap: var(--space-2);
+}
+
+.t128n-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+/* Detail panes collapse first. */
+@container (max-width: 66.1875rem) {
+  .t128n-split__detail {
+    display: none;
+  }
+}
+
+/* Below this width the sidebar hides and panels go full-bleed. */
+@container (max-width: 47.5rem) {
+  .t128n-app-shell__nav {
+    display: none;
+  }
+
+  .t128n-app-shell__main {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .t128n-grid,
+  .t128n-grid--2,
+  .t128n-grid--3,
+  .t128n-grid--4 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
