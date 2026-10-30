@@ -86,6 +86,8 @@ flowchart LR
   T29[storybook build]
   T30[settings fallback]
   T31[button class merge]
+  T32[view frame]
+  T33[views drop shell]
   %% taskgraph
   T6 --> T8
   T7 --> T9
@@ -100,6 +102,7 @@ flowchart LR
   T9 --> T21
   T10 --> T21
   T11 --> T21
+  T21 --> T33
   T8 --> T22
   T9 --> T22
   T11 --> T22
@@ -157,33 +160,35 @@ gantt
   section lane 1
   T15 Tooltip  Banner  InlineError  EmptyS :t15, 0, 218s
   T10 BoardCard and GalleryCard :t10, 218, 136s
-  T21 Issues and Board views :t21, 410, 153s
-  T26 Barrel  raw-value lint  build and do :t26, 563, 127s
+  T27 Test dependency declaration :t27, 381, 66s
+  T30 Settings switch values fall back saf :t30, 561, 93s
   section lane 2
   T7 Tag  Badge  Avatar  Progress  StatCar :t7, 0, 216s
   T9 ListRow  GroupHeader  PropertyRow  To :t9, 216, 193s
-  T22 Table database and Page views :t22, 410, 153s
+  T21 Issues and Board views :t21, 410, 153s
+  T26 Barrel  raw-value lint  build and do :t26, 563, 127s
   section lane 3
   T14 Menu  Popover  Dialog  SlashMenu :t14, 0, 201s
   T18 SearchField and Combobox :t18, 201, 145s
-  T23 Settings and Inbox views :t23, 410, 151s
-  T30 Settings switch values fall back saf :t30, 561, 93s
+  T22 Table database and Page views :t22, 410, 153s
+  T33 Issues and Board stop nesting the sh :t33, 563, 119s
   section lane 4
   T6 Select  Checkbox  Radio  Switch :t6, 0, 199s
   T8 Table :t8, 199, 123s
   T24 Overview and Calendar views :t24, 332, 151s
   section lane 5
   T12 Sidebar  Breadcrumbs  Tabs  Segmente :t12, 0, 197s
-  T2 Scaffold :t2, 197, 99s
-  T27 Test dependency declaration :t27, 296, 66s
+  T29 Storybook index and build fixes :t29, 197, 112s
+  T25 Empty workspace and Error views :t25, 332, 140s
   section lane 6
   T5 Field  Input  Textarea :t5, 0, 169s
-  T29 Storybook index and build fixes :t29, 169, 112s
-  T19 DatePicker :t19, 284, 114s
+  T32 View stories sit in the app shell :t32, 169, 113s
+  T2 Scaffold :t2, 282, 99s
+  T23 Settings and Inbox views :t23, 410, 151s
   section lane 7
   T16 Chart  CodeBlock  Callout :t16, 0, 166s
   T17 CalendarGrid :t17, 166, 118s
-  T25 Empty workspace and Error views :t25, 332, 140s
+  T19 DatePicker :t19, 284, 114s
   section lane 8
   T3 Base styles  layout skeletons  Theme  :t3, 0, 155s
   T28 Button forwards events and attribute :t28, 155, 121s
@@ -692,6 +697,36 @@ it("existing value wins", () => { render(Settings, { sections: switchSections, a
 it("merges classes", () => { render(Button, { children: text("Save"), class: "extra" }); const b = screen.getByRole("button", { name: "Save" }); expect(b.className).toContain("t128n-btn"); expect(b.className).toContain("extra"); });
 ```
 **Notes:** a spread `class` after the component's class silently drops every style; merge, spread the rest, then place `class` last.
+### T32 View stories sit in the app shell · Complexity 3
+**Owns:** `src/stories/views/**`, `tests/views-shell.test.ts`
+**Components:** 1
+**LOC owned:** 180
+**Tests:** fast
+**Model:** sonnet
+**Consumes:** AppShell.svelte from T11 · Sidebar.svelte from T12
+**Produces:** `ViewFrame.svelte` in `src/stories/views/` wrapping `AppShell` with a `Sidebar` nav (Inbox, Issues, Board, Calendar, Overview, Settings; active per view) around its children; every view story renders its view through `ViewFrame`
+**Review Focus:** `test_frame_has_nav_and_main`: `ViewFrame` renders `data-testid="app-shell-nav"` and `app-shell-main`; `test_frame_marks_active`: `active="issues"` puts `aria-current="page"` on the Issues link; `test_every_view_story_uses_frame`: every `src/stories/views/*.stories.svelte` contains `ViewFrame`
+**Test code:**
+```ts
+it("frame has shell regions", () => { render(ViewFrame, { active: "issues", children: text("Body") }); expect(screen.getByTestId("app-shell-nav")).toBeTruthy(); expect(screen.getByTestId("app-shell-main").textContent).toContain("Body"); });
+it("active nav", () => { render(ViewFrame, { active: "issues", children: text("Body") }); expect(screen.getByRole("link", { name: /Issues/ }).getAttribute("aria-current")).toBe("page"); });
+```
+**Notes:** the shell is framing, not view data: views and their tests stay unchanged. Keep each story's existing args, argTypes and docs text.
+### T33 Issues and Board stop nesting the shell · Complexity 2
+**Owns:** `src/lib/views/Issues.svelte`, `src/lib/views/Board.svelte`, `src/lib/views/views.test.ts`
+**Components:** 2
+**LOC owned:** 40
+**Tests:** fast
+**Model:** sonnet
+**Consumes:** AppShell.svelte from T11
+**Produces:** `Issues.svelte` and `Board.svelte` render their content without their own `AppShell` wrapper, so the story-level `ViewFrame` is the only shell and no empty inner nav appears
+**Review Focus:** `test_issues_no_inner_shell`: rendering Issues yields exactly one `data-testid="app-shell"` only when the caller supplies one, and none from the view; `test_board_no_inner_shell`: same for Board; `test_views_still_render`: the split and the board columns still render
+**Test code:**
+```ts
+it("issues has no shell of its own", () => { render(Issues, { issues: manyIssues, selectedId: "S-1" }); expect(screen.queryByTestId("app-shell")).toBeNull(); expect(screen.getByTestId("issues-split")).toBeTruthy(); });
+it("board has no shell of its own", () => { render(Board, { columns: manyColumns }); expect(screen.queryByTestId("app-shell")).toBeNull(); });
+```
+**Notes:** the view is the surface; the shell is the story frame. Add a stable `data-testid` only if the test needs one, and keep every existing assertion in views.test.ts green.
 ## Review Focus
 
 - tokens: numeric, encoding
@@ -735,5 +770,5 @@ Risks to probe: focus restoration after every overlay; selection vs focus never 
 - `Ruling: no axe dependency - role and accessible-name queries fail on missing labels, which is the check that matters here - an axe pass can be added without design change`
 - `Ruling: preview/pages HTML is out of scope; the view stories are the reference compositions - duplicating ten views as static HTML in the same pass adds no new information - add preview pages after the views settle`
 - `Ruling: DESIGN.md is not edited in this pass - the document is the input being implemented - fold docs/layouts.md back into §8 once the skeletons are proven`
-- `Ruling: the plan exceeds the default 15k char cap because verbatim tests were requested - lint with --max-chars 60000 - the prime carries only the sections it is given`
+- `Ruling: the plan exceeds the default 15k char cap because verbatim tests were requested - lint with --max-chars 64000 - the prime carries only the sections it is given`
 - `Ruling: build against main's DESIGN.md although feat/streamline-tokens renames several tokens - that branch is an unapproved review plan and not merged - after it lands, tokens.json is the only file that needs the rename, and the parity test names every drift`
