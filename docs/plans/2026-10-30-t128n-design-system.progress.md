@@ -1,0 +1,134 @@
+# progress
+
+- start 94c15c8
+- tests fast passed=2 failed=0 skipped=0 seconds=2.1
+- tests full passed=2 failed=0 skipped=0 seconds=2.1
+- commit T2 96d0eb5537 Scaffold
+- unblocked: dispatched T2 at 14:55:00
+- tests fast passed=7 failed=0 skipped=0 seconds=14.8
+- tests fast passed=45 failed=0 skipped=0 seconds=5.5
+- tests fast passed=8 failed=0 skipped=0 seconds=7.2
+- tests fast passed=10 failed=0 skipped=0 seconds=8.4
+- commit T1 b61876ddd7 Token pipeline and contrast guard
+- commit T7 44f5b67f50 Tag, Badge, Avatar, Progress, StatCard
+- commit T12 59e5c3cc36 Sidebar, Breadcrumbs, Tabs, SegmentedControl
+- commit T13 0aa0bef6ad Tree and Pagination
+- tests fast passed=4 failed=0 skipped=0 seconds=3.3
+- tests fast passed=3 failed=2 skipped=0 seconds=5.7
+- tests fast passed=13 failed=0 skipped=0 seconds=3.2
+- tests fast passed=3 failed=3 skipped=0 seconds=7.3
+- tests fast passed=5 failed=0 skipped=0 seconds=5.0
+- tests fast passed=7 failed=0 skipped=0 seconds=3.7
+- tests fast passed=0 failed=1 skipped=0 seconds=3.9
+- tests fast passed=0 failed=1 skipped=0 seconds=4.2
+- tests fast passed=4 failed=0 skipped=0 seconds=4.1
+- tests fast passed=5 failed=0 skipped=0 seconds=4.2
+- tests fast passed=8 failed=0 skipped=0 seconds=10.5
+- tests fast passed=3 failed=2 skipped=0 seconds=15.5
+- tests fast passed=0 failed=1 skipped=0 seconds=2.5
+- tests fast passed=0 failed=1 skipped=0 seconds=4.6
+- tests fast passed=3 failed=2 skipped=0 seconds=9.8
+- tests fast passed=4 failed=0 skipped=0 seconds=4.6
+- tests fast passed=7 failed=0 skipped=0 seconds=4.2
+- tests fast passed=3 failed=3 skipped=0 seconds=9.7
+- tests fast passed=13 failed=0 skipped=0 seconds=9.7
+- tests fast passed=3 failed=1 skipped=0 seconds=14.1
+- tests fast passed=3 failed=3 skipped=0 seconds=15.2
+- tests fast passed=5 failed=0 skipped=0 seconds=3.0
+- tests fast passed=12 failed=1 skipped=0 seconds=4.0
+- tests fast passed=3 failed=1 skipped=0 seconds=6.6
+- tests fast passed=1 failed=0 skipped=0 seconds=6.5
+- tests fast passed=3 failed=3 skipped=0 seconds=5.5
+- tests fast passed=13 failed=0 skipped=0 seconds=3.3
+- tests fast passed=0 failed=1 skipped=0 seconds=6.5
+- tests fast passed=6 failed=0 skipped=0 seconds=3.9
+- tests fast passed=4 failed=0 skipped=0 seconds=9.9
+- tests fast passed=1 failed=0 skipped=0 seconds=7.6
+- tests fast passed=4 failed=2 skipped=0 seconds=5.6
+- tests fast passed=6 failed=0 skipped=0 seconds=3.4
+- tests fast passed=6 failed=0 skipped=0 seconds=6.7
+- tests fast passed=13 failed=0 skipped=0 seconds=4.7
+- tests fast passed=6 failed=0 skipped=0 seconds=6.3
+- tests fast passed=13 failed=0 skipped=0 seconds=3.0
+- tests fast passed=6 failed=0 skipped=0 seconds=4.7
+- commit T3 a46f7ee2ab Base styles, layout skeletons, Theme and Icon
+- commit T4 cced40bf81 Button and IconButton
+- commit T5 b0931f107e Field, Input, Textarea
+- commit T6 27501e4d2f Select, Checkbox, Radio, Switch
+- commit T9 fec1fffb7b ListRow, GroupHeader, PropertyRow, Toggle
+- commit T10 f982e2a5e3 BoardCard and GalleryCard
+- commit T14 46026277eb Menu, Popover, Dialog, SlashMenu
+- commit T15 de1aec22fd Tooltip, Banner, InlineError, EmptyState, Skeleton
+- commit T16 350dcfcc5d Chart, CodeBlock, Callout
+- commit T17 0cb646eba6 CalendarGrid
+- tests fast passed=1 failed=0 skipped=0 seconds=2.2
+- tests fast passed=0 failed=1 skipped=0 seconds=2.3
+- tests fast passed=0 failed=1 skipped=0 seconds=2.4
+- tests fast passed=0 failed=1 skipped=0 seconds=2.5
+- tests fast passed=0 failed=1 skipped=0 seconds=3.2
+- tests fast passed=0 failed=1 skipped=0 seconds=2.2
+- tests fast passed=2 failed=2 skipped=0 seconds=5.1
+- tests fast passed=0 failed=1 skipped=0 seconds=2.3
+- tests fast passed=5 failed=0 skipped=0 seconds=3.1
+- tests fast passed=0 failed=1 skipped=0 seconds=2.4
+- tests fast passed=0 failed=1 skipped=0 seconds=3.1
+- tests fast passed=7 failed=0 skipped=0 seconds=3.3
+- tests fast passed=8 failed=0 skipped=0 seconds=5.9
+- tests fast passed=5 failed=4 skipped=0 seconds=3.5
+- tests fast passed=5 failed=0 skipped=0 seconds=3.9
+- tests fast passed=8 failed=1 skipped=0 seconds=5.0
+- tests fast passed=8 failed=1 skipped=0 seconds=2.9
+- tests fast passed=8 failed=1 skipped=0 seconds=2.8
+- tests fast passed=7 failed=0 skipped=0 seconds=3.9
+- tests fast passed=9 failed=0 skipped=0 seconds=3.1
+- tests fast passed=8 failed=0 skipped=0 seconds=4.6
+- tests fast passed=9 failed=0 skipped=0 seconds=2.9
+- tests fast passed=4 failed=0 skipped=0 seconds=5.0
+- tests fast passed=4 failed=0 skipped=0 seconds=5.0
+- tests fast passed=9 failed=0 skipped=0 seconds=3.8
+- commit T8 edbb3393b9 Table
+- commit T11 d5e421f08c AppShell, Header, Toolbar, SectionHeader
+- commit T18 6b18bf9b80 SearchField and Combobox
+- commit T19 a067ef0e37 DatePicker
+- commit T20 403fe44662 CommandPalette
+- commit T27 88beb72d9a Test dependency declaration
+- tests fast passed=0 failed=1 skipped=0 seconds=2.3
+- tests fast passed=0 failed=1 skipped=0 seconds=2.2
+- tests fast passed=0 failed=1 skipped=0 seconds=2.3
+- tests fast passed=4 failed=3 skipped=0 seconds=4.8
+- tests fast passed=7 failed=0 skipped=0 seconds=5.2
+- tests fast passed=0 failed=1 skipped=0 seconds=2.6
+- tests fast passed=4 failed=0 skipped=0 seconds=3.3
+- tests fast passed=0 failed=1 skipped=0 seconds=2.4
+- tests fast passed=0 failed=1 skipped=0 seconds=4.9
+- tests fast passed=7 failed=0 skipped=0 seconds=6.1
+- tests fast passed=8 failed=0 skipped=0 seconds=6.1
+- tests fast passed=4 failed=0 skipped=0 seconds=4.1
+- tests fast passed=8 failed=0 skipped=0 seconds=9.4
+- tests fast passed=7 failed=0 skipped=0 seconds=4.3
+- tests fast passed=8 failed=0 skipped=0 seconds=11.1
+- tests fast passed=5 failed=6 skipped=0 seconds=8.6
+- tests fast passed=11 failed=0 skipped=0 seconds=5.7
+- tests fast passed=7 failed=0 skipped=0 seconds=4.2
+- tests fast passed=11 failed=0 skipped=0 seconds=5.1
+- commit T21 e7a32d1dc5 Issues and Board views
+- commit T22 b89a685cf9 Table database and Page views
+- commit T23 bfd8156402 Settings and Inbox views
+- commit T24 38158c7b68 Overview and Calendar views
+- commit T25 cc2d442ffb Empty workspace and Error views
+- tests fast passed=4 failed=3 skipped=0 seconds=2.9
+- tests fast passed=7 failed=0 skipped=0 seconds=2.9
+- tests fast passed=7 failed=0 skipped=0 seconds=2.9
+- commit T28 c79c800373 Button forwards events and attributes
+- tests fast passed=5 failed=0 skipped=0 seconds=7.8
+- commit T26 1990847972 Barrel, raw-value lint, build and docs
+- tests full passed=223 failed=0 skipped=0 seconds=30.1
+- commit T29 e69d93154d Storybook index and build fixes
+- tests full passed=225 failed=0 skipped=0 seconds=32.2
+- tests fast passed=8 failed=2 skipped=0 seconds=2.9
+- tests fast passed=10 failed=0 skipped=0 seconds=3.0
+- tests fast passed=10 failed=0 skipped=0 seconds=3.1
+- tests fast passed=13 failed=0 skipped=0 seconds=4.7
+- commit T30 796dcbf50b Settings switch values fall back safely
+- commit T31 7aa0851c6b Button merges caller classes
+- tests full passed=230 failed=0 skipped=0 seconds=28.3
