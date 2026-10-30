@@ -5,7 +5,7 @@
 One voice: **calm, dense, utilitarian, document-like.** The influences are Linear (surfaces, density), GitHub and GitLab (tables, lists, forms), Notion (pages, properties, database views, soft tags) and Obsidian (quiet chrome).
 
 1. **Hierarchy by role.** Every size is a named type role on one of three text tiers. Every region has one dominant element.
-2. **Surfaces before lines.** App, panel and sunken surfaces separate regions. Hairlines appear only at panel edges, between table rows and on controls.
+2. **Surfaces before lines.** App, panel and muted surfaces separate regions. Hairlines appear only at panel edges, between table rows and on controls.
 3. **One header anatomy.** Every header looks the same (section 7.1).
 4. **A 4px grid.** Rows 36, controls 28, property rows 32, headers 48.
 5. **Soft but small.** 4px radius on controls, 7px on containers. Fully round only for avatars, switches and progress bars.
@@ -25,7 +25,7 @@ Three layers, all CSS custom properties:
 2. **Semantic:** the only layer components and agents may use.
 3. **Density:** `--row-h` and the values that change with it.
 
-A semantic token may hold a literal value directly. A primitive exists only when a value is shared: today that is `--prim-line-rgb` (`0 0 0` light, `255 255 255` dark), which the border tokens compose alpha onto.
+A semantic token may hold a literal value directly. A semantic token that equals another semantic token is declared as `var(--target)`, never as a copied literal: one value, one source. A primitive exists only when a value is shared: today that is `--prim-line-rgb` (`0 0 0` light, `255 255 255` dark), which the border tokens compose alpha onto.
 
 Tokens are declared on `:root` and on a scoping class so any container can carry its own theme, density and line mode.
 
@@ -35,17 +35,16 @@ Tokens are declared on `:root` and on a scoping class so any container can carry
 |---|---|---|---|
 | `--surface-app` | `#f1f2f5` | `#0e0e10` | App chrome, sidebar |
 | `--surface-panel` | `#ffffff` | `#161618` | Content panels, controls, cards, headers, toolbars, overlays |
-| `--surface-sunken` | `#f5f6f8` | `#1c1c1f` | Wells, code blocks, table header fills, callouts, disabled fills |
+| `--surface-muted` | `#f5f6f8` | `#1c1c1f` | Wells, code blocks, table header fills, callouts, disabled fills |
 | `--surface-inverse` | `#1a1c20` | `#ececf0` | Tooltip background |
 | `--text-1` | `#1a1c20` | `#ececf0` | Primary text, titles, values |
 | `--text-2` | `#454c56` | `#a6abb4` | Secondary text, descriptions, labels, disabled text |
 | `--text-3` | `#656c76` | `#868c96` | Metadata, timestamps, placeholders |
 | `--text-on-inverse` | `#ffffff` | `#1a1c20` | Text on `--surface-inverse` |
-| `--text-on-accent` | `#ffffff` | `#0e0e10` | Text on accent fills |
-| `--text-on-danger` | `#ffffff` | `#0e0e10` | Text on danger fills |
+| `--text-on-fill` | `#ffffff` | `#0e0e10` | Text on accent and danger fills |
 | `--accent` | `#0f62fe` | `#78a9ff` | Links, primary buttons, focus, selection accents |
 
-`--text-3` passes 4.5:1 on all three surfaces (section 3). Placeholders use `--text-3`; disabled text uses `--text-2` so the two are never confused.
+`--text-3` passes 4.5:1 on all three surfaces (section 3). Placeholders use `--text-3`; disabled text uses `--text-2` so the two are never confused. A disabled control is identified by the `--surface-muted` fill and the absence of a border, not by its text color.
 
 **Region surfaces.** One surface per region, no exceptions:
 
@@ -53,7 +52,7 @@ Tokens are declared on `:root` and on a scoping class so any container can carry
 |---|---|
 | Sidebar, app chrome | `--surface-app` |
 | Panes, headers, toolbars, cards, overlays | `--surface-panel` |
-| Table header row, wells, code, callouts | `--surface-sunken` |
+| Table header row, wells, code, callouts | `--surface-muted` |
 
 ### 2.2 Status and tags
 
@@ -66,18 +65,18 @@ Status tokens are semantic. Tag tokens are hues; a tag never carries status mean
 | `--danger` | `#da1e28` | `#fa4d56` |
 | `--info` | `#0072c3` | `#33b1ff` |
 
-| Tag | Light | Dark |
-|---|---|---|
-| `--tag-neutral` | `#454c56` | `#a6abb4` |
-| `--tag-blue` | `#0f62fe` | `#78a9ff` |
-| `--tag-green` | `#198038` | `#42be65` |
-| `--tag-yellow` | `#946200` | `#f1c21b` |
-| `--tag-red` | `#da1e28` | `#fa4d56` |
-| `--tag-violet` | `#8a3ffc` | `#be95ff` |
+| Tag | Definition |
+|---|---|
+| `--tag-neutral` | `var(--text-2)` |
+| `--tag-blue` | `var(--accent)` |
+| `--tag-green` | `var(--success)` |
+| `--tag-yellow` | `var(--warning)` |
+| `--tag-red` | `var(--danger)` |
+| `--tag-violet` | `#8a3ffc` light, `#be95ff` dark |
 
 **Accent or info, never both.** `--accent` is interaction only: links, primary actions, focus, selection. `--info` is informational status only and is never interactive. If a value could read as either, it is not status.
 
-`--warning`, `--danger`, `--info` and `--tag-violet` extend the palette beyond Oxocarbon, which has no yellow or red. `--accent`, `--success` and the neutral ramp derive from Oxocarbon; the tag palette reuses those values rather than defining new ones.
+`--warning`, `--danger`, `--info` and `--tag-violet` extend the palette beyond Oxocarbon, which has no yellow or red. `--accent`, `--success` and the neutral ramp derive from Oxocarbon; the tag palette aliases those values rather than defining new ones.
 
 ### 2.3 Borders
 
@@ -106,11 +105,12 @@ Every border token is a color in every mode. No token in this document ever hold
 | `--state-hover` | `color-mix(in srgb, var(--text-1) 5%, transparent)` | Row, item and control hover |
 | `--state-selected` | `color-mix(in srgb, var(--text-1) 8%, transparent)` | Selected rows, cards, nav items, menu items |
 | `--state-pressed` | `color-mix(in srgb, var(--text-1) 12%, transparent)` | Pressed controls |
-| `--accent-soft` | `color-mix(in srgb, var(--accent) 12%, transparent)` | Selection accents, today's ring |
-| `--surface-subtle` | `color-mix(in srgb, var(--text-1) 10%, transparent)` | Avatar fills, progress tracks, inert chips |
+| `--fill-subtle` | `color-mix(in srgb, var(--text-1) 10%, transparent)` | Avatar fills, progress tracks, inert chips |
 | `--tint-weak` | `9%` | Banner fills |
 | `--tint` | `14%` | Tag fills, soft status chips |
 | `--tint-strong` | `24%` | Banner borders, chart bars, emphasis fills |
+
+A `--surface-*` token is opaque. A `--fill-*` or `--state-*` token is translucent and composites over whatever is beneath it. The two never swap roles.
 
 Status and tag fills are composed at the point of use, so one pair of knobs covers the whole palette:
 
@@ -134,7 +134,9 @@ border-color: color-mix(in srgb, var(--success) var(--tint-strong), var(--surfac
 | `--space-5` | `20px` | Page inset |
 | `--space-6` | `24px` | Section rhythm |
 | `--size-0` to `--size-5` | `12, 16, 20, 24, 32, 40px` | Icons, avatars, chips, glyphs |
-| `--icon` | `16px` | The one icon size in chrome (= `--size-1`) |
+| `--icon` | `var(--size-1)` | The one icon size in chrome |
+
+The size ladder is an index, not a measurement: `--size-0` is the smallest glyph, 12px, not zero.
 
 Radius values are fixed per theme, not multiplied. Off-grid values are not derived from `--radius-md`.
 
@@ -161,7 +163,7 @@ Fixed heights, independent of density:
 | Token | Value | Use |
 |---|---|---|
 | `--header-h` | `48px` | Headers (7.1) and the command palette input |
-| `--chip-h` | `20px` | Tags and badges (= `--size-2`) |
+| `--chip-h` | `var(--size-2)` | Tags and badges |
 | `--calendar-cell-h` | `84px` | Minimum calendar cell |
 | `--textarea-min-h` | `84px` | Minimum textarea |
 
@@ -197,21 +199,23 @@ The shadow is defined once per theme. A second declaration of the same property 
 
 | Token | Value | Use |
 |---|---|---|
-| `--layer-popover` | `100` | Popovers, date picker |
-| `--layer-menu` | `200` | Menus, slash menu |
-| `--layer-dialog` | `300` | Dialogs |
-| `--layer-palette` | `400` | Command palette |
-| `--layer-tooltip` | `500` | Tooltips, always last |
+| `--layer-menu` | `100` | Menus, popovers, date picker, slash menu |
+| `--layer-dialog` | `200` | Dialogs, command palette |
+| `--layer-tooltip` | `300` | Tooltips, always last |
+
+An overlay opened from inside another overlay — a date picker in a dialog, a combobox menu in a dialog — is a native `dialog` or `popover` and takes the top layer. These tokens order siblings; they never lift a child above its ancestor.
 
 ### 2.9 Naming grammar
 
-`--<role>[-<variant>]`, lower-case, hyphenated. Roles are nouns, such as: `surface`, `text`, `border`, `accent`, `success`, `tag`, `state`, `radius`, `space`, `size`, `inset`, `row`, `control`, `type`, `width`, `layer`.
+`--<role>[-<variant>]`, lower-case, hyphenated. Roles are nouns, such as: `surface`, `fill`, `text`, `border`, `accent`, `success`, `tag`, `state`, `radius`, `space`, `size`, `inset`, `row`, `control`, `type`, `width`, `layer`.
 
 1. One token, one CSS type. A color token is always a color; an alpha knob always ends in `-alpha` or is one of the `--tint*` knobs.
-2. No single letters. No abbreviations: `--control-h`, not `--ctl`; `--radius-md`, not `--r`.
-3. Digits take a separator: `--text-1`, not `--fg1`.
-4. `--prim-` marks a primitive. A component that uses one is wrong, and a linter can see it.
-5. Add a token only when a component needs a value no existing token can express. A new token needs a stated reason in the commit message.
+2. A `--surface-*` is opaque. A `--fill-*` or `--state-*` is translucent and composites over the surface beneath it.
+3. An alias is `var(--target)`, never a copied literal.
+4. No single letters. No abbreviations: `--control-h`, not `--ctl`; `--radius-md`, not `--r`.
+5. Digits take a separator: `--text-1`, not `--fg1`.
+6. `--prim-` marks a primitive. A component that uses one is wrong, and a linter can see it.
+7. Add a token only when a component needs a value no existing token can express. A new token needs a stated reason in the commit message.
 
 ---
 
@@ -224,23 +228,25 @@ WCAG 2.x contrast ratios, computed from the values in section 2.
 | `--text-1` on panel | 17.1 | 15.3 |
 | `--text-1` on app | 15.2 | 16.4 |
 | `--text-2` on panel | 8.7 | 7.8 |
-| `--text-2` on app | 7.8 | 8.4 |
+| `--text-2` on app | 7.7 | 8.4 |
 | `--text-3` on panel | 5.3 | 5.3 |
-| `--text-3` on sunken | 4.9 | 5.0 |
+| `--text-3` on muted | 4.9 | 5.0 |
 | `--text-3` on app | 4.7 | 5.7 |
 | `--accent` on panel | 5.0 | 7.7 |
 | `--accent` on app | 4.5 | 8.2 |
-| `--text-on-accent` on accent | 5.0 | 8.2 |
-| `--text-on-danger` on danger | 5.0 | 5.8 |
+| `--text-on-fill` on accent | 5.0 | 8.2 |
+| `--text-on-fill` on danger | 5.0 | 5.8 |
 | `--text-on-inverse` on inverse | 17.1 | 14.5 |
 | `--success` on panel | 5.0 | 7.6 |
 | `--warning` on panel | 5.2 | 10.7 |
 | `--danger` on panel | 5.0 | 5.4 |
 | `--info` on panel | 5.0 | 7.6 |
+| Status glyph on its own `--tint-weak` fill (min) | 4.3 | 4.9 |
+| Tag text on tag fill (min) | 5.7 | 5.7 |
 
-**What the 3:1 rule covers.** Focus rings, status glyphs and meaningful fills meet 3:1 against the surface they sit on. Hairlines and control borders do not, and are not claimed to: `--border` is about 1.2:1 and `--border-control` about 1.6:1. They are decorative. A control is identified by its label, its text and its focus ring, never by its border alone — which is why every input carries a visible label (7.3) and every control has a 2px focus ring.
+**What the 3:1 rule covers.** Focus rings, status glyphs and meaningful fills meet 3:1 against the surface they sit on. Status on its own tint is a glyph, not body text: at 4.3:1 it clears 3:1 and not 4.5. Where status must be text on a tint, mix it 75% with `--text-1` as tags do. Hairlines and control borders do not meet 3:1, and are not claimed to: `--border` is about 1.2:1 and `--border-control` about 1.6:1. They are decorative. A control is identified by its label, its text and its focus ring, never by its border alone — which is why every input carries a visible label (7.3) and every control has a 2px focus ring.
 
-Tag text is `color-mix(in srgb, var(--tag-*) 75%, var(--text-1))`; re-measure when tag colors change. Re-measure the whole table after any token change.
+Tag text is `color-mix(in srgb, var(--tag-*) 75%, var(--text-1))`; it measures 5.7:1 at worst in both themes. Re-measure when tag colors change. Re-measure the whole table after any token change.
 
 ---
 
@@ -302,10 +308,10 @@ Every interactive element defines five states.
 | State | Treatment |
 |---|---|
 | Default | As specified per component |
-| Hover | `--state-hover` tint (or `--surface-sunken` for bordered buttons) |
+| Hover | `--state-hover` tint (or `--surface-muted` for bordered buttons) |
 | Active (pressed) | `--state-pressed` tint |
 | Focus-visible | `outline: var(--ring-width) solid var(--ring-color); outline-offset: var(--ring-offset)` (inputs: inset ring, offset −1px) |
-| Disabled | `--text-2` text, `--surface-sunken` fill, no hover or active response, remains visible |
+| Disabled | `--text-2` text, `--surface-muted` fill, no border, no hover or active response, remains visible |
 
 ### 6.2 Selection
 
@@ -353,9 +359,9 @@ Height `--control-h`, horizontal padding `--space-3`, radius `--radius-md`, `--t
 | Variant | Fill | Border | Text |
 |---|---|---|---|
 | Secondary | `--surface-panel` | `--border-control` | text-1 |
-| Primary | `--accent` | none | `--text-on-accent` |
+| Primary | `--accent` | none | `--text-on-fill` |
 | Ghost | transparent | none | text-2 → text-1 on hover |
-| Danger | `--danger` | none | `--text-on-danger` |
+| Danger | `--danger` | none | `--text-on-fill` |
 
 Sizes: small (`--control-h − 4px`, `--type-caption`), default, large (`--control-h + 8px`, `--type-heading`). Size arithmetic on a token is allowed; a new unrelated number is not. Icon-only buttons are square at the control height and require `aria-label`.
 
@@ -365,13 +371,13 @@ Hover and pressed states for every variant follow 6.1; no variant defines its ow
 
 ### 7.3 Form controls
 
-- **Text input, select, textarea:** height `--control-h` (textarea `--textarea-min-h` min), padding 0 `--space-3`, `--border-control` border, radius `--radius-md`, placeholder in text-3. Long-form inputs get `--surface-sunken`.
+- **Text input, select, textarea:** height `--control-h` (textarea `--textarea-min-h` min), padding 0 `--space-3`, `--border-control` border, radius `--radius-md`, placeholder in text-3. Long-form inputs get `--surface-muted`.
 - **Label** above the control (`label` role), **hint** below (`caption`), **error** below in `--danger` with a glyph. Error also sets the border to `--danger` and `aria-invalid="true"`.
 - **Checkbox and radio:** `--icon` square, accent when checked.
 - **Switch:** 32×20 (`--size-4` × `--size-2`), fully round, accent when on. Applies to immediate-effect settings; form fields use a checkbox.
 - **Search field:** leading search glyph, trailing `kbd` hint.
 - **Combobox:** input plus a menu; selected item shows a check; "create" is the last item after a separator.
-- **Date picker:** a popover at `--layer-popover` with a 7-column month grid; selected day uses `--accent` fill, today a `--accent-soft` inset ring.
+- **Date picker:** a popover at `--layer-menu` with a 7-column month grid; selected day uses `--accent` fill, today an inset `--ring-width` ring in `--accent`.
 - **Form layout:** labels above, one column by default, two columns for short related fields, actions right-aligned under a hairline.
 
 ### 7.4 Navigation
@@ -380,34 +386,34 @@ Hover and pressed states for every variant follow 6.1; no variant defines its ow
 - **Tree:** `--control-h` rows, `--icon` indent per level, chevron to expand, hover reveals add and more.
 - **Breadcrumbs:** last segment is text-1 at 500, earlier ones are text-2 links; separators are `--size-0` chevrons.
 - **Tabs:** switch between different content. `--row-h` tall, underline in `--accent` plus text-1 when active, a hairline under the set.
-- **Segmented control:** switches views of the same data. Selected segment is a `--surface-panel` chip with a hairline on a `--surface-sunken` track.
+- **Segmented control:** switches views of the same data. Selected segment is a `--surface-panel` chip with a hairline on a `--surface-muted` track.
 - **Pagination:** icon buttons for previous and next, numbered buttons, current page uses `--state-selected`.
-- **Command palette:** an overlay at `--layer-palette` with a `--header-h` input, grouped actions, shortcut hints right-aligned.
+- **Command palette:** an overlay at `--layer-dialog` with a `--header-h` input, grouped actions, shortcut hints right-aligned.
 
 ### 7.5 Data display
 
-- **Table:** header row `--row-h-sm` (`label` role, text-3, `--surface-sunken` fill, hairline below), body rows `--row-h`, one faint `--border` between rows. First and last cells use `--page-inset`. `--state-hover` tint on rows; selected rows get `--state-selected` and a checked box. Sorted column shows a `--size-0` arrow. A trailing "New" row in text-3 adds an item.
+- **Table:** header row `--row-h-sm` (`label` role, text-3, `--surface-muted` fill, hairline below), body rows `--row-h`, one faint `--border` between rows. First and last cells use `--page-inset`. `--state-hover` tint on rows; selected rows get `--state-selected` and a checked box. Sorted column shows a `--size-0` arrow. A trailing "New" row in text-3 adds an item.
 - **List row:** `--row-h` tall, `--space-2` horizontal padding inside a `--list-inset` gutter, radius `--radius-md`. Columns: ID (mono, text-3), status glyph, title (text-1, the only dominant element), labels (text-3 text), avatar, date. No dividers; whitespace and tint do the work.
 - **Group header (in lists):** text only, `--row-h-sm`, status glyph + `label` + count. No fill.
-- **Board:** columns of cards, `--space-4` gap. Card: `--surface-panel`, `--border` border, radius `--radius-lg`, `--space-2` × `--space-3` padding, title, then an ID / tag / avatar row. Hover uses `--surface-sunken`.
-- **Gallery card:** cover area on `--surface-sunken`, hairline, then title and caption.
+- **Board:** columns of cards, `--space-4` gap. Card: `--surface-panel`, `--border` border, radius `--radius-lg`, `--space-2` × `--space-3` padding, title, then an ID / tag / avatar row. Hover uses `--surface-muted`.
+- **Gallery card:** cover area on `--surface-muted`, hairline, then title and caption.
 - **Calendar:** 7-column grid with hairlines, `--calendar-cell-h` min cell height, today's date in an `--accent` circle, events as soft tags.
 - **Property row:** `--row-h-sm`, `--width-label` label column (icon + text-3 label), value cell that tints on hover when editable.
 - **Tags:** `--chip-h`, radius `--radius-md`, `--type-label`. Fill is `color-mix(in srgb, var(--tag-*) var(--tint), var(--surface-panel))`; text is the tag color mixed 75% with text-1. A tag always contains its label as text.
-- **Badge:** `--chip-h`, `--surface-sunken` fill with a hairline; a leading dot may carry a status color alongside the text label.
-- **Avatar:** round, initials in text-2 on `--surface-subtle`. Sizes `--size-1` through `--size-5`.
+- **Badge:** `--chip-h`, `--surface-muted` fill with a hairline; a leading dot may carry a status color alongside the text label.
+- **Avatar:** round, initials in text-2 on `--fill-subtle`. Sizes `--size-1` through `--size-5`.
 - **Stat card:** `--surface-panel`, hairline, `--radius-lg`, label (`caption`), value (`title`), delta with an arrow and text.
 - **Chart:** one series, one accent. Last value is `--accent`. Bars at `color-mix(in srgb, var(--accent) var(--tint-strong), var(--surface-panel))`. Gridlines: baseline only.
-- **Progress:** `--space-1` tall, fully round, accent fill on `--surface-subtle`.
-- **Callout:** `--surface-sunken` fill, hairline, `--radius-md`, leading icon. For context inside documents. System conditions use a banner.
+- **Progress:** `--space-1` tall, fully round, accent fill on `--fill-subtle`.
+- **Callout:** `--surface-muted` fill, hairline, `--radius-md`, leading icon. For context inside documents. System conditions use a banner.
 - **Toggle (disclosure):** borderless row, chevron rotates.
-- **Code block:** `--surface-sunken`, hairline, `--type-mono`.
+- **Code block:** `--surface-muted`, hairline, `--type-mono`.
 
 ### 7.6 Feedback
 
 - **Banner:** system-level conditions. Status color at `--tint-weak` over `--surface-panel`, `--tint-strong` border, leading glyph, title in `--type-action`.
 - **Inline error:** at the place of failure, with a Retry button.
-- **Empty state:** icon in a bordered `--surface-sunken` square, `heading`, one sentence, one next-step button. States what is missing.
+- **Empty state:** icon in a bordered `--surface-muted` square, `heading`, one sentence, one next-step button. States what is missing.
 - **Loading:** nothing for the first 300ms. After that, a `caption` text label and row-height skeletons so nothing shifts.
 - **Tooltip:** `--surface-inverse` background, `--text-on-inverse` text, `caption` role, optional shortcut, at `--layer-tooltip`. A few words.
 
@@ -416,8 +422,8 @@ Hover and pressed states for every variant follow 6.1; no variant defines its ow
 All overlays use `--surface-panel`, a `--border-strong` border, radius `--radius-lg` and `--shadow-overlay`. Each takes the z token from 2.8; overlays never guess a stacking order.
 
 - **Menu:** `--layer-menu`, `--space-1` padding, `--control-h` items, selected item uses `--state-selected`, shortcut hints right-aligned in `kbd`, destructive item last after a separator in `--danger`.
-- **Popover:** `--layer-popover`, a menu-styled surface holding a short message and one or two small buttons.
-- **Dialog:** `--layer-dialog`, `--width-dialog` wide, title (`heading`), body in text-2, footer on `--surface-sunken` with right-aligned actions. Confirm only the irreversible; the primary button names the consequence.
+- **Popover:** `--layer-menu`, a menu-styled surface holding a short message and one or two small buttons.
+- **Dialog:** `--layer-dialog`, `--width-dialog` wide, title (`heading`), body in text-2, footer on `--surface-muted` with right-aligned actions. Confirm only the irreversible; the primary button names the consequence.
 - **Slash menu:** `--layer-menu`, block-insertion menu, `--size-4` icon tile, title and caption per row.
 
 ---
@@ -525,6 +531,13 @@ Unread uses a dot plus `--type-action`. Deltas use an arrow and text.
 | Control borders | Claimed 3:1 | Decorative, ~1.6:1 | The palette cannot meet 3:1 on a hairline without reading as a grid; the ring and the label carry the affordance | v2 |
 | Radius | Multipliers of `--radius-md` | Fixed values | `.66` produced 2.64px, off the 4px grid | v2 |
 | Disabled and placeholder | Both text-3 | Disabled text-2 | Placeholder and disabled must not look the same | v2 |
+| Surface names | `--surface-sunken` | `--surface-muted` | Sunken was false in dark, where the value sits above the panel; muted names the property all uses share, lower emphasis, and keeps every value | v3 |
+| Fill naming | `--surface-subtle` | `--fill-subtle` | It is translucent, so it composites differently on each surface; a fill named as a surface contradicted one surface per region | v3 |
+| Text on fills | `--text-on-accent`, `--text-on-danger` | `--text-on-fill` | Identical in both themes; one name for one meaning | v3 |
+| Soft accent | `--accent-soft` | Removed | Its only use, today's ring, measured 1.19:1 against a claimed 3:1; the tint knobs already compose it | v3 |
+| Layers | Five steps, popover 100 to tooltip 500 | Three steps, menu 100 to tooltip 300 | Popover and menu, dialog and palette never co-occur; nesting is the top layer's job, not a higher number | v3 |
+| Aliases | Icon, chip height and five tags copied equal values | `var(--target)` | A copied literal is a second source that drifts; an alias cannot | v3 |
+| Disabled state | Text color alone | Muted fill and no border, text stays text-2 | A disabled value and a normal label were the same color | v3 |
 
 ---
 
@@ -534,6 +547,8 @@ Before declaring a component done:
 
 - [ ] Uses only semantic tokens, the type shorthands and the size ladders
 - [ ] No raw hex, no raw pixel value, no `--prim-*`
+- [ ] Every alias is `var(--target)`; no token copies a value another token holds
+- [ ] Every `--surface-*` is opaque and every `--fill-*` or `--state-*` is translucent
 - [ ] Defines all five states
 - [ ] Looks right in light and dark, at rows 32, 36 and 44, with lines none, faint and visible
 - [ ] Works at the 390px viewport
