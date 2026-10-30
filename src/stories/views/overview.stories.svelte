@@ -53,16 +53,16 @@
 </script>
 
 <Story
-  name="30 days"
+  name="Thirty days"
   args={{ stats, series, projects, range: "30d" }}
 />
 
 <Story
-  name="7 days"
+  name="Seven days"
   args={{ stats, series, projects, range: "7d" }}
 />
 
 <Story
-  name="90 days"
+  name="Ninety days"
   args={{ stats, series, projects, range: "90d" }}
 />
