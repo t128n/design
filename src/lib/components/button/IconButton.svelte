@@ -1,21 +1,26 @@
 <script lang="ts">
   import type { ComponentProps } from "svelte";
+  import type { HTMLButtonAttributes } from "svelte/elements";
   import Icon from "../../icons/Icon.svelte";
 
   type Variant = "secondary" | "primary" | "ghost" | "danger";
   type IconName = ComponentProps<typeof Icon>["name"];
+
+  interface Props extends Omit<HTMLButtonAttributes, "disabled"> {
+    label: string;
+    icon: IconName;
+    variant?: Variant;
+    disabled?: boolean;
+  }
 
   let {
     label,
     icon,
     variant = "ghost",
     disabled = false,
-  }: {
-    label: string;
-    icon: IconName;
-    variant?: Variant;
-    disabled?: boolean;
-  } = $props();
+    "aria-label": ariaLabel,
+    ...rest
+  }: Props = $props();
 
   const classes = $derived(
     [
@@ -33,8 +38,9 @@
   type="button"
   {disabled}
   aria-disabled={disabled ? "true" : undefined}
-  aria-label={label}
+  aria-label={ariaLabel ?? label}
   data-testid="icon-button"
+  {...rest}
 >
   <Icon name={icon} />
 </button>

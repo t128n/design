@@ -1,8 +1,18 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
+  import type { HTMLAttributes } from "svelte/elements";
 
   type Variant = "secondary" | "primary" | "ghost" | "danger";
   type Size = "sm" | "md" | "lg";
+
+  interface Props extends HTMLAttributes<HTMLElement> {
+    variant?: Variant;
+    size?: Size;
+    type?: "button" | "submit" | "reset";
+    disabled?: boolean;
+    href?: string;
+    children?: Snippet;
+  }
 
   let {
     variant = "secondary",
@@ -11,14 +21,8 @@
     disabled = false,
     href,
     children,
-  }: {
-    variant?: Variant;
-    size?: Size;
-    type?: "button" | "submit" | "reset";
-    disabled?: boolean;
-    href?: string;
-    children?: Snippet;
-  } = $props();
+    ...rest
+  }: Props = $props();
 
   const classes = $derived(
     [
@@ -39,6 +43,7 @@
     aria-disabled={disabled ? "true" : undefined}
     tabindex={disabled ? -1 : undefined}
     data-testid="button"
+    {...rest}
   >
     {@render children?.()}
   </a>
@@ -49,6 +54,7 @@
     {disabled}
     aria-disabled={disabled ? "true" : undefined}
     data-testid="button"
+    {...rest}
   >
     {@render children?.()}
   </button>

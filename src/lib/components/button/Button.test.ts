@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/svelte";
+import userEvent from "@testing-library/user-event";
 import { createRawSnippet } from "svelte";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import Button from "./Button.svelte";
 import IconButton from "./IconButton.svelte";
 
@@ -39,5 +40,25 @@ describe("Button", () => {
 
     const button = screen.getByRole("button", { name: "Delete" });
     expect(button.getAttribute("aria-disabled")).toBe("true");
+  });
+
+  it("forwards onclick", async () => {
+    const onclick = vi.fn();
+    render(Button, { children: text("Save"), onclick });
+
+    await userEvent.click(screen.getByRole("button", { name: "Save" }));
+    expect(onclick).toHaveBeenCalledOnce();
+  });
+
+  it("forwards aria-label", () => {
+    render(IconButton, { label: "More", icon: "more", "aria-label": "More actions" });
+
+    expect(screen.getByRole("button", { name: "More actions" })).toBeTruthy();
+  });
+
+  it("forwards data attributes", () => {
+    render(Button, { children: text("Continue"), "data-testid": "cta" });
+
+    expect(screen.getByTestId("cta").getAttribute("data-testid")).toBe("cta");
   });
 });
