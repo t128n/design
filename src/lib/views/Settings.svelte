@@ -55,10 +55,7 @@
       for (const row of section.rows) {
         if (row.control.type !== "switch") continue;
         const provided = source[row.id];
-        state[row.id] =
-          typeof provided === "boolean"
-            ? provided
-            : row.control.value === true;
+        state[row.id] = typeof provided === "boolean" ? provided : false;
       }
     }
     return state;
@@ -161,7 +158,12 @@
                 <div class="t128n-settings__control">
                   {#if row.control.type === "switch"}
                     <Switch
-                      bind:checked={switchValues[row.id]}
+                      bind:checked={
+                        () => switchValues[row.id] ?? false,
+                        (checked) => {
+                          switchValues[row.id] = checked;
+                        }
+                      }
                       disabled={row.control.disabled}
                       label={row.label}
                     />

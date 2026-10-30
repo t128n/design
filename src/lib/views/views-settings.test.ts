@@ -54,6 +54,22 @@ const settingsSections: SettingsSection[] = [
   },
 ];
 
+const switchSections: SettingsSection[] = [
+  {
+    id: "general",
+    label: "General",
+    icon: "settings",
+    rows: [
+      {
+        id: "sync",
+        label: "Sync",
+        description: "Keep every device in step.",
+        control: { type: "switch", value: true },
+      },
+    ],
+  },
+];
+
 const inboxItems = [
   {
     id: "n-1",
@@ -141,6 +157,30 @@ describe("Settings", () => {
     await userEvent.type(input, "Zephyr");
 
     expect(onChange).toHaveBeenCalledWith("workspace-name", "Zephyr");
+  });
+
+  it("test_missing_switch_value: a switch missing from values renders off", () => {
+    render(Settings, {
+      sections: switchSections,
+      active: "general",
+      values: {},
+    });
+
+    expect(screen.getByRole("switch").getAttribute("aria-checked")).toBe(
+      "false",
+    );
+  });
+
+  it("test_existing_value_wins: a provided switch value is used", () => {
+    render(Settings, {
+      sections: switchSections,
+      active: "general",
+      values: { sync: true },
+    });
+
+    expect(screen.getByRole("switch").getAttribute("aria-checked")).toBe(
+      "true",
+    );
   });
 
   it("test_one_primary: keeps exactly one primary action", () => {
