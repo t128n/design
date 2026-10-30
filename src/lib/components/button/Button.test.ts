@@ -61,4 +61,30 @@ describe("Button", () => {
 
     expect(screen.getByTestId("cta").getAttribute("data-testid")).toBe("cta");
   });
+
+  it("merges caller classes", () => {
+    render(Button, { children: text("Save"), class: "extra" });
+
+    const button = screen.getByRole("button", { name: "Save" });
+    expect(button.className).toContain("t128n-btn");
+    expect(button.className).toContain("extra");
+  });
+
+  it("merges caller classes on IconButton", () => {
+    render(IconButton, { label: "More", icon: "more", class: "extra" });
+
+    const button = screen.getByRole("button", { name: "More" });
+    expect(button.className).toContain("t128n-icon-btn");
+    expect(button.className).toContain("extra");
+  });
+
+  it("still forwards rest props alongside a caller class", async () => {
+    const onclick = vi.fn();
+    render(Button, { children: text("Go"), class: "extra", onclick, "data-testid": "go" });
+
+    const button = screen.getByTestId("go");
+    expect(button.getAttribute("data-testid")).toBe("go");
+    await userEvent.click(button);
+    expect(onclick).toHaveBeenCalledOnce();
+  });
 });

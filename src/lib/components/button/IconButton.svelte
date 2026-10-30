@@ -2,6 +2,7 @@
   import type { ComponentProps } from "svelte";
   import type { HTMLButtonAttributes } from "svelte/elements";
   import Icon from "../../icons/Icon.svelte";
+  import { cx } from "../../utils/cx";
 
   type Variant = "secondary" | "primary" | "ghost" | "danger";
   type IconName = ComponentProps<typeof Icon>["name"];
@@ -19,17 +20,17 @@
     variant = "ghost",
     disabled = false,
     "aria-label": ariaLabel,
+    class: className,
     ...rest
   }: Props = $props();
 
   const classes = $derived(
-    [
+    cx(
       "t128n-icon-btn",
       `t128n-icon-btn--${variant}`,
-      disabled ? "t128n-icon-btn--disabled" : "",
-    ]
-      .filter(Boolean)
-      .join(" "),
+      disabled ? "t128n-icon-btn--disabled" : undefined,
+      typeof className === "string" ? className : undefined,
+    ),
   );
 </script>
 

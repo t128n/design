@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import type { HTMLAttributes } from "svelte/elements";
+  import { cx } from "../../utils/cx";
 
   type Variant = "secondary" | "primary" | "ghost" | "danger";
   type Size = "sm" | "md" | "lg";
@@ -21,18 +22,18 @@
     disabled = false,
     href,
     children,
+    class: className,
     ...rest
   }: Props = $props();
 
   const classes = $derived(
-    [
+    cx(
       "t128n-btn",
       `t128n-btn--${variant}`,
       `t128n-btn--${size}`,
-      disabled ? "t128n-btn--disabled" : "",
-    ]
-      .filter(Boolean)
-      .join(" "),
+      disabled ? "t128n-btn--disabled" : undefined,
+      typeof className === "string" ? className : undefined,
+    ),
   );
 </script>
 
