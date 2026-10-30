@@ -1,0 +1,34 @@
+{
+  "name": "stellar-planet",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "packageManager": "pnpm@10.20.0",
+  "scripts": {
+    "build": "pnpm --filter @stellar/ui build",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "test:storybook": "storybook test",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "devDependencies": {
+    "@playwright/test": "latest",
+    "@sveltejs/vite-plugin-svelte": "latest",
+    "@storybook/addon-a11y": "latest",
+    "@storybook/svelte-vite": "latest",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/svelte": "latest",
+    "@testing-library/user-event": "latest",
+    "@types/node": "latest",
+    "@vitest/coverage-v8": "latest",
+    "axe-core": "latest",
+    "jsdom": "latest",
+    "playwright": "latest",
+    "storybook": "latest",
+    "svelte": "latest",
+    "typescript": "^5.9.3",
+    "vite": "latest",
+    "vitest": "latest"
+  }
+}
