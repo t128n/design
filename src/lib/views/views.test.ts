@@ -69,6 +69,15 @@ describe("Issues view", () => {
       "t128n-header__actions",
     );
   });
+
+  it("has no shell of its own", () => {
+    render(Issues, { issues: manyIssues, selectedId: "S-1" });
+
+    expect(screen.queryByTestId("app-shell")).toBeNull();
+    expect(screen.getByTestId("issues").classList.contains("t128n-split")).toBe(
+      true,
+    );
+  });
 });
 
 describe("Board view", () => {
@@ -104,5 +113,12 @@ describe("Board view", () => {
     expect(header.lastElementChild?.className).toContain(
       "t128n-header__actions",
     );
+  });
+
+  it("has no shell of its own", () => {
+    render(Board, { columns: manyBoardColumns });
+
+    expect(screen.queryByTestId("app-shell")).toBeNull();
+    expect(screen.getByTestId("board")).toBeTruthy();
   });
 });

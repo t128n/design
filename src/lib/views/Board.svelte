@@ -5,7 +5,6 @@
   import Button from "../components/button/Button.svelte";
   import IconButton from "../components/button/IconButton.svelte";
   import GroupHeader from "../components/list/GroupHeader.svelte";
-  import AppShell from "../components/shell/AppShell.svelte";
   import Header from "../components/shell/Header.svelte";
   import Toolbar from "../components/shell/Toolbar.svelte";
 
@@ -44,42 +43,40 @@
   <IconButton label="Display options" icon="more" />
 {/snippet}
 
-<AppShell>
-  <Header context={context} actions={actions} />
-  <Toolbar filters={filters} search={search} actions={toolbarActions} />
+<Header context={context} actions={actions} />
+<Toolbar filters={filters} search={search} actions={toolbarActions} />
 
-  <div class="t128n-board" data-testid="board">
-    <div class="t128n-board__columns">
-      {#each columns as column (column.id)}
-        <section class="t128n-board__column" aria-label={column.title}>
-          <GroupHeader
-            label={column.title}
-            count={column.cards.length}
-            status={column.status}
-          />
+<div class="t128n-board" data-testid="board">
+  <div class="t128n-board__columns">
+    {#each columns as column (column.id)}
+      <section class="t128n-board__column" aria-label={column.title}>
+        <GroupHeader
+          label={column.title}
+          count={column.cards.length}
+          status={column.status}
+        />
 
-          <div
-            class="t128n-board__list"
-            role="list"
-            aria-label={`${column.title} cards`}
-          >
-            {#each column.cards as card, index (card.id ?? `${column.id}-${index}`)}
-              <div class="t128n-board__card" role="listitem">
-                <BoardCard
-                  title={card.title}
-                  id={card.id}
-                  tags={card.tags}
-                  avatar={card.avatar}
-                  href={card.href}
-                />
-              </div>
-            {/each}
-          </div>
-        </section>
-      {/each}
-    </div>
+        <div
+          class="t128n-board__list"
+          role="list"
+          aria-label={`${column.title} cards`}
+        >
+          {#each column.cards as card, index (card.id ?? `${column.id}-${index}`)}
+            <div class="t128n-board__card" role="listitem">
+              <BoardCard
+                title={card.title}
+                id={card.id}
+                tags={card.tags}
+                avatar={card.avatar}
+                href={card.href}
+              />
+            </div>
+          {/each}
+        </div>
+      </section>
+    {/each}
   </div>
-</AppShell>
+</div>
 
 <style>
   .t128n-board__context {
