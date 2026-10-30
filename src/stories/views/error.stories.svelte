@@ -2,6 +2,7 @@
   import { defineMeta } from "@storybook/addon-svelte-csf";
 
   import ErrorView from "../../lib/views/ErrorView.svelte";
+  import ViewFrame from "./ViewFrame.svelte";
 
   const { Story } = defineMeta<any, any>({
     title: "Views/Error",
@@ -36,16 +37,8 @@
   }}
 >
   {#snippet template(args)}
-    <div class="t128n-views-story__viewport">
+    <ViewFrame active="overview">
       <ErrorView message={args.message} onRetry={args.onRetry} />
-    </div>
+    </ViewFrame>
   {/snippet}
 </Story>
-
-<style>
-  .t128n-views-story__viewport {
-    height: calc(var(--size-5) * 9);
-    overflow: auto;
-    background: var(--surface-app);
-  }
-</style>

@@ -3,6 +3,7 @@
 
   import Board from "../../lib/views/Board.svelte";
   import { emptyBoardColumns, manyBoardColumns } from "../../lib/views/fixtures";
+  import ViewFrame from "./ViewFrame.svelte";
 
   const { Story } = defineMeta<any, any>({
     title: "Views/Board",
@@ -30,7 +31,9 @@
   }}
 >
   {#snippet template(args: any)}
-    <Board {...args} />
+    <ViewFrame active="board">
+      <Board {...args} />
+    </ViewFrame>
   {/snippet}
 </Story>
 
@@ -45,6 +48,8 @@
   }}
 >
   {#snippet template(args: any)}
-    <Board {...args} />
+    <ViewFrame active="board">
+      <Board {...args} />
+    </ViewFrame>
   {/snippet}
 </Story>

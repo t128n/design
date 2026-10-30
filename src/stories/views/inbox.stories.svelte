@@ -2,6 +2,7 @@
   import { defineMeta } from "@storybook/addon-svelte-csf";
 
   import Inbox from "../../lib/views/Inbox.svelte";
+  import ViewFrame from "./ViewFrame.svelte";
 
   const { Story } = defineMeta<any, any>({
     title: "Views/Inbox",
@@ -66,6 +67,8 @@
   }}
 >
   {#snippet template(args: any)}
-    <Inbox {...args} />
+    <ViewFrame active="inbox">
+      <Inbox {...args} />
+    </ViewFrame>
   {/snippet}
 </Story>

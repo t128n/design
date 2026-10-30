@@ -3,6 +3,7 @@
   import type { ComponentProps } from "svelte";
 
   import DocumentPage from "../../lib/views/DocumentPage.svelte";
+  import ViewFrame from "./ViewFrame.svelte";
 
   type PageProps = ComponentProps<typeof DocumentPage>;
 
@@ -68,19 +69,8 @@
 
 <Story name="Default" args={{ page: longPage }}>
   {#snippet template(args: any)}
-    <div class="t128n-view-story__frame">
+    <ViewFrame active="overview">
       <DocumentPage page={args.page} />
-    </div>
+    </ViewFrame>
   {/snippet}
 </Story>
-
-<style>
-  .t128n-view-story__frame {
-    box-sizing: border-box;
-    height: calc(var(--size-5) * 16);
-    overflow: auto;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    background: var(--surface-panel);
-  }
-</style>

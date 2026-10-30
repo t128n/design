@@ -2,6 +2,7 @@
   import { defineMeta } from "@storybook/addon-svelte-csf";
 
   import Overview from "../../lib/views/Overview.svelte";
+  import ViewFrame from "./ViewFrame.svelte";
 
   const stats = [
     { label: "Open issues", value: 128, delta: "12%", trend: "down" as const },
@@ -55,14 +56,32 @@
 <Story
   name="Thirty days"
   args={{ stats, series, projects, range: "30d" }}
-/>
+>
+  {#snippet template(args: any)}
+    <ViewFrame active="overview">
+      <Overview {...args} />
+    </ViewFrame>
+  {/snippet}
+</Story>
 
 <Story
   name="Seven days"
   args={{ stats, series, projects, range: "7d" }}
-/>
+>
+  {#snippet template(args: any)}
+    <ViewFrame active="overview">
+      <Overview {...args} />
+    </ViewFrame>
+  {/snippet}
+</Story>
 
 <Story
   name="Ninety days"
   args={{ stats, series, projects, range: "90d" }}
-/>
+>
+  {#snippet template(args: any)}
+    <ViewFrame active="overview">
+      <Overview {...args} />
+    </ViewFrame>
+  {/snippet}
+</Story>

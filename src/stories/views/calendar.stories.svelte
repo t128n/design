@@ -2,6 +2,7 @@
   import { defineMeta } from "@storybook/addon-svelte-csf";
 
   import CalendarView from "../../lib/views/CalendarView.svelte";
+  import ViewFrame from "./ViewFrame.svelte";
 
   const month = new Date(2026, 9, 1);
 
@@ -43,6 +44,18 @@
   });
 </script>
 
-<Story name="October 2026" args={{ events, month }} />
+<Story name="October 2026" args={{ events, month }}>
+  {#snippet template(args: any)}
+    <ViewFrame active="calendar">
+      <CalendarView {...args} />
+    </ViewFrame>
+  {/snippet}
+</Story>
 
-<Story name="Empty month" args={{ events: [], month }} />
+<Story name="Empty month" args={{ events: [], month }}>
+  {#snippet template(args: any)}
+    <ViewFrame active="calendar">
+      <CalendarView {...args} />
+    </ViewFrame>
+  {/snippet}
+</Story>

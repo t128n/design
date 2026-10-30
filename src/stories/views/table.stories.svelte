@@ -3,6 +3,7 @@
   import type { ComponentProps } from "svelte";
 
   import DatabaseTable from "../../lib/views/DatabaseTable.svelte";
+  import ViewFrame from "./ViewFrame.svelte";
 
   type DatabaseProps = ComponentProps<typeof DatabaseTable>;
 
@@ -77,24 +78,13 @@
   }}
 >
   {#snippet template(args: any)}
-    <div class="t128n-view-story__frame">
+    <ViewFrame active="issues">
       <DatabaseTable
         rows={args.rows}
         columns={args.columns}
         view={args.view}
         onView={args.onView}
       />
-    </div>
+    </ViewFrame>
   {/snippet}
 </Story>
-
-<style>
-  .t128n-view-story__frame {
-    box-sizing: border-box;
-    height: calc(var(--size-5) * 14);
-    overflow: auto;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    background: var(--surface-panel);
-  }
-</style>

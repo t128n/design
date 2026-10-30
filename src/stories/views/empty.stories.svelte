@@ -2,6 +2,7 @@
   import { defineMeta } from "@storybook/addon-svelte-csf";
 
   import EmptyWorkspace from "../../lib/views/EmptyWorkspace.svelte";
+  import ViewFrame from "./ViewFrame.svelte";
 
   const { Story } = defineMeta<any, any>({
     title: "Views/Empty workspace",
@@ -40,22 +41,12 @@
   }}
 >
   {#snippet template(args)}
-    <div class="t128n-views-story__viewport">
+    <ViewFrame active="overview">
       <EmptyWorkspace
         title={args.title}
         description={args.description}
         onCreate={() => {}}
       />
-    </div>
+    </ViewFrame>
   {/snippet}
 </Story>
-
-<style>
-  .t128n-views-story__viewport {
-    height: calc(var(--size-5) * 9);
-    overflow: auto;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    background: var(--surface-app);
-  }
-</style>

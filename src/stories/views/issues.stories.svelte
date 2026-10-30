@@ -3,6 +3,7 @@
 
   import Issues from "../../lib/views/Issues.svelte";
   import { emptyIssues, manyIssues } from "../../lib/views/fixtures";
+  import ViewFrame from "./ViewFrame.svelte";
 
   const { Story } = defineMeta<any, any>({
     title: "Views/Issues",
@@ -38,7 +39,9 @@
   }}
 >
   {#snippet template(args: any)}
-    <Issues {...args} />
+    <ViewFrame active="issues">
+      <Issues {...args} />
+    </ViewFrame>
   {/snippet}
 </Story>
 
@@ -61,6 +64,8 @@
   }}
 >
   {#snippet template(args: any)}
-    <Issues {...args} />
+    <ViewFrame active="issues">
+      <Issues {...args} />
+    </ViewFrame>
   {/snippet}
 </Story>
