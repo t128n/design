@@ -1,9 +1,10 @@
 <script lang="ts">
   import { Dialog } from 'bits-ui';
   import type { Snippet } from 'svelte';
-  import ChevronRight from 'carbon-icons-svelte/lib/ChevronRight.svelte';
-  import Close from 'carbon-icons-svelte/lib/Close.svelte';
-  import Menu from 'carbon-icons-svelte/lib/Menu.svelte';
+  import ChevronRightIcon from '~icons/carbon/chevron-right';
+  import CloseIcon from '~icons/carbon/close';
+  import MenuIcon from '~icons/carbon/menu';
+  import Icon from './Icon.svelte';
   import VisuallyHidden from './VisuallyHidden.svelte';
 
   type Item = {
@@ -90,7 +91,7 @@
       {#snippet child({ props })}
         <button {...props} type="button" class="drawer-trigger">
           <span class="drawer-trigger-icon" aria-hidden="true">
-            <Menu size={20} />
+            <Icon icon={MenuIcon} size={20} />
           </span>
           <span>{toggleLabel}</span>
         </button>
@@ -115,7 +116,7 @@
               <Dialog.Close>
                 {#snippet child({ props })}
                   <button {...props} type="button" class="drawer-close">
-                    <Close size={20} aria-hidden="true" />
+                    <Icon icon={CloseIcon} size={20} />
                     <VisuallyHidden>Close navigation</VisuallyHidden>
                   </button>
                 {/snippet}
@@ -188,7 +189,7 @@
               onclick={() => toggleItem(id)}
             >
               <span class="chevron" aria-hidden="true">
-                <ChevronRight size={16} />
+                <Icon icon={ChevronRightIcon} />
               </span>
               <VisuallyHidden>
                 {isOpen(id, item) ? 'Collapse' : 'Expand'} {item.label}

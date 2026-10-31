@@ -112,9 +112,9 @@ describe('Sidebar', () => {
     const sidebar = await readSource('../src/lib/Sidebar.svelte');
 
     expect(sidebar).toContain(
-      "import ChevronRight from 'carbon-icons-svelte/lib/ChevronRight.svelte'"
+      "import ChevronRightIcon from '~icons/carbon/chevron-right'"
     );
-    expect(sidebar).toContain('<ChevronRight size={16} />');
+    expect(sidebar).toContain('<Icon icon={ChevronRightIcon} />');
     expect(sidebar).toContain('aria-expanded={isOpen(id, item)}');
     expect(sidebar).toContain('aria-controls={childrenId}');
     expect(sidebar).toContain('{isOpen(id, item) ? \'Collapse\' : \'Expand\'} {item.label}');
@@ -179,8 +179,8 @@ describe('Sidebar', () => {
     const sidebar = await readSource('../src/lib/Sidebar.svelte');
 
     expect(sidebar).toContain("import { Dialog } from 'bits-ui'");
-    expect(sidebar).toContain("import Menu from 'carbon-icons-svelte/lib/Menu.svelte'");
-    expect(sidebar).toContain("import Close from 'carbon-icons-svelte/lib/Close.svelte'");
+    expect(sidebar).toContain("import MenuIcon from '~icons/carbon/menu'");
+    expect(sidebar).toContain("import CloseIcon from '~icons/carbon/close'");
     expect(sidebar).toContain('<Dialog.Root bind:open={drawerOpen}>');
     expect(sidebar).toContain('<Dialog.Overlay>');
     expect(sidebar).toContain('class="drawer-overlay"');
@@ -192,8 +192,8 @@ describe('Sidebar', () => {
       '<Dialog.Description class="drawer-description">{label}</Dialog.Description>'
     );
     expect(sidebar).toContain('class="drawer-close"');
-    expect(sidebar).toContain('<Menu size={20} />');
-    expect(sidebar).toContain('<Close size={20} aria-hidden="true" />');
+    expect(sidebar).toContain('<Icon icon={MenuIcon} size={20} />');
+    expect(sidebar).toContain('<Icon icon={CloseIcon} size={20} />');
     expect(sidebar).toContain('<VisuallyHidden>Close navigation</VisuallyHidden>');
     expect(sidebar).toContain('{toggleLabel}');
     expect(sidebar).toContain("toggleLabel = 'Navigation'");

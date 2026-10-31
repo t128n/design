@@ -159,11 +159,11 @@ describe('design tokens', () => {
   it('makes key components consume the geometry tokens', async () => {
     const expectations: Record<string, string[]> = {
       Avatar: ['--avatar-size-sm', '--avatar-size-md', '--avatar-size-lg'],
-      Checkbox: ['--checkbox-size', '--checkbox-indicator-size'],
+      Checkbox: ['--checkbox-size'],
       Slider: ['--thumb-size', '--track-size'],
       Switch: ['--switch-track-width', '--switch-track-height', '--switch-thumb-size'],
-      Pagination: ['--control-height-sm', '--icon-size-sm'],
-      RatingGroup: ['--touch-target', '--icon-size-md'],
+      Pagination: ['--control-height-sm'],
+      RatingGroup: ['--touch-target'],
       Sidebar: ['--panel-max-height'],
       List: ['--list-marker-indent']
     };

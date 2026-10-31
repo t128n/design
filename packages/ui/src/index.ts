@@ -43,12 +43,8 @@ export { default as Tooltip } from './lib/Tooltip.svelte';
 export { default as Combobox } from './lib/Combobox.svelte';
 export { default as Calendar } from './lib/Calendar.svelte';
 export { default as RangeCalendar } from './lib/RangeCalendar.svelte';
-export { default as DateField } from './lib/DateField.svelte';
-export { default as TimeField } from './lib/TimeField.svelte';
 export { default as DatePicker } from './lib/DatePicker.svelte';
-export { default as DateRangeField } from './lib/DateRangeField.svelte';
 export { default as DateRangePicker } from './lib/DateRangePicker.svelte';
-export { default as TimeRangeField } from './lib/TimeRangeField.svelte';
 export { default as Command } from './lib/Command.svelte';
 export { default as LinkPreview } from './lib/LinkPreview.svelte';
 export { default as Toolbar } from './lib/Toolbar.svelte';
@@ -62,6 +58,9 @@ export { default as Container } from './lib/Container.svelte';
 export { default as List } from './lib/List.svelte';
 export { default as EmptyState } from './lib/EmptyState.svelte';
 export { default as VisuallyHidden } from './lib/VisuallyHidden.svelte';
+export { default as Icon } from './lib/Icon.svelte';
+export { iconSizes } from './lib/icon';
+export type { IconComponent, IconSize } from './lib/icon';
 export { headingLevels, headingTag } from './lib/typography';
 export type {
   HeadingLevel,

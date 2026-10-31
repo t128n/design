@@ -3,6 +3,7 @@
   import type { Snippet } from 'svelte';
   import StarIcon from '~icons/carbon/star';
   import StarFilledIcon from '~icons/carbon/star-filled';
+  import Icon from './Icon.svelte';
 
   type Props = {
     value?: number;
@@ -51,9 +52,9 @@
     {#each items as item}
       <RatingGroup.Item index={item.index} class="rating-item">
         {#if item.state === 'active' || item.state === 'partial'}
-          <StarFilledIcon class="rating-icon filled" />
+          <Icon icon={StarFilledIcon} size={20} class="rating-icon filled" />
         {:else}
-          <StarIcon class="rating-icon" />
+          <Icon icon={StarIcon} size={20} class="rating-icon" />
         {/if}
       </RatingGroup.Item>
     {/each}
@@ -101,11 +102,6 @@
   :global(.rating-group[data-disabled] .rating-item) {
     color: var(--color-disabled-text);
     cursor: not-allowed;
-  }
-
-  :global(.rating-icon) {
-    width: var(--icon-size-md);
-    height: var(--icon-size-md);
   }
 
   :global(.rating-icon.filled) {

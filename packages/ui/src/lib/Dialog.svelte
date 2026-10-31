@@ -3,6 +3,7 @@
   import type { Snippet } from 'svelte';
   import CloseIcon from '~icons/carbon/close';
   import Button from './Button.svelte';
+  import Icon from './Icon.svelte';
 
   type Props = {
     open?: boolean;
@@ -59,7 +60,7 @@
         <Dialog.Close aria-label={closeLabel}>
           {#snippet child({ props })}
             <button {...props} class="dialog-close">
-              <CloseIcon class="close-icon" />
+              <Icon icon={CloseIcon} class="close-icon" />
             </button>
           {/snippet}
         </Dialog.Close>
@@ -153,7 +154,6 @@
   }
 
   .dialog-close :global(.close-icon) {
-    width: var(--icon-size-sm);
-    height: var(--icon-size-sm);
+    color: inherit;
   }
 </style>

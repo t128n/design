@@ -2,6 +2,7 @@
   import { Popover } from 'bits-ui';
   import type { Snippet } from 'svelte';
   import MenuIcon from '~icons/carbon/menu';
+  import Icon from './Icon.svelte';
 
   type NavLink = {
     label: string;
@@ -104,7 +105,7 @@
             aria-expanded={menuOpen}
             aria-controls={menuId}
           >
-            <MenuIcon class="menu-icon" aria-hidden="true" />
+            <Icon icon={MenuIcon} class="menu-icon" />
             <span class="menu-label">Menu</span>
           </button>
         {/snippet}
@@ -248,8 +249,7 @@
   }
 
   .menu-trigger :global(.menu-icon) {
-    width: var(--icon-size-sm);
-    height: var(--icon-size-sm);
+    color: inherit;
   }
 
   .navbar.compact .links {

@@ -2,6 +2,7 @@
   import { Accordion } from 'bits-ui';
   import type { Snippet } from 'svelte';
   import ChevronDownIcon from '~icons/carbon/chevron-down';
+  import Icon from './Icon.svelte';
 
   type AccordionItem = {
     value: string;
@@ -39,7 +40,7 @@
           <Accordion.Header class="accordion-header">
             <Accordion.Trigger class="accordion-trigger">
               <span class="accordion-trigger-label">{item.title}</span>
-              <ChevronDownIcon class="accordion-chevron" aria-hidden="true" />
+              <Icon icon={ChevronDownIcon} class="accordion-chevron" />
             </Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Content class="accordion-content">
@@ -57,7 +58,7 @@
           <Accordion.Header class="accordion-header">
             <Accordion.Trigger class="accordion-trigger">
               <span class="accordion-trigger-label">{item.title}</span>
-              <ChevronDownIcon class="accordion-chevron" aria-hidden="true" />
+              <Icon icon={ChevronDownIcon} class="accordion-chevron" />
             </Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Content class="accordion-content">
@@ -128,8 +129,6 @@
   }
 
   .accordion :global(.accordion-chevron) {
-    width: var(--icon-size-sm);
-    height: var(--icon-size-sm);
     flex-shrink: 0;
     color: var(--color-text-secondary);
     transition: transform var(--transition-duration);

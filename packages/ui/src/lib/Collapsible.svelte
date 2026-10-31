@@ -2,6 +2,7 @@
   import { Collapsible } from 'bits-ui';
   import type { Snippet } from 'svelte';
   import ChevronRightIcon from '~icons/carbon/chevron-right';
+  import Icon from './Icon.svelte';
 
   type Props = {
     open?: boolean;
@@ -27,7 +28,7 @@
     <span class="collapsible-trigger-content">
       {@render trigger()}
     </span>
-    <ChevronRightIcon class="collapsible-chevron" aria-hidden="true" />
+    <Icon icon={ChevronRightIcon} class="collapsible-chevron" />
   </Collapsible.Trigger>
   <Collapsible.Content class="collapsible-content">
     <div class="collapsible-content-inner">
@@ -79,8 +80,6 @@
   }
 
   :global(.collapsible .collapsible-chevron) {
-    width: var(--icon-size-sm);
-    height: var(--icon-size-sm);
     flex-shrink: 0;
     transition: transform var(--transition-duration);
     color: var(--color-text-secondary);
