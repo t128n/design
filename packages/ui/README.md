@@ -2,13 +2,14 @@
 
 A Svelte 5 design framework for quiet, spacious, technical application interfaces. Tokens feed a small typography and layout vocabulary; components build on that vocabulary and consume semantic tokens only.
 
-This package is **internal to `t128n/design`**. It is not published to a registry.
+This package is published to npm as a public, MIT-licensed package and is
+developed in [`t128n/design`](https://github.com/t128n/design).
 
 - Visual contract: [`DESIGN.md`](../../DESIGN.md)
 - Every component: [`docs/components.md`](../../docs/components.md)
 - R48 coverage: [`docs/component-coverage.md`](../../docs/component-coverage.md)
 - Theming reference: [`docs/theming.md`](../../docs/theming.md)
-- Change history: [`CHANGELOG.md`](../../CHANGELOG.md)
+- Change history: [`CHANGELOG.md`](./CHANGELOG.md)
 - Contribution rules: [`CONTRIBUTING.md`](../../CONTRIBUTING.md)
 
 ## 1. Overview and principles
@@ -24,15 +25,17 @@ The framework exists so application screens feel like one continuous workspace i
 
 ## 2. Install and consume
 
-### Internal-only package
+### From npm
 
-`@t128n/ui` is deliberately not a public package:
+```sh
+bun add @t128n/ui
+# or: npm install @t128n/ui
+```
 
-- `packages/ui/package.json` keeps `"private": true`.
-- No license is granted for external distribution; treat the package as `UNLICENSED`.
-- Publishing requires an explicit license decision and a release process owned outside this document. Do not add a license file or publish a tarball publicly without that decision.
-
-Consume it from this repository as a workspace dependency, or from a local tarball for a downstream internal project.
+`svelte` 5 is a peer dependency. The runtime dependencies (`bits-ui`, `runed`,
+`@internationalized/date`, `carbon-icons-svelte`) install alongside the package,
+so the consuming app should not re-declare them. Releases are published from CI
+with npm provenance.
 
 ### Workspace dependency
 
@@ -45,6 +48,8 @@ Consume it from this repository as a workspace dependency, or from a local tarba
 ```
 
 ### Local tarball
+
+Use this to test an unreleased change in a downstream project:
 
 ```sh
 cd packages/ui
@@ -429,11 +434,17 @@ The registry entry is the contract: `{ id, label, tone, glyph | monogram }`. Ton
 
 ### Versioning and releases
 
-- The framework is internal-only and versioned in the `0.x` line while its APIs stabilize.
-- While `0.x`, a minor release may contain a breaking change. Every breaking change needs a changelog entry and a migration note; patch releases are reserved for compatible fixes and documentation.
-- `CHANGELOG.md` is the release record. Update the `Unreleased` section in the same pull request as the change.
+- The package is public and MIT-licensed. It stays in the `0.x` line while its APIs stabilize.
+- Releases are driven by [Changesets](https://changesets.dev). Run `bun run changeset` in the pull request that changes behavior; commit the generated `.changeset/*.md` file with the change.
+- `.changeset/*.md` is the input. `packages/ui/CHANGELOG.md` is generated from it by `changeset version`; do not edit the changelog by hand. The file ships in the tarball.
+- While `0.x`, a `major` changeset becomes a minor bump, so a breaking change is still a visible minor release. Every breaking change needs a changeset and a migration note; patches are compatible fixes and documentation.
+- On `main`, the `Publish` workflow runs `changesets/action/select-mode@v2`. When changesets are pending it opens or updates the **chore(release): version packages** pull request; once that pull request is merged, the same workflow packs, verifies, and publishes the tarball, then pushes the git tag and creates the GitHub release.
+- Publishing uses npm OIDC trusted publishing. No npm token is stored in the repository; only the publish job holds `id-token: write`, and it publishes the already-built, already-verified tarball produced by the pack job.
+- One-time bootstrap, owned outside this repository: the `@t128n` npm org must exist, the package must be created with one manual `npm publish --access public` of the `0.0.0` placeholder, and npm must then be configured with a trusted publisher for `t128n/design` and the `publish.yml` workflow (with token publishing disallowed). Every automated release after that starts from `0.1.0`.
+- npm provenance is attached automatically for OIDC publishes from a public repository; a private repository publishes without provenance.
+- In repository settings, `Actions > General` must allow GitHub Actions to create and approve pull requests, otherwise the version pull request cannot be opened.
+- The version pull request is created with `GITHUB_TOKEN`, so its own CI does not run automatically. Re-run the checks from the Actions tab, or pass a GitHub App token to the version action, before merging.
 - `CONTRIBUTING.md` defines the review checklist, including the R48 rule and the CSS scoping contract.
-- Publishing to a registry is out of scope until an explicit license decision is made. Keep the package private and do not add a license that the project has not chosen.
 
 ### CSS scoping
 

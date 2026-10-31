@@ -147,7 +147,7 @@ const pack = spawnSync(process.execPath, ['pm', 'pack', '--dry-run'], {
 const packOutput = `${pack.stdout ?? ''}${pack.stderr ?? ''}`;
 
 check(pack.status === 0, '`bun pm pack --dry-run` failed');
-for (const entry of ['dist/index.js', 'dist/index.css', 'dist/index.d.ts', 'README.md']) {
+for (const entry of ['dist/index.js', 'dist/index.css', 'dist/index.d.ts', 'README.md', 'LICENSE']) {
   check(packOutput.includes(entry), `tarball is missing ${entry}`);
 }
 check(packOutput.includes('dist/assets/ibm-plex-sans-'), 'tarball is missing IBM Plex Sans font assets');
