@@ -46,8 +46,12 @@ describe('Footer', () => {
     const footer = await readSource('../src/lib/Footer.svelte');
 
     expect(footer).toContain('a:focus-visible');
-    expect(block(footer, 'a:focus-visible')).toContain('outline: 2px solid var(--color-focus)');
-    expect(block(footer, 'a:focus-visible')).toContain('outline-offset');
+    expect(block(footer, 'a:focus-visible')).toContain(
+      'outline: var(--border-width-emphasis) solid var(--color-focus)'
+    );
+    expect(block(footer, 'a:focus-visible')).toContain(
+      'outline-offset: var(--border-width-emphasis)'
+    );
   });
 
   it('stacks below 640px and releases the note to the start', async () => {
