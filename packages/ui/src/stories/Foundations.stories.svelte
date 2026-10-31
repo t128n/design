@@ -4,12 +4,16 @@
 
   const { Story } = defineMeta({
     title: 'Foundations',
-    tags: ['autodocs']
+    tags: ['autodocs'],
+    parameters: { controls: { disable: true } }
   });
 
   const colors = [
     ['Canvas', '#F2F4F8'],
+    ['Workspace', '#FFFFFF'],
     ['Surface', '#FFFFFF'],
+    ['Navigation surface', '#F7F8FA'],
+    ['Navigation selected', '#E8EBEE'],
     ['Text primary', '#161616'],
     ['Text secondary', '#525252'],
     ['Border', '#DDE1E6'],
@@ -23,6 +27,7 @@
   <main class="foundations">
     <section aria-labelledby="colors-heading">
       <h1 id="colors-heading">Colors</h1>
+      <p>White is the default for application surfaces. Canvas is reserved for subdued public, marketing, and empty contexts.</p>
       <p>Light semantic tokens use one blue accent for meaningful actions and focus.</p>
       <div class="swatches">
         {#each colors as [name, value]}
@@ -58,7 +63,7 @@
           <h3>Modest radii</h3>
           <div class="radii"><span class="small-radius">2px</span><span>4px</span><span class="large-radius">6px</span></div>
           <h3>Control height</h3>
-          <div class="control-height">40px</div>
+          <div class="control-height">36px</div>
         </div>
       </div>
     </section>
@@ -66,7 +71,7 @@
 </Story>
 
 <style>
-  .foundations { max-width: 960px; padding: var(--space-xl); color: var(--color-text-primary); background: var(--color-canvas); font-family: var(--font-family-sans); }
+  .foundations { max-width: 960px; padding: var(--space-xl); color: var(--color-text-primary); background: var(--color-workspace); font-family: var(--font-family-sans); }
   section { margin-bottom: var(--space-2xl); }
   h1, h2, h3, p { margin: 0; }
   h1 { font-size: var(--font-size-display); line-height: var(--line-height-display); }

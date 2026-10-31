@@ -16,13 +16,14 @@
   <Button onclick={close}>Save changes</Button>
 {/snippet}
 
-<Story name="Default" asChild>
-  <Dialog
-    title="Project settings"
-    description="Changes apply to everyone working in this project."
-    triggerLabel="Open dialog"
-    {footer}
-  >
-    <p>Project names must be unique within the workspace.</p>
-  </Dialog>
+<Story
+  name="Default"
+  args={{
+    title: 'Project settings',
+    description: 'Changes apply to everyone working in this project.',
+    triggerLabel: 'Open dialog',
+    footer
+  }}
+>
+  <p>Project names must be unique within the workspace.</p>
 </Story>

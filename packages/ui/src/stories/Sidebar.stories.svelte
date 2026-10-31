@@ -10,32 +10,187 @@
     parameters: { layout: 'fullscreen' }
   });
 
-  const sections = [
+  const flatSections = [
+    {
+      items: [
+        { label: 'Overview', href: '/', active: true },
+        { label: 'Projects', href: '/projects', badge: '12' },
+        { label: 'Activity', href: '/activity' },
+        { label: 'Reports', href: '/reports' },
+        { label: 'Team', href: '/team' }
+      ]
+    }
+  ];
+
+  const groupedSections = [
     {
       label: 'Workspace',
       items: [
-        { label: 'Overview', active: true },
-        { label: 'Projects', badge: '12' },
-        { label: 'Activity' }
+        { label: 'Overview', href: '/', active: true },
+        { label: 'Projects', href: '/projects', badge: '12' },
+        { label: 'Activity', href: '/activity' },
+        { label: 'Reports', href: '/reports' }
       ]
     },
     {
       label: 'Account',
-      items: [{ label: 'Preferences' }, { label: 'Members' }]
+      items: [
+        { label: 'Preferences', href: '/settings/preferences' },
+        { label: 'Members', href: '/settings/members' },
+        { label: 'Billing', href: '/settings/billing' }
+      ]
     }
   ];
+
+  const nestedSections = [
+    {
+      label: 'Workspace',
+      items: [
+        { label: 'Overview', href: '/' },
+        {
+          label: 'Projects',
+          href: '/projects',
+          children: [
+            { label: 'Orbit', href: '/projects/orbit' },
+            { label: 'Atlas', href: '/projects/atlas', active: true },
+            { label: 'Beacon', href: '/projects/beacon' }
+          ]
+        },
+        { label: 'Activity', href: '/activity' }
+      ]
+    },
+    {
+      label: 'Account',
+      items: [
+        { label: 'Preferences', href: '/settings/preferences' },
+        { label: 'Members', href: '/settings/members' }
+      ]
+    }
+  ];
+
+  const selectedSections = [
+    {
+      label: 'Workspace',
+      items: [
+        { label: 'Overview', href: '/' },
+        { label: 'Projects', href: '/projects', active: true, badge: '12' },
+        { label: 'Activity', href: '/activity' },
+        { label: 'Reports', href: '/reports' }
+      ]
+    },
+    {
+      label: 'Account',
+      items: [
+        { label: 'Preferences', href: '/settings/preferences' },
+        { label: 'Members', href: '/settings/members' },
+        { label: 'Billing', href: '/settings/billing' }
+      ]
+    }
+  ];
+
+  function focusFirstLink(node: HTMLElement) {
+    node.querySelector<HTMLElement>('a.item-link')?.focus();
+  }
 </script>
 
-<Story name="Default" asChild>
+{#snippet sidebarHeader()}
+  <div class="sidebar-brand">
+    <span class="brand-name">Stellar</span>
+    <span class="brand-context">Orbit team</span>
+  </div>
+{/snippet}
+
+{#snippet sidebarFooter()}
+  <a class="account" href="/account">Mara Chen</a>
+{/snippet}
+
+<Story name="Flat" asChild>
   <div class="sidebar-story">
-    <Sidebar {sections} />
+    <Sidebar sections={flatSections} toggleLabel="Navigation" />
+  </div>
+</Story>
+
+<Story name="Grouped" asChild>
+  <div class="sidebar-story">
+    <Sidebar sections={groupedSections} toggleLabel="Navigation" />
+  </div>
+</Story>
+
+<Story name="Nested" asChild>
+  <div class="sidebar-story">
+    <Sidebar sections={nestedSections} toggleLabel="Navigation" />
+  </div>
+</Story>
+
+<Story name="Selected" asChild>
+  <div class="sidebar-story">
+    <Sidebar
+      sections={selectedSections}
+      header={sidebarHeader}
+      footer={sidebarFooter}
+      toggleLabel="Navigation"
+    />
+  </div>
+</Story>
+
+<Story name="Focus" asChild>
+  <div class="sidebar-story" use:focusFirstLink>
+    <Sidebar sections={selectedSections} toggleLabel="Navigation" />
+  </div>
+</Story>
+
+<Story name="Navigation surface" asChild>
+  <div class="sidebar-story sidebar-story-navigation">
+    <Sidebar surface="navigation" sections={groupedSections} toggleLabel="Navigation" />
   </div>
 </Story>
 
 <style>
   .sidebar-story {
-    width: 240px;
-    min-height: 100vh;
+    width: 216px;
+    min-height: 560px;
     background: var(--color-canvas);
+  }
+
+  .sidebar-story-navigation {
+    background: var(--color-workspace);
+  }
+
+  .sidebar-brand {
+    display: grid;
+    gap: 2px;
+  }
+
+  .brand-name {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-label);
+  }
+
+  .brand-context {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-caption);
+    line-height: var(--line-height-caption);
+  }
+
+  .account {
+    display: inline-flex;
+    min-height: var(--control-height);
+    align-items: center;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-label);
+    line-height: var(--line-height-label);
+    text-decoration: none;
+  }
+
+  .account:hover {
+    color: var(--color-text-primary);
+    text-decoration: underline;
+  }
+
+  .account:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
   }
 </style>

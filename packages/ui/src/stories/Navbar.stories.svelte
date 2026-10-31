@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Button, Navbar } from '../index.js';
+  import { Button, Link, Navbar } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -9,21 +9,56 @@
     tags: ['autodocs'],
     parameters: { layout: 'fullscreen' }
   });
+
+  const primaryLinks = [
+    { label: 'Overview', active: true },
+    { label: 'Projects' },
+    { label: 'Reports' },
+    { label: 'Team' },
+    { label: 'Settings' }
+  ];
+
+  const accountLinks = [
+    { label: 'Overview' },
+    { label: 'Projects', active: true },
+    { label: 'Deployments' },
+    { label: 'Members' },
+    { label: 'Billing' }
+  ];
+
+  const longLinks = [
+    { label: 'Overview', active: true },
+    { label: 'Data integration pipelines' },
+    { label: 'Compliance and retention' },
+    { label: 'Workspace access reviews' },
+    { label: 'Usage and billing history' },
+    { label: 'Audit log exports' }
+  ];
 </script>
 
-{#snippet actions()}
-  <Button variant="secondary">Sign in</Button>
-  <Button>New project</Button>
+{#snippet accountUtilities()}
+  <Link variant="ghost" href="/help">Help</Link>
+  <Link variant="ghost" href="/account">Account</Link>
+  <Button variant="ghost">Sign out</Button>
 {/snippet}
 
-<Story name="Default" asChild>
-  <Navbar
-    links={[
-      { label: 'Overview', active: true },
-      { label: 'Projects' },
-      { label: 'Activity' },
-      { label: 'Settings' }
-    ]}
-    {actions}
-  />
-</Story>
+{#snippet narrowUtilities()}
+  <Link variant="ghost" href="/help">Help</Link>
+  <Link variant="ghost" href="/account">Account</Link>
+{/snippet}
+
+<Story name="Basic" args={{ links: primaryLinks }} />
+
+<Story name="Account utilities" args={{ links: accountLinks, actions: accountUtilities }} />
+
+<Story
+  name="Narrow screen"
+  globals={{ viewport: { value: 'narrow320' } }}
+  args={{ links: accountLinks, actions: narrowUtilities }}
+/>
+
+<Story
+  name="Long labels"
+  globals={{ viewport: { value: 'tablet768' } }}
+  args={{ links: longLinks, actions: narrowUtilities }}
+/>

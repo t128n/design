@@ -14,10 +14,12 @@
         {#if index > 0}
           <span class="separator" aria-hidden="true">/</span>
         {/if}
-        {#if item.href && index < items.length - 1}
+        {#if item.href}
           <a href={item.href}>{item.label}</a>
+        {:else if index === items.length - 1}
+          <span aria-current="page">{item.label}</span>
         {:else}
-          <span aria-current={index === items.length - 1 ? 'page' : undefined}>{item.label}</span>
+          <span>{item.label}</span>
         {/if}
       </li>
     {/each}

@@ -11,6 +11,10 @@
   });
 </script>
 
+<Story name="Default" args={{ tone: 'info', title: 'Deployment scheduled' }}>
+  The next release starts at 14:00 UTC.
+</Story>
+
 <Story name="Tones" asChild>
   <div class="stack">
     <Alert tone="info" title="Deployment scheduled">

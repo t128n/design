@@ -7,7 +7,6 @@
     Checkbox,
     Dialog,
     Input,
-    Navbar,
     PageHeader,
     Select,
     Sidebar,
@@ -18,7 +17,7 @@
   const { Story } = defineMeta({
     title: 'Views/Settings',
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: { layout: 'fullscreen', controls: { disable: true } }
   });
 
   const sections = [
@@ -33,7 +32,7 @@
     {
       label: 'Account',
       items: [
-        { label: 'Preferences', active: true },
+        { label: 'Settings', active: true },
         { label: 'Members' }
       ]
     }
@@ -47,17 +46,7 @@
 </script>
 
 {#snippet sidebar()}
-  <Sidebar {sections} />
-{/snippet}
-
-{#snippet navbar()}
-  <Navbar
-    links={[
-      { label: 'Overview' },
-      { label: 'Projects' },
-      { label: 'Settings', active: true }
-    ]}
-  />
+  <Sidebar {sections} label="Settings" toggleLabel="Settings" />
 {/snippet}
 
 {#snippet headerActions()}
@@ -70,63 +59,84 @@
 {/snippet}
 
 <Story name="Settings">
-  <AppShell {sidebar} {navbar}>
-    <PageHeader
-      title="Settings"
-      description="Workspace defaults, review rules, and notification preferences."
-      actions={headerActions}
-    />
-    <div class="settings">
-      <Card title="Workspace">
-        <div class="form-grid">
-          <Input label="Workspace name" value="Stellar" />
-          <Select label="Default region" items={regions} value="us-east" />
+  <div class="settings-view">
+    <AppShell {sidebar}>
+      <PageHeader
+        title="Settings"
+        description="Workspace defaults, review rules, and notification preferences."
+        actions={headerActions}
+      />
+      <div class="settings">
+        <section class="settings-section" aria-labelledby="settings-workspace">
+          <h2 id="settings-workspace">Workspace</h2>
+          <div class="form-grid">
+            <Input label="Workspace name" value="Stellar" />
+            <Select label="Default region" items={regions} value="us-east" />
+          </div>
+        </section>
+
+        <section class="settings-section" aria-labelledby="settings-review">
+          <h2 id="settings-review">Review rules</h2>
+          <div class="choices">
+            <Switch
+              label="Require review before archive"
+              description="An owner must approve the archive before it takes effect."
+              checked
+            />
+            <Checkbox
+              label="Allow guest access"
+              description="Guests can read projects but cannot change them."
+            />
+          </div>
+        </section>
+
+        <Card title="Danger zone">
+          <p class="danger-copy">
+            Archiving removes the workspace from search and makes every project read-only.
+          </p>
+          <Dialog
+            title="Archive workspace"
+            description="This changes access for everyone in the workspace."
+            triggerLabel="Archive workspace"
+            triggerVariant="secondary"
+            footer={dialogFooter}
+          >
+            <p>You can restore the workspace later from the audit log.</p>
+          </Dialog>
+        </Card>
+
+        <div class="actions">
+          <Button variant="secondary">Reset</Button>
+          <Button>Save changes</Button>
         </div>
-      </Card>
-
-      <Card title="Review rules">
-        <div class="choices">
-          <Switch
-            label="Require review before archive"
-            description="An owner must approve the archive before it takes effect."
-            checked
-          />
-          <Checkbox
-            label="Allow guest access"
-            description="Guests can read projects but cannot change them."
-          />
-        </div>
-      </Card>
-
-      <Card title="Danger zone">
-        <p class="danger-copy">
-          Archiving removes the workspace from search and makes every project read-only.
-        </p>
-        <Dialog
-          title="Archive workspace"
-          description="This changes access for everyone in the workspace."
-          triggerLabel="Archive workspace"
-          triggerVariant="secondary"
-          footer={dialogFooter}
-        >
-          <p>You can restore the workspace later from the audit log.</p>
-        </Dialog>
-      </Card>
-
-      <div class="actions">
-        <Button variant="secondary">Reset</Button>
-        <Button>Save changes</Button>
       </div>
-    </div>
-  </AppShell>
+    </AppShell>
+  </div>
 </Story>
 
 <style>
+  .settings-view {
+    background: var(--color-workspace);
+  }
+
   .settings {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2xl);
+    max-width: var(--layout-form-width);
+  }
+
+  .settings-section {
+    display: grid;
     gap: var(--space-md);
-    max-width: 820px;
+  }
+
+  .settings-section h2 {
+    margin: 0;
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-subheading);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-subheading);
   }
 
   .form-grid {

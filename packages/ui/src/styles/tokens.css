@@ -1,8 +1,11 @@
 :root,
 .theme-scope {
   --color-canvas: #F2F4F8;
+  --color-workspace: #FFFFFF;
   --color-surface: #FFFFFF;
   --color-surface-subtle: #F2F4F8;
+  --color-navigation-surface: #F7F8FA;
+  --color-navigation-selected: #E8EBEE;
   --color-text-primary: #161616;
   --color-text-secondary: #525252;
   --color-text-muted: #697077;
@@ -51,6 +54,14 @@
   --space-xl: 24px;
   --space-2xl: 32px;
   --space-3xl: 48px;
+
+  --layout-content-width: 72rem;
+  --layout-reading-width: 65ch;
+  --layout-form-width: 48rem;
+  --layout-sidebar-width: 13.5rem;
+  --layout-aside-width: 17.5rem;
+  --border-width: 1px;
+  --border-width-emphasis: 2px;
 
   --radius-sm: 2px;
   --radius-md: 4px;

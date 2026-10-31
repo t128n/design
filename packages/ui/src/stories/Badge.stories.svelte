@@ -11,6 +11,8 @@
   });
 </script>
 
+<Story name="Default" args={{ tone: 'info' }}>Info</Story>
+
 <Story name="Tones" asChild>
   <div class="row">
     <Badge>Neutral</Badge>

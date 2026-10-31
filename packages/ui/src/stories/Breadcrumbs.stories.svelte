@@ -11,12 +11,13 @@
   });
 </script>
 
-<Story name="Default" asChild>
-  <Breadcrumbs
-    items={[
+<Story
+  name="Default"
+  args={{
+    items: [
       { label: 'Workspace', href: '#' },
       { label: 'Projects', href: '#' },
       { label: 'Orbit' }
-    ]}
-  />
-</Story>
+    ]
+  }}
+/>
