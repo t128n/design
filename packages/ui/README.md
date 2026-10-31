@@ -106,9 +106,46 @@ Markers: `none`, `disc`, `circle`, `square`, `decimal`, `lower-alpha`, `upper-ro
 - `Inline` — wrapping horizontal rows with `gap`, `align`, `justify`, and `wrap`.
 - `Grid` — fixed columns or `columns="auto"` with `minItem="sm|md|lg"`.
 - `Container` — `width="content|reading|form|full"` and token padding.
+- `Page` — page measure, section rhythm, and optional page header composition.
+- `Section` — a titled region with a heading, description, optional actions, and compact content rhythm.
 - `List` — semantic `ul`/`ol`/`dl` with `marker`, `orientation`, `gap`, and `separated`.
 
 `Text` has no margins. Spacing belongs to the layout primitive.
+
+### Pages and sections
+
+`Page` owns the page measure and the vertical rhythm between sections. It never
+adds inline or block padding: `AppShell` or a standalone `Container` owns the
+outer edge spacing. Compose a page header through the `header` snippet; `Page`
+removes the composed `PageHeader` bottom margin so one rhythm applies.
+
+```svelte
+<Page width="content" gap="2xl" header={pageHeader}>
+  <Section
+    id="recent-projects"
+    title="Recent projects"
+    description="Ownership and status for work in flight."
+    actions={viewAll}
+  >
+    <Table columns={columns} labelledBy="recent-projects">...</Table>
+  </Section>
+</Page>
+```
+
+`Page.width` accepts `content` (default), `reading`, `form`, and `full`.
+`Page.gap` defaults to `2xl`.
+
+`Section` renders a `<section>` labelled by its heading. `title` uses the
+subheading scale and `level` controls the native heading (default `2`); a stable
+id is generated with `$props.id()` unless `id` is supplied. `description` and
+`actions` sit in the compact heading block, and `gap` (default `sm`) sets the
+distance to the section content. Without a `title`, `Section` adds no fake
+accessible name; pass `aria-label` when the region needs one.
+
+Use the section heading id as the table's `labelledBy`. When the table's scroll
+region already points at that id, pass `labelledBy={false}` to the section so its
+landmark is intentionally unnamed; the heading still supplies the table region's
+name and the two landmarks no longer duplicate each other.
 
 ### Empty states
 
@@ -276,6 +313,10 @@ Choose one owner:
 Use `AppShell padding="none"` for full-bleed regions that own their own edge
 spacing, or when a page-level `Container` should be the single padding owner.
 
+`Page` is not a padding owner. It contributes only measure (`max-width`),
+centering, vertical rhythm, and the optional header composition, so it can sit
+inside either padding owner without producing a second layer.
+
 ### Tables and empty states
 
 `Table` renders a horizontal-scrolling wrapper, the column headers, and the body.
@@ -343,7 +384,7 @@ examples.
 ## Component inventory
 
 - **Typography:** `Text`, `Code`
-- **Layout:** `Stack`, `Inline`, `Grid`, `Container`, `List`, `AppShell`, `PageHeader`, `Hero`, `Footer`, `Sidebar`, `Navbar`
+- **Layout:** `Stack`, `Inline`, `Grid`, `Container`, `Page`, `Section`, `List`, `AppShell`, `PageHeader`, `Hero`, `Footer`, `Sidebar`, `Navbar`
 - **Accessibility:** `VisuallyHidden`, `Icon`
 - **Controls:** `Button`, `Link`, `Field`, `Input`, `Label`, `Checkbox`, `RadioGroup`, `Switch`, `Select`, `Combobox`, `Slider`, `PinInput`, `DateField`, `TimeField`, `DatePicker`, `DateRangeField`, `DateRangePicker`, `TimeRangeField`, `Toggle`, `ToggleGroup`, `RatingGroup`
 - **Surfaces and feedback:** `Card`, `Alert`, `Badge`, `Table`, `Breadcrumbs`, `Pagination`, `Progress`, `Meter`, `Separator`, `Tabs`, `Accordion`, `Collapsible`, `EmptyState`
