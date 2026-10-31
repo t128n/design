@@ -1,0 +1,33 @@
+{
+  "name": "@t128n/design",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "t128n design system — Svelte 5, bits-ui and Storybook",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build -o storybook-static",
+    "screenshots": "npm run build-storybook && node scripts/screenshots.mjs"
+  },
+  "dependencies": {
+    "@internationalized/date": "^3.8.1",
+    "bits-ui": "^2.20.2",
+    "carbon-icons-svelte": "^13.17.0",
+    "svelte": "^5.57.3"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^10.6.5",
+    "@storybook/addon-docs": "^10.6.5",
+    "@storybook/svelte-vite": "^10.6.5",
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
+    "playwright": "^1.64.1",
+    "storybook": "^10.6.5",
+    "svelte-check": "^4.3.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.7"
+  }
+}

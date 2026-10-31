@@ -1,0 +1,486 @@
+/* Shared structural patterns.
+ * Components own interaction and tokens; these classes own repeated layout
+ * geometry (tables, lists, boards, property rows) so every view composes the
+ * same way. Values come from tokens only.
+ */
+
+/* Page + regions */
+.ds-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: var(--surface-panel);
+}
+
+.ds-page-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.ds-pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: var(--surface-panel);
+}
+
+.ds-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--width-detail);
+  flex: 1;
+  min-height: 0;
+}
+
+.ds-detail {
+  border-left: 1px solid var(--border);
+  overflow: auto;
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+@container view (max-width: 1060px) {
+  .ds-split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ds-detail {
+    display: none;
+  }
+}
+
+.ds-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-cluster {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.ds-grow {
+  flex: 1;
+  min-width: 0;
+}
+
+.ds-scroll-x {
+  overflow-x: auto;
+}
+
+.ds-mono {
+  font: var(--type-mono);
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+.ds-muted {
+  color: var(--text-2);
+}
+
+.ds-caption {
+  font: var(--type-caption);
+  color: var(--text-3);
+}
+
+.ds-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Table (7.5) */
+.ds-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font: var(--type-body);
+  color: var(--text-1);
+}
+
+.ds-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: var(--row-h-sm);
+  padding: 0 var(--space-3);
+  background: var(--surface-sunken);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-3);
+  font: var(--type-label);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.ds-table tbody td {
+  height: var(--row-h);
+  padding: 0 var(--space-3);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.ds-table th:first-child,
+.ds-table td:first-child {
+  padding-left: var(--page-inset);
+}
+
+.ds-table th:last-child,
+.ds-table td:last-child {
+  padding-right: var(--page-inset);
+}
+
+.ds-table tbody tr:hover {
+  background: var(--state-hover);
+}
+
+.ds-table tbody tr[data-selected='true'] {
+  background: var(--state-selected);
+}
+
+.ds-table tbody tr[data-selected='true']:hover {
+  background: var(--state-selected);
+}
+
+.ds-table tbody tr.ds-table-new td {
+  color: var(--text-3);
+}
+
+.ds-table .ds-cell-actions {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* List rows (7.5) */
+.ds-list {
+  padding: var(--space-1) var(--list-inset) var(--space-4);
+}
+
+.ds-list-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: var(--row-h-sm);
+  padding: 0 var(--space-2);
+  color: var(--text-3);
+  font: var(--type-label);
+}
+
+.ds-list-row {
+  display: grid;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--row-h);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-md);
+  color: var(--text-1);
+}
+
+.ds-list-row:hover {
+  background: var(--state-hover);
+}
+
+.ds-list-row[data-selected='true'] {
+  background: var(--state-selected);
+}
+
+.ds-list-row .ds-row-title {
+  font: var(--type-body);
+  color: var(--text-1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ds-list-row[data-unread='true'] .ds-row-title {
+  font: var(--type-action);
+}
+
+.ds-row-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  justify-content: flex-end;
+  opacity: 0;
+}
+
+.ds-list-row:hover .ds-row-actions,
+.ds-list-row:focus-within .ds-row-actions {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .ds-row-actions {
+    opacity: 1;
+  }
+}
+
+/* Board (7.5) */
+.ds-board {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  padding: var(--space-4) var(--page-inset) var(--space-6);
+  overflow-x: auto;
+  min-height: 100%;
+}
+
+.ds-board-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: calc(var(--width-detail) - var(--space-4) * 2);
+  flex: none;
+}
+
+.ds-board-column-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: var(--row-h-sm);
+  color: var(--text-2);
+  font: var(--type-label);
+}
+
+.ds-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.ds-card:hover {
+  background: var(--surface-sunken);
+}
+
+.ds-card-title {
+  font: var(--type-body);
+  color: var(--text-1);
+}
+
+.ds-card-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Property rows (7.5) */
+.ds-properties {
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-property-row {
+  display: grid;
+  grid-template-columns: var(--width-label) minmax(0, 1fr);
+  align-items: center;
+  min-height: var(--row-h-sm);
+  border-radius: var(--radius-md);
+}
+
+.ds-property-row:hover {
+  background: var(--state-hover);
+}
+
+.ds-property-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-2);
+  color: var(--text-3);
+  font: var(--type-label);
+}
+
+.ds-property-value {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  min-height: var(--row-h-sm);
+  border-radius: var(--radius-md);
+  font: var(--type-body);
+  color: var(--text-1);
+}
+
+/* Settings (8) */
+.ds-settings {
+  max-width: var(--width-reading);
+  padding: var(--space-6) var(--page-inset);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.ds-settings-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-settings-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  align-items: center;
+  min-height: var(--row-h);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.ds-settings-row:last-child {
+  border-bottom: 0;
+}
+
+.ds-settings-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ds-settings-title {
+  font: var(--type-body);
+  color: var(--text-1);
+}
+
+.ds-settings-description {
+  font: var(--type-caption);
+  color: var(--text-3);
+}
+
+.ds-danger-zone {
+  border: 1px solid color-mix(in srgb, var(--danger) var(--tint-strong), var(--surface-panel));
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Empty state (7.6) */
+.ds-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  text-align: center;
+  padding: var(--space-6);
+}
+
+.ds-empty-icon {
+  display: grid;
+  place-items: center;
+  width: calc(var(--size-5) + var(--space-4));
+  height: calc(var(--size-5) + var(--space-4));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  color: var(--text-3);
+}
+
+.ds-empty-title {
+  font: var(--type-heading);
+  color: var(--text-1);
+}
+
+.ds-empty-copy {
+  font: var(--type-body);
+  color: var(--text-2);
+  max-width: calc(var(--width-label) * 2);
+}
+
+/* Calendar (7.5) */
+.ds-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+
+.ds-calendar-head {
+  height: var(--row-h-sm);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-2);
+  background: var(--surface-sunken);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-3);
+  font: var(--type-label);
+}
+
+.ds-calendar-cell {
+  min-height: var(--calendar-cell-h);
+  padding: var(--space-1) var(--space-2);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  background: var(--surface-panel);
+}
+
+.ds-calendar-cell[data-outside='true'] {
+  background: var(--surface-sunken);
+  color: var(--text-3);
+}
+
+.ds-calendar-date {
+  display: grid;
+  place-items: center;
+  width: var(--size-3);
+  height: var(--size-3);
+  border-radius: var(--radius-full);
+  font: var(--type-caption);
+  color: var(--text-2);
+}
+
+.ds-calendar-date[data-today='true'] {
+  background: var(--accent);
+  color: var(--text-on-accent);
+  font: var(--type-label);
+}
+
+/* Chart (7.5) */
+.ds-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-1);
+  height: calc(var(--size-5) * 3);
+  border-bottom: 1px solid var(--border);
+  padding-top: var(--space-2);
+}
+
+.ds-chart-bar {
+  flex: 1;
+  min-width: var(--space-1);
+  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+  background: color-mix(in srgb, var(--accent) var(--tint-strong), var(--surface-panel));
+}
+
+.ds-chart-bar[data-last='true'] {
+  background: var(--accent);
+}
+
+/* Sidebar (7.4) */
+.ds-sidebar {
+  width: var(--width-sidebar);
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-2);
+  background: var(--surface-app);
+  overflow: auto;
+}
+
+@container shell (max-width: 760px) {
+  .ds-sidebar {
+    display: none;
+  }
+}

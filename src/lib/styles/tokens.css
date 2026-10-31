@@ -1,0 +1,218 @@
+/* t128n design system — tokens
+ * Three layers: primitives (--prim-*, never used by components), semantic tokens,
+ * and density. Everything below is transcribed from DESIGN.md section 2.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* 2.3 borders — the only primitive */
+  --prim-line-rgb: 0 0 0;
+  --border-alpha: 0.08;
+  --border: rgb(var(--prim-line-rgb) / var(--border-alpha));
+  --border-control: rgb(var(--prim-line-rgb) / max(var(--border-alpha) * 2, 0.2));
+  --border-strong: rgb(var(--prim-line-rgb) / max(var(--border-alpha) * 3, 0.24));
+
+  /* 2.1 surfaces and text */
+  --surface-app: #f1f2f5;
+  --surface-panel: #ffffff;
+  --surface-sunken: #f5f6f8;
+  --surface-inverse: #1a1c20;
+  --text-1: #1a1c20;
+  --text-2: #454c56;
+  --text-3: #656c76;
+  --text-on-inverse: #ffffff;
+  --text-on-accent: #ffffff;
+  --text-on-danger: #ffffff;
+  --accent: #0f62fe;
+
+  /* 2.2 status */
+  --success: #198038;
+  --warning: #946200;
+  --danger: #da1e28;
+  --info: #0072c3;
+
+  /* 2.2 tags */
+  --tag-neutral: #454c56;
+  --tag-blue: #0f62fe;
+  --tag-green: #198038;
+  --tag-yellow: #946200;
+  --tag-red: #da1e28;
+  --tag-violet: #8a3ffc;
+
+  /* 2.4 states and tints */
+  --state-hover: color-mix(in srgb, var(--text-1) 5%, transparent);
+  --state-selected: color-mix(in srgb, var(--text-1) 8%, transparent);
+  --state-pressed: color-mix(in srgb, var(--text-1) 12%, transparent);
+  --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+  --surface-subtle: color-mix(in srgb, var(--text-1) 10%, transparent);
+  --tint-weak: 9%;
+  --tint: 14%;
+  --tint-strong: 24%;
+
+  /* 2.5 radius, spacing, size */
+  --radius-xs: 2px;
+  --radius-md: 4px;
+  --radius-lg: 7px;
+  --radius-full: 999px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --size-0: 12px;
+  --size-1: 16px;
+  --size-2: 20px;
+  --size-3: 24px;
+  --size-4: 32px;
+  --size-5: 40px;
+  --icon: 16px;
+
+  /* 2.6 density */
+  --row-h: 36px;
+  --row-h-sm: 32px;
+  --control-h: 28px;
+  --header-h: 48px;
+  --chip-h: 20px;
+  --calendar-cell-h: 84px;
+  --textarea-min-h: 84px;
+
+  /* 2.7 layout */
+  --page-inset: var(--space-5);
+  --list-inset: var(--space-3);
+  --width-detail: 400px;
+  --width-dialog: 440px;
+  --width-reading: 720px;
+  --width-label: 128px;
+  --width-sidebar: 240px;
+
+  /* 2.8 elevation, motion, layering */
+  --shadow-overlay: 0 12px 32px rgb(20 24 31 / 0.16), 0 2px 6px rgb(20 24 31 / 0.08);
+  --duration-fast: 90ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ring-width: 2px;
+  --ring-offset: 1px;
+  --ring-color: var(--accent);
+  --layer-popover: 100;
+  --layer-menu: 200;
+  --layer-dialog: 300;
+  --layer-palette: 400;
+  --layer-tooltip: 500;
+
+  /* 4 typography */
+  --font-ui: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-code: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --type-display: 500 32px/40px var(--font-ui);
+  --type-title: 500 20px/28px var(--font-ui);
+  --type-heading: 500 14px/20px var(--font-ui);
+  --type-prose: 400 14px/22px var(--font-ui);
+  --type-body: 400 13px/20px var(--font-ui);
+  --type-action: 500 13px/20px var(--font-ui);
+  --type-label: 500 12px/16px var(--font-ui);
+  --type-caption: 400 12px/16px var(--font-ui);
+  --type-mono: 400 12px/18px var(--font-code);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --prim-line-rgb: 255 255 255;
+  --surface-app: #0e0e10;
+  --surface-panel: #161618;
+  --surface-sunken: #1c1c1f;
+  --surface-inverse: #ececf0;
+  --text-1: #ececf0;
+  --text-2: #a6abb4;
+  --text-3: #868c96;
+  --text-on-inverse: #1a1c20;
+  --text-on-accent: #0e0e10;
+  --text-on-danger: #0e0e10;
+  --accent: #78a9ff;
+  --success: #42be65;
+  --warning: #f1c21b;
+  --danger: #fa4d56;
+  --info: #33b1ff;
+  --tag-neutral: #a6abb4;
+  --tag-blue: #78a9ff;
+  --tag-green: #42be65;
+  --tag-yellow: #f1c21b;
+  --tag-red: #fa4d56;
+  --tag-violet: #be95ff;
+  --shadow-overlay: 0 12px 32px rgb(0 0 0 / 0.55), 0 2px 6px rgb(0 0 0 / 0.4);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --prim-line-rgb: 0 0 0;
+  --surface-app: #f1f2f5;
+  --surface-panel: #ffffff;
+  --surface-sunken: #f5f6f8;
+  --surface-inverse: #1a1c20;
+  --text-1: #1a1c20;
+  --text-2: #454c56;
+  --text-3: #656c76;
+  --text-on-inverse: #ffffff;
+  --text-on-accent: #ffffff;
+  --text-on-danger: #ffffff;
+  --accent: #0f62fe;
+  --success: #198038;
+  --warning: #946200;
+  --danger: #da1e28;
+  --info: #0072c3;
+  --tag-neutral: #454c56;
+  --tag-blue: #0f62fe;
+  --tag-green: #198038;
+  --tag-yellow: #946200;
+  --tag-red: #da1e28;
+  --tag-violet: #8a3ffc;
+  --shadow-overlay: 0 12px 32px rgb(20 24 31 / 0.16), 0 2px 6px rgb(20 24 31 / 0.08);
+}
+
+/* 2.3 line modes */
+[data-lines='none'] {
+  --border-alpha: 0;
+}
+
+[data-lines='faint'] {
+  --border-alpha: 0.08;
+}
+
+[data-lines='visible'] {
+  --border-alpha: 0.16;
+}
+
+/* Derived border colors are re-declared on every line-mode container. Custom
+ * properties inherit their computed value, so leaving these on :root would
+ * freeze the alpha at the root's mode. */
+[data-lines] {
+  --border: rgb(var(--prim-line-rgb) / var(--border-alpha));
+  --border-control: rgb(var(--prim-line-rgb) / max(var(--border-alpha) * 2, 0.2));
+  --border-strong: rgb(var(--prim-line-rgb) / max(var(--border-alpha) * 3, 0.24));
+}
+
+/* 2.6 density — a property of a container */
+[data-density='compact'] {
+  --row-h: 32px;
+  --row-h-sm: 28px;
+  --control-h: 24px;
+}
+
+[data-density='default'] {
+  --row-h: 36px;
+  --row-h-sm: 32px;
+  --control-h: 28px;
+}
+
+[data-density='comfortable'] {
+  --row-h: 44px;
+  --row-h-sm: 36px;
+  --control-h: 36px;
+}
+
+@media (pointer: coarse) {
+  :root {
+    --row-h: 44px;
+    --row-h-sm: 36px;
+    --control-h: 36px;
+  }
+}
