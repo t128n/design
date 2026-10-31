@@ -5,8 +5,8 @@ import { describe, expect, it } from 'vitest';
 const read = (path: string) => readFile(resolve(process.cwd(), path), 'utf8');
 
 describe('design intent', () => {
-  it('keeps intent, precedence, differentiation, and voice in DESIGN.md', async () => {
-    const design = await read('DESIGN.md');
+  it('keeps intent, precedence, differentiation, and voice in the design language page', async () => {
+    const design = await read('packages/ui/docs/design-language.mdx');
 
     for (const heading of [
       '## Design intent',
@@ -33,7 +33,7 @@ describe('design intent', () => {
   });
 
   it('removes the old canvas-versus-workspace contradiction', async () => {
-    const design = await read('DESIGN.md');
+    const design = await read('packages/ui/docs/design-language.mdx');
 
     expect(design).not.toContain('Preserve canvas `#F2F4F8` for subdued public, marketing');
     expect(design).toContain('Landing, workspaces, and persistent Sidebars share one continuous white background');
@@ -49,7 +49,7 @@ describe('design intent', () => {
   });
 
   it('documents the same contract in the Storybook guidance and Foundations story', async () => {
-    const storybook = await read('docs/storybook.md');
+    const storybook = await read('AGENTS.md');
     const foundations = await read('packages/ui/src/stories/Foundations.stories.svelte');
 
     expect(storybook).toContain('## Design intent and voice');

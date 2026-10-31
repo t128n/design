@@ -23,7 +23,7 @@ const readFileSource = (path: string) => readFile(path, 'utf8');
 
 const uiRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const srcRoot = join(uiRoot, 'src');
-const designPath = join(uiRoot, '..', '..', 'DESIGN.md');
+const designPath = join(uiRoot, 'docs', 'design-language.mdx');
 
 describe('framework audit', () => {
   it('test_no_raw_prose: stories and components use Text for paragraphs and headings', async () => {

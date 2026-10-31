@@ -18,7 +18,7 @@ import {
 } from './audit-rules';
 
 const uiRoot = dirname(dirname(fileURLToPath(import.meta.url)));
-const designPath = join(uiRoot, '..', '..', 'DESIGN.md');
+const designPath = join(uiRoot, 'docs', 'design-language.mdx');
 
 describe('design audit', () => {
   it('test_no_uppercase_transform: no text-transform in lib components', async () => {
@@ -102,7 +102,7 @@ describe('design audit', () => {
     expect(tokens).toContain('--border-width-emphasis: 2px');
   });
 
-  it('keeps the refusal tables and the sentence-case rule in DESIGN.md', async () => {
+  it('keeps the refusal tables and the sentence-case rule in the design language page', async () => {
     const design = await readFile(designPath, 'utf8');
 
     expect(design).toContain('## Refusals');

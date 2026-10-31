@@ -192,7 +192,7 @@ describe('AppMark', () => {
   });
 
   it('documents the identity layer in the design contract', async () => {
-    const design = await readSource('../../../DESIGN.md');
+    const design = await readSource('../docs/design-language.mdx');
 
     expect(design).toContain('#### Identity marks');
     expect(design).toContain('**Exception to R32.**');
