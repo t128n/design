@@ -23,6 +23,10 @@ The stylesheet import is required for tokens, fonts, focus rings, reduced motion
 
 `variant` controls appearance. `as` controls the native element. They are independent; choose both explicitly.
 
+`as` is semantic and `variant` is visual. Choose headings for document order, not for size: `PageHeader`, `Hero`, and `Card` expose `level` (`1`–`6`) and render the matching `h1`–`h6`. A card that sits under a page title and a section heading uses `level={3}` while keeping the subheading scale.
+
+Each element also types its own attributes. `<Text as="time" datetime="2026-10-31">` compiles, while `as="a"` is rejected because navigation belongs to `Link` and actions belong to `Button`.
+
 ```svelte
 <Text variant="display" as="h1">Projects</Text>
 <Text variant="heading" as="h2">Recent activity</Text>
@@ -32,7 +36,7 @@ The stylesheet import is required for tokens, fonts, focus rings, reduced motion
 </Text>
 <Text variant="body-sm" as="p">Small UI text — 14px / 1.5.</Text>
 <Text variant="label" as="span" tone="secondary">Active projects</Text>
-<Text variant="caption" as="span" tone="muted">Updated 31 October 2026</Text>
+<Text variant="caption" as="time" datetime="2026-10-31">31 October 2026</Text>
 ```
 
 Available variants: `display`, `heading`, `subheading`, `body`, `body-sm`, `label`, `caption`.
@@ -52,7 +56,7 @@ Available tones: `primary`, `secondary`, `muted`, `inherit`, `info`, `progress`,
 
 ### Lists
 
-`List` owns the native container, marker, orientation, spacing, and optional separators. List items are `Text as="li"`.
+`List` owns the native container, marker, orientation, spacing, and optional separators. List items are `Text as="li"`; description terms and values are `Text as="dt"` and `Text as="dd"`. There is no separate `ListItem` component: the native element belongs to `Text` so its typography stays in one place.
 
 ```svelte
 <List as="ol" gap="sm">
@@ -65,12 +69,21 @@ Available tones: `primary`, `secondary`, `muted`, `inherit`, `info`, `progress`,
   <Text as="li" variant="body-sm" tone="secondary">Atlas · Devon assigned reviewers.</Text>
 </List>
 
+<List as="dl" gap="md">
+  <Text as="dt" variant="label" tone="secondary">Owner</Text>
+  <Text as="dd" variant="body">Mara Chen</Text>
+  <Text as="dt" variant="label" tone="secondary">Environment</Text>
+  <Text as="dd" variant="body">Production</Text>
+</List>
+
 <List orientation="horizontal" marker="none" gap="xl">
   <Text as="li" variant="body-sm" tone="secondary">Docs</Text>
   <Text as="li" variant="body-sm" tone="secondary">Status</Text>
   <Text as="li" variant="body-sm" tone="secondary">Privacy</Text>
 </List>
 ```
+
+`as` accepts `ul`, `ol`, and `dl`. A `dl` defaults to `marker="none"` and emits no marker class or marker padding; pair it with `dt`/`dd`. `separated` adds only the row separator — the `gap` value carries all vertical rhythm, so `gap="xs"` and `gap="lg"` stay visibly different.
 
 Markers: `none`, `disc`, `circle`, `square`, `decimal`, `lower-alpha`, `upper-roman`.
 
@@ -93,9 +106,42 @@ Markers: `none`, `disc`, `circle`, `square`, `decimal`, `lower-alpha`, `upper-ro
 - `Inline` — wrapping horizontal rows with `gap`, `align`, `justify`, and `wrap`.
 - `Grid` — fixed columns or `columns="auto"` with `minItem="sm|md|lg"`.
 - `Container` — `width="content|reading|form|full"` and token padding.
-- `List` — semantic `ul`/`ol` with `marker`, `orientation`, `gap`, and `separated`.
+- `List` — semantic `ul`/`ol`/`dl` with `marker`, `orientation`, `gap`, and `separated`.
 
 `Text` has no margins. Spacing belongs to the layout primitive.
+
+### Empty states
+
+`EmptyState` is the supported empty-state pattern: a heading, one sentence, and one required action. The `action` snippet is not optional, which keeps DESIGN R44 enforceable. Pass `level` to keep heading order correct when the state is nested inside a section.
+
+```svelte
+{#snippet createProject()}
+  <Button>New project</Button>
+{/snippet}
+
+<EmptyState
+  title="No projects yet"
+  description="Create the first project to give the team a shared place to work."
+  action={createProject}
+/>
+```
+
+`EmptyState` renders a labelled `<section>` and centers its content with tokens. It is not a card: put it on the workspace when the whole region is empty.
+
+### Visually hidden text
+
+`VisuallyHidden` keeps text in the accessibility tree while clipping it visually. Use it to name icon-only controls and to provide the AppShell skip link; do not use `aria-label` and hidden text together.
+
+```svelte
+<Button variant="secondary">
+  <Icon aria-hidden="true" />
+  <VisuallyHidden>Add project</VisuallyHidden>
+</Button>
+
+<VisuallyHidden as="a" href="#main-content" focusable>Skip to content</VisuallyHidden>
+```
+
+`as` accepts `span`, `div`, and `a`. `focusable` reveals the element on `:focus-visible` so a hidden anchor can still work as a skip link.
 
 ### Responsive layout
 
@@ -180,8 +226,9 @@ examples.
 
 - **Typography:** `Text`, `Code`
 - **Layout:** `Stack`, `Inline`, `Grid`, `Container`, `List`, `AppShell`, `PageHeader`, `Hero`, `Footer`, `Sidebar`, `Navbar`
+- **Accessibility:** `VisuallyHidden`
 - **Controls:** `Button`, `Link`, `Input`, `Label`, `Checkbox`, `RadioGroup`, `Switch`, `Select`, `Combobox`, `Slider`, `PinInput`, `DateField`, `TimeField`, `DatePicker`, `DateRangeField`, `DateRangePicker`, `TimeRangeField`, `Toggle`, `ToggleGroup`, `RatingGroup`
-- **Surfaces and feedback:** `Card`, `Alert`, `Badge`, `Table`, `Breadcrumbs`, `Pagination`, `Progress`, `Meter`, `Separator`, `Tabs`, `Accordion`, `Collapsible`
+- **Surfaces and feedback:** `Card`, `Alert`, `Badge`, `Table`, `Breadcrumbs`, `Pagination`, `Progress`, `Meter`, `Separator`, `Tabs`, `Accordion`, `Collapsible`, `EmptyState`
 - **Overlays:** `Dialog`, `AlertDialog`, `Popover`, `Tooltip`, `DropdownMenu`, `ContextMenu`, `Menubar`, `Command`, `Toolbar`, `NavigationMenu`
 
 ## Exceptions
