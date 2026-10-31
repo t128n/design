@@ -1,3 +1,7 @@
+// Importing the stylesheet here lets Vite extract one complete `dist/index.css`
+// that includes tokens, fonts, base element styles, and component styles.
+import './styles/index.css';
+
 export { default as Accordion } from './lib/Accordion.svelte';
 export { default as Alert } from './lib/Alert.svelte';
 export { default as AlertDialog } from './lib/AlertDialog.svelte';
