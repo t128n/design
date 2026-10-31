@@ -124,7 +124,7 @@
     font-size: var(--font-size-body-sm);
   }
 
-  :global(.calendar-header) {
+  .calendar-header {
     display: flex;
     align-items: center;
     justify-content: space-between;

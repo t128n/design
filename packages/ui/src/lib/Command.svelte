@@ -53,7 +53,7 @@
 </script>
 
 <Command.Root
-  class="command"
+  class="t128n-command"
   bind:value
   {onValueChange}
   {shouldFilter}
@@ -121,7 +121,7 @@
 </Command.Root>
 
 <style>
-  :global(.command) {
+  :global(.t128n-command) {
     display: flex;
     flex-direction: column;
     width: 100%;

@@ -283,13 +283,13 @@
     font-family: var(--font-family-sans);
   }
 
-  :global(.navbar-menu-nav) {
+  .navbar-menu-nav {
     display: flex;
     flex-direction: column;
     gap: var(--space-xs);
   }
 
-  :global(.navbar-menu-link) {
+  .navbar-menu-link {
     display: flex;
     align-items: center;
     min-height: var(--control-height);
@@ -303,17 +303,17 @@
     white-space: nowrap;
   }
 
-  :global(.navbar-menu-link:hover) {
+  .navbar-menu-link:hover {
     background: var(--color-surface-subtle);
     color: var(--color-text-primary);
   }
 
-  :global(.navbar-menu-link.active) {
+  .navbar-menu-link.active {
     background: var(--color-surface-subtle);
     color: var(--color-text-primary);
   }
 
-  :global(.navbar-menu-link:focus-visible) {
+  .navbar-menu-link:focus-visible {
     outline: var(--border-width-emphasis) solid var(--color-focus);
     outline-offset: calc(-1 * var(--border-width-emphasis));
   }

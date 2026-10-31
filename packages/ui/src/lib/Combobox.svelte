@@ -85,7 +85,7 @@
         <Combobox.Portal>
           <Combobox.Content class="combobox-content" sideOffset={4}>
             <div class="panel">
-              <Combobox.Viewport class="viewport">
+              <Combobox.Viewport class="t128n-combobox-viewport">
                 {#each filteredItems as item}
                   <Combobox.Item
                     value={item.value}
@@ -202,7 +202,7 @@
     box-shadow: var(--shadow-overlay);
   }
 
-  .panel :global(.viewport) {
+  .panel :global(.t128n-combobox-viewport) {
     max-height: 18rem;
     overflow-y: auto;
   }
@@ -239,7 +239,7 @@
     color: var(--color-accent);
   }
 
-  .panel :global(.empty) {
+  .panel .empty {
     padding: var(--space-xs) var(--space-sm);
     color: var(--color-text-muted);
     font-size: var(--font-size-body-sm);

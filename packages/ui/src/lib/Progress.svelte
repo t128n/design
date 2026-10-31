@@ -83,14 +83,14 @@
     background: var(--color-progress-surface);
   }
 
-  .progress :global(.progress-indicator) {
+  .progress .progress-indicator {
     height: 100%;
     width: 100%;
     background: var(--color-progress);
     transition: transform var(--transition-duration) ease-out;
   }
 
-  .progress :global(.progress-root[data-state='indeterminate']) :global(.progress-indicator) {
+  .progress :global(.progress-root[data-state='indeterminate'] .progress-indicator) {
     animation: progress-indeterminate 1.2s infinite linear;
   }
 
@@ -104,11 +104,11 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .progress :global(.progress-indicator) {
+    .progress .progress-indicator {
       transition: none;
     }
 
-    .progress :global(.progress-root[data-state='indeterminate']) :global(.progress-indicator) {
+    .progress :global(.progress-root[data-state='indeterminate'] .progress-indicator) {
       animation: none;
     }
   }

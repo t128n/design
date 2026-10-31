@@ -74,16 +74,16 @@
     outline: none;
   }
 
-  :global(.link-preview-trigger) {
+  .link-preview-trigger {
     color: var(--color-accent);
     text-decoration: none;
   }
 
-  :global(.link-preview-trigger:hover) {
+  .link-preview-trigger:hover {
     text-decoration: underline;
   }
 
-  :global(.link-preview-trigger:focus-visible) {
+  .link-preview-trigger:focus-visible {
     outline: var(--border-width-emphasis) solid var(--color-focus);
     outline-offset: var(--border-width-emphasis);
     border-radius: var(--radius-sm);

@@ -157,7 +157,7 @@ describe('Navbar', () => {
 
   it('test_menu_links: popover lists every destination, marks active, closes on click', async () => {
     const navbar = await readSource('../src/lib/Navbar.svelte');
-    const active = blockFor(navbar, ':global(.navbar-menu-link.active)');
+    const active = blockFor(navbar, '.navbar-menu-link.active');
 
     expect(navbar).toContain('<Popover.Root');
     expect(navbar).toContain('<Popover.Content');

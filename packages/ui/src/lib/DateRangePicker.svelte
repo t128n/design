@@ -259,7 +259,7 @@
     box-shadow: var(--shadow-overlay);
   }
 
-  .date-range-picker-panel :global(.calendar-header) {
+  .date-range-picker-panel .calendar-header {
     display: flex;
     align-items: center;
     justify-content: space-between;

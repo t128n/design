@@ -73,7 +73,7 @@
         <Select.Portal>
           <Select.Content class="select-content" sideOffset={4}>
             <div class="panel">
-              <Select.Viewport class="viewport">
+              <Select.Viewport class="t128n-select-viewport">
                 {#each items as item}
                   <Select.Item
                     value={item.value}
@@ -181,7 +181,7 @@
     box-shadow: var(--shadow-overlay);
   }
 
-  .panel :global(.viewport) {
+  .panel :global(.t128n-select-viewport) {
     max-height: 18rem;
     overflow-y: auto;
   }
