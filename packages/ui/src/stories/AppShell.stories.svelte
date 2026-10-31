@@ -5,6 +5,7 @@
     Badge,
     Button,
     Link,
+    List,
     Navbar,
     PageHeader,
     Sidebar,
@@ -145,26 +146,20 @@
     />
     <section class="activity" aria-labelledby="activity-heading">
       <Text variant="subheading" as="h2" id="activity-heading">Recent activity</Text>
-      <ul>
-        <li>
-          <Text as="span" variant="body-sm" tone="secondary">
-            <Text as="strong" variant="body-sm" weight="medium" tone="primary">Mara Chen</Text>
-            updated the release plan for Orbit.
-          </Text>
-        </li>
-        <li>
-          <Text as="span" variant="body-sm" tone="secondary">
-            <Text as="strong" variant="body-sm" weight="medium" tone="primary">Devon Ruiz</Text>
-            assigned two reviewers to Atlas.
-          </Text>
-        </li>
-        <li>
-          <Text as="span" variant="body-sm" tone="secondary">
-            <Text as="strong" variant="body-sm" weight="medium" tone="primary">Priya Shah</Text>
-            moved Beacon to in review.
-          </Text>
-        </li>
-      </ul>
+      <List marker="none" separated gap="sm">
+        <Text as="li" variant="body-sm" tone="secondary">
+          <Text as="strong" variant="body-sm" weight="medium" tone="primary">Mara Chen</Text>
+          updated the release plan for Orbit.
+        </Text>
+        <Text as="li" variant="body-sm" tone="secondary">
+          <Text as="strong" variant="body-sm" weight="medium" tone="primary">Devon Ruiz</Text>
+          assigned two reviewers to Atlas.
+        </Text>
+        <Text as="li" variant="body-sm" tone="secondary">
+          <Text as="strong" variant="body-sm" weight="medium" tone="primary">Priya Shah</Text>
+          moved Beacon to in review.
+        </Text>
+      </List>
     </section>
   </AppShell>
 </Story>
@@ -197,16 +192,5 @@
     gap: var(--space-sm);
   }
 
-  .activity ul {
-    display: grid;
-    gap: var(--space-sm);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
 
-  .activity li {
-    padding-top: var(--space-sm);
-    border-top: var(--border-width) solid var(--color-border);
-  }
 </style>

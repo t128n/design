@@ -1,5 +1,6 @@
 <script lang="ts">
   import Link from './Link.svelte';
+  import List from './List.svelte';
   import Text from './Text.svelte';
 
   type LinkItem = {
@@ -26,15 +27,13 @@
   <Text variant="body-sm" as="span" weight="medium">{brand}</Text>
   {#if links.length}
     <nav aria-label="Footer">
-      <ul>
+      <List orientation="horizontal" marker="none" gap="xl">
         {#each links as link}
-          <li>
-            <Text variant="body-sm" as="span">
-              <Link href={link.href ?? '#'} class="footer-link">{link.label}</Link>
-            </Text>
-          </li>
+          <Text as="li" variant="body-sm">
+            <Link href={link.href ?? '#'} class="footer-link">{link.label}</Link>
+          </Text>
         {/each}
-      </ul>
+      </List>
     </nav>
   {/if}
   {#if note}
@@ -59,15 +58,6 @@
 
   nav {
     min-width: 0;
-  }
-
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-md) var(--space-xl);
-    margin: 0;
-    padding: 0;
-    list-style: none;
   }
 
   .footer :global(.footer-link) {

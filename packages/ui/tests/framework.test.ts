@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { render } from '@testing-library/svelte';
 import { describe, expect, it } from 'vitest';
-import { Code, Container, Grid, Inline, Stack, Text } from '../src/index.js';
+import { Code, Container, Grid, Inline, List, Stack, Text } from '../src/index.js';
 
 const readSource = (path: string) => readFile(new URL(path, import.meta.url), 'utf8');
 
@@ -129,8 +129,35 @@ describe('layout primitives', () => {
     expect(element).toHaveClass('container', 'width-reading', 'padding-none');
   });
 
+  it('test_list: supports semantic list types, markers, orientation, and separators', () => {
+    const { container } = render(List, {
+      as: 'ol',
+      marker: 'decimal',
+      orientation: 'horizontal',
+      gap: 'lg',
+      separated: true
+    });
+    const element = container.querySelector('ol');
+
+    expect(element).toHaveClass(
+      'list',
+      'gap-lg',
+      'marker-decimal',
+      'orientation-horizontal',
+      'separated'
+    );
+  });
+
+  it('test_list_defaults: unordered lists use disc markers and vertical rhythm', () => {
+    const { container } = render(List, {});
+    const element = container.querySelector('ul');
+
+    expect(element).toHaveClass('list', 'gap-sm', 'marker-disc', 'orientation-vertical');
+    expect(element).not.toHaveClass('separated');
+  });
+
   it('test_layout_tokens: no literal spacing values in layout primitives', async () => {
-    for (const component of ['Stack', 'Inline', 'Grid', 'Container']) {
+    for (const component of ['Stack', 'Inline', 'Grid', 'Container', 'List']) {
       const source = await readSource(`../src/lib/${component}.svelte`);
 
       expect(source).not.toMatch(/(?:gap|padding(?:-inline)?):\s*(?!0\b)\d/);
@@ -142,7 +169,7 @@ describe('public framework exports', () => {
   it('exports the typography and layout layer', async () => {
     const index = await readSource('../src/index.ts');
 
-    for (const component of ['Text', 'Code', 'Stack', 'Inline', 'Grid', 'Container']) {
+    for (const component of ['Text', 'Code', 'Stack', 'Inline', 'Grid', 'Container', 'List']) {
       expect(index).toContain(`export { default as ${component} }`);
     }
   });

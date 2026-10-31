@@ -20,3 +20,16 @@ export const layoutTags = [
 ] as const;
 
 export type LayoutTag = (typeof layoutTags)[number];
+
+export const listMarkers = [
+  'none',
+  'disc',
+  'circle',
+  'square',
+  'decimal',
+  'lower-alpha',
+  'upper-roman'
+] as const;
+
+export type ListMarker = (typeof listMarkers)[number];
+

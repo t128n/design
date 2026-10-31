@@ -34,7 +34,9 @@ describe('Footer', () => {
     const footer = await readSource('../src/lib/Footer.svelte');
 
     expect(footer).toContain('<nav aria-label="Footer">');
-    expect(footer).toMatch(/<nav aria-label="Footer">\s*<ul>[\s\S]*?<li>[\s\S]*?<Link/);
+    expect(footer).toMatch(
+      /<nav aria-label="Footer">\s*<List orientation="horizontal" marker="none"[\s\S]*?<Link/
+    );
   });
 
   it('keeps brand, links, and note in a restrained hierarchy', async () => {

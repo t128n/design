@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Button, Card, Footer, Hero, Link, Navbar, Text } from '../index.js';
+  import { Button, Card, Footer, Hero, Link, List, Navbar, Text } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -21,26 +21,20 @@
 
 {#snippet heroAside()}
   <Card title="Recent activity">
-    <ul class="activity">
-      <li>
-        <Text as="span" variant="body-sm" tone="secondary">
-          <Text as="strong" variant="body-sm" weight="medium" tone="primary">Orbit</Text>
-          Mara updated the release plan.
-        </Text>
-      </li>
-      <li>
-        <Text as="span" variant="body-sm" tone="secondary">
-          <Text as="strong" variant="body-sm" weight="medium" tone="primary">Atlas</Text>
-          Devon assigned two reviewers.
-        </Text>
-      </li>
-      <li>
-        <Text as="span" variant="body-sm" tone="secondary">
-          <Text as="strong" variant="body-sm" weight="medium" tone="primary">Beacon</Text>
-          Status changed to in progress.
-        </Text>
-      </li>
-    </ul>
+    <List marker="none" separated gap="sm">
+      <Text as="li" variant="body-sm" tone="secondary">
+        <Text as="strong" variant="body-sm" weight="medium" tone="primary">Orbit</Text>
+        Mara updated the release plan.
+      </Text>
+      <Text as="li" variant="body-sm" tone="secondary">
+        <Text as="strong" variant="body-sm" weight="medium" tone="primary">Atlas</Text>
+        Devon assigned two reviewers.
+      </Text>
+      <Text as="li" variant="body-sm" tone="secondary">
+        <Text as="strong" variant="body-sm" weight="medium" tone="primary">Beacon</Text>
+        Status changed to in progress.
+      </Text>
+    </List>
   </Card>
 {/snippet}
 
@@ -128,24 +122,6 @@
     display: grid;
     gap: var(--space-xs);
     min-width: 0;
-  }
-
-  .activity {
-    display: grid;
-    gap: var(--space-sm);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .activity li {
-    padding-top: var(--space-sm);
-    border-top: var(--border-width) solid var(--color-border);
-  }
-
-  .activity li:first-child {
-    padding-top: 0;
-    border-top: 0;
   }
 
   @media (max-width: 800px) {

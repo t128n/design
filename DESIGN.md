@@ -144,6 +144,7 @@ The typography and layout primitives are the vocabulary for application and stor
 - Use **`Text`** for prose and headings. `variant` controls appearance; `as` controls the native element. They are independent: choose both explicitly.
 - Use **`Code`** for inline code and code blocks. Do not switch ordinary labels to mono.
 - Use **`Stack`**, **`Inline`**, **`Grid`**, and **`Container`** for rhythm, rows, columns, and measure. `Text` has no margins; spacing belongs to the layout primitive.
+- Use **`List`** for `<ul>` and `<ol>` and **`Text as="li"`** for list items. `List` owns the container, marker, orientation, spacing, and optional separators.
 - Use **`Link`** for navigation and **`Button`** for actions. `Text` never renders an anchor or button.
 - Use the existing **`Label`** for form labels. `Text variant="label"` is display text, not a form association.
 - Control internals (buttons, inputs, menus, date fields, tables) may keep local token-based CSS so their geometry and states remain precise. Application and story prose must not write raw typography CSS.
@@ -160,6 +161,13 @@ The typography and layout primitives are the vocabulary for application and stor
 
 ```svelte
 <Text variant="body">Set <Code>projectId</Code> before creating the project.</Text>
+```
+
+```svelte
+<List as="ol" gap="sm">
+  <Text as="li" variant="body" tone="secondary">Invite the project owners.</Text>
+  <Text as="li" variant="body" tone="secondary">Connect a repository.</Text>
+</List>
 ```
 
 ## Layout
@@ -382,7 +390,7 @@ These are deliberate omissions, not gaps. Each rule is a refusal paired with the
 | R48 | A primitive without a story, a real screen using it, and a note on what it is not for       | All three together                                         |
 | R49 | ▲ `!important`; `outline: none` without a `:focus-visible` replacement; a z-index outside the named layers | Named layers and a real focus ring; suppression is allowed only on a non-interactive focus target or where a listbox highlight is the visual focus |
 | R50 | A "temporary" style that survives a release                                                 | Delete it or canonize it                                   |
-| R51 | ▲ Raw `<p>`/`<h1>`–`<h6>` or local type classes in application and story prose              | `Text` and `Code`; layout through `Stack`, `Inline`, `Grid`, and `Container` |
+| R51 | ▲ Raw `<p>`/`<h1>`–`<h6>`, `<ul>`/`<ol>`/`<li>`, or local type classes in application and story prose | `Text`, `Code`, and `List`; layout through `Stack`, `Inline`, `Grid`, and `Container` |
 
 ### Budgets
 
@@ -400,6 +408,7 @@ Prefer budgets to bans where a ban is a judgement call: one accent-filled elemen
 - No raw hex values under `packages/ui/src/lib`.
 - No literal `font-size`, `font-weight`, `line-height`, or `font-family` values under `packages/ui/src/lib`; use a token.
 - No raw `<p>` or `<h1>`–`<h6>` in components or stories; use `Text`.
+- No raw `<ul>`/`<ol>`/`<li>` in stories; use `List` with `Text as="li"`.
 - No `font-size` below 12px.
 - At least one `:focus-visible` rule per interactive component.
 

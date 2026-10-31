@@ -34,6 +34,7 @@ const readSvelteSources = async (root: string): Promise<SourceFile[]> => {
 };
 
 const RAW_PROSE = /<(p|h[1-6])\b/g;
+const RAW_LIST = /<(ul|ol|li)\b/g;
 const TYPE_DECLARATION = /(font-size|font-weight|line-height|font-family):\s*([^;]+);/g;
 
 const matches = (sources: SourceFile[], pattern: RegExp): string[] =>
@@ -53,6 +54,12 @@ describe('framework audit', () => {
     const sources = [...(await readSvelteSources(libRoot)), ...(await readSvelteSources(storiesRoot))];
 
     expect(matches(sources, RAW_PROSE)).toEqual([]);
+  });
+
+  it('test_no_raw_lists: stories use List for ordered and unordered items', async () => {
+    const sources = await readSvelteSources(storiesRoot);
+
+    expect(matches(sources, RAW_LIST)).toEqual([]);
   });
 
   it('test_literal_type: component and story styles use typography tokens', async () => {
@@ -94,7 +101,7 @@ describe('framework audit', () => {
   });
 
   it('test_primitive_stories: every framework primitive has a story and a real screen use', async () => {
-    for (const component of ['Text', 'Code', 'Stack', 'Inline', 'Grid', 'Container']) {
+    for (const component of ['Text', 'Code', 'Stack', 'Inline', 'Grid', 'Container', 'List']) {
       const story = await readFile(join(storiesRoot, `${component}.stories.svelte`), 'utf8');
 
       expect(story, component).toContain(`title: 'Primitives/${component}'`);

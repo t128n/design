@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Footer, Navbar, Text } from '../index.js';
+  import { Footer, List, Navbar, Text } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -45,7 +45,7 @@
         administrator, ask one to complete the first step or to grant you access.
       </Text>
       <Text variant="heading" as="h2" weight="medium">Steps</Text>
-      <ol>
+      <List as="ol" gap="sm">
         <Text as="li" variant="body" tone="secondary">
           Open workspace settings and choose Repositories.
         </Text>
@@ -55,7 +55,7 @@
         <Text as="li" variant="body" tone="secondary">
           Review the requested access, then approve the key in your Git host.
         </Text>
-      </ol>
+      </List>
       <Text variant="body" tone="secondary">
         The first sync starts automatically. Later changes arrive on the schedule shown in
         the repository settings, or immediately when you select Sync now.
@@ -102,10 +102,5 @@
     padding: var(--space-3xl) var(--space-xl);
   }
 
-  .doc ol {
-    display: grid;
-    gap: var(--space-sm);
-    margin: 0;
-    padding-left: var(--space-xl);
-  }
+
 </style>

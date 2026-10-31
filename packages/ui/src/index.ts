@@ -59,5 +59,6 @@ export { default as Stack } from './lib/Stack.svelte';
 export { default as Inline } from './lib/Inline.svelte';
 export { default as Grid } from './lib/Grid.svelte';
 export { default as Container } from './lib/Container.svelte';
+export { default as List } from './lib/List.svelte';
 export type { TextAlign, TextTag, TextTone, TextVariant, TextWeight } from './lib/typography';
-export type { LayoutTag, Space } from './lib/layout';
+export type { LayoutTag, ListMarker, Space } from './lib/layout';

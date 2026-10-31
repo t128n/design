@@ -40,6 +40,7 @@ describe('Storybook stories', () => {
       ['Inline', 'Primitives/Inline'],
       ['Grid', 'Primitives/Grid'],
       ['Container', 'Primitives/Container'],
+      ['List', 'Primitives/List'],
       ['Checkbox', 'Primitives/Checkbox'],
       ['Switch', 'Primitives/Switch'],
       ['Select', 'Primitives/Select'],
