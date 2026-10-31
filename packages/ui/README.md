@@ -276,7 +276,43 @@ Choose one owner:
 Use `AppShell padding="none"` for full-bleed regions that own their own edge
 spacing, or when a page-level `Container` should be the single padding owner.
 
-### Themes
+### Tables and empty states
+
+`Table` renders a horizontal-scrolling wrapper, the column headers, and the body.
+Use `TableRow` and `TableCell` for the body so each cell inherits its column's
+`align` and `numeric` metadata. Raw `<tr>`/`<td>` children still work for
+one-off markup, but they do not inherit column metadata.
+
+```svelte
+<Table
+  columns={[
+    { label: 'Project' },
+    { label: 'Requests', align: 'right', numeric: true }
+  ]}
+  labelledBy="usage-heading"
+>
+  <TableRow>
+    <TableCell>Orbit</TableCell>
+    <TableCell>128,400</TableCell>
+  </TableRow>
+</Table>
+```
+
+- `colspan` advances the inherited column position. A cell's own `align` or
+  `numeric` prop overrides the column metadata. Use `TableCell` for every cell
+  in a row that relies on column metadata; raw cells do not advance the position.
+- Name the scroll wrapper with `labelledBy` (usually the surrounding section
+  heading id) or `caption`. The wrapper only becomes a `region` when one of them
+  supplies a real name; there is no generic “Table” fallback. When the table
+  points at a section heading, leave the section itself unnamed (or name it
+  differently) so the two landmarks do not share one accessible name.
+- Keep a real `<caption>` when the table needs its own name. `Table` never
+  renders a section title or heading.
+- `isEmpty` with an `empty` snippet renders one full-width row
+  (`colspan={columns.length}`). Use `EmptyState` inside it with exactly one
+  action.
+
+### Theming
 
 The package ships validated light and dark themes from one semantic token
 contract. Light is the default; dark follows the OS `prefers-color-scheme`
