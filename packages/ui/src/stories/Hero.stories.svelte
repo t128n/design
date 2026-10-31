@@ -50,7 +50,7 @@
 {/snippet}
 
 <Story name="Centered" asChild>
-  <div class="page">
+  <div class="canvas">
     <Hero
       align="center"
       eyebrow="Design system"
@@ -112,7 +112,7 @@
     width: min(56rem, calc(100vw - 2rem));
   }
 
-  .page {
+  .canvas {
     width: min(56rem, calc(100vw - 2rem));
     margin: 0 auto;
     padding: var(--space-3xl) var(--space-xl);

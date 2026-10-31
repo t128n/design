@@ -29,7 +29,7 @@
 </Story>
 
 <Story name="Focusable skip link" asChild>
-  <div class="page">
+  <div class="demo">
     <VisuallyHidden as="a" href="#visually-hidden-content" focusable>
       Skip to the content
     </VisuallyHidden>
@@ -37,8 +37,8 @@
       Press Tab: the link is clipped until it receives keyboard focus, then it
       becomes visible and keeps working as a normal anchor.
     </Text>
-    <Stack as="section" id="visually-hidden-content" gap="sm">
-      <Text variant="subheading" as="h2">Content region</Text>
+    <Stack as="section" id="visually-hidden-content" gap="sm" aria-labelledby="visually-hidden-heading">
+      <Text variant="subheading" as="h2" id="visually-hidden-heading">Content region</Text>
       <Text variant="body">Focus lands in the region, not on the link.</Text>
       <div>
         <Button variant="secondary">Continue</Button>
@@ -48,7 +48,7 @@
 </Story>
 
 <style>
-  .page {
+  .demo {
     display: grid;
     gap: var(--space-lg);
     width: min(40rem, calc(100vw - var(--space-2xl)));

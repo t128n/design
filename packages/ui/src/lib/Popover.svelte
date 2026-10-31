@@ -42,7 +42,7 @@
   {:else if children}
     <Popover.Trigger>
       {#snippet child({ props })}
-        <span {...props} role="button" tabindex="0">
+        <span {...props} role="button" tabindex="0" class="popover-trigger">
           {@render children()}
         </span>
       {/snippet}
@@ -71,6 +71,11 @@
   :global(.popover-content) {
     z-index: 50;
     outline: none;
+  }
+
+  .popover-trigger:focus-visible {
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .popover-panel {

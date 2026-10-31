@@ -27,7 +27,7 @@
   .container {
     height: 12rem;
     width: min(20rem, calc(100vw - 2rem));
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
   }

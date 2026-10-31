@@ -74,7 +74,7 @@
 </Story>
 
 <Story name="Stacked" asChild>
-  <div class="narrow" style="max-width: 24rem">
+  <div class="narrow">
     <Footer
       brand="Acme"
       links={[
@@ -90,9 +90,11 @@
 
 <style>
   .page {
-    display: grid;
-    min-width: 0;
     background: var(--color-workspace);
+  }
+
+  .narrow {
+    max-width: 24rem;
   }
 
   .doc {

@@ -109,7 +109,8 @@
     border-color: var(--color-focus);
   }
 
-  .pin-field :global(.pin-cell[data-active]):focus-within {
+  .pin-field :global(.pin-cell[data-active]):focus-within,
+  .pin-field :global(.pin-cell[data-active]):has(:focus-visible) {
     outline: var(--border-width-emphasis) solid var(--color-focus);
     outline-offset: var(--border-width-emphasis);
   }

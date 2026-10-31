@@ -447,4 +447,4 @@ CI should run the warning-failing form so a new unused selector cannot land:
 cd packages/ui && bunx svelte-check --tsconfig ./tsconfig.json --fail-on-warnings
 ```
 
-The audit in `packages/ui/tests/framework-audit.test.ts` fails on raw prose or list markup in stories and on literal typography values.
+The audit in `packages/ui/tests/framework-audit.test.ts` fails on raw prose or list markup in stories and on literal typography values. The shared registry in `packages/ui/tests/audit-rules.ts` centralizes rule ids, allowlists with reasons, and actionable `[rule-id] path:line` failures. `design-rules.test.ts` covers focus, radius, suppression, and `!important`; `accessibility.test.ts` runs axe-core against form, table, overlay, and navigation fixtures; `contrast.test.ts` validates every declared theme block.

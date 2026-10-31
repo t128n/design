@@ -86,7 +86,10 @@ describe('Footer', () => {
     expect(complete).toContain('<Footer');
     expect(complete).not.toContain('bordered={false}');
 
-    expect(stacked).toContain('max-width');
+    // The width moved from an inline style to the .narrow class so the
+    // framework inline-style audit can keep story markup style-free.
+    expect(stacked).toContain('class="narrow"');
+    expect(block(stories, '.narrow')).toContain('max-width');
     expect(stacked).toContain('<Footer');
   });
 
