@@ -1,7 +1,9 @@
 import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const readStory = (path: string) => readFile(new URL(path, import.meta.url), 'utf8');
+const readPreview = () => readFile(resolve(process.cwd(), '.storybook/preview.ts'), 'utf8');
 
 describe('Storybook stories', () => {
   it('discovers the foundations story title', async () => {
@@ -13,6 +15,7 @@ describe('Storybook stories', () => {
   it('keeps each primitive in its own story file', async () => {
     const stories = [
       ['Button', 'Primitives/Button'],
+      ['Link', 'Primitives/Link'],
       ['Input', 'Primitives/Input'],
       ['Card', 'Primitives/Card'],
       ['Checkbox', 'Primitives/Checkbox'],
@@ -66,5 +69,46 @@ describe('Storybook stories', () => {
         expect(story).toContain(`name="${name}"`);
       }
     }
+  });
+
+  it('test_viewport_presets: registers narrow320, narrow375, tablet768, desktop1280', async () => {
+    const preview = await readPreview();
+
+    const presets: Record<string, string> = {
+      narrow320: "'320px'",
+      narrow375: "'375px'",
+      tablet768: "'768px'",
+      desktop1280: "'1280px'"
+    };
+
+    for (const [key, width] of Object.entries(presets)) {
+      expect(preview).toContain(key);
+      expect(preview).toContain(width);
+    }
+
+    expect(preview).toContain('viewport');
+    expect(preview).toContain('styles');
+  });
+
+  it('test_story_contracts: stories constrain via real viewport globals, not fixed wrappers', async () => {
+    const appShell = await readStory('../src/stories/AppShell.stories.svelte');
+    const navbar = await readStory('../src/stories/Navbar.stories.svelte');
+
+    expect(appShell).toContain("viewport: { value: 'narrow375' }");
+    expect(appShell).not.toContain('narrow-frame');
+    expect(appShell).not.toContain('scroll-frame');
+
+    expect(navbar).toContain("viewport: { value: 'narrow320' }");
+    expect(navbar).toContain("viewport: { value: 'tablet768' }");
+    expect(navbar).not.toContain('narrow-frame');
+    expect(navbar).not.toContain('width: 360px');
+  });
+
+  it('test_no_overflow_fallback: navigation does not scroll horizontally', async () => {
+    const navbar = await readStory('../src/lib/Navbar.svelte');
+    const sidebar = await readStory('../src/lib/Sidebar.svelte');
+
+    expect(navbar).not.toContain('overflow-x: auto');
+    expect(sidebar).not.toContain('overflow-x: auto');
   });
 });
