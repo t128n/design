@@ -45,7 +45,7 @@
 
 <Story name="Bordered" asChild>
   <div class="table-story">
-    <Table {columns} caption="Active projects">
+    <Table {columns} bordered caption="Active projects">
       <tr>
         <td>Orbit</td>
         <td>Mara Chen</td>

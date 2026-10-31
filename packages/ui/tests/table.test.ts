@@ -90,7 +90,7 @@ describe('Table stories', () => {
     const stories = await readSource('../src/stories/Table.stories.svelte');
     const borderedStory = storyBlock(stories, 'Bordered');
 
-    expect(borderedStory).toContain('bordered');
+    expect(borderedStory).toMatch(/<Table[^>]*\bbordered\b/);
     expect(borderedStory).toContain('<td>');
     expect(borderedStory).toContain('<Badge');
   });
