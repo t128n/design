@@ -127,6 +127,7 @@ describe('Sidebar', () => {
     expect(sidebar).toContain('<Menu size={20} />');
     expect(sidebar).toContain('<Close size={20} />');
     expect(sidebar).toContain('{toggleLabel}');
+    expect(sidebar).toContain("toggleLabel = 'Navigation'");
     expect(sidebar).toContain('class="drawer-nav"');
     expect(sidebar).toContain("'desktop'");
     expect(sidebar).toContain("'drawer'");

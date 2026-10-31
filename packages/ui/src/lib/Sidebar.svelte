@@ -31,7 +31,7 @@
     header,
     footer,
     label = 'Sections',
-    toggleLabel = 'Sections'
+    toggleLabel = 'Navigation'
   }: Props = $props();
 
   const baseId = $props.id();
