@@ -1,13 +1,15 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import type { HTMLAttributes } from 'svelte/elements';
-  import type { LayoutTag, Space } from './layout';
+  import type { CollapseAt, LayoutTag, Space } from './layout';
 
   type Props = HTMLAttributes<HTMLElement> & {
     as?: LayoutTag;
     columns?: number | 'auto';
     minItem?: 'sm' | 'md' | 'lg';
     gap?: Space;
+    collapseAt?: CollapseAt;
+    collapseColumns?: number;
     class?: string;
     children?: Snippet;
   };
@@ -17,6 +19,8 @@
     columns = 1,
     minItem = 'md',
     gap = 'md',
+    collapseAt = 'sm',
+    collapseColumns = 1,
     class: className = '',
     style,
     children,
@@ -24,7 +28,11 @@
   }: Props = $props();
 
   const gridStyle = $derived(
-    [typeof columns === 'number' ? `--grid-columns: ${columns}` : '', style]
+    [
+      typeof columns === 'number' ? `--grid-columns: ${columns}` : '',
+      collapseColumns !== 1 ? `--collapse-columns: ${collapseColumns}` : '',
+      style
+    ]
       .filter(Boolean)
       .join('; ')
   );
@@ -33,7 +41,7 @@
 <svelte:element
   this={as}
   {...restProps}
-  class={`grid gap-${gap} min-${minItem} ${columns === 'auto' ? 'auto' : ''} ${className}`}
+  class={`grid gap-${gap} min-${minItem} collapse-${collapseAt} ${columns === 'auto' ? 'auto' : ''} ${className}`}
   style={gridStyle || undefined}
 >
   {@render children?.()}
@@ -93,9 +101,24 @@
     gap: var(--space-3xl);
   }
 
+  /* --breakpoint-sm: 640px; media queries cannot consume the custom property. */
   @media (max-width: 640px) {
-    .grid:not(.auto) {
-      grid-template-columns: 1fr;
+    .grid.collapse-sm:not(.auto) {
+      grid-template-columns: repeat(var(--collapse-columns, 1), minmax(0, 1fr));
+    }
+  }
+
+  /* --breakpoint-md: 800px; media queries cannot consume the custom property. */
+  @media (max-width: 800px) {
+    .grid.collapse-md:not(.auto) {
+      grid-template-columns: repeat(var(--collapse-columns, 1), minmax(0, 1fr));
+    }
+  }
+
+  /* --breakpoint-lg: 1024px; media queries cannot consume the custom property. */
+  @media (max-width: 1024px) {
+    .grid.collapse-lg:not(.auto) {
+      grid-template-columns: repeat(var(--collapse-columns, 1), minmax(0, 1fr));
     }
   }
 </style>

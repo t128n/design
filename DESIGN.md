@@ -179,6 +179,17 @@ The typography and layout primitives are the vocabulary for application and stor
 - Persistent sidebars are allowed for genuinely complex application navigation, not as the automatic starting template.
 - Maintain clear responsive hierarchy and keyboard navigation.
 
+### Responsive model
+
+The layout foundation has three named breakpoints: `sm` 640px, `md` 800px, and `lg` 1024px. They are tokens for documentation and a matching TypeScript constant; media queries repeat the literal numbers because CSS cannot read custom properties.
+
+- `AppShell` and `Sidebar` switch at `md` 800px: the sidebar column becomes a drawer and the shell stacks to one column.
+- `Grid` collapses to `collapseColumns` (1 by default) below `collapseAt` (`sm` by default).
+- `Inline` becomes a vertical column below `stackAt` (`never` by default).
+- `Container` collapses large inline padding to `--space-lg` below `paddingAt` (`sm` by default).
+
+Keep tokens, `src/lib/layout.ts`, and component media queries in sync. Do not add unnamed breakpoints.
+
 ### Application workspaces
 
 Application workspaces are continuous and light-first. Organization comes from typography, alignment, whitespace, and structure, not from panels.
@@ -247,6 +258,7 @@ A structural border belongs to exactly one region.
 - **Tabs** switch between peer sections with one accent underline. Do not place a primary action inside the tab strip.
 - **Dialog** is for a focused task or confirmation: trap focus, close on Escape, return focus to the trigger, and place the scrim behind it. **Tooltip** is supplementary; never make it the only place an action or error is explained.
 - [Bits UI](https://bits-ui.com/) supplies behavior and accessibility. The styled wrappers own tokens, layout, and visual states.
+- **ThemeScope** is the supported theming seam. It applies a single light `data-theme` and inline custom-property overrides; nested scopes inherit and override naturally. Only `--`-prefixed public tokens are accepted. Dark mode is a separate, future theme and is not inferred from this seam.
 
 ### Layouts and views
 

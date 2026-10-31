@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Badge, Button, PageHeader, Table, Text } from '../index.js';
+  import { Badge, Button, Container, PageHeader, Table, Text } from '../index.js';
   import '../styles/index.css';
 
   const columns = [
@@ -35,22 +35,22 @@
 {/snippet}
 
 <Story name="Title only" asChild>
-  <div class="story">
+  <Container width="content" padding="xl" class="page">
     <PageHeader title="Projects" />
-  </div>
+  </Container>
 </Story>
 
 <Story name="With description" asChild>
-  <div class="story">
+  <Container width="content" padding="xl" class="page">
     <PageHeader
       title="Projects"
       description="Track ownership, status, and recent activity across the workspace."
     />
-  </div>
+  </Container>
 </Story>
 
 <Story name="Breadcrumbs and actions" asChild>
-  <div class="story">
+  <Container width="content" padding="xl" class="page">
     <PageHeader
       title="Orbit"
       description="Deploy history and environment health for the Orbit project."
@@ -60,21 +60,21 @@
       ]}
       actions={detailActions}
     />
-  </div>
+  </Container>
 </Story>
 
 <Story name="Long title" asChild>
-  <div class="story">
+  <Container width="content" padding="xl" class="page">
     <PageHeader
       title="Deployment history for the Orbit production environment"
       description="Review each revision, its approvals, and the environments it reached."
       actions={longTitleActions}
     />
-  </div>
+  </Container>
 </Story>
 
 <Story name="Projects page" asChild>
-  <div class="story">
+  <Container width="content" padding="xl" class="page">
     <PageHeader
       title="Projects"
       description="Every project in the workspace, with its owner and latest status."
@@ -103,20 +103,19 @@
         </tr>
       </Table>
     </section>
-  </div>
+  </Container>
 </Story>
 
 <style>
-  .story {
+  :global(.page) {
     box-sizing: border-box;
-    min-height: 100vh;
-    padding: var(--space-2xl) var(--space-xl);
+    padding-block: var(--space-2xl);
     background: var(--color-workspace);
   }
 
-  .story :global(.page-header),
-  .story :global(.table-wrap),
-  .story .projects {
+  :global(.page) :global(.page-header),
+  :global(.page) :global(.table-wrap),
+  :global(.page) .projects {
     width: 100%;
     max-width: var(--layout-content-width);
     margin-inline: auto;

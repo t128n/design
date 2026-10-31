@@ -47,6 +47,8 @@ const TEXT_TRANSFORM = /text-transform/gi;
 const LETTER_SPACING = /letter-spacing:\s*([^;]+);/gi;
 const BORDER_RADIUS = /border-radius:\s*([^;]+);/gi;
 const POSITION_FIXED = /position:\s*fixed/gi;
+const RAW_100VH = /100vh/g;
+const RAW_PX = /(\d+(?:\.\d+)?)px/g;
 
 const radiusViolations = (sources: SourceFile[]) =>
   sources.flatMap(({ source, relativePath }) => {
@@ -104,6 +106,34 @@ describe('design audit', () => {
     const sources = await readSources(libRoot, ['.svelte']);
     const found = violations(sources, (source) =>
       [...source.matchAll(HEX_COLOR)].map((match) => ({ value: match[0], index: match.index ?? 0 }))
+    );
+
+    expect(found).toEqual([]);
+  });
+
+  it('test_no_100vh: normal document flow instead of viewport shells', async () => {
+    const sources = await readSources(srcRoot, ['.svelte', '.css']);
+    const found = violations(sources, (source) =>
+      [...source.matchAll(RAW_100VH)].map((match) => ({ value: match[0], index: match.index ?? 0 }))
+    );
+
+    expect(found).toEqual([]);
+  });
+
+  it('test_no_raw_px_geometry: geometry above 2px uses a token', async () => {
+    const sources = await readSources(libRoot, ['.svelte']);
+    const found = sources.flatMap(({ source, relativePath }) =>
+      source.split('\n').flatMap((line, index) => {
+        const trimmed = line.trim();
+        // Media queries cannot consume custom properties; comments name the token.
+        if (trimmed.includes('@media') || trimmed.startsWith('/*') || trimmed.startsWith('*')) {
+          return [];
+        }
+
+        return [...line.matchAll(RAW_PX)]
+          .filter((match) => Number(match[1]) > 2)
+          .map((match) => `${relativePath}:${index + 1} ${match[0]}`);
+      })
     );
 
     expect(found).toEqual([]);

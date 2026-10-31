@@ -107,7 +107,7 @@ describe('Storybook stories', () => {
     expect(landing).toContain('background: var(--color-workspace)');
     expect(landing).not.toContain('background: var(--color-canvas)');
     expect(pageHeader).toContain('background: var(--color-workspace)');
-    expect(pageHeader).toContain('padding:');
+    expect(pageHeader).toContain('padding-block: var(--space-2xl)');
   });
 
   it('test_viewport_presets: registers narrow320, narrow375, tablet768, desktop1280', async () => {

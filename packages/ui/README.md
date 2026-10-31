@@ -97,6 +97,65 @@ Markers: `none`, `disc`, `circle`, `square`, `decimal`, `lower-alpha`, `upper-ro
 
 `Text` has no margins. Spacing belongs to the layout primitive.
 
+### Responsive layout
+
+Breakpoints are `sm` 640px, `md` 800px, and `lg` 1024px. They live as tokens in
+`styles/tokens.css` and as `breakpoints` in `src/lib/layout.ts`. Media queries
+cannot read custom properties, so component media queries repeat the literal
+numbers with a comment naming the token.
+
+```svelte
+<!-- Collapse a two-column grid below 800px, then into one column. -->
+<Grid columns={2} collapseAt="md" collapseColumns={1} gap="lg">...</Grid>
+
+<!-- Stack action rows below 640px; the default is never. -->
+<Inline stackAt="sm" gap="sm">...</Inline>
+
+<!-- Collapse large inline padding below 1024px. -->
+<Container width="content" padding="2xl" paddingAt="lg">...</Container>
+```
+
+- `Grid.collapseAt` defaults to `sm`; `collapseColumns` defaults to `1`. Use
+  `collapseAt="never"` to keep the configured columns at every width.
+- `Inline.stackAt` defaults to `never`; below the chosen breakpoint it becomes a
+  vertical column.
+- `Container.paddingAt` defaults to `sm`; `xl`, `2xl`, and `3xl` inline padding
+  collapse to `--space-lg` below the chosen breakpoint.
+
+`AppShell` and `Sidebar` share the `md` 800px breakpoint: the sidebar column
+becomes a drawer and the shell stacks to one column.
+
+### AppShell padding and Container composition
+
+`AppShell` owns outer content padding by default (`padding="xl"`, collapsing to
+`--space-lg` below 800px). A `Container` also owns inline padding. Nesting both
+with their defaults produces double padding.
+
+Choose one owner:
+
+```svelte
+<!-- AppShell pads; Container is only a measure. -->
+<AppShell>
+  <Container padding="none">...</Container>
+</AppShell>
+
+<!-- Container pads; the shell adds nothing. -->
+<AppShell padding="none">
+  <Container padding="xl">...</Container>
+</AppShell>
+```
+
+Use `AppShell padding="none"` for full-bleed regions that own their own edge
+spacing, or when a page-level `Container` should be the single padding owner.
+
+### Theming
+
+`ThemeScope` renders `data-theme="light"` and applies validated custom-property
+overrides inline, so nested scopes inherit naturally. See
+[`docs/theming.md`](../../docs/theming.md) for the public token contract, the
+internal token list, and the nested override example. Dark mode is out of scope
+until it is designed and contrast-validated separately.
+
 ## Component inventory
 
 - **Typography:** `Text`, `Code`
@@ -125,6 +184,12 @@ bun run test:storybook
 bun run build-storybook
 cd packages/ui && bun run check
 cd packages/ui && bun run build
+```
+
+CI should run the warning-failing form so a new unused selector cannot land:
+
+```sh
+cd packages/ui && bunx svelte-check --tsconfig ./tsconfig.json --fail-on-warnings
 ```
 
 The audit in `packages/ui/tests/framework-audit.test.ts` fails on raw prose or list markup in stories and on literal typography values.
