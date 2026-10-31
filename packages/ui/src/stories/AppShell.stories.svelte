@@ -117,7 +117,6 @@
     <PageHeader
       title="Projects"
       description="Track ownership, status, and recent activity across the workspace."
-      breadcrumbs={[{ label: 'Workspace', href: '#' }, { label: 'Projects' }]}
       actions={headerActions}
     />
     {@render projectTable()}
@@ -147,7 +146,6 @@
     <PageHeader
       title="Projects"
       description="Track ownership, status, and recent activity across the workspace."
-      breadcrumbs={[{ label: 'Workspace', href: '#' }, { label: 'Projects' }]}
       actions={headerActions}
     />
     {@render projectTable()}

@@ -120,6 +120,17 @@ describe('AppShell stories', () => {
     expect(combined).toContain('<PageHeader');
   });
 
+  it('keeps breadcrumbs from repeating the page title or a nav destination', async () => {
+    const stories = await storySource();
+
+    for (const name of ['Top navigation', 'Combined navigation']) {
+      const story = storyBlock(stories, name);
+      const header = story.slice(story.indexOf('<PageHeader'));
+
+      expect(header).not.toContain("label: 'Projects'");
+    }
+  });
+
   it('constrains the narrow example and overrides the shell height', async () => {
     const stories = await storySource();
     const narrow = storyBlock(stories, 'Narrow screen');
