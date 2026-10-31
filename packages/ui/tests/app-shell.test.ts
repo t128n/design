@@ -20,6 +20,13 @@ const snippetBlock = (source: string, name: string) => {
   return source.slice(start, end);
 };
 
+const arrayBlock = (source: string, name: string) => {
+  const start = source.indexOf(`const ${name} = [`);
+  const end = source.indexOf('\n  ];', start);
+
+  return source.slice(start, end === -1 ? undefined : end);
+};
+
 describe('AppShell', () => {
   it('renders exactly one focusable main region', async () => {
     const shell = await shellSource();
@@ -194,6 +201,33 @@ describe('AppShell stories', () => {
       const header = story.slice(story.indexOf('<PageHeader'));
 
       expect(header).not.toContain("label: 'Projects'");
+    }
+  });
+
+  it('marks Projects as the active destination in the Projects stories', async () => {
+    const stories = await storySource();
+    const projectLinks = arrayBlock(stories, 'projectLinks');
+    const projectSections = arrayBlock(stories, 'projectSections');
+
+    expect(projectLinks).toContain("{ label: 'Projects', active: true }");
+    expect(projectLinks).toContain("{ label: 'Overview' }");
+    expect(projectSections).toContain(`{ label: 'Projects', active: true, badge: '12' }`);
+    expect(projectSections).toContain("{ label: 'Overview' }");
+    expect(snippetBlock(stories, 'topNavbar')).toContain('links={projectLinks}');
+    expect(snippetBlock(stories, 'combinedSidebar')).toContain('sections={projectSections}');
+  });
+
+  it('keeps Overview active for the Overview stories and names the sidebar disclosure', async () => {
+    const stories = await storySource();
+
+    expect(arrayBlock(stories, 'overviewSections')).toContain(
+      "{ label: 'Overview', active: true }"
+    );
+    expect(snippetBlock(stories, 'sidebarNav')).toContain('sections={overviewSections}');
+    expect(snippetBlock(stories, 'narrowSidebar')).toContain('sections={overviewSections}');
+
+    for (const name of ['sidebarNav', 'combinedSidebar', 'narrowSidebar']) {
+      expect(snippetBlock(stories, name)).toContain('toggleLabel="Workspace"');
     }
   });
 

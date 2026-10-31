@@ -18,7 +18,7 @@
     parameters: { layout: 'fullscreen' }
   });
 
-  const workspaceSections = [
+  const overviewSections = [
     {
       label: 'Workspace',
       items: [
@@ -34,9 +34,25 @@
     }
   ];
 
-  const topLinks = [
-    { label: 'Overview', active: true },
-    { label: 'Projects' },
+  const projectSections = [
+    {
+      label: 'Workspace',
+      items: [
+        { label: 'Overview' },
+        { label: 'Projects', active: true, badge: '12' },
+        { label: 'Activity' },
+        { label: 'Reports' }
+      ]
+    },
+    {
+      label: 'Account',
+      items: [{ label: 'Preferences' }, { label: 'Members' }]
+    }
+  ];
+
+  const projectLinks = [
+    { label: 'Overview' },
+    { label: 'Projects', active: true },
     { label: 'Activity' },
     { label: 'Reports' }
   ];
@@ -89,11 +105,11 @@
 {/snippet}
 
 {#snippet topNavbar()}
-  <Navbar brand="Stellar" links={topLinks} actions={navbarUtilities} />
+  <Navbar brand="Stellar" links={projectLinks} actions={navbarUtilities} />
 {/snippet}
 
 {#snippet sidebarNav()}
-  <Sidebar sections={workspaceSections} label="Workspace" />
+  <Sidebar sections={overviewSections} label="Workspace" toggleLabel="Workspace" />
 {/snippet}
 
 {#snippet combinedNavbar()}
@@ -101,7 +117,7 @@
 {/snippet}
 
 {#snippet combinedSidebar()}
-  <Sidebar sections={workspaceSections} label="Workspace" />
+  <Sidebar sections={projectSections} label="Workspace" toggleLabel="Workspace" />
 {/snippet}
 
 {#snippet narrowNavbar()}
@@ -109,7 +125,7 @@
 {/snippet}
 
 {#snippet narrowSidebar()}
-  <Sidebar sections={workspaceSections} label="Workspace" />
+  <Sidebar sections={overviewSections} label="Workspace" toggleLabel="Workspace" />
 {/snippet}
 
 <Story name="Top navigation" asChild>
