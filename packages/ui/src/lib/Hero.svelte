@@ -52,7 +52,7 @@
   }
 
   .hero.has-aside {
-    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+    grid-template-columns: minmax(0, 1.1fr) minmax(var(--layout-aside-width), 0.9fr);
     align-items: start;
   }
 

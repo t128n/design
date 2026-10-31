@@ -38,6 +38,13 @@ describe('Hero', () => {
     expect(hero).not.toMatch(/grid-auto-rows:\s*1fr/i);
   });
 
+  it('test_aside_width_from_token', async () => {
+    const hero = await readSource('../src/lib/Hero.svelte');
+
+    expect(hero).toContain('minmax(var(--layout-aside-width), 0.9fr)');
+    expect(hero).not.toContain('minmax(280px');
+  });
+
   it('test_no_vertical_centering', async () => {
     const hero = await readSource('../src/lib/Hero.svelte');
 
