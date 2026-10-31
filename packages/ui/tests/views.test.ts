@@ -84,27 +84,42 @@ describe('composed workspace views', () => {
   it('test_shared_surface: sections and Hero draw no background of their own', async () => {
     const landing = await readStory('../src/stories/Landing.stories.svelte');
 
-    for (const selector of ['.wrap', '.features', '.feature', 'main']) {
-      expect(blockFor(landing, selector)).not.toContain('background');
+    for (const selector of ['.wrap', '.features', '.feature']) {
+      const block = blockFor(landing, selector);
+
+      expect(block, selector).not.toBe('');
+      expect(block, selector).not.toContain('background');
     }
+
+    expect(landing).not.toMatch(/<main[^>]*\bstyle=/);
     expect(landing).not.toContain('.hero');
   });
 
   it('test_navbar_edge: Landing adds no second border below the Navbar', async () => {
     const landing = await readStory('../src/stories/Landing.stories.svelte');
 
-    for (const selector of ['.landing', '.wrap', '.features', '.feature', 'main']) {
-      expect(blockFor(landing, selector)).not.toContain('border');
+    for (const selector of ['.landing', '.wrap', '.features', '.feature']) {
+      const block = blockFor(landing, selector);
+
+      expect(block, selector).not.toBe('');
+      expect(block, selector).not.toContain('border');
     }
+
+    expect(landing).not.toMatch(/<main[^>]*\bstyle=/);
   });
 
   it('test_footer_edge: Footer inherits the white surface and owns its top border', async () => {
     const landing = await readStory('../src/stories/Landing.stories.svelte');
+    const footer = await readStory('../src/lib/Footer.svelte');
 
     expect(landing).toContain('<Footer');
     expect(landing).not.toContain('bordered={false}');
-    expect(blockFor(landing, '.footer')).not.toContain('background');
-    expect(blockFor(landing, '.footer')).not.toContain('border');
+    expect(landing).not.toMatch(/\.footer\s*\{/);
+    expect(blockFor(landing, '.landing')).toContain('background: var(--color-workspace)');
+    expect(blockFor(footer, '.footer')).not.toContain('background');
+    expect(blockFor(footer, '.footer.bordered')).toContain(
+      'border-top: var(--border-width) solid var(--color-border)'
+    );
   });
 
   it('test_no_card_inflation: feature sections stay plain and only the Hero aside is a Card', async () => {
