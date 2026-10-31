@@ -29,17 +29,64 @@ describe('Sidebar', () => {
     expect(sidebar).not.toMatch(/letter-spacing/i);
   });
 
-  it('test_active_background: active rows use a subtle surface with primary medium text only', async () => {
+  it('test_active_background: active rows use the navigation-selected surface with primary medium text only', async () => {
     const sidebar = await readSource('../src/lib/Sidebar.svelte');
     const active = rule(sidebar, '.item-row.active');
     const activeLink = rule(sidebar, '.item-row.active .item-link');
 
-    expect(active).toContain('background: var(--color-surface-subtle)');
+    expect(active).toContain('background: var(--color-navigation-selected)');
     expect(activeLink).toContain('color: var(--color-text-primary)');
     expect(activeLink).toContain('font-weight: var(--font-weight-medium)');
     expect(sidebar).not.toContain('border-left');
     expect(sidebar).not.toContain('border-left: var(--border-width-emphasis)');
     expect(sidebar).not.toContain('var(--color-accent)');
+  });
+
+  it('test_surface_default: the sidebar sits on the navigation surface by default', async () => {
+    const sidebar = await readSource('../src/lib/Sidebar.svelte');
+
+    expect(sidebar).toContain("surface = 'navigation'");
+    expect(rule(sidebar, '.sidebar')).toContain('background: var(--color-navigation-surface)');
+  });
+
+  it('test_white_surface: surface="workspace" switches the sidebar to white', async () => {
+    const sidebar = await readSource('../src/lib/Sidebar.svelte');
+
+    expect(sidebar).toContain("surface?: 'navigation' | 'workspace'");
+    expect(sidebar).toContain('class:workspace');
+    expect(rule(sidebar, '.sidebar.workspace')).toContain(
+      'background: var(--color-workspace)'
+    );
+  });
+
+  it('test_badge_contrast: active-row badges use secondary text while others stay muted', async () => {
+    const sidebar = await readSource('../src/lib/Sidebar.svelte');
+
+    expect(rule(sidebar, '.badge')).toContain('color: var(--color-text-muted)');
+    expect(rule(sidebar, '.item-row.active .badge')).toContain(
+      'color: var(--color-text-secondary)'
+    );
+  });
+
+  it('test_hover_active_precedence: hover uses subtle surface but an active row stays selected', async () => {
+    const sidebar = await readSource('../src/lib/Sidebar.svelte');
+    const hover = rule(sidebar, '.item-row:hover');
+    const active = rule(sidebar, '.item-row.active');
+
+    expect(hover).toContain('background: var(--color-surface-subtle)');
+    expect(active).toContain('background: var(--color-navigation-selected)');
+    expect(sidebar.indexOf('.item-row.active')).toBeGreaterThan(
+      sidebar.indexOf('.item-row:hover')
+    );
+  });
+
+  it('test_mobile_surface: the trigger row is transparent and the drawer is navigation surface', async () => {
+    const sidebar = await readSource('../src/lib/Sidebar.svelte');
+
+    expect(rule(sidebar, '.drawer-trigger')).toContain('background: transparent');
+    expect(rule(sidebar, '.drawer-panel')).toContain(
+      'background: var(--color-navigation-surface)'
+    );
   });
 
   it('test_nested_disclosure: children get a separate Carbon chevron button with ARIA state', async () => {
@@ -176,9 +223,14 @@ describe('Sidebar', () => {
   it('test_stories: keeps Flat, Grouped, Nested, Selected, and Focus with an active nested child', async () => {
     const story = await readSource('../src/stories/Sidebar.stories.svelte');
 
-    for (const name of ['Flat', 'Grouped', 'Nested', 'Selected', 'Focus']) {
+    for (const name of ['Flat', 'Grouped', 'Nested', 'Selected', 'Focus', 'White surface']) {
       expect(story).toContain(`name="${name}"`);
     }
+
+    const white = story.slice(story.indexOf('name="White surface"'));
+
+    expect(white).toContain('surface="workspace"');
+    expect(white).toContain('sections={groupedSections}');
 
     const nested = story.slice(
       story.indexOf('const nestedSections'),

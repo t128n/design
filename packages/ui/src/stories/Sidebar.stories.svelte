@@ -139,11 +139,21 @@
   </div>
 </Story>
 
+<Story name="White surface" asChild>
+  <div class="sidebar-story sidebar-story-workspace">
+    <Sidebar surface="workspace" sections={groupedSections} toggleLabel="Navigation" />
+  </div>
+</Story>
+
 <style>
   .sidebar-story {
     width: 216px;
     min-height: 560px;
     background: var(--color-canvas);
+  }
+
+  .sidebar-story-workspace {
+    background: var(--color-workspace);
   }
 
   .sidebar-brand {

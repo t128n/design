@@ -24,6 +24,7 @@
     footer?: Snippet;
     label?: string;
     toggleLabel?: string;
+    surface?: 'navigation' | 'workspace';
   };
 
   let {
@@ -31,7 +32,8 @@
     header,
     footer,
     label = 'Sections',
-    toggleLabel = 'Navigation'
+    toggleLabel = 'Navigation',
+    surface = 'navigation'
   }: Props = $props();
 
   const baseId = $props.id();
@@ -77,7 +79,7 @@
   }
 </script>
 
-<aside class="sidebar">
+<aside class="sidebar" class:workspace={surface === 'workspace'}>
   {#if header}
     <div class="sidebar-header">{@render header()}</div>
   {/if}
@@ -213,9 +215,13 @@
     width: 100%;
     min-height: 100%;
     padding: var(--space-md) var(--space-sm);
-    background: var(--color-surface);
+    background: var(--color-navigation-surface);
     color: var(--color-text-primary);
     font-family: var(--font-family-sans);
+  }
+
+  .sidebar.workspace {
+    background: var(--color-workspace);
   }
 
   .sidebar-header,
@@ -311,7 +317,7 @@
   }
 
   .item-row.active {
-    background: var(--color-surface-subtle);
+    background: var(--color-navigation-selected);
   }
 
   .item-link {
@@ -357,6 +363,10 @@
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-caption);
     font-variant-numeric: tabular-nums;
+  }
+
+  .item-row.active .badge {
+    color: var(--color-text-secondary);
   }
 
   .expander {
@@ -422,7 +432,7 @@
     gap: var(--space-lg);
     height: 100%;
     padding: var(--space-lg);
-    background: var(--color-surface);
+    background: var(--color-navigation-surface);
     box-shadow: var(--shadow-overlay);
     color: var(--color-text-primary);
     font-family: var(--font-family-sans);
