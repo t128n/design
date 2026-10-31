@@ -69,7 +69,6 @@
       <Footer
         links={[{ label: 'Docs' }, { label: 'Status' }, { label: 'Privacy' }]}
         note="© 2026 Stellar"
-        bordered={false}
       />
     </div>
   </div>
@@ -77,7 +76,8 @@
 
 <style>
   .landing {
-    background: var(--color-canvas);
+    min-height: 100vh;
+    background: var(--color-workspace);
     color: var(--color-text-primary);
     font-family: var(--font-family-sans);
   }
@@ -150,5 +150,11 @@
   .activity strong {
     color: var(--color-text-primary);
     font-weight: var(--font-weight-medium);
+  }
+
+  @media (max-width: 800px) {
+    .feature-list {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

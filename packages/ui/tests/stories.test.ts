@@ -49,7 +49,7 @@ describe('Storybook stories', () => {
   it('exposes every required layout story name', async () => {
     const stories: Record<string, string[]> = {
       AppShell: ['Top navigation', 'Sidebar navigation', 'Combined navigation', 'Narrow screen'],
-      Sidebar: ['Flat', 'Grouped', 'Nested', 'Selected', 'Focus', 'White surface'],
+      Sidebar: ['Flat', 'Grouped', 'Nested', 'Selected', 'Focus', 'Navigation surface'],
       Table: ['Default', 'Bordered'],
       Navbar: ['Basic', 'Account utilities', 'Narrow screen', 'Long labels'],
       PageHeader: [
@@ -80,7 +80,8 @@ describe('Storybook stories', () => {
 
     expect(dashboard).toContain('background: var(--color-workspace)');
     expect(settings).toContain('background: var(--color-workspace)');
-    expect(landing).toContain('background: var(--color-canvas)');
+    expect(landing).toContain('background: var(--color-workspace)');
+    expect(landing).not.toContain('background: var(--color-canvas)');
     expect(pageHeader).toContain('background: var(--color-workspace)');
     expect(pageHeader).toContain('padding:');
   });

@@ -3,6 +3,12 @@ import { describe, expect, it } from 'vitest';
 
 const readStory = (path: string) => readFile(new URL(path, import.meta.url), 'utf8');
 
+const blockFor = (source: string, selector: string) => {
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = source.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`));
+  return match?.[1] ?? '';
+};
+
 describe('composed workspace views', () => {
   it('renders Dashboard on a white workspace with plain metrics and a borderless table', async () => {
     const dashboard = await readStory('../src/stories/Dashboard.stories.svelte');
@@ -63,18 +69,71 @@ describe('composed workspace views', () => {
     expect(settings).not.toMatch(/\{ label: '(Overview|Projects|Activity|Members)', active: true \}/);
   });
 
-  it('keeps Landing on canvas with a workspace Navbar and plain feature sections', async () => {
+  it('test_landing_white: renders Landing on one continuous white workspace', async () => {
     const landing = await readStory('../src/stories/Landing.stories.svelte');
 
-    expect(landing).toContain('background: var(--color-canvas)');
+    expect(blockFor(landing, '.landing')).toContain('background: var(--color-workspace)');
+    expect(landing).not.toContain('background: var(--color-canvas)');
+    expect(landing).not.toContain('background: var(--color-navigation-surface)');
     expect(landing).toContain('<Navbar');
     expect(landing).not.toContain('<Sidebar');
-    expect(landing).not.toContain('background: var(--color-navigation-surface)');
     expect(landing).toContain('<Hero');
     expect(landing).toContain('aside={heroAside}');
+  });
+
+  it('test_shared_surface: sections and Hero draw no background of their own', async () => {
+    const landing = await readStory('../src/stories/Landing.stories.svelte');
+
+    for (const selector of ['.wrap', '.features', '.feature', 'main']) {
+      expect(blockFor(landing, selector)).not.toContain('background');
+    }
+    expect(landing).not.toContain('.hero');
+  });
+
+  it('test_navbar_edge: Landing adds no second border below the Navbar', async () => {
+    const landing = await readStory('../src/stories/Landing.stories.svelte');
+
+    for (const selector of ['.landing', '.wrap', '.features', '.feature', 'main']) {
+      expect(blockFor(landing, selector)).not.toContain('border');
+    }
+  });
+
+  it('test_footer_edge: Footer inherits the white surface and owns its top border', async () => {
+    const landing = await readStory('../src/stories/Landing.stories.svelte');
+
     expect(landing).toContain('<Footer');
-    expect(landing).toContain('bordered={false}');
-    expect(landing).not.toContain('min-height: 100vh');
+    expect(landing).not.toContain('bordered={false}');
+    expect(blockFor(landing, '.footer')).not.toContain('background');
+    expect(blockFor(landing, '.footer')).not.toContain('border');
+  });
+
+  it('test_no_card_inflation: feature sections stay plain and only the Hero aside is a Card', async () => {
+    const landing = await readStory('../src/stories/Landing.stories.svelte');
+    const cards = landing.match(/<Card\b/g) ?? [];
+    const features = landing.slice(landing.indexOf('class="features"'), landing.indexOf('<Footer'));
+
+    expect(cards).toHaveLength(1);
+    expect(features).not.toContain('<Card');
+    expect(landing).toContain('<section class="feature"');
+  });
+
+  it('test_page_fill: Landing fills the viewport in normal flow', async () => {
+    const landing = await readStory('../src/stories/Landing.stories.svelte');
+    const root = blockFor(landing, '.landing');
+
+    expect(root).toContain('min-height: 100vh');
+    expect(root).not.toContain('position: fixed');
+    expect(root).not.toContain('position: absolute');
+  });
+
+  it('test_responsive: wrap stays at 1120px and features stack at 800px', async () => {
+    const landing = await readStory('../src/stories/Landing.stories.svelte');
+
+    expect(blockFor(landing, '.wrap')).toContain('width: min(1120px, 100%)');
+    expect(landing).toContain('@media (max-width: 800px)');
+    expect(landing.slice(landing.indexOf('@media (max-width: 800px)'))).toContain(
+      'grid-template-columns: 1fr'
+    );
   });
 
   it('uses a ghost link for the Landing sign-in utility', async () => {
