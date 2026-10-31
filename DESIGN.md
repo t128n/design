@@ -116,8 +116,8 @@ Use [Base16 Oxocarbon Light](https://github.com/nyoom-engineering/base16-oxocarb
 - White `#FFFFFF` is an intentional application-surface extension, not an Oxocarbon Base16 palette token.
 - Use **only one expressive primary accent: blue `#0F62FE`**. Reserve it for primary actions, selected states, meaningful links, and focus indicators.
 - Most of the interface should be neutral. Do not color every card, heading, number, or icon blue.
-- Status roles are **neutral, info, progress, success, warning, danger, and disabled**. Each has a text token and, where useful, a surface tint. Status is always text plus one role; never colour alone.
-- Status text tokens pass AA on their own surfaces and on canvas. Use status colour for state and feedback, not decoration. Danger remains the only role for invalid input and destructive actions.
+- Status roles are **neutral, info, progress, success, warning, danger, and disabled**. Each has a text token and, where useful, a surface tint. Status is always text plus one role; never color alone.
+- Status text tokens pass AA on their own surfaces and on canvas. Use status color for state and feedback, not decoration. Danger remains the only role for invalid input and destructive actions.
 - Meet WCAG AA contrast for ordinary text and visible focus indicators. Do not rely on color alone to convey state. Recheck contrast for muted text and disabled variants.
 
 ## Typography
@@ -196,9 +196,8 @@ Use **IBM Plex Sans** for headings, body text, labels, and controls. Use system 
 - Provisional transition duration: **120–180ms** for small state changes; avoid long entrance sequences.
 - Respect `prefers-reduced-motion`. Do not animate for decoration or delay user action.
 
-## Do's and Don'ts
+## Do
 
-**Do**
 - Prioritize legibility, alignment, whitespace, and efficient task completion.
 - Keep navigation contextual and secondary to content.
 - Use Oxocarbon neutrals and the blue accent sparingly.
@@ -206,13 +205,115 @@ Use **IBM Plex Sans** for headings, body text, labels, and controls. Use system 
 - Reuse the Carbon family and show icons only when they add useful meaning.
 - Check keyboard usability, responsive layout, and accessible contrast.
 
-**Don't**
-- Create cards for every content group.
-- Use gradients, glass effects, decorative illustrations, or shadows merely to appear modern.
-- Introduce multiple arbitrary accent colors.
-- Mix icon families.
-- Sacrifice clarity for minimalism: important controls must remain discoverable.
-- Invent exact dark-mode colors or status colors before those themes/states are designed.
+## Refusals
+
+These are deliberate omissions, not gaps. Each rule is a refusal paired with the substitute that takes its place, so removing a pattern never removes a capability. `▲` marks rules a reviewer or a CSS audit can check mechanically.
+
+**Exceptions are allowed, and must be written below with the screen, the reason, and the date.** An exception that is not written here is a bug, and it is removed in review.
+
+### Feedback and state
+
+| #   | Never                                                                     | Instead                                                                                   |
+| --- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| R1  | ▲ Toasts, snackbars, growls — any floating, self-dismissing message layer | An inline `Alert` at the point of action; stays until resolved or dismissed                |
+| R2  | Undo inside a transient layer                                             | Inline undo next to the change, surviving until navigation                                |
+| R3  | A success message for a change already visible on screen                  | The updated state is the confirmation; speak only when the result is off-screen            |
+| R4  | Generic errors ("Something went wrong", "Invalid input")                  | Name the thing, the cause, and the fix                                                    |
+| R5  | ▲ Full-page spinners and spinner-only states                              | Disable the control, label it ("Saving…"), keep the page usable                            |
+| R6  | ▲ Animated skeletons, shimmer, pulsing placeholders                       | Static placeholder blocks in the content region only                                       |
+| R7  | A fabricated percentage for work of unknown duration                      | One indeterminate indicator, or a step count you actually know                             |
+| R8  | A confirmation dialog for a reversible action                             | Do it, then offer undo                                                                     |
+| R9  | Dialogs for content that scrolls, for navigation, or for multi-step flows | A page                                                                                     |
+| R10 | ▲ Nested dialogs, dialogs opened from dialogs, two overlays at once       | One overlay at a time; sequence them                                                       |
+| R11 | A disabled control as the only explanation                                | Disabled state plus the reason in helper text                                              |
+| R12 | Actions revealed only on hover                                            | Visible actions, or the same actions on keyboard focus                                     |
+
+**Where feedback lives.** Field error: inline, under the field. Region status: an `Alert` in the region that owns the action. Page status: one page-level `Alert` for cross-region outcomes. Durable record: the history or run view. Nothing floats and nothing self-dismisses; that is the whole replacement for toasts.
+
+### Layout and density
+
+| #   | Never                                                            | Instead                                         |
+| --- | ---------------------------------------------------------------- | ----------------------------------------------- |
+| R13 | A card inside a card; a card wrapped around a single number      | Sections and metric rows                        |
+| R14 | Uniform padding on every block                                   | Spacing carries grouping; padding belongs to controls |
+| R15 | ▲ More than one sticky layer in a scroll container               | At most one sticky header                       |
+| R16 | Centered body text in application surfaces                       | Left-aligned; centering only in `Hero` and empty states |
+| R17 | ▲ Nested scroll containers; horizontally scrolling pages         | Tables scroll on their own axis; the page does not |
+| R18 | Zebra striping plus row borders plus a hover tint, together      | One separator; borders first                    |
+| R19 | Alternating background bands to segment content                  | Whitespace                                      |
+| R20 | ▲ `100vh` shells with inner scroll on mobile                     | Normal document flow                            |
+
+### Type
+
+| #   | Never                                                    | Instead                                              |
+| --- | -------------------------------------------------------- | ---------------------------------------------------- |
+| R21 | ▲ Uppercase or letter-spaced micro-labels                | Sentence case at `label` or `caption`; separate sections with weight or spacing |
+| R22 | Italics for emphasis; underlines on non-links            | Weight                                               |
+| R23 | ▲ Type below 12px; any third typeface                    | The defined scale; Plex Sans and Plex Mono only      |
+| R24 | Placeholder used as a label                              | Visible label; helper text for consequences          |
+| R25 | Proportional figures in aligned tables                   | Tabular numerals                                     |
+
+### Color and status
+
+| #   | Never                                                                   | Instead                                                    |
+| --- | ----------------------------------------------------------------------- | ---------------------------------------------------------- |
+| R26 | More than one accent-filled element in a region                         | One primary action per region                              |
+| R27 | ▲ Color-only status: dots, colored icons, tinted rows with no word     | Text plus one role, every time                             |
+| R28 | Rainbow tags                                                            | One neutral tag, or one role                               |
+| R29 | Red on anything non-destructive; accent blue on a destructive action     | `danger` is reserved and always paired with an explicit verb |
+| R30 | ▲ Decorative shadows, hover-lift, more than one shadow token            | A single overlay shadow, for floating layers only          |
+| R31 | ▲ Gradients, mesh, glass, noise, illustrations, mascots, stock photography in product surfaces | Flat surface and type                              |
+| R32 | ▲ Radius beyond 6px; `9999px` pills                                     | `sm`, `md`, `lg` only; pills are for switch tracks only    |
+| R33 | Inventing dark-mode or extra status colors before those themes are designed | Design the dark theme separately; validate statuses in light first |
+
+### Motion
+
+| #   | Never                                                                   | Instead                                                     |
+| --- | ----------------------------------------------------------------------- | ----------------------------------------------------------- |
+| R34 | Entrance animations, staggered lists, count-ups, confetti               | Content appears                                             |
+| R35 | ▲ Infinite animation except a true indeterminate indicator              | A bounded transition triggered by a state change            |
+| R36 | ▲ Spring or overshoot easing, scroll-jacking, parallax, hijacked smooth scroll | `ease-out`, 180ms or less, transform and opacity only |
+
+### Chrome, copy, ethics
+
+| #   | Never                                                              | Instead                                        |
+| --- | ------------------------------------------------------------------ | ---------------------------------------------- |
+| R37 | An icon on every heading, button, table row, or nav item           | Icons only where they disambiguate             |
+| R38 | Emoji as icon or status; a second icon family                      | Carbon                                         |
+| R39 | Badge counts on navigation that do not change where the user should go | Nothing, or a real status                  |
+| R40 | Icon-only desktop navigation to save space                         | Labels                                          |
+| R41 | Truncated identifiers with no way to reveal them                   | Mono type, wrapping, and a copy action         |
+| R42 | Relative timestamps with no absolute value in the text             | Both                                           |
+| R43 | `title` or a tooltip as the only source of an explanation          | Visible text                                   |
+| R44 | Empty states without a next action, or with an illustration        | One sentence and one action                    |
+| R45 | Dark patterns: fake urgency, pre-checked consent, confirm-shaming, hard cancellation, hidden cost | State the cost; make leaving easy |
+
+### System governance
+
+| #   | Never                                                                                      | Instead                                                    |
+| --- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| R46 | ▲ Raw hex or px values inside a component                                                  | A token, or add the token                                  |
+| R47 | A one-off variant bolted onto a shared component                                            | A documented prop, or a new component                      |
+| R48 | A primitive without a story, a real screen using it, and a note on what it is not for       | All three together                                         |
+| R49 | ▲ `!important`; `outline: none` without a `:focus-visible` replacement; a z-index outside the named layers | Named layers and a real focus ring; suppression is allowed only on a non-interactive focus target or where a listbox highlight is the visual focus |
+| R50 | A "temporary" style that survives a release                                                 | Delete it or canonize it                                   |
+
+### Budgets
+
+Prefer budgets to bans where a ban is a judgement call: one accent-filled element per region, one overlay at a time, one sticky layer, one primary action per workflow, one animated property per interaction.
+
+### Mechanically checkable
+
+- No `position: fixed` outside overlay layers and the skip link.
+- No `box-shadow` outside the overlay token.
+- No `border-radius` above 6px, except switch tracks.
+- No `animation-iteration-count: infinite`.
+- No `text-transform: uppercase`.
+- No `letter-spacing` above 0.02em.
+- No `outline: none` without a `:focus-visible` rule, except on a non-interactive focus target or a listbox highlight.
+- No raw hex values under `packages/ui/src/lib`.
+- No `font-size` below 12px.
+- At least one `:focus-visible` rule per interactive component.
 
 ## Validation backlog
 
