@@ -60,6 +60,7 @@ export { default as Inline } from './lib/Inline.svelte';
 export { default as Grid } from './lib/Grid.svelte';
 export { default as Container } from './lib/Container.svelte';
 export { default as List } from './lib/List.svelte';
+export { default as EmptyState } from './lib/EmptyState.svelte';
 export { headingLevels, headingTag } from './lib/typography';
 export type {
   HeadingLevel,

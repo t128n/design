@@ -5,6 +5,7 @@
     AppShell,
     Badge,
     Button,
+    EmptyState,
     Grid,
     Inline,
     PageHeader,
@@ -64,6 +65,10 @@
 {#snippet headerActions()}
   <Button variant="secondary">Export</Button>
   <Button>New project</Button>
+{/snippet}
+
+{#snippet archiveAction()}
+  <Button variant="secondary">View the archive</Button>
 {/snippet}
 
 <Story name="Dashboard">
@@ -134,6 +139,12 @@
             </tr>
           </Table>
         </Stack>
+        <EmptyState
+          level={3}
+          title="No archived projects"
+          description="Projects you archive will appear here for reference."
+          action={archiveAction}
+        />
       </Stack>
     </AppShell>
   </div>
