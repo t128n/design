@@ -117,7 +117,7 @@
     gap: 2px;
     min-height: var(--control-height);
     padding: 0 var(--space-md);
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     color: var(--color-text-primary);
@@ -129,8 +129,8 @@
   }
 
   .date-range-field :global(.date-range-field-input:focus-within) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .date-range-field :global(.date-range-field-input[data-invalid]:focus-within) {
@@ -142,7 +142,7 @@
   }
 
   .date-range-field :global(.date-range-field-segment) {
-    padding: 2px 4px;
+    padding: 2px var(--space-xs);
     border-radius: var(--radius-sm);
     outline: none;
   }

@@ -90,8 +90,8 @@
   }
 
   :global(.nav-root .nav-trigger:focus-visible) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: -2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: calc(-1 * var(--border-width-emphasis));
   }
 
   :global(.nav-root .nav-viewport) {
@@ -108,7 +108,7 @@
   .nav-panel {
     min-width: 16rem;
     padding: var(--space-sm);
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     box-shadow: var(--shadow-overlay);
@@ -142,7 +142,7 @@
   }
 
   :global(.nav-root .nav-link:focus-visible) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: -2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: calc(-1 * var(--border-width-emphasis));
   }
 </style>

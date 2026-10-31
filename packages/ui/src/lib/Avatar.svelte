@@ -35,20 +35,20 @@
   }
 
   :global(.avatar.sm) {
-    width: 32px;
-    height: 32px;
+    width: var(--avatar-size-sm);
+    height: var(--avatar-size-sm);
     font-size: var(--font-size-caption);
   }
 
   :global(.avatar.md) {
-    width: 40px;
-    height: 40px;
+    width: var(--avatar-size-md);
+    height: var(--avatar-size-md);
     font-size: var(--font-size-body-sm);
   }
 
   :global(.avatar.lg) {
-    width: 48px;
-    height: 48px;
+    width: var(--avatar-size-lg);
+    height: var(--avatar-size-lg);
     font-size: var(--font-size-body);
   }
 
@@ -67,7 +67,7 @@
   }
 
   :global(.avatar:focus-visible) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 </style>

@@ -485,15 +485,18 @@
     outline-offset: calc(-1 * var(--border-width-emphasis));
   }
 
+  /* --breakpoint-md: 800px. The extra pixel keeps the sticky desktop rule
+     above the token so the two media queries never overlap. */
   @media (min-width: 801px) {
     .sidebar {
       position: sticky;
       top: 0;
-      max-height: 100vh;
+      max-height: var(--panel-max-height);
       overflow-y: auto;
     }
   }
 
+  /* --breakpoint-md: 800px; media queries cannot consume the custom property. */
   @media (max-width: 800px) {
     .sidebar {
       border-right: 0;

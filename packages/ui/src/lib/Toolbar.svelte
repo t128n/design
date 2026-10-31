@@ -63,7 +63,7 @@
     align-items: center;
     gap: var(--space-xs);
     padding: var(--space-xs);
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     color: var(--color-text-primary);
@@ -79,7 +79,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 32px;
+    height: var(--control-height-sm);
     padding: 0 var(--space-sm);
     border: 0;
     border-radius: var(--radius-sm);
@@ -99,8 +99,8 @@
   }
 
   :global(.toolbar-item:focus-visible) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   :global(.toolbar-item[data-disabled]) {

@@ -143,6 +143,12 @@ describe('AppShell', () => {
     expect(shell).toContain('var(--border-width');
   });
 
+  it('removes the unused .main selector', async () => {
+    const shell = await shellSource();
+
+    expect(shell).not.toMatch(/\.main\b/);
+  });
+
   it('test_shell_workspace: the root is workspace rather than canvas', async () => {
     const shell = await shellSource();
     const root = blockFor(shell, '.app-shell');

@@ -233,7 +233,7 @@ describe('Sidebar', () => {
 
     expect(desktop).toContain('position: sticky');
     expect(desktop).toContain('top: 0');
-    expect(desktop).toContain('max-height: 100vh');
+    expect(desktop).toContain('max-height: var(--panel-max-height)');
     expect(desktop).toContain('overflow-y: auto');
     expect(desktop).not.toContain('border-bottom');
   });

@@ -62,7 +62,7 @@ describe('surface rules acceptance', () => {
 
   it('test_acceptance_no_double: AppShell draws no borders and its region wrappers add none', async () => {
     const shell = await readSource('../src/lib/AppShell.svelte');
-    const regions = shell.match(/\.sidebar,\s*\.main,\s*\.navbar\s*\{([^}]*)\}/)?.[1] ?? '';
+    const regions = shell.match(/\.sidebar,\s*\.navbar\s*\{([^}]*)\}/)?.[1] ?? '';
 
     expect(regions).toContain('min-width: 0');
     expect(regions).not.toContain('border');

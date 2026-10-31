@@ -1,7 +1,23 @@
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
+import { dirname, extname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 
 const readSource = (path: string) => readFile(new URL(path, import.meta.url), 'utf8');
+const libRoot = join(dirname(fileURLToPath(import.meta.url)), '../src/lib');
+
+const readLibSources = async (directory = libRoot): Promise<{ name: string; source: string }[]> => {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const sources = await Promise.all(
+    entries.map(async (entry) => {
+      const path = join(directory, entry.name);
+      if (entry.isDirectory()) return readLibSources(path);
+      if (extname(entry.name) !== '.svelte') return [];
+      return [{ name: entry.name, source: await readFile(path, 'utf8') }];
+    })
+  );
+  return sources.flat();
+};
 
 describe('design tokens', () => {
   it('defines the light semantic token contract', async () => {
@@ -21,24 +37,146 @@ describe('design tokens', () => {
     expect(tokens).toContain('--space-xs: 4px');
     expect(tokens).toContain('--radius-md: 4px');
     expect(tokens).toContain('--control-height: 36px');
-    expect(tokens).not.toMatch(/dark/i);
+    expect(tokens).toContain("[data-theme='light']");
+    expect(tokens).toContain("[data-theme='dark']");
+  });
+
+  it('defines the dark semantic token contract from Oxocarbon Base16 Dark', async () => {
+    const tokens = await readSource('../src/styles/tokens.css');
+
+    for (const token of [
+      '--color-canvas: #0B0B0B',
+      '--color-workspace: #161616',
+      '--color-surface: #262626',
+      '--color-surface-subtle: #1C1C1C',
+      '--color-navigation-surface: #1C1C1C',
+      '--color-navigation-selected: #393939',
+      '--color-text-primary: #F2F4F8',
+      '--color-text-secondary: #DDE1E6',
+      '--color-text-muted: #A8A8B3',
+      '--color-border: #393939',
+      '--color-accent: #78A9FF',
+      '--color-on-accent: #161616',
+      '--color-focus: #78A9FF',
+      '--color-info: #82CFFF',
+      '--color-info-surface: #0E2438',
+      '--color-progress: #BE95FF',
+      '--color-progress-surface: #241634',
+      '--color-success: #42BE65',
+      '--color-success-surface: #0F2618',
+      '--color-warning: #FF6F00',
+      '--color-warning-surface: #2B1A00',
+      '--color-danger: #FF7EB6',
+      '--color-danger-surface: #33131F',
+      '--color-scrim: rgb(0 0 0 / 65%)',
+      '--color-disabled-background: #393939',
+      '--color-disabled-text: #A8A8B3',
+      '--shadow-overlay: 0 12px 32px rgb(0 0 0 / 55%)'
+    ]) {
+      expect(tokens).toContain(token);
+    }
+  });
+
+  it('keeps the theme-independent tokens single-source', async () => {
+    const tokens = await readSource('../src/styles/tokens.css');
+
+    for (const token of [
+      '--font-size-body: 1rem',
+      '--space-md: 12px',
+      '--radius-md: 4px',
+      '--control-height: 36px',
+      '--breakpoint-md: 800px',
+      '--transition-duration: 150ms'
+    ]) {
+      const occurrences = tokens.split(token).length - 1;
+      expect(occurrences, `${token} is declared once`).toBe(1);
+    }
+  });
+
+  it('declares explicit themes and the OS fallback with matching color-scheme', async () => {
+    const tokens = await readSource('../src/styles/tokens.css');
+
+    expect(tokens).toContain(':root,\n[data-theme=\'light\'] {\n  color-scheme: light;');
+    expect(tokens).toContain("[data-theme='dark'] {\n  color-scheme: dark;");
+    expect(tokens).toContain(':root:not([data-theme=\'light\']) {\n    color-scheme: dark;');
+  });
+
+  it('keeps theme switching out of components', async () => {
+    const sources = (await readLibSources()).filter(({ name }) => name !== 'ThemeScope.svelte');
+
+    for (const { name, source } of sources) {
+      expect(source, `${name} has no dark-only selector`).not.toMatch(
+        /\[data-theme\s*=\s*['"]?(?:dark|light)/
+      );
+      expect(source, `${name} has no local prefers-color-scheme`).not.toContain(
+        'prefers-color-scheme'
+      );
+      expect(source, `${name} has no raw hex color`).not.toMatch(/#[0-9A-Fa-f]{3,8}\b/);
+    }
   });
 
   it('provides globally scoped base styles with reduced-motion support', async () => {
     const styles = await readSource('../src/styles/index.css');
 
     expect(styles).toContain("@import './tokens.css'");
+    expect(styles).toContain('background-color: var(--color-canvas)');
+    expect(styles).toContain('color: var(--color-text-primary)');
     expect(styles).toContain('@media (prefers-reduced-motion: reduce)');
     expect(styles).toContain('animation-duration: 0.01ms !important');
     expect(styles).toContain('transition-duration: 0.01ms !important');
   });
 
-  it('creates a light token scope around its snippet content', async () => {
-    const scope = await readSource('../src/lib/ThemeScope.svelte');
+  it('defines the control, icon, avatar, and breakpoint token contract', async () => {
+    const tokens = await readSource('../src/styles/tokens.css');
 
-    expect(scope).toContain('class={`theme-scope ${className}`');
-    expect(scope).toContain('{@render children?.()}');
+    for (const token of [
+      '--control-height-sm: 32px',
+      '--control-height: 36px',
+      '--control-height-lg: 40px',
+      '--touch-target: 44px',
+      '--icon-size-xs: 14px',
+      '--icon-size-sm: 16px',
+      '--icon-size-md: 20px',
+      '--icon-size-lg: 24px',
+      '--icon-size-xl: 32px',
+      '--avatar-size-sm: 32px',
+      '--avatar-size-md: 40px',
+      '--avatar-size-lg: 48px',
+      '--thumb-size: 18px',
+      '--checkbox-size: 18px',
+      '--checkbox-indicator-size: 14px',
+      '--list-marker-indent: var(--space-xl)',
+      '--panel-max-height: calc(100dvh - var(--space-2xl))',
+      '--breakpoint-sm: 640px',
+      '--breakpoint-md: 800px',
+      '--breakpoint-lg: 1024px'
+    ]) {
+      expect(tokens).toContain(token);
+    }
   });
+
+
+  it('makes key components consume the geometry tokens', async () => {
+    const expectations: Record<string, string[]> = {
+      Avatar: ['--avatar-size-sm', '--avatar-size-md', '--avatar-size-lg'],
+      Checkbox: ['--checkbox-size', '--checkbox-indicator-size'],
+      Slider: ['--thumb-size', '--track-size'],
+      Switch: ['--switch-track-width', '--switch-track-height', '--switch-thumb-size'],
+      Pagination: ['--control-height-sm', '--icon-size-sm'],
+      RatingGroup: ['--touch-target', '--icon-size-md'],
+      Sidebar: ['--panel-max-height'],
+      List: ['--list-marker-indent']
+    };
+
+    for (const [component, tokens] of Object.entries(expectations)) {
+      const source = await readSource(`../src/lib/${component}.svelte`);
+
+      for (const token of tokens) {
+        expect(source, `${component} uses ${token}`).toContain(`var(${token})`);
+      }
+    }
+  });
+
 });
 
 describe('workspace surfaces', () => {

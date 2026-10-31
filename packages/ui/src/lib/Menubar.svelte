@@ -87,7 +87,7 @@
     align-items: center;
     gap: var(--space-xs);
     padding: var(--space-xs);
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     font-family: var(--font-family-sans);
@@ -114,8 +114,8 @@
   }
 
   :global(.menubar-trigger:focus-visible) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: -2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: calc(-1 * var(--border-width-emphasis));
   }
 
   :global(.menubar-content) {
@@ -127,7 +127,7 @@
     min-width: 14rem;
     max-width: min(22rem, calc(100vw - 2rem));
     padding: var(--space-xs);
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     box-shadow: var(--shadow-overlay);
@@ -146,7 +146,7 @@
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    min-height: 32px;
+    min-height: var(--control-height-sm);
     padding: 0 var(--space-sm);
     border-radius: var(--radius-sm);
     color: var(--color-text-primary);
@@ -166,21 +166,21 @@
   }
 
   .menubar-panel :global(.menubar-item:focus-visible) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: -2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: calc(-1 * var(--border-width-emphasis));
   }
 
   .indicator {
     display: grid;
     flex: none;
     place-items: center;
-    width: 16px;
-    height: 16px;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
   }
 
   .indicator :global(.indicator-icon) {
-    width: 14px;
-    height: 14px;
+    width: var(--icon-size-xs);
+    height: var(--icon-size-xs);
     color: var(--color-accent);
   }
 

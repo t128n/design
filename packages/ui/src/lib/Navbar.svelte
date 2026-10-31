@@ -248,8 +248,8 @@
   }
 
   .menu-trigger :global(.menu-icon) {
-    width: 16px;
-    height: 16px;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
   }
 
   .navbar.compact .links {

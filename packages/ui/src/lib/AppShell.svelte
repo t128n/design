@@ -1,13 +1,19 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import type { Space } from './layout';
 
   type Props = {
     sidebar?: Snippet;
     navbar?: Snippet;
+    /**
+     * Outer padding for the main region. Use `none` when a `Container` inside
+     * the shell should own padding and the shell must not add a second layer.
+     */
+    padding?: 'none' | Space;
     children?: Snippet;
   };
 
-  let { sidebar, navbar, children }: Props = $props();
+  let { sidebar, navbar, padding = 'xl', children }: Props = $props();
 </script>
 
 <div
@@ -23,7 +29,7 @@
     {#if sidebar}
       <div class="sidebar">{@render sidebar()}</div>
     {/if}
-    <main id="main-content" tabindex="-1" class="content">
+    <main id="main-content" tabindex="-1" class={`content padding-${padding}`}>
       <div class="content-inner">
         {@render children?.()}
       </div>
@@ -36,7 +42,6 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr);
-    min-height: 100vh;
     background: var(--color-workspace);
     color: var(--color-text-primary);
     font-family: var(--font-family-sans);
@@ -59,23 +64,47 @@
   }
 
   .sidebar,
-  .main,
   .navbar {
     min-width: 0;
-  }
-
-  .main {
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
   }
 
   .content {
     flex: 1;
     min-width: 0;
     min-height: 0;
-    padding: var(--space-xl);
     background: var(--color-workspace);
+  }
+
+  .content.padding-none {
+    padding: 0;
+  }
+
+  .content.padding-xs {
+    padding: var(--space-xs);
+  }
+
+  .content.padding-sm {
+    padding: var(--space-sm);
+  }
+
+  .content.padding-md {
+    padding: var(--space-md);
+  }
+
+  .content.padding-lg {
+    padding: var(--space-lg);
+  }
+
+  .content.padding-xl {
+    padding: var(--space-xl);
+  }
+
+  .content.padding-2xl {
+    padding: var(--space-2xl);
+  }
+
+  .content.padding-3xl {
+    padding: var(--space-3xl);
   }
 
   .content:focus {
@@ -113,13 +142,16 @@
     transform: translateY(0);
   }
 
+  /* --breakpoint-md: 800px; media queries cannot consume the custom property. */
   @media (max-width: 800px) {
     .app-shell.with-sidebar .body {
       grid-template-columns: minmax(0, 1fr);
       grid-template-rows: auto minmax(0, 1fr);
     }
 
-    .content {
+    .content.padding-xl,
+    .content.padding-2xl,
+    .content.padding-3xl {
       padding: var(--space-lg);
     }
   }

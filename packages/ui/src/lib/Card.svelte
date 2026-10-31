@@ -22,7 +22,7 @@
     display: grid;
     gap: var(--space-md);
     padding: var(--space-lg);
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     color: var(--color-text-primary);

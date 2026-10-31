@@ -68,8 +68,8 @@
   }
 
   .switch :global(.switch-root):focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .switch :global(.switch-root):disabled {
@@ -81,11 +81,11 @@
     display: inline-flex;
     flex: none;
     align-items: center;
-    width: 36px;
-    height: 20px;
-    padding: 2px;
-    border: 1px solid var(--color-border);
-    border-radius: 999px;
+    width: var(--switch-track-width);
+    height: var(--switch-track-height);
+    padding: calc((var(--switch-track-height) - var(--switch-thumb-size)) / 2 - var(--border-width));
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-pill);
     background: var(--color-surface-subtle);
     transition: background-color var(--transition-duration), border-color var(--transition-duration);
   }
@@ -102,16 +102,16 @@
 
   .switch :global(.thumb) {
     display: block;
-    width: 14px;
-    height: 14px;
-    border-radius: 999px;
+    width: var(--switch-thumb-size);
+    height: var(--switch-thumb-size);
+    border-radius: var(--radius-pill);
     background: var(--color-text-muted);
     transition: transform var(--transition-duration), background-color var(--transition-duration);
   }
 
   :global(.switch-root[data-state='checked'] .thumb) {
     background: var(--color-on-accent);
-    transform: translateX(16px);
+    transform: translateX(calc(var(--switch-track-width) - var(--switch-thumb-size) - var(--space-xs) - 2 * var(--border-width)));
   }
 
   :global(.switch-root:disabled .thumb) {
@@ -125,7 +125,7 @@
   }
 
   .description {
-    margin-left: calc(36px + var(--space-sm));
+    margin-left: calc(var(--switch-track-width) + var(--space-sm));
     color: var(--color-text-secondary);
     font-size: var(--font-size-body-sm);
     line-height: var(--line-height-body);

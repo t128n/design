@@ -76,7 +76,7 @@
 
   .progress :global(.progress-root) {
     position: relative;
-    height: 4px;
+    height: var(--track-size);
     width: 100%;
     overflow: hidden;
     border-radius: var(--radius-sm);

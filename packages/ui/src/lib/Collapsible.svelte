@@ -64,8 +64,8 @@
   }
 
   :global(.collapsible .collapsible-trigger):focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
     border-radius: var(--radius-sm);
   }
 
@@ -79,8 +79,8 @@
   }
 
   :global(.collapsible .collapsible-chevron) {
-    width: 16px;
-    height: 16px;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
     flex-shrink: 0;
     transition: transform var(--transition-duration);
     color: var(--color-text-secondary);

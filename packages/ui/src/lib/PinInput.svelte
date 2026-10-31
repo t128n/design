@@ -111,9 +111,9 @@
     position: relative;
     display: grid;
     place-items: center;
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--color-border);
+    width: var(--control-height-lg);
+    height: var(--control-height-lg);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     color: var(--color-text-primary);
@@ -126,8 +126,8 @@
   }
 
   .pin-field :global(.pin-cell[data-active]):focus-within {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .pin-field :global(.pin-root[aria-invalid='true']) :global(.pin-cell) {

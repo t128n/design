@@ -35,8 +35,8 @@
     display: grid;
     gap: var(--space-xs);
     padding: var(--space-sm) var(--space-md);
-    border: 1px solid var(--color-border);
-    border-left: 3px solid var(--color-text-muted);
+    border: var(--border-width) solid var(--color-border);
+    border-left: var(--border-width-accent) solid var(--color-text-muted);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     color: var(--color-text-primary);

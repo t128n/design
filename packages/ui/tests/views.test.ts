@@ -146,11 +146,12 @@ describe('composed workspace views', () => {
     expect(landing).toContain('<section class="feature"');
   });
 
-  it('test_page_fill: Landing fills the viewport in normal flow', async () => {
+  it('test_page_fill: Landing stays in normal document flow without a viewport shell', async () => {
     const landing = await readStory('../src/stories/Landing.stories.svelte');
     const root = blockFor(landing, '.landing');
 
-    expect(root).toContain('min-height: 100vh');
+    expect(root).not.toContain('min-height');
+    expect(root).not.toContain('100vh');
     expect(root).not.toContain('position: fixed');
     expect(root).not.toContain('position: absolute');
   });
@@ -208,14 +209,15 @@ describe('composed workspace views', () => {
     expect(appShell).not.toMatch(/<Table[^>]*\bcaption=/);
   });
 
-  it('fills the workspace for PageHeader stories', async () => {
+  it('fills the workspace for PageHeader stories through Container and a block-padding page', async () => {
     const pageHeader = await readStory('../src/stories/PageHeader.stories.svelte');
-    const storyRule = pageHeader.match(/\.story\s*\{([^}]*)\}/)?.[1] ?? '';
+    const pageRule = blockFor(pageHeader, ':global(.page)');
 
     expect(pageHeader).toContain("layout: 'fullscreen'");
-    expect(storyRule).toContain('background: var(--color-workspace)');
-    expect(storyRule).toContain('min-height: 100vh');
-    expect(storyRule).toContain('padding:');
+    expect(pageRule).toContain('background: var(--color-workspace)');
+    expect(pageRule).toContain('padding-block: var(--space-2xl)');
+    expect(pageRule).not.toContain('100vh');
+    expect(pageHeader).toContain('<Container width="content" padding="xl" class="page">');
     expect(pageHeader).toContain(':global(.page-header)');
     expect(pageHeader).toContain(':global(.table-wrap)');
     expect(pageHeader).toContain('max-width: var(--layout-content-width)');
@@ -228,9 +230,12 @@ describe('composed workspace views', () => {
   it('renders Personal as one quiet reading surface with token typography', async () => {
     const personal = await readStory('../src/stories/Personal.stories.svelte');
 
-    expect(blockFor(personal, '.page')).toContain('background: var(--color-workspace)');
+    expect(blockFor(personal, ':global(.page)')).toContain('background: var(--color-workspace)');
+    expect(blockFor(personal, ':global(.page)')).not.toContain('100vh');
+    expect(personal).toContain('as="main"');
+    expect(personal).toContain('width="reading"');
+    expect(personal).toContain('<Container');
     expect(personal).not.toContain('background: var(--color-canvas)');
-    expect(blockFor(personal, '.personal')).toContain('max-width: var(--layout-reading-width)');
     expect(personal).toContain('<Link');
     expect(personal).not.toContain('<Card');
     expect(personal).not.toContain('letter-spacing');

@@ -12,7 +12,8 @@
 
 :root {
   color: var(--color-text-primary);
-  background: var(--color-canvas);
+  background-color: var(--color-canvas);
+  accent-color: var(--color-accent);
   font-family: var(--font-family-sans);
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-regular);
@@ -22,7 +23,8 @@
 body {
   margin: 0;
   min-width: 320px;
-  background: var(--color-canvas);
+  color: var(--color-text-primary);
+  background-color: var(--color-canvas);
 }
 
 button,

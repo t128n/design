@@ -50,32 +50,32 @@
   }
 
   .marker-disc {
-    padding-inline-start: var(--space-xl);
+    padding-inline-start: var(--list-marker-indent);
     list-style-type: disc;
   }
 
   .marker-circle {
-    padding-inline-start: var(--space-xl);
+    padding-inline-start: var(--list-marker-indent);
     list-style-type: circle;
   }
 
   .marker-square {
-    padding-inline-start: var(--space-xl);
+    padding-inline-start: var(--list-marker-indent);
     list-style-type: square;
   }
 
   .marker-decimal {
-    padding-inline-start: var(--space-xl);
+    padding-inline-start: var(--list-marker-indent);
     list-style-type: decimal;
   }
 
   .marker-lower-alpha {
-    padding-inline-start: var(--space-xl);
+    padding-inline-start: var(--list-marker-indent);
     list-style-type: lower-alpha;
   }
 
   .marker-upper-roman {
-    padding-inline-start: var(--space-xl);
+    padding-inline-start: var(--list-marker-indent);
     list-style-type: upper-roman;
   }
 

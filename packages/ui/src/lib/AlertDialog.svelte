@@ -102,7 +102,7 @@
     left: 50%;
     z-index: 51;
     width: min(calc(100vw - 2rem), 28rem);
-    max-height: calc(100vh - 2rem);
+    max-height: calc(100dvh - 2rem);
     overflow: auto;
     border: 0;
     background: transparent;
@@ -112,7 +112,7 @@
   .alert-dialog-panel {
     position: relative;
     padding: var(--space-lg);
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-lg);
     background: var(--color-surface);
     box-shadow: var(--shadow-overlay);
@@ -148,7 +148,7 @@
   }
 
   :global(.alert-dialog-content:focus-visible) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 </style>

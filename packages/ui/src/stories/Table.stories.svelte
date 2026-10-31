@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Badge, Button, Table, Text } from '../index.js';
+  import { Badge, Button, Container, Table, Text } from '../index.js';
   import '../styles/index.css';
 
   const columns = [
@@ -19,7 +19,7 @@
 </script>
 
 <Story name="Default" asChild>
-  <div class="page">
+  <Container width="content" padding="2xl" class="page">
     <section class="section" aria-labelledby="active-projects-heading">
       <div class="section-heading">
         <div class="section-copy">
@@ -51,11 +51,11 @@
         </tr>
       </Table>
     </section>
-  </div>
+  </Container>
 </Story>
 
 <Story name="Bordered" asChild>
-  <div class="page">
+  <Container width="content" padding="2xl" class="page">
     <section class="section" aria-labelledby="archived-projects-heading">
       <div class="section-heading">
         <div class="section-copy">
@@ -95,11 +95,11 @@
         </tr>
       </Table>
     </section>
-  </div>
+  </Container>
 </Story>
 
 <Story name="Dense" asChild>
-  <div class="page">
+  <Container width="content" padding="2xl" class="page">
     <section class="section" aria-labelledby="project-health-heading">
       <div class="section-copy">
         <Text variant="subheading" as="h2" id="project-health-heading">Project health</Text>
@@ -140,11 +140,11 @@
         </tr>
       </Table>
     </section>
-  </div>
+  </Container>
 </Story>
 
 <Story name="Narrow screen" globals={{ viewport: { value: 'narrow375' } }} asChild>
-  <div class="page">
+  <Container width="content" padding="2xl" class="page">
     <section class="section" aria-labelledby="narrow-projects-heading">
       <div class="section-copy">
         <Text variant="subheading" as="h2" id="narrow-projects-heading">
@@ -175,14 +175,13 @@
         </tr>
       </Table>
     </section>
-  </div>
+  </Container>
 </Story>
 
 <style>
-  .page {
+  :global(.page) {
     box-sizing: border-box;
-    min-height: 100vh;
-    padding: var(--space-2xl) var(--space-xl);
+    padding-block: var(--space-2xl);
     background: var(--color-workspace);
   }
 

@@ -185,7 +185,7 @@
     gap: 2px;
     min-height: var(--control-height);
     padding: 0 var(--space-md);
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     color: var(--color-text-primary);
@@ -197,8 +197,8 @@
   }
 
   .date-range-picker :global(.date-range-picker-input:focus-within) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .date-range-picker :global(.date-range-picker-input[data-invalid]:focus-within) {
@@ -210,7 +210,7 @@
   }
 
   .date-range-picker :global(.date-range-picker-segment) {
-    padding: 2px 4px;
+    padding: 2px var(--space-xs);
     border-radius: var(--radius-sm);
     outline: none;
   }
@@ -225,8 +225,8 @@
   }
 
   .date-range-picker :global(.icon) {
-    width: 16px;
-    height: 16px;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
   }
 
   .date-range-picker :global(.date-range-picker-content) {
@@ -235,7 +235,7 @@
 
   .date-range-picker-panel {
     padding: var(--space-md);
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-lg);
     background: var(--color-surface);
     box-shadow: var(--shadow-overlay);
@@ -252,9 +252,9 @@
   .date-range-picker-panel :global(.calendar-nav) {
     display: grid;
     place-items: center;
-    width: 32px;
-    height: 32px;
-    border: 1px solid transparent;
+    width: var(--control-height-sm);
+    height: var(--control-height-sm);
+    border: var(--border-width) solid transparent;
     border-radius: var(--radius-sm);
     background: transparent;
     color: var(--color-text-secondary);
@@ -267,8 +267,8 @@
   }
 
   .date-range-picker-panel :global(.calendar-nav:focus-visible) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .date-range-picker-panel :global(.calendar-heading) {
@@ -291,13 +291,13 @@
 
   .date-range-picker-panel :global(.calendar-grid-row) {
     display: grid;
-    grid-template-columns: repeat(7, 2rem);
+    grid-template-columns: repeat(7, var(--calendar-cell-size));
   }
 
   .date-range-picker-panel :global(.calendar-head-cell) {
     display: grid;
     place-items: center;
-    height: 2rem;
+    height: var(--calendar-cell-size);
     color: var(--color-text-muted);
     font-size: var(--font-size-caption);
     font-weight: var(--font-weight-medium);
@@ -311,9 +311,9 @@
   .date-range-picker-panel :global(.calendar-day) {
     display: grid;
     place-items: center;
-    width: 2rem;
-    height: 2rem;
-    border: 1px solid transparent;
+    width: var(--calendar-cell-size);
+    height: var(--calendar-cell-size);
+    border: var(--border-width) solid transparent;
     border-radius: var(--radius-sm);
     background: transparent;
     color: var(--color-text-primary);
@@ -326,8 +326,8 @@
   }
 
   .date-range-picker-panel :global(.calendar-day:focus-visible) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .date-range-picker-panel :global(.calendar-day[data-today]:not([data-selected]):not([data-selection-start]):not([data-selection-end])) {
