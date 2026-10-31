@@ -120,7 +120,9 @@ describe('Sidebar', () => {
     expect(sidebar).toContain('class="drawer-overlay"');
     expect(sidebar).toContain('class="drawer-content"');
     expect(sidebar).toContain('<Dialog.Title class="drawer-title">Navigation</Dialog.Title>');
-    expect(sidebar).toContain(
+    expect(sidebar).toContain('class="drawer-description"');
+    expect(sidebar).toContain('Primary navigation');
+    expect(sidebar).not.toContain(
       '<Dialog.Description class="drawer-description">{label}</Dialog.Description>'
     );
     expect(sidebar).toContain('class="drawer-close"');
@@ -141,6 +143,21 @@ describe('Sidebar', () => {
     expect(mobile).toContain('display: inline-flex');
     expect(mobile).toContain('.desktop-nav');
     expect(mobile).toContain('display: none');
+  });
+
+  it('test_drawer_anchor: the drawer is a left-anchored panel with compact, top-aligned rows', async () => {
+    const sidebar = await readSource('../src/lib/Sidebar.svelte');
+    const content = sidebar.slice(
+      sidebar.indexOf('class="drawer-content"'),
+      sidebar.indexOf('<div class="drawer-panel">')
+    );
+
+    expect(content).toContain('style:left="0"');
+    expect(content).toContain('style:top="0"');
+    expect(content).toContain('style:bottom="0"');
+    expect(content).not.toContain('style:right="0"');
+    expect(rule(sidebar, '.drawer-nav')).toContain('align-content: start');
+    expect(rule(sidebar, '.section')).toContain('align-content: start');
   });
 
   it('test_scroll: the desktop sidebar is sticky with independent vertical overflow', async () => {

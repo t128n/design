@@ -111,13 +111,15 @@
             class="drawer-content"
             style:position="fixed"
             style:top="0"
-            style:right="0"
+            style:left="0"
             style:bottom="0"
           >
             <div class="drawer-panel">
               <div class="drawer-header">
                 <Dialog.Title class="drawer-title">Navigation</Dialog.Title>
-                <Dialog.Description class="drawer-description">{label}</Dialog.Description>
+                <Dialog.Description class="drawer-description"
+                  >Primary navigation</Dialog.Description
+                >
               </div>
               <Dialog.Close>
                 {#snippet child({ props })}
@@ -274,6 +276,7 @@
   .drawer-nav {
     display: grid;
     flex: 1 1 auto;
+    align-content: start;
     gap: var(--space-xl);
     min-height: 0;
     overflow-y: auto;
@@ -281,6 +284,7 @@
 
   .section {
     display: grid;
+    align-content: start;
     gap: var(--space-xs);
   }
 
