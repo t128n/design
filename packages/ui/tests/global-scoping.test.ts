@@ -2,6 +2,7 @@ import { readdir, readFile } from 'node:fs/promises';
 import { dirname, extname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
+import { STORY_GLOBAL_CLASSES, STORY_GLOBAL_ELEMENTS } from './audit-rules';
 
 /**
  * `:global(...)` classification used across the framework
@@ -111,12 +112,6 @@ const GLOBAL_ALLOWLIST = new Map<string, string>([
 
 /** Structural selectors that are allowed when a scoped class anchors them. */
 const ALLOWED_STRUCTURAL = new Set(['*', 'td', 'th', 'tr', 'tbody', 'thead', 'li', 'img', 'video', 'a']);
-
-/** Story-only chrome. The story canvas is outside the component tree. */
-const STORY_GLOBAL_CLASSES = new Map<string, string>([
-  ['page', 'fullscreen story wrapper background; the wrapper is created by Storybook, not by a component']
-]);
-const STORY_GLOBAL_ELEMENTS = new Set(['body', 'h1', 'h2', 'h3']);
 
 const isNamespaced = (name: string): boolean =>
   ALLOWED_FAMILY_PREFIXES.some((prefix) => name === prefix || name.startsWith(`${prefix}-`));

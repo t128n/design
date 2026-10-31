@@ -1,76 +1,109 @@
-import { readdir, readFile } from 'node:fs/promises';
-import { dirname, extname, join, relative } from 'node:path';
+import { readFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
+import {
+  allowlists,
+  importantViolations,
+  inlineStyleViolations,
+  libRoot,
+  literalTypeViolations,
+  pageSectionCssViolations,
+  rawListViolations,
+  rawProseViolations,
+  rawPxViolations,
+  rawStructureViolations,
+  readSources,
+  storiesRoot,
+  storyGlobalViolations,
+  viewportShellViolations
+} from './audit-rules';
+
+const readFileSource = (path: string) => readFile(path, 'utf8');
 
 const uiRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const srcRoot = join(uiRoot, 'src');
-const libRoot = join(srcRoot, 'lib');
-const storiesRoot = join(srcRoot, 'stories');
 const designPath = join(uiRoot, '..', '..', 'DESIGN.md');
-
-type SourceFile = { path: string; relativePath: string; source: string };
-
-const walk = async (root: string): Promise<string[]> => {
-  const entries = await readdir(root, { withFileTypes: true });
-  const files = await Promise.all(
-    entries.map((entry) => {
-      const path = join(root, entry.name);
-      return entry.isDirectory() ? walk(path) : Promise.resolve([path]);
-    })
-  );
-  return files.flat();
-};
-
-const readSvelteSources = async (root: string): Promise<SourceFile[]> => {
-  const paths = (await walk(root)).filter((path) => extname(path) === '.svelte');
-  return Promise.all(
-    paths.map(async (path) => ({
-      path,
-      relativePath: relative(uiRoot, path),
-      source: await readFile(path, 'utf8')
-    }))
-  );
-};
-
-const RAW_PROSE = /<(p|h[1-6])\b/g;
-const RAW_LIST = /<(ul|ol|li)\b/g;
-const TYPE_DECLARATION = /(font-size|font-weight|line-height|font-family):\s*([^;]+);/g;
-
-const matches = (sources: SourceFile[], pattern: RegExp): string[] =>
-  sources.flatMap(({ relativePath, source }) =>
-    [...source.matchAll(pattern)].map((match) => `${relativePath}: ${match[0].trim()}`)
-  );
-
-const literalTypeMatches = (sources: SourceFile[]): string[] =>
-  sources.flatMap(({ relativePath, source }) =>
-    [...source.matchAll(TYPE_DECLARATION)]
-      .filter((match) => !match[2].trim().startsWith('var('))
-      .map((match) => `${relativePath}: ${match[0].trim()}`)
-  );
 
 describe('framework audit', () => {
   it('test_no_raw_prose: stories and components use Text for paragraphs and headings', async () => {
-    const sources = [...(await readSvelteSources(libRoot)), ...(await readSvelteSources(storiesRoot))];
+    const sources = [...(await readSources(libRoot)), ...(await readSources(storiesRoot))];
 
-    expect(matches(sources, RAW_PROSE)).toEqual([]);
+    expect(rawProseViolations(sources)).toEqual([]);
   });
 
   it('test_no_raw_lists: stories use List for ordered and unordered items', async () => {
-    const sources = await readSvelteSources(storiesRoot);
+    const sources = await readSources(storiesRoot);
 
-    expect(matches(sources, RAW_LIST)).toEqual([]);
+    expect(rawListViolations(sources)).toEqual([]);
   });
 
   it('test_literal_type: component and story styles use typography tokens', async () => {
-    const sources = [...(await readSvelteSources(libRoot)), ...(await readSvelteSources(storiesRoot))];
+    const sources = [...(await readSources(libRoot)), ...(await readSources(storiesRoot))];
 
-    expect(literalTypeMatches(sources)).toEqual([]);
+    expect(literalTypeViolations(sources)).toEqual([]);
+  });
+
+  it('test_no_raw_structure: stories use Table, Section, and List instead of raw structure', async () => {
+    const sources = await readSources(storiesRoot);
+
+    expect(rawStructureViolations(sources)).toEqual([]);
+  });
+
+  it('test_no_inline_styles: prose and stories style through classes unless the value is dynamic', async () => {
+    const sources = [...(await readSources(libRoot)), ...(await readSources(storiesRoot))];
+
+    expect(inlineStyleViolations(sources)).toEqual([]);
+  });
+
+  it('test_story_raw_px: story CSS above the border scale uses rem or a token', async () => {
+    const sources = await readSources(storiesRoot);
+
+    expect(
+      rawPxViolations(sources, {
+        ruleId: 'framework.raw-px',
+        includeInline: true
+      })
+    ).toEqual([]);
+  });
+
+  it('test_story_viewport_shell: stories keep normal document flow', async () => {
+    const sources = await readSources(storiesRoot);
+
+    expect(
+      viewportShellViolations(sources, {
+        ruleId: 'framework.viewport-shell',
+        allowlist: allowlists.viewportShell
+      })
+    ).toEqual([]);
+  });
+
+  it('test_story_important: only the reduced-motion override may use !important', async () => {
+    const sources = await readSources(srcRoot, ['.svelte', '.css']);
+
+    expect(
+      importantViolations(sources, {
+        ruleId: 'framework.important',
+        allowlist: allowlists.important
+      })
+    ).toEqual([]);
+  });
+
+  it('test_story_globals: story globals reuse the global-scoping allowlist', async () => {
+    const sources = await readSources(storiesRoot);
+
+    expect(storyGlobalViolations(sources)).toEqual([]);
+  });
+
+  it('test_page_section_css: stories do not recreate Page or Section geometry', async () => {
+    const sources = await readSources(storiesRoot);
+
+    expect(pageSectionCssViolations(sources)).toEqual([]);
   });
 
   it('test_content_components: content surfaces delegate type to Text', async () => {
     for (const component of ['PageHeader', 'Hero', 'Card', 'Alert', 'Footer', 'Breadcrumbs']) {
-      const source = await readFile(join(libRoot, `${component}.svelte`), 'utf8');
+      const source = await readFileSource(join(libRoot, `${component}.svelte`));
 
       expect(source, component).toContain("from './Text.svelte'");
       expect(source, component).not.toMatch(/(font-size|font-weight|line-height|font-family):/);
@@ -78,8 +111,8 @@ describe('framework audit', () => {
   });
 
   it('test_typography_contract: label is 14px/1.5 and the framework scale is documented', async () => {
-    const tokens = await readFile(join(srcRoot, 'styles/tokens.css'), 'utf8');
-    const design = await readFile(designPath, 'utf8');
+    const tokens = await readFileSource(join(srcRoot, 'styles/tokens.css'));
+    const design = await readFileSource(designPath);
 
     expect(tokens).toContain('--font-size-label: 0.875rem');
     expect(tokens).toContain('--line-height-label: 1.5');
@@ -90,7 +123,7 @@ describe('framework audit', () => {
   });
 
   it('test_foundations: the type specimen uses the exact brief copy and components', async () => {
-    const foundations = await readFile(join(storiesRoot, 'Foundations.stories.svelte'), 'utf8');
+    const foundations = await readFileSource(join(storiesRoot, 'Foundations.stories.svelte'));
 
     expect(foundations).toContain('Display — IBM Plex Sans, 32px');
     expect(foundations).toContain('Heading — IBM Plex Sans, 24px');
@@ -102,13 +135,13 @@ describe('framework audit', () => {
 
   it('test_primitive_stories: every framework primitive has a story and a real screen use', async () => {
     for (const component of ['Text', 'Code', 'Stack', 'Inline', 'Grid', 'Container', 'List']) {
-      const story = await readFile(join(storiesRoot, `${component}.stories.svelte`), 'utf8');
+      const story = await readFileSource(join(storiesRoot, `${component}.stories.svelte`));
 
       expect(story, component).toContain(`title: 'Primitives/${component}'`);
     }
 
     for (const view of ['Dashboard', 'Settings', 'Landing']) {
-      const story = await readFile(join(storiesRoot, `${view}.stories.svelte`), 'utf8');
+      const story = await readFileSource(join(storiesRoot, `${view}.stories.svelte`));
 
       expect(story, view).toContain('Text');
     }
