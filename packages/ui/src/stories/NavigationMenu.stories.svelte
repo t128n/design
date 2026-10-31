@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import NavigationMenu from '../lib/NavigationMenu.svelte';
+  import { NavigationMenu } from '../index.js';
 
   const { Story } = defineMeta({
     title: 'Components/Navigation/NavigationMenu',

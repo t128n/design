@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import Menubar from '../lib/Menubar.svelte';
+  import { Menubar } from '../index.js';
 
   const { Story } = defineMeta({
     title: 'Components/Overlays/Menubar',

@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import ContextMenu from '../lib/ContextMenu.svelte';
+  import { ContextMenu } from '../index.js';
 
   const { Story } = defineMeta({
     title: 'Components/Overlays/ContextMenu',
