@@ -25,8 +25,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      # The repository ships a `bun.lock` (there is no pnpm lockfile), so CI
-      # uses Bun just like the Dockerfile does.
+      # The repository is Bun-native (`bun.lock` + `packageManager`), matching
+      # the Dockerfile.
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
         with:
