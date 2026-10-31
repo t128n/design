@@ -210,9 +210,11 @@
     background: var(--color-canvas);
   }
 
-  .narrow-frame :global(.app-shell),
-  .narrow-frame :global(.app-shell.with-sidebar) {
-    grid-template-columns: minmax(0, 1fr);
+  .narrow-frame :global(.app-shell) {
     min-height: 0;
+  }
+
+  .narrow-frame :global(.app-shell.with-sidebar .body) {
+    grid-template-columns: minmax(0, 1fr);
   }
 </style>

@@ -47,6 +47,46 @@ describe('AppShell', () => {
     );
   });
 
+  it('renders the navbar before the body and outside the main region', async () => {
+    const shell = await shellSource();
+    const navbar = shell.indexOf('<div class="navbar"');
+    const body = shell.indexOf('<div class="body"');
+    const main = shell.indexOf('<main');
+    const mainEnd = shell.indexOf('</main>');
+
+    expect(navbar).toBeGreaterThan(-1);
+    expect(body).toBeGreaterThan(navbar);
+    expect(main).toBeGreaterThan(body);
+    expect(shell.slice(main, mainEnd)).not.toContain('class="navbar"');
+  });
+
+  it('sizes the shell rows from the navbar modifier', async () => {
+    const shell = await shellSource();
+    const hasNavbarRule = shell.slice(shell.indexOf('.app-shell.has-navbar'));
+
+    expect(shell).toContain('class:has-navbar={Boolean(navbar)}');
+    expect(hasNavbarRule).toContain('grid-template-rows: auto minmax(0, 1fr)');
+  });
+
+  it('moves the sidebar column onto the body container', async () => {
+    const shell = await shellSource();
+    const sidebarBody = shell.slice(shell.indexOf('.app-shell.with-sidebar .body'));
+
+    expect(shell).toContain('<div class="body">');
+    expect(sidebarBody).toContain(
+      'grid-template-columns: var(--layout-sidebar-width) minmax(0, 1fr)'
+    );
+  });
+
+  it('collapses the narrow sidebar body to content height above a filling main row', async () => {
+    const shell = await shellSource();
+    const media = shell.slice(shell.indexOf('@media (max-width: 800px)'));
+    const mediaBody = media.slice(media.indexOf('.app-shell.with-sidebar .body'));
+
+    expect(mediaBody).toContain('grid-template-columns: minmax(0, 1fr)');
+    expect(mediaBody).toContain('grid-template-rows: auto minmax(0, 1fr)');
+  });
+
   it('measures content with the layout content width token', async () => {
     const shell = await shellSource();
 
@@ -164,6 +204,7 @@ describe('AppShell stories', () => {
     expect(narrow).toContain('<AppShell');
     expect(stories).toContain(':global(.app-shell)');
     expect(stories).toContain('min-height: 0');
+    expect(stories).toContain(':global(.app-shell.with-sidebar .body)');
     expect(narrow).toContain('<PageHeader');
   });
 });
