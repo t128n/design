@@ -114,7 +114,12 @@ Markers: `none`, `disc`, `circle`, `square`, `decimal`, `lower-alpha`, `upper-ro
 
 ## Checks
 
+The repository is Bun-native: `bun.lock` is the only lockfile and
+`packageManager` pins Bun. Use `bun install` once, then run the checks from the
+repository root. Do not use pnpm or npm.
+
 ```sh
+bun install
 bun run test
 bun run test:storybook
 bun run build-storybook
