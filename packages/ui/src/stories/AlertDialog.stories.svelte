@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import AlertDialog from '../lib/AlertDialog.svelte';
+  import { AlertDialog } from '../index.js';
 
   const { Story } = defineMeta({
     title: 'Components/Overlays/AlertDialog',

@@ -123,6 +123,11 @@ jobs:
       - name: Build library
         run: bun run build
 
+      # Fails on missing dist entrypoints, dropped stylesheet markers, bundle
+      # budget regressions, incomplete tarball contents, and consumer build issues.
+      - name: Verify package and consumer fixture
+        run: bun run verify
+
       - name: Build Storybook
         run: bun run build-storybook
 
