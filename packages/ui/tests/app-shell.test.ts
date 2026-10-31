@@ -312,7 +312,7 @@ describe('AppShell stories', () => {
 
     expect(combined).toContain('navbar={combinedNavbar}');
     expect(combined).toContain('sidebar={combinedSidebar}');
-    expect(combinedNavbar).toContain('brand="Stellar"');
+    expect(combinedNavbar).toContain('brand="Acme"');
     expect(combinedNavbar).toContain('actions={navbarUtilities}');
     expect(combinedNavbar).not.toContain('links=');
     expect(snippetBlock(stories, 'combinedSidebar')).toContain('<Sidebar');

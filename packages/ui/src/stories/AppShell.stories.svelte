@@ -109,7 +109,7 @@
 {/snippet}
 
 {#snippet topNavbar()}
-  <Navbar brand="Stellar" links={projectLinks} actions={navbarUtilities} />
+  <Navbar brand="Acme" links={projectLinks} actions={navbarUtilities} />
 {/snippet}
 
 {#snippet sidebarNav()}
@@ -117,7 +117,7 @@
 {/snippet}
 
 {#snippet combinedNavbar()}
-  <Navbar brand="Stellar" actions={navbarUtilities} />
+  <Navbar brand="Acme" actions={navbarUtilities} />
 {/snippet}
 
 {#snippet combinedSidebar()}

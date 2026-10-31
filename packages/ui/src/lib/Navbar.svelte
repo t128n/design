@@ -17,7 +17,7 @@
   };
 
   let {
-    brand = 'Stellar',
+    brand = 'Acme',
     links = [],
     actions,
     label = 'Primary'
