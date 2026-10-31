@@ -120,8 +120,8 @@ e.g. `render(Sidebar, { sections })` -> click Navigation -> dialog -> Escape -> 
 **Notes:** Polyfill ResizeObserver in setup; if a Bits UI focus assertion is unstable, assert the dialog closes and the trigger remains the active element after a tick.
 
 ## Review Focus
-packages/ui: protocol, encoding — App type web UI. Protocol covers menu/drawer open-close, focus restoration, and navigation semantics; encoding covers no overflow, accessible names, ARIA state, and truncation.
-**Risks:** active state stacking signals; duplicated nav in drawer and page; menu/drawer focus leaks; clipped labels; page-level overflow; outlined utilities; icons used decoratively; API variants that blur link/button semantics.
+packages/ui: protocol, encoding — App type web UI. Protocol covers menu/drawer open-close, focus restoration, and navigation semantics; encoding covers no overflow, accessible names, ARIA attributes, and truncation.
+Watch for stacked active treatments; duplicated nav in drawer and page; menu/drawer focus leaks; clipped labels; page-level overflow; outlined utilities; decorative icons; variants that blur link/button semantics.
 **Probe entry:** `serve=storybook dev -p 6006`
 
 ## Self-review
