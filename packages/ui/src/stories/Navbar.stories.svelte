@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Button, Navbar } from '../index.js';
+  import { Button, Link, Navbar } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -31,13 +31,15 @@
     { label: 'Data integration pipelines' },
     { label: 'Compliance and retention' },
     { label: 'Workspace access reviews' },
-    { label: 'Usage and billing history' }
+    { label: 'Usage and billing history' },
+    { label: 'Audit log exports' }
   ];
 </script>
 
 {#snippet accountUtilities()}
-  <a class="utility" href="#">Account</a>
-  <Button variant="secondary">Sign in</Button>
+  <Link variant="ghost" href="/help">Help</Link>
+  <Link variant="ghost" href="/account">Account</Link>
+  <Button variant="ghost">Sign out</Button>
 {/snippet}
 
 <Story name="Basic" asChild>
@@ -48,42 +50,10 @@
   <Navbar links={accountLinks} actions={accountUtilities} />
 </Story>
 
-<Story name="Narrow screen" asChild>
-  <div class="narrow">
-    <Navbar links={accountLinks} actions={accountUtilities} />
-  </div>
+<Story name="Narrow screen" globals={{ viewport: { value: 'narrow320' } }} asChild>
+  <Navbar links={accountLinks} actions={accountUtilities} />
 </Story>
 
-<Story name="Long labels" asChild>
-  <div class="scroll-frame">
-    <Navbar links={longLinks} />
-  </div>
+<Story name="Long labels" globals={{ viewport: { value: 'tablet768' } }} asChild>
+  <Navbar links={longLinks} actions={accountUtilities} />
 </Story>
-
-<style>
-  .utility {
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-label);
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .utility:hover {
-    color: var(--color-text-primary);
-  }
-
-  .utility:focus-visible {
-    outline: var(--border-width-emphasis) solid var(--color-focus);
-    outline-offset: 2px;
-  }
-
-  .narrow {
-    width: 360px;
-    max-width: 100%;
-  }
-
-  .scroll-frame {
-    width: 420px;
-    max-width: 100%;
-  }
-</style>

@@ -14,7 +14,6 @@ describe('Navbar', () => {
     const navbar = await readSource('../src/lib/Navbar.svelte');
 
     expect(navbar).not.toContain('.mark');
-    expect(navbar).not.toContain('.mark {');
     expect(blockFor(navbar, '.brand')).not.toContain('background: var(--color-accent)');
   });
 
@@ -26,7 +25,6 @@ describe('Navbar', () => {
     expect(active).toContain('color: var(--color-text-primary)');
     expect(active).not.toMatch(/^\s*color:\s*var\(--color-accent\)/m);
     expect(active).not.toContain('background');
-    expect(navbar).toContain('aria-current={link.active');
     expect(navbar).toContain('aria-current={link.active ? \'page\' : undefined}');
   });
 
@@ -38,6 +36,82 @@ describe('Navbar', () => {
     expect(link).toContain('font-weight: var(--font-weight-regular)');
   });
 
+  it('test_no_border: the navbar has no bottom border', async () => {
+    const navbar = await readSource('../src/lib/Navbar.svelte');
+    const root = blockFor(navbar, '.navbar');
+
+    expect(root).not.toContain('border-bottom');
+    expect(navbar).not.toContain('border-bottom: var(--border-width) solid var(--color-border)');
+  });
+
+  it('test_structure: brand, nav slot, spacer, and utilities in one row', async () => {
+    const navbar = await readSource('../src/lib/Navbar.svelte');
+
+    expect(navbar).toContain('class="brand"');
+    expect(navbar).toContain('class="links"');
+    expect(navbar).toContain('class="spacer"');
+    expect(navbar).toContain('class="actions"');
+
+    const brand = navbar.indexOf('class="brand"');
+    const links = navbar.indexOf('class="links"');
+    const spacer = navbar.indexOf('class="spacer"');
+    const actions = navbar.indexOf('class="actions"');
+
+    expect(brand).toBeGreaterThan(-1);
+    expect(brand).toBeLessThan(links);
+    expect(links).toBeLessThan(spacer);
+    expect(spacer).toBeLessThan(actions);
+  });
+
+  it('test_content_fit: hidden measurement row and ResizeObserver toggle compact', async () => {
+    const navbar = await readSource('../src/lib/Navbar.svelte');
+
+    expect(navbar).toContain('class="measure"');
+    expect(navbar).toContain('bind:this={measureLinks}');
+    expect(navbar).toContain('new ResizeObserver');
+    expect(navbar).toContain('document.fonts');
+    expect(navbar).toContain("window.addEventListener('resize'");
+    expect(navbar).toContain('compact = needed > root.clientWidth');
+    expect(navbar).not.toContain('overflow-x: auto');
+    expect(navbar).not.toContain('@media (max-width: 640px)');
+  });
+
+  it('test_compact_trigger: Menu icon, visible label, current destination, and ARIA wiring', async () => {
+    const navbar = await readSource('../src/lib/Navbar.svelte');
+
+    expect(navbar).toContain("import { Popover } from 'bits-ui'");
+    expect(navbar).toContain('~icons/carbon/menu');
+    expect(navbar).toContain('<span class="menu-label">Menu</span>');
+    expect(navbar).toContain('Navigation menu');
+    expect(navbar).toContain('currentLabel');
+    expect(navbar).toContain('aria-expanded={menuOpen}');
+    expect(navbar).toContain('aria-controls={menuId}');
+    expect(navbar).toContain('id={menuId}');
+    expect(navbar).toContain('.navbar.compact .links');
+    expect(navbar).toContain('display: none');
+  });
+
+  it('test_menu_links: popover lists every destination, marks active, closes on click', async () => {
+    const navbar = await readSource('../src/lib/Navbar.svelte');
+    const active = blockFor(navbar, ':global(.navbar-menu-link.active)');
+
+    expect(navbar).toContain('<Popover.Root');
+    expect(navbar).toContain('<Popover.Content');
+    expect(navbar).toContain('{#each links as link}');
+    expect(navbar).toContain('aria-current={link.active ? \'page\' : undefined}');
+    expect(navbar).toContain('onclick={() => (menuOpen = false)}');
+    expect(active).toContain('background: var(--color-surface-subtle)');
+    expect(active).toContain('color: var(--color-text-primary)');
+  });
+
+  it('test_keyboard: Bits UI Popover owns dismissal and focus restoration', async () => {
+    const navbar = await readSource('../src/lib/Navbar.svelte');
+
+    expect(navbar).toContain("import { Popover } from 'bits-ui'");
+    expect(navbar).toContain('bind:open={menuOpen}');
+    expect(navbar).not.toContain("addEventListener('keydown'");
+  });
+
   it('test_actions_are_utilities: actions hold account utilities, not creation actions', async () => {
     const navbar = await readSource('../src/lib/Navbar.svelte');
     const story = await readSource('../src/stories/Navbar.stories.svelte');
@@ -46,29 +120,8 @@ describe('Navbar', () => {
     expect(navbar).not.toContain('Export');
     expect(story).not.toContain('New project');
     expect(story).not.toContain('Export');
-    expect(story).toContain('Sign in');
-  });
-
-  it('test_narrow_row: links become a full-width scrollable row below identity and utilities', async () => {
-    const navbar = await readSource('../src/lib/Navbar.svelte');
-    const narrow = blockFor(navbar, '.links');
-
-    expect(navbar).toContain('overflow-x: auto');
-    expect(navbar).toContain('@media (max-width: 640px)');
-    expect(navbar).toContain('flex-wrap: wrap');
-    expect(navbar).toContain('flex-basis: 100%');
-    expect(navbar).toContain('order: 3');
-    expect(navbar).not.toContain('border-top');
-    expect(navbar).not.toContain('overflow: hidden');
-    expect(narrow).toContain('min-width: 0');
-  });
-
-  it('test_long_labels: labels stay on one line inside the scroller', async () => {
-    const navbar = await readSource('../src/lib/Navbar.svelte');
-    const link = blockFor(navbar, '.link');
-
-    expect(link).toContain('white-space: nowrap');
-    expect(navbar).toContain('overflow-x: auto');
+    expect(story).toContain('Help');
+    expect(story).toContain('Account');
   });
 
   it('test_focus_offsets_from_tokens: focus rings use border tokens', async () => {
@@ -83,6 +136,9 @@ describe('Navbar', () => {
     expect(blockFor(navbar, '.link:focus-visible')).toContain(
       'outline-offset: calc(-1 * var(--border-width-emphasis))'
     );
+    expect(blockFor(navbar, '.menu-trigger:focus-visible')).toContain(
+      'outline: var(--border-width-emphasis) solid var(--color-focus)'
+    );
   });
 
   it('test_height_from_tokens: height derives from control height and spacing tokens', async () => {
@@ -92,12 +148,20 @@ describe('Navbar', () => {
     expect(navbar).not.toMatch(/min-height:\s*\d+px/);
   });
 
-  it('test_stories_cover_cases: Basic, Account utilities, Narrow screen, Long labels', async () => {
+  it('test_stories: names, ghost utilities, and viewport globals with no fixed wrapper', async () => {
     const story = await readSource('../src/stories/Navbar.stories.svelte');
 
-    expect(story).toContain('name="Basic"');
-    expect(story).toContain('name="Account utilities"');
-    expect(story).toContain('name="Narrow screen"');
-    expect(story).toContain('name="Long labels"');
+    for (const name of ['Basic', 'Account utilities', 'Narrow screen', 'Long labels']) {
+      expect(story).toContain(`name="${name}"`);
+    }
+
+    expect(story).toContain("viewport: { value: 'narrow320' }");
+    expect(story).toContain("viewport: { value: 'tablet768' }");
+    expect(story).toContain('Link variant="ghost"');
+    expect(story).toContain('Button variant="ghost"');
+    expect(story).not.toContain('variant="secondary"');
+    expect(story).not.toContain('<div class="narrow"');
+    expect(story).not.toContain('scroll-frame');
+    expect(story).not.toContain('width: 360px');
   });
 });
