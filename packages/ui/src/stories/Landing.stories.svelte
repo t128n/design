@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Button, Card, Footer, Hero, Navbar } from '../index.js';
+  import { Button, Card, Footer, Hero, Link, Navbar } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -11,7 +11,7 @@
 </script>
 
 {#snippet navbarActions()}
-  <Button variant="secondary">Sign in</Button>
+  <Link variant="ghost" href="/sign-in">Sign in</Link>
 {/snippet}
 
 {#snippet heroActions()}

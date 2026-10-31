@@ -4,6 +4,7 @@
     AppShell,
     Badge,
     Button,
+    Link,
     Navbar,
     PageHeader,
     Sidebar,
@@ -66,8 +67,8 @@
 </script>
 
 {#snippet navbarUtilities()}
-  <Button variant="secondary">Help</Button>
-  <Button variant="secondary">Account</Button>
+  <Link variant="ghost" href="/help">Help</Link>
+  <Link variant="ghost" href="/account">Account</Link>
 {/snippet}
 
 {#snippet headerActions()}
@@ -120,14 +121,6 @@
   <Sidebar sections={projectSections} label="Workspace" toggleLabel="Workspace" />
 {/snippet}
 
-{#snippet narrowNavbar()}
-  <Navbar brand="Stellar" actions={navbarUtilities} />
-{/snippet}
-
-{#snippet narrowSidebar()}
-  <Sidebar sections={overviewSections} label="Workspace" toggleLabel="Workspace" />
-{/snippet}
-
 <Story name="Top navigation" asChild>
   <AppShell navbar={topNavbar}>
     <PageHeader
@@ -168,22 +161,14 @@
   </AppShell>
 </Story>
 
-<Story name="Narrow screen" asChild>
-  <div class="narrow-frame">
-    <AppShell navbar={narrowNavbar} sidebar={narrowSidebar}>
-      <PageHeader
-        title="Overview"
-        description="What changed, what needs attention, and who owns the next step."
-      />
-      <section class="activity" aria-labelledby="narrow-activity-heading">
-        <h2 id="narrow-activity-heading">Recent activity</h2>
-        <ul>
-          <li><strong>Mara Chen</strong> updated the release plan for Orbit.</li>
-          <li><strong>Devon Ruiz</strong> assigned two reviewers to Atlas.</li>
-        </ul>
-      </section>
-    </AppShell>
-  </div>
+<Story name="Narrow screen" globals={{ viewport: { value: 'narrow375' } }} asChild>
+  <AppShell navbar={combinedNavbar} sidebar={combinedSidebar}>
+    <PageHeader
+      title="Projects"
+      description="Track ownership, status, and recent activity across the workspace."
+    />
+    {@render projectTable()}
+  </AppShell>
 </Story>
 
 <style>
@@ -218,19 +203,5 @@
   .activity strong {
     color: var(--color-text-primary);
     font-weight: var(--font-weight-medium);
-  }
-
-  .narrow-frame {
-    width: min(420px, 100%);
-    margin: 0 auto;
-    background: var(--color-canvas);
-  }
-
-  .narrow-frame :global(.app-shell) {
-    min-height: 0;
-  }
-
-  .narrow-frame :global(.app-shell.with-sidebar .body) {
-    grid-template-columns: minmax(0, 1fr);
   }
 </style>

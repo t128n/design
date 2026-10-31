@@ -5,6 +5,7 @@ const readSource = (path: string) => readFile(new URL(path, import.meta.url), 'u
 
 const shellSource = () => readSource('../src/lib/AppShell.svelte');
 const storySource = () => readSource('../src/stories/AppShell.stories.svelte');
+const previewSource = () => readSource('../../../.storybook/preview.ts');
 
 const storyBlock = (source: string, name: string) => {
   const start = source.indexOf(`name="${name}"`);
@@ -136,6 +137,37 @@ describe('AppShell', () => {
   });
 });
 
+describe('Storybook viewports', () => {
+  it('defines the narrow and desktop viewport presets with px styles', async () => {
+    const preview = await previewSource();
+
+    expect(preview).toContain('narrow320');
+    expect(preview).toContain('narrow375');
+    expect(preview).toContain('tablet768');
+    expect(preview).toContain('desktop1280');
+
+    for (const [width, height] of [
+      ['320px', '800px'],
+      ['375px', '812px'],
+      ['768px', '1024px'],
+      ['1280px', '900px']
+    ]) {
+      expect(preview).toContain(`width: '${width}'`);
+      expect(preview).toContain(`height: '${height}'`);
+    }
+
+    expect(preview).toContain('type:');
+  });
+
+  it('uses the built-in viewport instead of an addon import', async () => {
+    const preview = await previewSource();
+
+    expect(preview).toContain('viewport: {');
+    expect(preview).toContain('options: {');
+    expect(preview).not.toContain('@storybook/addon-viewport');
+  });
+});
+
 describe('AppShell stories', () => {
   it('covers top navigation, sidebar navigation, combined navigation, and narrow screens', async () => {
     const stories = await storySource();
@@ -159,8 +191,30 @@ describe('AppShell stories', () => {
       'Combined navigation',
       'Narrow screen'
     ]) {
-      expect(stories).toContain(`<Story name="${name}" asChild>`);
+      expect(storyBlock(stories, name)).toContain(' asChild');
     }
+  });
+
+  it('sets the narrow story to the real narrow375 viewport with no fixed-width frame', async () => {
+    const stories = await storySource();
+    const narrow = storyBlock(stories, 'Narrow screen');
+
+    expect(narrow).toContain("viewport: { value: 'narrow375' }");
+    expect(stories).not.toContain('narrow-frame');
+    expect(stories).not.toContain('width: min(420px, 100%)');
+    expect(narrow).toContain('<AppShell');
+    expect(narrow).toContain('<PageHeader');
+  });
+
+  it('uses combined navigation in the narrow story without duplicating the menu', async () => {
+    const stories = await storySource();
+    const narrow = storyBlock(stories, 'Narrow screen');
+
+    expect(narrow).toContain('navbar={combinedNavbar}');
+    expect(narrow).toContain('sidebar={combinedSidebar}');
+    expect(narrow).not.toContain('links=');
+    expect(stories).not.toContain('{#snippet narrowNavbar(');
+    expect(stories).not.toContain('{#snippet narrowSidebar(');
   });
 
   it('keeps each navigation mode isolated to the region it demonstrates', async () => {
@@ -187,10 +241,22 @@ describe('AppShell stories', () => {
 
     expect(combined).toContain('navbar={combinedNavbar}');
     expect(combined).toContain('sidebar={combinedSidebar}');
+    expect(combinedNavbar).toContain('brand="Stellar"');
     expect(combinedNavbar).toContain('actions={navbarUtilities}');
     expect(combinedNavbar).not.toContain('links=');
     expect(snippetBlock(stories, 'combinedSidebar')).toContain('<Sidebar');
     expect(combined).toContain('<PageHeader');
+  });
+
+  it('uses ghost links for navbar utilities instead of outlined buttons', async () => {
+    const stories = await storySource();
+    const utilities = snippetBlock(stories, 'navbarUtilities');
+
+    expect(utilities).toContain('<Link variant="ghost" href="/help">Help</Link>');
+    expect(utilities).toContain('<Link variant="ghost" href="/account">Account</Link>');
+    expect(utilities).not.toContain('variant="secondary"');
+    expect(utilities).not.toContain('<Button');
+    expect(stories).not.toContain('variant="secondary">Help');
   });
 
   it('keeps breadcrumbs from repeating the page title or a nav destination', async () => {
@@ -224,21 +290,9 @@ describe('AppShell stories', () => {
       "{ label: 'Overview', active: true }"
     );
     expect(snippetBlock(stories, 'sidebarNav')).toContain('sections={overviewSections}');
-    expect(snippetBlock(stories, 'narrowSidebar')).toContain('sections={overviewSections}');
 
-    for (const name of ['sidebarNav', 'combinedSidebar', 'narrowSidebar']) {
+    for (const name of ['sidebarNav', 'combinedSidebar']) {
       expect(snippetBlock(stories, name)).toContain('toggleLabel="Workspace"');
     }
-  });
-
-  it('constrains the narrow example and overrides the shell height', async () => {
-    const stories = await storySource();
-    const narrow = storyBlock(stories, 'Narrow screen');
-
-    expect(narrow).toContain('<AppShell');
-    expect(stories).toContain(':global(.app-shell)');
-    expect(stories).toContain('min-height: 0');
-    expect(stories).toContain(':global(.app-shell.with-sidebar .body)');
-    expect(narrow).toContain('<PageHeader');
   });
 });

@@ -12,6 +12,16 @@ describe('composed views', () => {
     expect(dashboard).not.toContain('{navbar}');
   });
 
+  it('matches the Dashboard active destination to the page title', async () => {
+    const dashboard = await readStory('../src/stories/Dashboard.stories.svelte');
+
+    expect(dashboard).toContain("{ label: 'Overview', active: true }");
+    expect(dashboard).toContain('title="Overview"');
+    expect(dashboard).not.toMatch(
+      /\{ label: '(Projects|Activity|Reports|Preferences|Members)', active: true \}/
+    );
+  });
+
   it('renders Dashboard metrics as plain rows with no card around a single number', async () => {
     const dashboard = await readStory('../src/stories/Dashboard.stories.svelte');
 
@@ -43,12 +53,13 @@ describe('composed views', () => {
     expect(settings).toContain('<Dialog');
   });
 
-  it('marks Settings active in the sidebar instead of Preferences', async () => {
+  it('matches the Settings active destination to the page title', async () => {
     const settings = await readStory('../src/stories/Settings.stories.svelte');
 
     expect(settings).toContain("{ label: 'Settings', active: true }");
+    expect(settings).toContain('title="Settings"');
     expect(settings).not.toContain("{ label: 'Preferences', active: true }");
-    expect(settings).toContain("{ label: 'Members' }");
+    expect(settings).not.toMatch(/\{ label: '(Overview|Projects|Activity|Members)', active: true \}/);
   });
 
   it('renders Landing with a top navbar, no sidebar, and a borderless footer', async () => {
@@ -61,6 +72,14 @@ describe('composed views', () => {
     expect(landing).toContain('<Footer');
     expect(landing).toContain('bordered={false}');
     expect(landing).not.toContain('min-height: 100vh');
+  });
+
+  it('uses a ghost link for the Landing sign-in utility', async () => {
+    const landing = await readStory('../src/stories/Landing.stories.svelte');
+
+    expect(landing).toContain('<Link variant="ghost" href="/sign-in">Sign in</Link>');
+    expect(landing).not.toContain('<Button variant="secondary">Sign in</Button>');
+    expect(landing).not.toContain('variant="secondary">Sign in');
   });
 
   it('renders Landing features as plain sections instead of cards', async () => {
