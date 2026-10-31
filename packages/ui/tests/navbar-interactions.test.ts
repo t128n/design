@@ -26,6 +26,7 @@ const rect = (width: number) =>
   }) as DOMRect;
 
 const originalClientWidth = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'clientWidth');
+const originalScrollWidth = Object.getOwnPropertyDescriptor(Element.prototype, 'scrollWidth');
 const originalRect = Element.prototype.getBoundingClientRect;
 
 const mockAvailableWidth = () => {
@@ -36,8 +37,14 @@ const mockAvailableWidth = () => {
     }
   });
 
+  Object.defineProperty(Element.prototype, 'scrollWidth', {
+    configurable: true,
+    get() {
+      return this.classList?.contains('measure-links') ? 1200 : 0;
+    }
+  });
+
   vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (this: Element) {
-    if (this.classList?.contains('measure-links')) return rect(1200);
     if (this.classList?.contains('brand')) return rect(120);
     if (this.classList?.contains('actions')) return rect(200);
 
@@ -73,6 +80,12 @@ afterEach(() => {
     Object.defineProperty(HTMLElement.prototype, 'clientWidth', originalClientWidth);
   } else {
     delete (HTMLElement.prototype as Partial<HTMLElement>).clientWidth;
+  }
+
+  if (originalScrollWidth) {
+    Object.defineProperty(Element.prototype, 'scrollWidth', originalScrollWidth);
+  } else {
+    delete (Element.prototype as Partial<Element>).scrollWidth;
   }
 
   Element.prototype.getBoundingClientRect = originalRect;
