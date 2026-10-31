@@ -117,17 +117,25 @@ check(sansFonts.length > 0, 'dist/assets has no IBM Plex Sans woff2 files');
 check(monoFonts.length > 0, 'dist/assets has no IBM Plex Mono woff2 files');
 notes.push(`dist/assets ${fontAssets.length} files (${sansFonts.length} sans woff2, ${monoFonts.length} mono woff2)`);
 
-for (const dependency of ['bits-ui', 'carbon-icons-svelte']) {
-  check(
-    new RegExp(`from\\s*["']${dependency}`).test(js),
-    `dist/index.js does not import "${dependency}" as an external dependency`
-  );
-}
+check(
+  /from\s*["']bits-ui/.test(js),
+  'dist/index.js does not import "bits-ui" as an external dependency'
+);
 
-for (const dependency of ['bits-ui', 'runed', '@internationalized/date', 'carbon-icons-svelte']) {
+for (const dependency of ['bits-ui', 'runed', '@internationalized/date']) {
   check(
     typeof packageJson.dependencies?.[dependency] === 'string',
     `package.json must declare "${dependency}" as a runtime dependency`
+  );
+}
+
+// `carbon-icons-svelte` is being migrated to unplugin-icons. Until the last
+// legacy import is removed, any remaining import must stay external and declared;
+// once it disappears from the bundle and package.json, verification still passes.
+if (/from\s*["']carbon-icons-svelte/.test(js)) {
+  check(
+    typeof packageJson.dependencies?.['carbon-icons-svelte'] === 'string',
+    'dist/index.js imports "carbon-icons-svelte" but package.json does not declare it'
   );
 }
 
