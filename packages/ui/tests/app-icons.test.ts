@@ -7,6 +7,7 @@ import {
   APP_GLYPHS,
   APP_MARK_GEOMETRY,
   APP_MARK_RADIUS,
+  APP_MARK_SIZES,
   APP_TONES,
   markMonogram,
   opticalVariant,
@@ -94,17 +95,18 @@ describe('optical variants', () => {
     expect(opticalVariant(512)).toBe('tile');
   });
 
-  it('opens the glyph ratio as the tile grows', () => {
+  it('holds the glyph ratio from 24px up and opens it at tab size', () => {
     expect(APP_MARK_GEOMETRY.tab.glyph).toBeGreaterThan(APP_MARK_GEOMETRY.compact.glyph);
-    expect(APP_MARK_GEOMETRY.compact.glyph).toBeGreaterThan(APP_MARK_GEOMETRY.tile.glyph);
+    expect(APP_MARK_GEOMETRY.compact.glyph).toBe(APP_MARK_GEOMETRY.tile.glyph);
+    expect(APP_MARK_GEOMETRY.compact.glyph).toBe(0.65);
     expect(APP_MARK_GEOMETRY.tab.monogram).toBeGreaterThan(APP_MARK_GEOMETRY.tile.monogram);
   });
 
   it('uses a proportional radius, documented as an identity exception', async () => {
     const tokens = await readSource('../src/styles/tokens.css');
 
-    expect(APP_MARK_RADIUS).toBe(0.21);
-    expect(tokens).toContain('--app-mark-radius: 21%');
+    expect(APP_MARK_RADIUS).toBe(0.12);
+    expect(tokens).toContain('--app-mark-radius: 12%');
   });
 });
 
@@ -135,8 +137,6 @@ describe('application registry', () => {
       if (app.glyph) expect(APP_GLYPHS, key).toContain(app.glyph);
       expect(Boolean(app.glyph || app.monogram), key).toBe(true);
     }
-
-    expect(new Set(entries.map(([, app]) => app.tone)).size).toBe(APP_TONES.length);
   });
 
   it('test_glyph_artwork: every approved glyph exists in the Carbon collection', () => {
@@ -166,9 +166,20 @@ describe('AppMark', () => {
   });
 
   it('derives the optical variant from the pixel size', () => {
-    const { container } = render(AppMark, { app: appRegistry.metrics, size: 'xs' });
+    const { container } = render(AppMark, { app: appRegistry.packy, size: 'xs' });
 
     expect(container.querySelector('[data-variant="tab"]')).not.toBeNull();
+  });
+
+  it('lets the surrounding context override the registry tone', () => {
+    const { container } = render(AppMark, { app: appRegistry.funnel, tone: 'graphite' });
+
+    expect(container.querySelector('[data-tone="graphite"]')).not.toBeNull();
+  });
+
+  it('exposes the 24px and 64px reference sizes', () => {
+    expect(APP_MARK_SIZES.sm).toBe(24);
+    expect(APP_MARK_SIZES['2xl']).toBe(64);
   });
 
   it('uses tokens for tone, radius, and type', async () => {

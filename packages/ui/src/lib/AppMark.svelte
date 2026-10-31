@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { AppIcon, AppMarkSize, AppMarkVariant } from './app-icons';
+  import type { AppIcon, AppMarkSize, AppMarkVariant, AppTone } from './app-icons';
   import { APP_MARK_GEOMETRY, APP_MARK_SIZES, markMonogram, opticalVariant } from './app-icons';
   import { appGlyphs } from './app-glyphs';
 
@@ -8,6 +8,8 @@
     size?: AppMarkSize;
     /** Force an optical variant. By default it follows the pixel size. */
     variant?: AppMarkVariant;
+    /** Override the registry tone when the surrounding context owns the colour. */
+    tone?: AppTone;
     /**
      * Accessible name override. Pass null when a visible text label sits next
      * to the mark, so screen readers do not hear the name twice.
@@ -16,11 +18,12 @@
     class?: string;
   };
 
-  let { app, size = 'lg', variant, label, class: className = '' }: Props = $props();
+  let { app, size = 'lg', variant, tone, label, class: className = '' }: Props = $props();
 
   const px = $derived(APP_MARK_SIZES[size]);
   const kind = $derived(variant ?? opticalVariant(px));
   const geometry = $derived(APP_MARK_GEOMETRY[kind]);
+  const resolvedTone = $derived(tone ?? app.tone);
   const Glyph = $derived(app.glyph ? appGlyphs[app.glyph] : undefined);
   const accessibleLabel = $derived(label === undefined ? app.label : label);
   const monogram = $derived(markMonogram(app, kind));
@@ -36,7 +39,7 @@
 
 <span
   class={`app-mark ${className}`.trim()}
-  data-tone={app.tone}
+  data-tone={resolvedTone}
   data-variant={kind}
   role={accessibleLabel === null ? undefined : 'img'}
   aria-label={accessibleLabel ?? undefined}
@@ -93,8 +96,8 @@
     --app-mark-background: var(--app-tone-amber);
   }
 
-  .app-mark[data-tone='red'] {
-    --app-mark-background: var(--app-tone-red);
+  .app-mark[data-tone='magenta'] {
+    --app-mark-background: var(--app-tone-magenta);
   }
 
   .app-mark[data-tone='purple'] {

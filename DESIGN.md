@@ -374,11 +374,13 @@ Application icons are a separate layer from UI iconography. They are generated f
 
 - **One grammar, three values.** Every app mark is a tone, a Carbon glyph (or monogram), and a label. No per-app logos, gradients, multicolour glyphs, or custom silhouettes.
 - **The registry is the source of truth.** `appRegistry` in `@t128n/ui` stores `id`, `label`, `tone`, optional `glyph`, and optional `monogram`. Adding an application is one entry; the mark and its favicons are generated from it.
-- **Optical sizes.** `16–20px` uses the `tab` render (glyph 82%), `24–32px` the `compact` render (68%), and `40px` and above the `tile` render (58%). It is one geometry, not three drawings.
+- **Tone is a service category, not a product brand.** One tone may cover several services; the glyph and the visible label carry the individual identity. A context may override the registry tone when it owns the colour.
+- **Optical sizes.** `16–20px` uses the `tab` render (glyph 80%); from `24px` up the glyph holds at 65% of the tile, leaving the same breathing room across the catalog.
 - **Favicons are exports, not a second design.** `bun run icons` writes the SVG, the PNG ladder, the ICO, and a manifest from the same registry and tokens. The tab icon and the in-product mark cannot drift.
-- **Identity is not status.** Identity tones are their own token set (`--app-tone-*`), never the status roles, even where the hue is close. A tile never carries state on its own, so R27 still holds.
+- **Judge the catalog, not the tile.** The reference sheet in `Foundations/App marks` shows the full set in identical containers at 24px and 64px. If the collection is coherent and the services are distinguishable, the system works.
+- **Identity is not status.** Identity tones are their own token set (`--app-tone-*`), never the status roles, even where the hue is close. A tile never carries state on its own, so R27 still holds. The identity ramp omits red; red stays reserved for destructive actions (R29).
 - **The glyph stays Carbon**, so R38 still holds, and the monogram is set in Plex Mono, so R23 still holds.
-- **Exception to R32.** An app mark uses a 21% corner radius rather than the 6px cap. The silhouette has to survive OS masking at 512px and stay recognisable at 16px; an app mark is an identity asset, not UI chrome. In-product marks at 48px are the largest affected case. Exported assets live outside `packages/ui/src/lib`, so the component radius rule is unchanged.
+- **Exception to R32.** An app mark uses a 12% corner radius rather than the 6px cap. A proportional radius keeps the silhouette stable from 24px to 512px without reading as a mobile app icon, and an app mark is an identity asset, not UI chrome. In-product marks at 64px are the largest affected case. Exported assets live outside `packages/ui/src/lib`, so the component radius rule is unchanged.
 
 ### Motion and interaction
 

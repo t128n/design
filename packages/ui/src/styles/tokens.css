@@ -128,7 +128,7 @@
   --app-tone-teal: #004144;
   --app-tone-green: #044317;
   --app-tone-amber: #483700;
-  --app-tone-red: #750E13;
+  --app-tone-magenta: #9F1853;
   --app-tone-purple: #491D8B;
   --app-mark-foreground: #FFFFFF;
 
@@ -184,7 +184,7 @@
 
   --control-height-sm: 32px;
   /* Identity exception: app marks are not UI chrome. See DESIGN.md. */
-  --app-mark-radius: 21%;
+  --app-mark-radius: 12%;
   --control-height: 36px;
   --control-height-lg: 40px;
   --touch-target: 44px;

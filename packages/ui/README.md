@@ -423,6 +423,8 @@ Replace raw markup with the framework vocabulary. The audit in `packages/ui/test
 
 The registry entry is the contract: `{ id, label, tone, glyph | monogram }`. Tones are `graphite`, `slate`, `blue`, `teal`, `green`, `amber`, `red`, and `purple`; glyphs come from `APP_GLYPHS`; sizes are `xs` 16, `sm` 24, `md` 32, `lg` 40, and `xl` 48. Pass `label={null}` when visible text sits next to the mark, so the name is announced once. Run `bun run icons` to export the favicon ladder.
 
+`tone` is a service category, not a brand: `graphite`, `slate`, `blue`, `teal`, `green`, `amber`, `magenta`, `purple`. One tone may cover several services. Sizes also include `2xl` 64 for the reference sheet, and the optical variant follows the size. Evaluate the collection, not a single tile: `Foundations/App marks` → **Reference sheet** shows the catalog in identical containers at 24px and 64px.
+
 ## 9. Governance
 
 ### Versioning and releases

@@ -1,8 +1,16 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { AppMark, Code, Inline, List, Stack, Text } from '../index.js';
+  import {
+    APP_TONES,
+    AppMark,
+    Code,
+    Inline,
+    List,
+    Stack,
+    Text,
+    appRegistry
+  } from '../index.js';
   import type { AppIcon } from '../index.js';
-  import { appRegistry } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -14,6 +22,13 @@
 
   const apps = Object.values(appRegistry);
 
+  const toneSwatches: AppIcon[] = APP_TONES.map((tone) => ({
+    id: `tone-${tone}`,
+    label: `${tone[0].toUpperCase()}${tone.slice(1)}`,
+    tone,
+    glyph: 'cube'
+  }));
+
   const monograms: AppIcon[] = [
     { id: 'notes', label: 'Notes', tone: 'graphite', monogram: 'NT' },
     { id: 'ledger', label: 'Ledger', tone: 'blue', monogram: 'LD' }
@@ -24,25 +39,80 @@
     { size: 'sm', label: '24' },
     { size: 'md', label: '32' },
     { size: 'lg', label: '40' },
-    { size: 'xl', label: '48' }
+    { size: 'xl', label: '48' },
+    { size: '2xl', label: '64' }
   ] as const;
 </script>
+
+<Story name="Reference sheet" asChild>
+  <Stack gap="2xl">
+    <Stack gap="xs">
+      <Text variant="subheading" as="h2">Reference sheet — one family tone</Text>
+      <Text variant="body" tone="secondary">
+        Twelve services, identical containers, Carbon symbols only. Judge the
+        collection: coherent as a set, distinguishable one from another.
+      </Text>
+    </Stack>
+
+    <div class="sheet">
+      {#each apps as app}
+        <Stack gap="sm" align="center">
+          <AppMark {app} size="2xl" tone="graphite" label={null} />
+          <Text variant="caption" tone="secondary">{app.label}</Text>
+        </Stack>
+      {/each}
+    </div>
+
+    <Stack gap="xs">
+      <Text variant="subheading" as="h2">The same catalog at 24px</Text>
+      <Text variant="body" tone="secondary">
+        The size where the system is actually used. Labels sit outside the tile.
+      </Text>
+    </Stack>
+
+    <div class="sheet compact">
+      {#each apps as app}
+        <Inline gap="sm">
+          <AppMark {app} size="sm" tone="graphite" label={null} />
+          <Text variant="body-sm">{app.label}</Text>
+        </Inline>
+      {/each}
+    </div>
+
+    <Stack gap="xs">
+      <Text variant="subheading" as="h2">The same catalog with category tones</Text>
+      <Text variant="body" tone="secondary">
+        The comparison, not the default. If the monochrome set above already
+        separates the services, colour is optional.
+      </Text>
+    </Stack>
+
+    <div class="sheet">
+      {#each apps as app}
+        <Stack gap="sm" align="center">
+          <AppMark {app} size="2xl" label={null} />
+          <Text variant="caption" tone="secondary">{app.label}</Text>
+        </Stack>
+      {/each}
+    </div>
+  </Stack>
+</Story>
 
 <Story name="Tones" asChild>
   <Stack gap="lg">
     <Stack gap="xs">
       <Text variant="subheading" as="h2">Identity tones</Text>
       <Text variant="body" tone="secondary">
-        One fixed tone per application. The tile is identity, not status, so the
-        palette is separate from the status roles.
+        A service-category palette, deliberately separate from the status roles.
+        One tone may cover several services.
       </Text>
     </Stack>
-    <div class="tone-grid">
-      {#each apps as app}
-        <Inline gap="sm">
-          <AppMark {app} size="md" />
-          <Text variant="body-sm">{app.label}</Text>
-        </Inline>
+    <div class="sheet">
+      {#each toneSwatches as app}
+        <Stack gap="sm" align="center">
+          <AppMark {app} size="lg" label={null} />
+          <Text variant="caption" tone="secondary">{app.label}</Text>
+        </Stack>
       {/each}
     </div>
   </Stack>
@@ -53,14 +123,14 @@
     <Stack gap="xs">
       <Text variant="subheading" as="h2">Optical sizes</Text>
       <Text variant="body" tone="secondary">
-        One geometry, three renders. The glyph ratio opens up as the tile grows
-        so 16px stays legible and 48px does not look cramped.
+        The glyph holds at 65% of the tile from 24px up; the 16px render opens
+        it to 80% so the tab icon stays legible.
       </Text>
     </Stack>
     <Inline gap="xl" align="end">
       {#each ladder as step}
         <Stack gap="xs" align="start">
-          <AppMark app={appRegistry.design} size={step.size} />
+          <AppMark app={appRegistry.packy} size={step.size} label={null} />
           <Text variant="caption" tone="muted">{step.label}px</Text>
         </Stack>
       {/each}
@@ -80,12 +150,12 @@
     <Inline gap="xl" align="end">
       {#each monograms as app}
         <Stack gap="xs" align="start">
-          <AppMark {app} size="xl" />
+          <AppMark {app} size="xl" label={null} />
           <Text variant="caption" tone="muted">{app.label}</Text>
         </Stack>
       {/each}
       <Stack gap="xs" align="start">
-        <AppMark app={monograms[0]} size="xs" />
+        <AppMark app={monograms[0]} size="xs" label={null} />
         <Text variant="caption" tone="muted">16px, one letter</Text>
       </Stack>
     </Inline>
@@ -136,9 +206,14 @@
 </Story>
 
 <style>
-  .tone-grid {
+  .sheet {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(var(--layout-grid-min-sm), 1fr));
-    gap: var(--space-lg);
+    grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+    gap: var(--space-xl);
+    width: 100%;
+  }
+
+  .sheet.compact {
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
   }
 </style>
