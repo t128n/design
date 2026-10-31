@@ -4,7 +4,7 @@
   import Popover from '../lib/Popover.svelte';
 
   const { Story } = defineMeta({
-    title: 'Components/Popover',
+    title: 'Components/Overlays/Popover',
     component: Popover,
     args: {
       triggerLabel: 'Open popover'

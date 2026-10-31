@@ -7,7 +7,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/Icon',
+    title: 'Primitives/Icon',
     component: Icon,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

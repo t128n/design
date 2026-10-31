@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Card',
+    title: 'Layouts/Card',
     component: Card,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

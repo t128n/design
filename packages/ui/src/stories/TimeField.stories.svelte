@@ -3,7 +3,7 @@
   import { TimeField } from '../index.js';
 
   const { Story } = defineMeta({
-    title: 'Primitives/TimeField',
+    title: 'Components/Forms/TimeField',
     component: TimeField,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/Breadcrumbs',
+    title: 'Components/Navigation/Breadcrumbs',
     component: Breadcrumbs,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

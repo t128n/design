@@ -3,7 +3,7 @@
   import { DatePicker } from '../index.js';
 
   const { Story } = defineMeta({
-    title: 'Primitives/DatePicker',
+    title: 'Components/Forms/DatePicker',
     component: DatePicker,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

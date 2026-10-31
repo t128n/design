@@ -3,7 +3,7 @@
   import DropdownMenu from '../lib/DropdownMenu.svelte';
 
   const { Story } = defineMeta({
-    title: 'Components/DropdownMenu',
+    title: 'Components/Overlays/DropdownMenu',
     component: DropdownMenu,
     args: {
       triggerLabel: 'Actions'

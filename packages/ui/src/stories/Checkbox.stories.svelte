@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Checkbox',
+    title: 'Components/Forms/Checkbox',
     component: Checkbox,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

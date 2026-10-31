@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/Accordion',
+    title: 'Components/Navigation/Accordion',
     component: Accordion,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

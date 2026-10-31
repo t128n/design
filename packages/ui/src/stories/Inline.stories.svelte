@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Inline',
+    title: 'Layouts/Inline',
     component: Inline,
     tags: ['autodocs'],
     parameters: { layout: 'fullscreen' }

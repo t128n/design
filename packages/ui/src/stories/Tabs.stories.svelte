@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Tabs',
+    title: 'Components/Navigation/Tabs',
     component: Tabs,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

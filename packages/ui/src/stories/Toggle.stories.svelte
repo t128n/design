@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/Toggle',
+    title: 'Components/Controls/Toggle',
     component: Toggle,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

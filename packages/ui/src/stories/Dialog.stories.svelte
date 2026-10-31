@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Dialog',
+    title: 'Components/Overlays/Dialog',
     component: Dialog,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

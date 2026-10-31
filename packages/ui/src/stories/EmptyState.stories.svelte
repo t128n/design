@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/EmptyState',
+    title: 'Components/Feedback/EmptyState',
     component: EmptyState,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

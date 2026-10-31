@@ -28,7 +28,7 @@
   ];
 
   const { Story } = defineMeta({
-    title: 'Components/Table',
+    title: 'Components/Data/Table',
     component: Table,
     tags: ['autodocs'],
     parameters: { layout: 'fullscreen' }

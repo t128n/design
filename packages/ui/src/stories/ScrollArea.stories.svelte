@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/ScrollArea',
+    title: 'Primitives/ScrollArea',
     component: ScrollArea,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

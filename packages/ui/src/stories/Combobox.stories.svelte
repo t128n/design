@@ -11,7 +11,7 @@
   ];
 
   const { Story } = defineMeta({
-    title: 'Primitives/Combobox',
+    title: 'Components/Forms/Combobox',
     component: Combobox,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/Badge',
+    title: 'Primitives/Badge',
     component: Badge,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Grid',
+    title: 'Layouts/Grid',
     component: Grid,
     tags: ['autodocs'],
     parameters: { layout: 'fullscreen' }

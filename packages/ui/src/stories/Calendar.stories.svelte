@@ -3,7 +3,7 @@
   import { Calendar } from '../index.js';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Calendar',
+    title: 'Components/Forms/Calendar',
     component: Calendar,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

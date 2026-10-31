@@ -134,10 +134,28 @@ describe('framework audit', () => {
   });
 
   it('test_primitive_stories: every framework primitive has a story and a real screen use', async () => {
-    for (const component of ['Text', 'Code', 'Stack', 'Inline', 'Grid', 'Container', 'List']) {
+    const primitives = ['Text', 'Code', 'List'];
+    const layouts = ['Stack', 'Inline', 'Grid', 'Container'];
+
+    for (const component of primitives) {
       const story = await readFileSource(join(storiesRoot, `${component}.stories.svelte`));
 
       expect(story, component).toContain(`title: 'Primitives/${component}'`);
+    }
+
+    for (const component of layouts) {
+      const story = await readFileSource(join(storiesRoot, `${component}.stories.svelte`));
+
+      expect(story, component).toContain(`title: 'Layouts/${component}'`);
+    }
+
+      expect(story, component).toContain(`title: 'Primitives/${component}'`);
+    }
+
+    for (const component of layouts) {
+      const story = await readFile(join(storiesRoot, `${component}.stories.svelte`), 'utf8');
+
+      expect(story, component).toContain(`title: 'Layouts/${component}'`);
     }
 
     for (const view of ['Dashboard', 'Settings', 'Landing']) {

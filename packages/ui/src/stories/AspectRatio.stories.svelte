@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/AspectRatio',
+    title: 'Primitives/AspectRatio',
     component: AspectRatio,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

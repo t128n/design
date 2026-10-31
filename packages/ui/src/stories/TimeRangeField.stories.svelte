@@ -3,7 +3,7 @@
   import { TimeRangeField } from '../index.js';
 
   const { Story } = defineMeta({
-    title: 'Primitives/TimeRangeField',
+    title: 'Components/Forms/TimeRangeField',
     component: TimeRangeField,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

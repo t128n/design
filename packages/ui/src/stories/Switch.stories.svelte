@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Switch',
+    title: 'Components/Forms/Switch',
     component: Switch,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

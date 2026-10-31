@@ -3,7 +3,7 @@
   import { RangeCalendar } from '../index.js';
 
   const { Story } = defineMeta({
-    title: 'Primitives/RangeCalendar',
+    title: 'Components/Forms/RangeCalendar',
     component: RangeCalendar,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

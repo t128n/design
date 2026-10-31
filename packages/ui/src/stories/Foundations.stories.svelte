@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Foundations',
+    title: 'Foundations/Overview',
     tags: ['autodocs'],
     parameters: { controls: { disable: true } }
   });

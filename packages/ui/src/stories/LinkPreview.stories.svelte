@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/LinkPreview',
+    title: 'Components/Overlays/LinkPreview',
     component: LinkPreview,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

@@ -3,7 +3,7 @@
   import { DateRangeField } from '../index.js';
 
   const { Story } = defineMeta({
-    title: 'Primitives/DateRangeField',
+    title: 'Components/Forms/DateRangeField',
     component: DateRangeField,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

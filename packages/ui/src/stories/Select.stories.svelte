@@ -10,7 +10,7 @@
   ];
 
   const { Story } = defineMeta({
-    title: 'Primitives/Select',
+    title: 'Components/Forms/Select',
     component: Select,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

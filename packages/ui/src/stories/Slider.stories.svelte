@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Slider',
+    title: 'Components/Forms/Slider',
     component: Slider,
     tags: ['autodocs'],
     parameters: { layout: 'padded' }

@@ -10,7 +10,7 @@ describe('Storybook stories', () => {
   it('discovers the foundations story title', async () => {
     const story = await readStory('../src/stories/Foundations.stories.svelte');
 
-    expect(story).toContain("title: 'Foundations'");
+    expect(story).toContain("title: 'Foundations/Overview'");
   });
 
   it('test_story_controls: svelte docgen stays enabled so component props become controls', async () => {
@@ -28,33 +28,33 @@ describe('Storybook stories', () => {
     }
   });
 
-  it('keeps each primitive in its own story file', async () => {
+  it('keeps each component in its own story file with an approved title', async () => {
     const stories = [
-      ['Button', 'Primitives/Button'],
-      ['Link', 'Primitives/Link'],
-      ['Input', 'Primitives/Input'],
-      ['Card', 'Primitives/Card'],
+      ['Button', 'Components/Controls/Button'],
+      ['Link', 'Components/Controls/Link'],
+      ['Input', 'Components/Forms/Input'],
+      ['Card', 'Layouts/Card'],
       ['Text', 'Primitives/Text'],
       ['Code', 'Primitives/Code'],
-      ['Stack', 'Primitives/Stack'],
-      ['Inline', 'Primitives/Inline'],
-      ['Grid', 'Primitives/Grid'],
-      ['Container', 'Primitives/Container'],
+      ['Stack', 'Layouts/Stack'],
+      ['Inline', 'Layouts/Inline'],
+      ['Grid', 'Layouts/Grid'],
+      ['Container', 'Layouts/Container'],
       ['List', 'Primitives/List'],
-      ['EmptyState', 'Components/EmptyState'],
+      ['EmptyState', 'Components/Feedback/EmptyState'],
       ['VisuallyHidden', 'Primitives/Visually hidden'],
-      ['Icon', 'Components/Icon'],
-      ['Field', 'Components/Field'],
-      ['Checkbox', 'Primitives/Checkbox'],
-      ['Switch', 'Primitives/Switch'],
-      ['Select', 'Primitives/Select'],
-      ['Tabs', 'Primitives/Tabs'],
-      ['Dialog', 'Primitives/Dialog'],
-      ['Tooltip', 'Primitives/Tooltip'],
-      ['Badge', 'Components/Badge'],
-      ['Alert', 'Components/Alert'],
-      ['Table', 'Components/Table'],
-      ['Breadcrumbs', 'Components/Breadcrumbs'],
+      ['Icon', 'Primitives/Icon'],
+      ['Field', 'Components/Forms/Field'],
+      ['Checkbox', 'Components/Forms/Checkbox'],
+      ['Switch', 'Components/Forms/Switch'],
+      ['Select', 'Components/Forms/Select'],
+      ['Tabs', 'Components/Navigation/Tabs'],
+      ['Dialog', 'Components/Overlays/Dialog'],
+      ['Tooltip', 'Components/Overlays/Tooltip'],
+      ['Badge', 'Primitives/Badge'],
+      ['Alert', 'Components/Feedback/Alert'],
+      ['Table', 'Components/Data/Table'],
+      ['Breadcrumbs', 'Components/Navigation/Breadcrumbs'],
       ['Navbar', 'Layouts/Navbar'],
       ['Sidebar', 'Layouts/Sidebar'],
       ['AppShell', 'Layouts/App shell'],

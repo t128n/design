@@ -3,7 +3,7 @@
   import { DateRangePicker } from '../index.js';
 
   const { Story } = defineMeta({
-    title: 'Primitives/DateRangePicker',
+    title: 'Components/Forms/DateRangePicker',
     component: DateRangePicker,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

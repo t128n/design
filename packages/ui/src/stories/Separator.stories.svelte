@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/Separator',
+    title: 'Primitives/Separator',
     component: Separator,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

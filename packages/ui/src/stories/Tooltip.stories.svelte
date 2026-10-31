@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Tooltip',
+    title: 'Components/Overlays/Tooltip',
     component: Tooltip,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

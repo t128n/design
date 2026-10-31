@@ -3,7 +3,7 @@
   import Menubar from '../lib/Menubar.svelte';
 
   const { Story } = defineMeta({
-    title: 'Components/Menubar',
+    title: 'Components/Overlays/Menubar',
     component: Menubar,
     parameters: { layout: 'centered' }
   });

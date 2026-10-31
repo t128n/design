@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Link',
+    title: 'Components/Controls/Link',
     component: Link,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

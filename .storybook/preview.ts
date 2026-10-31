@@ -8,6 +8,19 @@ const preview: Preview = {
     controls: {
       expanded: true
     },
+    options: {
+      storySort: {
+        order: [
+          'Foundations',
+          ['Overview', 'Theming'],
+          'Primitives',
+          'Layouts',
+          'Components',
+          ['Controls', 'Forms', 'Data', 'Feedback', 'Overlays', 'Navigation'],
+          'Views'
+        ]
+      }
+    },
     viewport: {
       options: {
         narrow320: {

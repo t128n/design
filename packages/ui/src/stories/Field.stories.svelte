@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/Field',
+    title: 'Components/Forms/Field',
     component: Field,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

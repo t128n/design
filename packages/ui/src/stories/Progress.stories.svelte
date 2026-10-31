@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Feedback/Progress',
+    title: 'Components/Feedback/Progress',
     component: Progress,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

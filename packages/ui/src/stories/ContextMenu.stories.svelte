@@ -3,7 +3,7 @@
   import ContextMenu from '../lib/ContextMenu.svelte';
 
   const { Story } = defineMeta({
-    title: 'Components/ContextMenu',
+    title: 'Components/Overlays/ContextMenu',
     component: ContextMenu,
     parameters: { layout: 'centered' }
   });

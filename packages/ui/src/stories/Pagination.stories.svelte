@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Navigation/Pagination',
+    title: 'Components/Controls/Pagination',
     component: Pagination,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Command',
+    title: 'Components/Overlays/Command',
     component: Command,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

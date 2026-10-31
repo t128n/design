@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/Avatar',
+    title: 'Primitives/Avatar',
     component: Avatar,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Input',
+    title: 'Components/Forms/Input',
     component: Input,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

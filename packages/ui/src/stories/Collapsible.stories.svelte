@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/Collapsible',
+    title: 'Components/Navigation/Collapsible',
     component: Collapsible,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

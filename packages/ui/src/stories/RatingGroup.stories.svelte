@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/RatingGroup',
+    title: 'Components/Forms/RatingGroup',
     component: RatingGroup,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }

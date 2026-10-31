@@ -3,7 +3,7 @@
   import AlertDialog from '../lib/AlertDialog.svelte';
 
   const { Story } = defineMeta({
-    title: 'Components/AlertDialog',
+    title: 'Components/Overlays/AlertDialog',
     component: AlertDialog,
     args: {
       triggerLabel: 'Delete',

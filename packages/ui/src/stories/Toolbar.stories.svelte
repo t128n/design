@@ -4,7 +4,7 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Toolbar',
+    title: 'Components/Controls/Toolbar',
     component: Toolbar,
     tags: ['autodocs'],
     parameters: { layout: 'centered' }
