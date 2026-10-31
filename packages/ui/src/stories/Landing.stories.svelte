@@ -52,7 +52,7 @@
       <Hero
         eyebrow="Quiet project operations"
         title="Keep the work visible without the noise"
-        description="Stellar gives small teams one place for projects, ownership, and the changes that matter."
+        description="Acme gives small teams one place for projects, ownership, and the changes that matter."
         actions={heroActions}
         aside={heroAside}
       />
@@ -85,7 +85,7 @@
     <div class="wrap">
       <Footer
         links={[{ label: 'Docs' }, { label: 'Status' }, { label: 'Privacy' }]}
-        note="© 2026 Stellar"
+        note="© 2026 Acme"
       />
     </div>
   </div>

@@ -16,7 +16,7 @@
   };
 
   let {
-    brand = 'Stellar',
+    brand = 'Acme',
     links = [],
     note,
     bordered = true

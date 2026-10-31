@@ -47,7 +47,7 @@
 
 {#snippet sidebarHeader()}
   <Stack gap="xs">
-    <Text variant="label" as="span" weight="semibold">Stellar</Text>
+    <Text variant="label" as="span" weight="semibold">Acme</Text>
     <Text variant="caption" as="span" tone="muted">Orbit team</Text>
   </Stack>
 {/snippet}

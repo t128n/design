@@ -11,21 +11,21 @@
   });
 </script>
 
-<Story name="Minimal" args={{ brand: 'Stellar', note: '© 2026 Stellar' }} />
+<Story name="Minimal" args={{ brand: 'Acme', note: '© 2026 Acme' }} />
 
 <Story
   name="Utility links"
   args={{
-    brand: 'Stellar',
+    brand: 'Acme',
     links: [{ label: 'Docs' }, { label: 'Status' }, { label: 'Privacy' }],
-    note: '© 2026 Stellar'
+    note: '© 2026 Acme'
   }}
 />
 
 <Story name="Complete page" asChild>
   <div class="page">
     <Navbar
-      brand="Stellar"
+      brand="Acme"
       links={[
         { label: 'Documentation', active: true },
         { label: 'Guides' },
@@ -36,7 +36,7 @@
     <main class="doc">
       <Text variant="display" as="h1">Connecting a repository</Text>
       <Text variant="body" tone="secondary">
-        Stellar reads a repository through a deploy key that you approve once. The key is
+        Acme reads a repository through a deploy key that you approve once. The key is
         scoped to a single repository and can be revoked from the same screen at any time.
       </Text>
       <Text variant="heading" as="h2" weight="medium">Before you start</Text>
@@ -62,13 +62,13 @@
       </Text>
     </main>
     <Footer
-      brand="Stellar"
+      brand="Acme"
       links={[
         { label: 'Documentation' },
         { label: 'Status' },
         { label: 'Privacy' }
       ]}
-      note="© 2026 Stellar"
+      note="© 2026 Acme"
     />
   </div>
 </Story>
@@ -76,14 +76,14 @@
 <Story name="Stacked" asChild>
   <div class="narrow" style="max-width: 24rem">
     <Footer
-      brand="Stellar"
+      brand="Acme"
       links={[
         { label: 'Docs' },
         { label: 'Status' },
         { label: 'Privacy' },
         { label: 'Accessibility' }
       ]}
-      note="© 2026 Stellar. All rights reserved."
+      note="© 2026 Acme. All rights reserved."
     />
   </div>
 </Story>

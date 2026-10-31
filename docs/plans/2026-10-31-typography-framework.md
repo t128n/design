@@ -1,6 +1,6 @@
 # Typography and layout framework layer
 
-**Goal:** Turn `@stellar/ui` from a collection of styled components into an opinionated framework: application and story copy is rendered through primitives such as `<Text variant="heading" as="h2">`, layout rhythm comes from primitives rather than one-off margins, and compliance is enforced by tests and documentation.
+**Goal:** Turn `@t128n/ui` from a collection of styled components into an opinionated framework: application and story copy is rendered through primitives such as `<Text variant="heading" as="h2">`, layout rhythm comes from primitives rather than one-off margins, and compliance is enforced by tests and documentation.
 
 **Architecture:** Keep the existing token layer and component inventory. Add a small primitive layer above tokens and below components: typography (`Text`, `Code`) and layout (`Stack`, `Inline`, `Grid`, `Container`). Migrate content components and all stories to those primitives. Leave control internals on token-based CSS so form controls keep their exact geometry. Add a framework audit test so plain prose markup and literal type values cannot drift back in.
 
@@ -388,7 +388,7 @@ The framework is in place when:
 5. A source audit prevents regression.
 6. DESIGN.md and the package README explain the contract and its exceptions.
 
-At that point `@stellar/ui` is a framework in the useful sense: it does not only provide components, it provides the constrained vocabulary and the checks that keep screens compliant.
+At that point `@t128n/ui` is a framework in the useful sense: it does not only provide components, it provides the constrained vocabulary and the checks that keep screens compliant.
 
 ---
 

@@ -1,4 +1,4 @@
-# @stellar/ui
+# @t128n/ui
 
 Svelte 5 design framework for quiet, spacious, technical application interfaces. Tokens feed a small typography and layout primitive layer, and the existing components build on that vocabulary.
 
@@ -10,8 +10,8 @@ Import the stylesheet once at the application root, then import components from 
 
 ```svelte
 <script lang="ts">
-  import { Button, Stack, Text } from '@stellar/ui';
-  import '@stellar/ui/styles';
+  import { Button, Stack, Text } from '@t128n/ui';
+  import '@t128n/ui/styles';
 </script>
 ```
 

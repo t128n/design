@@ -45,6 +45,9 @@
   }: Props = $props();
 
   const allGroups: Group[] = $derived(groups.length > 0 ? groups : items.length > 0 ? [{ items }] : []);
+  const hasCheckboxItems = $derived(
+    allGroups.some((group) => group.items.some((item) => item.type === 'checkbox'))
+  );
 </script>
 
 <DropdownMenu.Root>
@@ -61,7 +64,7 @@
   </DropdownMenu.Trigger>
   <DropdownMenu.Portal>
     <DropdownMenu.Content class="dropdown-content" {side} {align} {sideOffset} {alignOffset}>
-      <div class="dropdown-panel">
+      <div class="dropdown-panel" class:has-indicators={hasCheckboxItems}>
         {#each allGroups as group, groupIndex}
           <DropdownMenu.Group>
             {#if group.label}
@@ -91,6 +94,9 @@
                   disabled={item.disabled}
                   onSelect={item.onSelect}
                 >
+                  {#if hasCheckboxItems}
+                    <span class="indicator" aria-hidden="true"></span>
+                  {/if}
                   <span class="label">{item.label}</span>
                   {#if item.shortcut}<span class="shortcut">{item.shortcut}</span>{/if}
                 </DropdownMenu.Item>
@@ -130,6 +136,10 @@
     font-size: var(--font-size-caption);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-caption);
+  }
+
+  .dropdown-panel.has-indicators :global(.dropdown-group-heading) {
+    padding-left: calc(var(--space-sm) + var(--space-sm) + 16px);
   }
 
   .dropdown-panel :global(.dropdown-item) {
