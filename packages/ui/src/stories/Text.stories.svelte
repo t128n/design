@@ -91,7 +91,7 @@
       <Text variant="body-sm" as="blockquote">
         Use blocks for meaningful quotations, not for decoration.
       </Text>
-      <Text variant="caption" as="time">31 October 2026</Text>
+      <Text variant="caption" as="time" datetime="2026-10-31">31 October 2026</Text>
     </Stack>
   </Container>
 </Story>

@@ -16,3 +16,19 @@
     Use cards for meaningful independent regions, not every content group.
   </Text>
 </Story>
+
+<Story name="Nested heading" asChild>
+  <div class="nested">
+    <Card title="Deployment history" level={3}>
+      <Text variant="body-sm" tone="secondary">
+        The level follows document order. The subheading variant keeps the visual size.
+      </Text>
+    </Card>
+  </div>
+</Story>
+
+<style>
+  .nested {
+    width: min(28rem, calc(100vw - 2rem));
+  }
+</style>

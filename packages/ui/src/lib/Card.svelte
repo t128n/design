@@ -1,18 +1,21 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import Text from './Text.svelte';
+  import { headingTag, type HeadingLevel } from './typography';
 
   type Props = {
     title?: string;
+    /** Semantic heading level for document order; cards default to 2. */
+    level?: HeadingLevel;
     children?: Snippet;
   };
 
-  let { title, children }: Props = $props();
+  let { title, level = 2, children }: Props = $props();
 </script>
 
 <section class="card" aria-label={title}>
   {#if title}
-    <Text variant="subheading" as="h2">{title}</Text>
+    <Text variant="subheading" as={headingTag(level)}>{title}</Text>
   {/if}
   {@render children?.()}
 </section>

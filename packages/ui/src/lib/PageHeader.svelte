@@ -2,6 +2,7 @@
   import type { Snippet } from 'svelte';
   import Breadcrumbs from './Breadcrumbs.svelte';
   import Text from './Text.svelte';
+  import { headingTag, type HeadingLevel } from './typography';
 
   type Crumb = {
     label: string;
@@ -14,6 +15,8 @@
     breadcrumbs?: Crumb[];
     actions?: Snippet;
     meta?: Snippet;
+    /** Semantic heading level for document order; 1 is the page title. */
+    level?: HeadingLevel;
   };
 
   let {
@@ -21,7 +24,8 @@
     description,
     breadcrumbs,
     actions,
-    meta
+    meta,
+    level = 1
   }: Props = $props();
 </script>
 
@@ -31,7 +35,7 @@
   {/if}
   <div class="row">
     <div class="copy">
-      <Text variant="heading" as="h1">{title}</Text>
+      <Text variant="heading" as={headingTag(level)}>{title}</Text>
       {#if description}
         <div class="description">
           <Text variant="body-sm" tone="secondary">{description}</Text>

@@ -1,48 +1,53 @@
-<script lang="ts">
-  import type { Snippet } from 'svelte';
-  import type { HTMLAttributes } from 'svelte/elements';
-  import type { TextAlign, TextTag, TextTone, TextVariant, TextWeight } from './typography';
+<script module lang="ts">
+  // Props that Text owns; everything else is forwarded to the rendered element.
+  const reserved = new Set([
+    'as',
+    'variant',
+    'tone',
+    'weight',
+    'align',
+    'numeric',
+    'class',
+    'children'
+  ]);
+</script>
 
-  type Props = HTMLAttributes<HTMLElement> & {
-    as?: TextTag;
-    variant?: TextVariant;
-    tone?: TextTone;
-    weight?: TextWeight;
-    align?: TextAlign;
-    numeric?: boolean;
-    class?: string;
-    children?: Snippet;
-  };
+<script
+  lang="ts"
+  generics="Tag extends 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'strong' | 'blockquote' | 'figcaption' | 'dt' | 'dd' | 'li' | 'legend' | 'time' | 'address' = 'p'"
+>
+  import { mergeClasses } from './class';
+  import type { TextProps } from './typography';
 
-  let {
-    as = 'p',
-    variant = 'body',
-    tone = 'primary',
-    weight,
-    align = 'start',
-    numeric = false,
-    class: className = '',
-    children,
-    ...restProps
-  }: Props = $props();
+  // The generics attribute cannot reference imported types, so the tag union
+  // mirrors TextTag here while TextProps remains the exported contract.
+  type Props = TextProps<Tag>;
 
+  let props: Props = $props();
+
+  const as = $derived(props.as ?? 'p');
   const classes = $derived(
-    [
+    mergeClasses(
       'text',
-      `text-${variant}`,
-      `tone-${tone}`,
-      `align-${align}`,
-      weight ? `weight-${weight}` : '',
-      numeric ? 'numeric' : '',
-      className
-    ]
-      .filter(Boolean)
-      .join(' ')
+      `text-${props.variant ?? 'body'}`,
+      `tone-${props.tone ?? 'primary'}`,
+      `align-${props.align ?? 'start'}`,
+      props.weight ? `weight-${props.weight}` : '',
+      props.numeric ? 'numeric' : '',
+      props.class ?? ''
+    )
+  );
+  // Per-tag props are validated at the call site; forward everything else to
+  // the rendered element.
+  const attributes = $derived(
+    Object.fromEntries(
+      Object.entries(props as Record<string, unknown>).filter(([key]) => !reserved.has(key))
+    )
   );
 </script>
 
-<svelte:element this={as} {...restProps} class={classes}>
-  {@render children?.()}
+<svelte:element this={as} {...attributes} class={classes}>
+  {@render props.children?.()}
 </svelte:element>
 
 <style>

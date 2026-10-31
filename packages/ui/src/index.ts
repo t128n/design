@@ -60,6 +60,16 @@ export { default as Inline } from './lib/Inline.svelte';
 export { default as Grid } from './lib/Grid.svelte';
 export { default as Container } from './lib/Container.svelte';
 export { default as List } from './lib/List.svelte';
-export type { TextAlign, TextTag, TextTone, TextVariant, TextWeight } from './lib/typography';
+export { headingLevels, headingTag } from './lib/typography';
+export type {
+  HeadingLevel,
+  HeadingTag,
+  TextAlign,
+  TextProps,
+  TextTag,
+  TextTone,
+  TextVariant,
+  TextWeight
+} from './lib/typography';
 export { breakpoints } from './lib/layout';
 export type { Breakpoint, CollapseAt, LayoutTag, ListMarker, Space } from './lib/layout';

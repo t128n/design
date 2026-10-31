@@ -24,7 +24,16 @@ describe('Hero', () => {
     expect(hero).toMatch(/\.title\s*\{[^}]*max-width: 18ch/s);
     expect(hero).toMatch(/\.center \.title\s*\{[^}]*max-width: 22ch/s);
     expect(hero).toMatch(/\.description\s*\{[^}]*max-width: var\(--layout-reading-width\)/s);
-    expect(hero).toContain('<Text variant="display" as="h1"');
+    expect(hero).toContain('<Text variant="display" as={headingTag(level)}');
+  });
+
+  it('test_heading_level: default is h1 and level maps to the native heading', async () => {
+    const hero = await readSource('../src/lib/Hero.svelte');
+
+    expect(hero).toContain('level?: HeadingLevel');
+    expect(hero).toContain('level = 1');
+    expect(hero).toContain("import { headingTag, type HeadingLevel } from './typography'");
+    expect(hero).not.toMatch(/<Text[^>]*as="h1"/);
   });
 
   it('test_aside_top_aligned', async () => {
