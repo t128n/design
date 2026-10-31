@@ -101,14 +101,74 @@ describe('workspace surfaces', () => {
     const design = await readSource('../../../DESIGN.md');
 
     expect(design).toContain('The main region is the white **workspace**');
-    expect(design).toContain('Do not add seams or additional borders between regions');
-    expect(design).toContain('**Sidebar** sits on the **navigation surface**');
+    expect(design).toContain('A structural border belongs to exactly one region');
+    expect(design).toContain('**Sidebar** sits on the white **workspace** by default');
     expect(design).toContain('No blue bars');
     expect(design).toContain('reserve blue for focus only');
     expect(design).toContain('**Navbar** shares the **workspace**');
     expect(design).toContain('Prefer ghost and link-level utilities');
     expect(design).toContain('no background, no card');
     expect(design).toContain('Tables are borderless in white workspaces');
+  });
+
+  it('test_default_surfaces: defaults Navbar, content, Landing, workspaces, and Sidebars to white', async () => {
+    const design = await readSource('../../../DESIGN.md');
+
+    expect(design).toContain('**Workspace** `#FFFFFF` is the primary white application content region');
+    expect(design).toContain('the default for application views, Navbar, landing pages, workspaces, and persistent Sidebars');
+    expect(design).toContain('White is the default');
+    expect(design).toContain('**Navbar** shares the **workspace**');
+    expect(design).toContain('**Sidebar** sits on the white **workspace** by default');
+  });
+
+  it('test_canvas_scope: limits canvas to subdued, selected, or genuinely distinct contexts', async () => {
+    const design = await readSource('../../../DESIGN.md');
+
+    expect(design).toContain('**Canvas** `#F2F4F8` is the subdued public or empty context');
+    expect(design).toContain('selected backgrounds or genuinely distinct contexts');
+    expect(design).toContain('never an application page background');
+  });
+
+  it('test_navigation_surface_scope: reserves the navigation surface for an explicit variant', async () => {
+    const design = await readSource('../../../DESIGN.md');
+
+    expect(design).toContain('Navigation surface** `#F7F8FA`');
+    expect(design).toContain('only for an explicitly requested navigation variant');
+  });
+
+  it('test_surface_principles: prefers shared backgrounds, selective borders, and whitespace', async () => {
+    const design = await readSource('../../../DESIGN.md');
+
+    expect(design).toContain('Shared background + selective structural borders + whitespace');
+    expect(design).toContain('Contrasting backgrounds + boxed sections + repeated dividers');
+    expect(design).toContain('Do not introduce color differences merely to distinguish layout regions.');
+    expect(design).toContain('A shared edge must not produce two overlapping borders.');
+    expect(design).toContain('selective 1px borders');
+    expect(design).toContain('boxed sections');
+    expect(design).toContain('repeated dividers');
+  });
+
+  it('test_border_ownership: gives each structural border one owner', async () => {
+    const design = await readSource('../../../DESIGN.md');
+
+    expect(design).toContain('### Border ownership');
+    expect(design).toContain('Navbar owns its bottom border');
+    expect(design).toContain('Sidebar owns its right border');
+    expect(design).toContain('Footer owns an optional top border');
+    expect(design).toContain('PageHeader owns no border');
+    expect(design).toContain('AppShell arranges regions without drawing their borders');
+    expect(design).toContain('AppShell owns no border');
+  });
+
+  it('test_existing_tokens: keeps the surface tokens unchanged', async () => {
+    const tokens = await readSource('../src/styles/tokens.css');
+
+    expect(tokens).toContain('--color-canvas: #F2F4F8');
+    expect(tokens).toContain('--color-workspace: #FFFFFF');
+    expect(tokens).toContain('--color-navigation-surface: #F7F8FA');
+    expect(tokens).toContain('--color-navigation-selected: #E8EBEE');
+    expect(tokens).toContain('--color-border: #DDE1E6');
+    expect(tokens).toContain('--border-width: 1px');
   });
 
   it('test_elevation: cards must earn their border', async () => {

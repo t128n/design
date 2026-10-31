@@ -119,7 +119,7 @@ Use [Base16 Oxocarbon Light](https://github.com/nyoom-engineering/base16-oxocarb
 
 - Canvas `#F2F4F8`, border `#DDE1E6`, foreground `#161616`, secondary text `#525252`, and accent `#0F62FE` are grounded in Oxocarbon Light.
 - White `#FFFFFF` is an intentional application-surface extension, not an Oxocarbon Base16 palette token.
-- Semantic surfaces have distinct roles. **Canvas** `#F2F4F8` is the subdued public or empty context. **Workspace** `#FFFFFF` is the primary white application content region and the default for application views. **Surface** `#FFFFFF` is a component fill, such as a card or control. **Navigation surface** `#F7F8FA` is a quiet sidebar or navigation region, deliberately lighter than canvas. **Navigation selected** `#E8EBEE` marks the selected navigation row and stays quieter than the border `#DDE1E6`.
+- Semantic surfaces have distinct roles. **Canvas** `#F2F4F8` is the subdued public or empty context, limited to selected backgrounds or genuinely distinct contexts; it is never an application page background. **Workspace** `#FFFFFF` is the primary white application content region and the default for application views, Navbar, landing pages, workspaces, and persistent Sidebars. **Surface** `#FFFFFF` is a component fill, such as a card or control. **Navigation surface** `#F7F8FA` is a quiet sidebar or navigation region, deliberately lighter than canvas, used only for an explicitly requested navigation variant. **Navigation selected** `#E8EBEE` marks the selected navigation row and stays quieter than the border `#DDE1E6`.
 - Workspace and surface are both white but semantically distinct: workspace is a region, surface is a component fill.
 - The application surfaces are contrast-validated: primary and secondary text pass AA on workspace, navigation surface, and selected rows; muted text passes on the navigation surface; active-row badges use secondary text; accent focus indicators meet at least 3:1 on workspace and navigation surface.
 - Use **only one expressive primary accent: blue `#0F62FE`**. Reserve it for primary actions, selected states, meaningful links, and focus indicators.
@@ -150,7 +150,7 @@ Use **IBM Plex Sans** for headings, body text, labels, and controls. Use system 
 
 Application workspaces are continuous and light-first. Organization comes from typography, alignment, whitespace, and structure, not from panels.
 
-- Primary content sits on a white workspace; navigation uses the same white or a subtly differentiated neutral surface.
+- Primary content sits on a white workspace; Navbar and persistent Sidebars share the same white by default, and the navigation surface is an explicit variant.
 - Navigation is never more prominent than content. Promote content through hierarchy, not by tinting the workspace.
 - Keep boundaries minimal; add a divider only where it clarifies a region.
 - Avoid large contrasting regions that fragment the workspace.
@@ -158,6 +158,31 @@ Application workspaces are continuous and light-first. Organization comes from t
 - Use whitespace and typography for grouping; do not wrap ordinary content in cards.
 - Preserve canvas `#F2F4F8` for subdued public, marketing, and empty contexts.
 - **Primary content > navigation > supporting surfaces** is a rule about prominence, not about using more colors.
+
+### Surface continuity
+
+White is the default. Navbar, main content, Landing, workspaces, and persistent Sidebars share one continuous white background; the page is one surface, not a set of panels.
+
+Prefer **Shared background + selective structural borders + whitespace** over **Contrasting backgrounds + boxed sections + repeated dividers**.
+
+- Do not introduce color differences merely to distinguish layout regions.
+- A shared edge must not produce two overlapping borders.
+- Use selective 1px borders only where a boundary carries meaning; a shared edge gets exactly one border.
+- Prefer whitespace over boxed sections; do not wrap ordinary content in cards, panels, or alternating bands.
+- Avoid repeated dividers; use spacing before adding another line.
+- Reserve canvas for subdued public or marketing contexts, selected backgrounds, or genuinely distinct regions; never tint an application page.
+- Use the navigation surface only for an explicitly requested navigation variant.
+
+### Border ownership
+
+A structural border belongs to exactly one region.
+
+- Navbar owns its bottom border.
+- Sidebar owns its right border.
+- Footer owns an optional top border; show it only when the footer follows content directly.
+- PageHeader owns no border.
+- AppShell owns no border; AppShell arranges regions without drawing their borders.
+- Content owns no top or left border, because Navbar and Sidebar own those edges.
 
 ## Elevation & Depth
 
@@ -192,9 +217,9 @@ Application workspaces are continuous and light-first. Organization comes from t
 
 ### Layouts and views
 
-- **AppShell** owns the frame: sidebar, navbar, a focusable main region, and a skip link. The main region is the white **workspace**; **Sidebar** and **Navbar** are independent so an app can use either alone. Do not add seams or additional borders between regions.
-- **Sidebar** sits on the **navigation surface** and stays quieter than the content it serves. Selected rows use the neutral **navigation selected** surface with primary text; inactive items stay quiet. No blue bars; reserve blue for focus only. Use spacing before dividers rather than adding lines everywhere.
-- **Navbar** shares the **workspace** so it reads as part of the page. Prefer ghost and link-level utilities; borders only where they carry meaning.
+- **AppShell** owns the frame: sidebar, navbar, a focusable main region, and a skip link. The main region is the white **workspace**; **Sidebar** and **Navbar** are independent so an app can use either alone. A structural border belongs to exactly one region: AppShell arranges regions without drawing their borders, and each region owns its own structural edge.
+- **Sidebar** sits on the white **workspace** by default and stays quieter than the content it serves. Use the **navigation surface** only when an explicitly requested navigation variant calls for it. Selected rows use the neutral **navigation selected** surface with primary text; inactive items stay quiet. No blue bars; reserve blue for focus only. Use spacing before dividers rather than adding lines everywhere.
+- **Navbar** shares the **workspace** and owns its bottom border so it reads as part of the page. Prefer ghost and link-level utilities; borders only where they carry meaning.
 - **PageHeader** carries breadcrumbs, title, description, and page actions on the workspace itself: no background, no card. **Hero** is for landing or empty-state moments, not for ordinary application pages.
 - **Badge** and **Alert** encode status as text plus one role. **Table** keeps rows aligned and scrolls horizontally rather than turning into cards. Tables are borderless in white workspaces when row separators are enough; add `bordered` only when the table needs a structural container.
 - Composed pages live under **Views** in Storybook. They are examples of the pieces working together, not extra primitives.
