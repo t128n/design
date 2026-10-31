@@ -11,6 +11,10 @@ const packageJson = JSON.parse(await readFile(join(root, 'package.json'), 'utf8'
 // need a budget bump while accidental dependency inlining fails loudly.
 const BUNDLE_BUDGET_BYTES = 300_000;
 
+// Font files are emitted as assets instead of base64, so the stylesheet should
+// stay close to its 100 kB of tokens, font-face rules, and component styles.
+const CSS_BUDGET_BYTES = 200_000;
+
 const failures: string[] = [];
 const notes: string[] = [];
 
@@ -89,10 +93,33 @@ check(
   jsSize <= BUNDLE_BUDGET_BYTES,
   `dist/index.js is ${jsSize} bytes, over the ${BUNDLE_BUDGET_BYTES} byte budget`
 );
+check(
+  cssSize <= CSS_BUDGET_BYTES,
+  `dist/index.css is ${cssSize} bytes, over the ${CSS_BUDGET_BYTES} byte budget`
+);
+
+// Fonts must stay external files referenced relatively; base64 would bloat CSS.
+check(!css.includes('data:font'), 'dist/index.css inlined font data URLs');
+check(
+  /url\(\.\/assets\/[^)]+\.woff2\)/.test(css),
+  'dist/index.css does not reference emitted woff2 assets relatively'
+);
+
+const fontAssets = (await readdir(join(dist, 'assets')).catch(() => [])) as string[];
+const sansFonts = fontAssets.filter(
+  (file) => file.startsWith('ibm-plex-sans-') && file.endsWith('.woff2')
+);
+const monoFonts = fontAssets.filter(
+  (file) => file.startsWith('ibm-plex-mono-') && file.endsWith('.woff2')
+);
+
+check(sansFonts.length > 0, 'dist/assets has no IBM Plex Sans woff2 files');
+check(monoFonts.length > 0, 'dist/assets has no IBM Plex Mono woff2 files');
+notes.push(`dist/assets ${fontAssets.length} files (${sansFonts.length} sans woff2, ${monoFonts.length} mono woff2)`);
 
 for (const dependency of ['bits-ui', 'carbon-icons-svelte']) {
   check(
-    new RegExp(`from ["']${dependency}`).test(js),
+    new RegExp(`from\\s*["']${dependency}`).test(js),
     `dist/index.js does not import "${dependency}" as an external dependency`
   );
 }
@@ -115,6 +142,9 @@ check(pack.status === 0, '`bun pm pack --dry-run` failed');
 for (const entry of ['dist/index.js', 'dist/index.css', 'dist/index.d.ts', 'README.md']) {
   check(packOutput.includes(entry), `tarball is missing ${entry}`);
 }
+check(packOutput.includes('dist/assets/ibm-plex-sans-'), 'tarball is missing IBM Plex Sans font assets');
+check(packOutput.includes('dist/assets/ibm-plex-mono-'), 'tarball is missing IBM Plex Mono font assets');
+check(packOutput.includes('.woff2'), 'tarball is missing woff2 font files');
 check(!packOutput.includes('dist/src/'), 'tarball unexpectedly contains package sources');
 check(!packOutput.includes('tests/'), 'tarball unexpectedly contains tests');
 

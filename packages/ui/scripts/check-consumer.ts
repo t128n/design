@@ -32,24 +32,35 @@ const buildEntry = async (entry: string, outDir: string) => {
   await build({
     root: fixture,
     configFile: false,
+    base: './',
     logLevel: 'silent',
     build: {
       outDir,
       emptyOutDir: true,
       minify: false,
+      assetsInlineLimit: 0,
       cssCodeSplit: false,
-      lib: {
-        entry: join(fixture, entry),
-        formats: ['es'],
-        fileName: 'bundle'
-      },
-      rollupOptions: { external }
+      modulePreload: false,
+      rollupOptions: {
+        input: join(fixture, entry),
+        external,
+        preserveEntrySignatures: 'strict',
+        output: {
+          format: 'es',
+          entryFileNames: 'bundle.js',
+          chunkFileNames: 'chunks/[name]-[hash].js',
+          assetFileNames: (asset) =>
+            asset.names?.some((name) => name.endsWith('.css'))
+              ? 'bundle.css'
+              : 'assets/[name]-[hash][extname]'
+        }
+      }
     }
   });
 
   const files = await readdir(outDir);
-  const jsFile = files.find((file) => file.endsWith('.js'));
-  const cssFile = files.find((file) => file.endsWith('.css'));
+  const jsFile = files.find((file) => file === 'bundle.js');
+  const cssFile = files.find((file) => file === 'bundle.css');
 
   if (!jsFile || !cssFile) {
     throw new Error(`consumer build ${entry} did not emit JS and CSS`);
@@ -57,7 +68,8 @@ const buildEntry = async (entry: string, outDir: string) => {
 
   return {
     js: await readFile(join(outDir, jsFile), 'utf8'),
-    css: await readFile(join(outDir, cssFile), 'utf8')
+    css: await readFile(join(outDir, cssFile), 'utf8'),
+    fontAssets: await readdir(join(outDir, 'assets')).catch(() => [] as string[])
   };
 };
 
@@ -72,6 +84,7 @@ try {
 
   console.log(`  button-only bundle ${buttonSize.toLocaleString('en-US')} bytes`);
   console.log(`  eight-component bundle ${manySize.toLocaleString('en-US')} bytes`);
+  console.log(`  consumer font assets ${buttonOnly.fontAssets.length} files`);
 
   // 2. Tree-shaking: importing one component must not pull in the rest of the library.
   check(
@@ -94,6 +107,25 @@ try {
   ]) {
     check(buttonOnly.css.includes(marker), `consumer CSS is missing marker "${marker}"`);
   }
+
+  // 4. Fonts are copied as assets and referenced relatively instead of inlined.
+  check(!buttonOnly.css.includes('data:font'), 'consumer CSS inlined font data URLs');
+  check(
+    /url\(\.\/assets\/[^)]+\.woff2\)/.test(buttonOnly.css),
+    'consumer CSS does not reference emitted woff2 assets relatively'
+  );
+  check(
+    buttonOnly.fontAssets.some(
+      (file) => file.startsWith('ibm-plex-sans-') && file.endsWith('.woff2')
+    ),
+    'consumer build did not copy IBM Plex Sans woff2 assets'
+  );
+  check(
+    buttonOnly.fontAssets.some(
+      (file) => file.startsWith('ibm-plex-mono-') && file.endsWith('.woff2')
+    ),
+    'consumer build did not copy IBM Plex Mono woff2 assets'
+  );
 } finally {
   await rm(workspace, { recursive: true, force: true });
 }
@@ -104,4 +136,6 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log('consumer verification passed: strict TS entrypoints, tree-shaking, stylesheet tokens');
+console.log(
+  'consumer verification passed: strict TS entrypoints, tree-shaking, stylesheet tokens, font assets'
+);
