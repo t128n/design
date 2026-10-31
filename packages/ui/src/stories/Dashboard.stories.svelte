@@ -1,16 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import {
-    Alert,
-    AppShell,
-    Badge,
-    Button,
-    Card,
-    Navbar,
-    PageHeader,
-    Sidebar,
-    Table
-  } from '../index.js';
+  import { Alert, AppShell, Badge, Button, PageHeader, Sidebar, Table } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -43,23 +33,20 @@
   ];
 </script>
 
+{#snippet sidebarHeader()}
+  <div class="brand">
+    <span class="brand-name">Stellar</span>
+    <span class="brand-workspace">Orbit team</span>
+  </div>
+{/snippet}
+
 {#snippet sidebar()}
-  <Sidebar {sections} />
-{/snippet}
-
-{#snippet navbar()}
-  <Navbar
-    links={[
-      { label: 'Overview', active: true },
-      { label: 'Projects' },
-      { label: 'Activity' }
-    ]}
-    actions={navActions}
+  <Sidebar
+    {sections}
+    header={sidebarHeader}
+    label="Workspace"
+    toggleLabel="Workspace"
   />
-{/snippet}
-
-{#snippet navActions()}
-  <Button variant="secondary">Help</Button>
 {/snippet}
 
 {#snippet headerActions()}
@@ -68,83 +55,125 @@
 {/snippet}
 
 <Story name="Dashboard">
-  <AppShell {sidebar} {navbar}>
+  <AppShell {sidebar}>
     <PageHeader
       title="Overview"
       description="What changed, what needs attention, and who owns the next step."
-      breadcrumbs={[{ label: 'Workspace', href: '#' }, { label: 'Overview' }]}
       actions={headerActions}
     />
     <div class="stack">
       <Alert tone="warning" title="Two projects need an owner">
-        Assign an owner before the next review on Friday.
+        Assign an owner to Beacon and Cinder before the review on Friday.
       </Alert>
-      <div class="stats">
-        <Card title="Active projects">
-          <div class="stat"><strong>12</strong><Badge tone="success">+2 this week</Badge></div>
-        </Card>
-        <Card title="Needs review">
-          <div class="stat"><strong>3</strong><Badge tone="warning">Due Friday</Badge></div>
-        </Card>
-        <Card title="Archived">
-          <div class="stat"><strong>28</strong><Badge tone="neutral">This quarter</Badge></div>
-        </Card>
+      <div class="metrics">
+        <div class="metric">
+          <span class="metric-label">Active projects</span>
+          <strong class="metric-value">12</strong>
+          <Badge tone="success">+2 this week</Badge>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Needs review</span>
+          <strong class="metric-value">3</strong>
+          <Badge tone="warning">Due Friday</Badge>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Archived this quarter</span>
+          <strong class="metric-value">28</strong>
+          <Badge tone="neutral">No action needed</Badge>
+        </div>
       </div>
-      <Card title="Recent projects">
+      <section class="recent" aria-labelledby="recent-heading">
+        <h2 id="recent-heading">Recent projects</h2>
         <Table {columns}>
           <tr>
             <td>Orbit</td>
             <td>Mara Chen</td>
-            <td class="u-right">2 minutes ago</td>
+            <td class="u-right">2 minutes ago · 10:42</td>
             <td><Badge tone="success">Healthy</Badge></td>
           </tr>
           <tr>
             <td>Atlas</td>
             <td>Devon Ruiz</td>
-            <td class="u-right">18 minutes ago</td>
+            <td class="u-right">18 minutes ago · 10:26</td>
             <td><Badge tone="progress">In progress</Badge></td>
           </tr>
           <tr>
             <td>Beacon</td>
-            <td>—</td>
-            <td class="u-right">Yesterday</td>
+            <td>No owner</td>
+            <td class="u-right">Yesterday · 16:10</td>
             <td><Badge tone="warning">Needs owner</Badge></td>
           </tr>
           <tr>
             <td>Cinder</td>
             <td>Priya Shah</td>
-            <td class="u-right">2 days ago</td>
+            <td class="u-right">2 days ago · 09:05</td>
             <td><Badge tone="disabled">Archived</Badge></td>
           </tr>
         </Table>
-      </Card>
+      </section>
     </div>
   </AppShell>
 </Story>
 
 <style>
+  .brand {
+    display: grid;
+    gap: 2px;
+  }
+
+  .brand-name {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-label);
+  }
+
+  .brand-workspace {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-caption);
+    line-height: var(--line-height-caption);
+  }
+
   .stack {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-md);
+    gap: var(--space-2xl);
   }
 
-  .stats {
+  .metrics {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--space-xl);
+  }
+
+  .metric {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-xs);
+  }
+
+  .metric-label {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body);
+  }
+
+  .metric-value {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-heading);
+    font-weight: var(--font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+    line-height: var(--line-height-heading);
+  }
+
+  .recent {
+    display: grid;
     gap: var(--space-md);
   }
 
-  .stat {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-sm);
-  }
-
-  .stat strong {
-    font-size: var(--font-size-display);
+  .recent h2 {
+    margin: 0;
+    font-size: var(--font-size-subheading);
     font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-display);
+    line-height: var(--line-height-subheading);
   }
 </style>

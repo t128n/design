@@ -42,4 +42,29 @@ describe('Storybook stories', () => {
       expect(story).toContain(`title: '${title}'`);
     }
   });
+
+  it('exposes every required layout story name', async () => {
+    const stories: Record<string, string[]> = {
+      AppShell: ['Top navigation', 'Sidebar navigation', 'Combined navigation', 'Narrow screen'],
+      Sidebar: ['Flat', 'Grouped', 'Nested', 'Selected', 'Focus'],
+      Navbar: ['Basic', 'Account utilities', 'Narrow screen', 'Long labels'],
+      PageHeader: [
+        'Title only',
+        'With description',
+        'Breadcrumbs and actions',
+        'Long title',
+        'Projects page'
+      ],
+      Hero: ['Centered', 'With aside', 'Without eyebrow', 'Long content', 'Stacked'],
+      Footer: ['Minimal', 'Utility links', 'Complete page', 'Stacked']
+    };
+
+    for (const [file, names] of Object.entries(stories)) {
+      const story = await readStory(`../src/stories/${file}.stories.svelte`);
+
+      for (const name of names) {
+        expect(story).toContain(`name="${name}"`);
+      }
+    }
+  });
 });

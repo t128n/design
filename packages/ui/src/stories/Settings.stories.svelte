@@ -7,7 +7,6 @@
     Checkbox,
     Dialog,
     Input,
-    Navbar,
     PageHeader,
     Select,
     Sidebar,
@@ -47,17 +46,7 @@
 </script>
 
 {#snippet sidebar()}
-  <Sidebar {sections} />
-{/snippet}
-
-{#snippet navbar()}
-  <Navbar
-    links={[
-      { label: 'Overview' },
-      { label: 'Projects' },
-      { label: 'Settings', active: true }
-    ]}
-  />
+  <Sidebar {sections} label="Settings" toggleLabel="Settings" />
 {/snippet}
 
 {#snippet headerActions()}
@@ -70,7 +59,7 @@
 {/snippet}
 
 <Story name="Settings">
-  <AppShell {sidebar} {navbar}>
+  <AppShell {sidebar}>
     <PageHeader
       title="Settings"
       description="Workspace defaults, review rules, and notification preferences."
@@ -125,8 +114,8 @@
   .settings {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-md);
-    max-width: 820px;
+    gap: var(--space-lg);
+    max-width: var(--layout-form-width);
   }
 
   .form-grid {
