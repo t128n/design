@@ -6,10 +6,15 @@
     Card,
     Checkbox,
     Dialog,
+    Grid,
+    Inline,
     Input,
+    Page,
     PageHeader,
+    Section,
     Select,
     Sidebar,
+    Stack,
     Switch,
     Text
   } from '../index.js';
@@ -59,26 +64,27 @@
   <Button onclick={close}>Archive workspace</Button>
 {/snippet}
 
+{#snippet pageHeader()}
+  <PageHeader
+    title="Settings"
+    description="Workspace defaults, review rules, and notification preferences."
+    actions={headerActions}
+  />
+{/snippet}
+
 <Story name="Settings">
   <div class="settings-view">
     <AppShell {sidebar}>
-      <PageHeader
-        title="Settings"
-        description="Workspace defaults, review rules, and notification preferences."
-        actions={headerActions}
-      />
-      <div class="settings">
-        <section class="settings-section" aria-labelledby="settings-workspace">
-          <Text variant="subheading" as="h2" id="settings-workspace">Workspace</Text>
-          <div class="form-grid">
+      <Page width="form" header={pageHeader}>
+        <Section id="settings-workspace" title="Workspace" gap="md">
+          <Grid columns="auto" minItem="md" gap="md">
             <Input label="Workspace name" value="Acme" />
             <Select label="Default region" items={regions} value="us-east" />
-          </div>
-        </section>
+          </Grid>
+        </Section>
 
-        <section class="settings-section" aria-labelledby="settings-review">
-          <Text variant="subheading" as="h2" id="settings-review">Review rules</Text>
-          <div class="choices">
+        <Section id="settings-review" title="Review rules" gap="md">
+          <Stack gap="md">
             <Switch
               label="Require review before archive"
               description="An owner must approve the archive before it takes effect."
@@ -88,8 +94,8 @@
               label="Allow guest access"
               description="Guests can read projects but cannot change them."
             />
-          </div>
-        </section>
+          </Stack>
+        </Section>
 
         <Card title="Danger zone">
           <Text variant="body-sm" tone="secondary">
@@ -108,11 +114,11 @@
           </Dialog>
         </Card>
 
-        <div class="actions">
+        <Inline justify="end" gap="sm">
           <Button variant="secondary">Reset</Button>
           <Button>Save changes</Button>
-        </div>
-      </div>
+        </Inline>
+      </Page>
     </AppShell>
   </div>
 </Story>
@@ -120,34 +126,5 @@
 <style>
   .settings-view {
     background: var(--color-workspace);
-  }
-
-  .settings {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-2xl);
-    max-width: var(--layout-form-width);
-  }
-
-  .settings-section {
-    display: grid;
-    gap: var(--space-md);
-  }
-
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: var(--space-md);
-  }
-
-  .choices {
-    display: grid;
-    gap: var(--space-md);
-  }
-
-  .actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--space-sm);
   }
 </style>

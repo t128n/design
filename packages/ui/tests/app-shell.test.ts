@@ -280,7 +280,8 @@ describe('AppShell stories', () => {
     expect(stories).not.toContain('narrow-frame');
     expect(stories).not.toContain('width: min(420px, 100%)');
     expect(narrow).toContain('<AppShell');
-    expect(narrow).toContain('<PageHeader');
+    expect(narrow).toContain('<Page header={projectsHeader}>');
+    expect(snippetBlock(stories, 'projectsHeader')).toContain('<PageHeader');
   });
 
   it('uses combined navigation in the narrow story without duplicating the menu', async () => {
@@ -307,8 +308,10 @@ describe('AppShell stories', () => {
     expect(snippetBlock(stories, 'topNavbar')).not.toContain('<Sidebar');
     expect(snippetBlock(stories, 'sidebarNav')).toContain('<Sidebar');
     expect(snippetBlock(stories, 'sidebarNav')).not.toContain('<Navbar');
-    expect(top).toContain('<PageHeader');
-    expect(sidebar).toContain('<PageHeader');
+    expect(top).toContain('<Page header={projectsHeader}>');
+    expect(sidebar).toContain('<Page header={overviewHeader}>');
+    expect(snippetBlock(stories, 'projectsHeader')).toContain('<PageHeader');
+    expect(snippetBlock(stories, 'overviewHeader')).toContain('<PageHeader');
   });
 
   it('keeps destinations out of the navbar in the combined story', async () => {
@@ -322,7 +325,8 @@ describe('AppShell stories', () => {
     expect(combinedNavbar).toContain('actions={navbarUtilities}');
     expect(combinedNavbar).not.toContain('links=');
     expect(snippetBlock(stories, 'combinedSidebar')).toContain('<Sidebar');
-    expect(combined).toContain('<PageHeader');
+    expect(combined).toContain('<Page header={projectsHeader}>');
+    expect(snippetBlock(stories, 'projectsHeader')).toContain('<PageHeader');
   });
 
   it('uses ghost links for navbar utilities instead of outlined buttons', async () => {

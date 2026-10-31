@@ -243,26 +243,27 @@ describe('Table stories', () => {
     const stories = await readSource('../src/stories/Table.stories.svelte');
     const defaultStory = storyBlock(stories, 'Default');
 
-    expect(defaultStory).toContain('<section class="section">');
+    expect(defaultStory).toContain('<Section');
     expect(defaultStory).toContain('id="active-projects-heading"');
-    expect(defaultStory).toContain(
-      '<Text variant="subheading" as="h2" id="active-projects-heading">Active projects</Text>'
-    );
-    expect(defaultStory).toContain('<Text variant="body-sm" tone="secondary">');
-    expect(defaultStory).toContain('<Button variant="secondary">View all</Button>');
+    expect(defaultStory).toContain('title="Active projects"');
+    expect(defaultStory).toContain('description="Ownership and status for work in flight."');
+    expect(defaultStory).toContain('actions={viewAll}');
+    expect(defaultStory).toContain('labelledBy={false}');
     expect(defaultStory).toContain('labelledBy="active-projects-heading"');
+    expect(defaultStory.indexOf('<Section')).toBeLessThan(defaultStory.indexOf('<Table'));
     expect(defaultStory).not.toContain('caption=');
     expect(stories).not.toContain('caption=');
-    expect(stories).not.toMatch(/<section class="section"[^>]*aria-labelledby/);
+    expect(stories).not.toMatch(/<section[^>]*aria-labelledby/);
   });
 
-  it('uses the subheading scale for section titles and a compact gap to the headers', async () => {
+  it('delegates the subheading scale and compact gap to Section', async () => {
     const stories = await readSource('../src/stories/Table.stories.svelte');
-    const section = cssBlock(stories, '.section');
+    const section = await readSource('../src/lib/Section.svelte');
 
-    expect(section).toContain('gap: var(--space-sm)');
-    expect(stories).toContain('<Text variant="subheading" as="h2"');
-    expect(stories).toContain('<Text variant="body-sm" tone="secondary">');
+    expect(stories).not.toMatch(/\.section(?![\w-])\s*\{/);
+    expect(section).toContain('<Text variant="subheading"');
+    expect(section).toContain("gap = 'sm'");
+    expect(section).toContain('as={headingTag(level)}');
   });
 
   it('opts the bordered story into the surface container with realistic rows', async () => {
@@ -273,7 +274,7 @@ describe('Table stories', () => {
     expect(borderedStory).toContain('<TableRow>');
     expect(borderedStory).toContain('<TableCell>');
     expect(borderedStory).toContain('<Badge');
-    expect(borderedStory).toContain('as="h2"');
+    expect(borderedStory).toContain('title="Archived projects"');
     expect(borderedStory).not.toContain('caption=');
   });
 

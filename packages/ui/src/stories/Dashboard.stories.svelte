@@ -7,8 +7,9 @@
     Button,
     EmptyState,
     Grid,
-    Inline,
+    Page,
     PageHeader,
+    Section,
     Sidebar,
     Stack,
     Table,
@@ -73,15 +74,22 @@
   <Button variant="secondary">View the archive</Button>
 {/snippet}
 
+{#snippet viewAll()}
+  <Button variant="secondary">View all</Button>
+{/snippet}
+
+{#snippet pageHeader()}
+  <PageHeader
+    title="Overview"
+    description="What changed, what needs attention, and who owns the next step."
+    actions={headerActions}
+  />
+{/snippet}
+
 <Story name="Dashboard">
   <div class="dashboard">
     <AppShell {sidebar}>
-      <PageHeader
-        title="Overview"
-        description="What changed, what needs attention, and who owns the next step."
-        actions={headerActions}
-      />
-      <Stack gap="2xl">
+      <Page header={pageHeader}>
         <Alert tone="warning" title="Two projects need an owner">
           Assign an owner to Beacon and Cinder before the review on Friday.
         </Alert>
@@ -102,18 +110,13 @@
             <Badge tone="neutral">No action needed</Badge>
           </Stack>
         </Grid>
-        <Stack as="section" gap="sm">
-          <div class="section-heading">
-            <Stack gap="xs">
-              <Text variant="subheading" as="h2" id="recent-heading">Recent projects</Text>
-              <Text variant="body-sm" tone="secondary">
-                Ownership, status, and the latest update for each project.
-              </Text>
-            </Stack>
-            <Inline gap="sm">
-              <Button variant="secondary">View all</Button>
-            </Inline>
-          </div>
+        <Section
+          id="recent-heading"
+          labelledBy={false}
+          title="Recent projects"
+          description="Ownership, status, and the latest update for each project."
+          actions={viewAll}
+        >
           <Table {columns} labelledBy="recent-heading">
             <TableRow>
               <TableCell>Orbit</TableCell>
@@ -140,14 +143,14 @@
               <TableCell><Badge tone="disabled">Archived</Badge></TableCell>
             </TableRow>
           </Table>
-        </Stack>
+        </Section>
         <EmptyState
           level={3}
           title="No archived projects"
           description="Projects you archive will appear here for reference."
           action={archiveAction}
         />
-      </Stack>
+      </Page>
     </AppShell>
   </div>
 </Story>
@@ -155,18 +158,5 @@
 <style>
   .dashboard {
     background: var(--color-workspace);
-  }
-
-  .section-heading {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--space-lg);
-  }
-
-  @media (max-width: 640px) {
-    .section-heading {
-      flex-direction: column;
-    }
   }
 </style>

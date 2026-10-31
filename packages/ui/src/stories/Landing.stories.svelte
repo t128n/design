@@ -1,6 +1,20 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Button, Card, Footer, Hero, Link, List, Navbar, Text } from '../index.js';
+  import {
+    Button,
+    Card,
+    Container,
+    Footer,
+    Grid,
+    Hero,
+    Link,
+    List,
+    Navbar,
+    Page,
+    Section,
+    Stack,
+    Text
+  } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -48,46 +62,45 @@
       ]}
       actions={navbarActions}
     />
-    <main class="wrap">
-      <Hero
-        eyebrow="Quiet project operations"
-        title="Keep the work visible without the noise"
-        description="Acme gives small teams one place for projects, ownership, and the changes that matter."
-        actions={heroActions}
-        aside={heroAside}
-      />
-      <section class="features" aria-labelledby="features-heading">
-        <Text variant="subheading" as="h2" id="features-heading">
-          Built for the work between meetings
-        </Text>
-        <div class="feature-list">
-          <section class="feature">
-            <Text variant="body" as="h3" weight="medium">Clear ownership</Text>
-            <Text variant="body-sm" tone="secondary">
-              Every project has a named owner and a visible next step.
-            </Text>
-          </section>
-          <section class="feature">
-            <Text variant="body" as="h3" weight="medium">Quiet status</Text>
-            <Text variant="body-sm" tone="secondary">
-              Status is text and one role, so it still reads in greyscale.
-            </Text>
-          </section>
-          <section class="feature">
-            <Text variant="body" as="h3" weight="medium">Fast review</Text>
-            <Text variant="body-sm" tone="secondary">
-              See what changed, who changed it, and what needs attention.
-            </Text>
-          </section>
-        </div>
-      </section>
-    </main>
-    <div class="wrap">
+    <Container as="main" width="full" padding="xl">
+      <Page>
+        <Hero
+          eyebrow="Quiet project operations"
+          title="Keep the work visible without the noise"
+          description="Acme gives small teams one place for projects, ownership, and the changes that matter."
+          actions={heroActions}
+          aside={heroAside}
+        />
+        <Section id="features-heading" title="Built for the work between meetings">
+          <Grid columns={3} collapseAt="md" gap="xl">
+            <Stack gap="xs">
+              <Text variant="body" as="h3" weight="medium">Clear ownership</Text>
+              <Text variant="body-sm" tone="secondary">
+                Every project has a named owner and a visible next step.
+              </Text>
+            </Stack>
+            <Stack gap="xs">
+              <Text variant="body" as="h3" weight="medium">Quiet status</Text>
+              <Text variant="body-sm" tone="secondary">
+                Status is text and one role, so it still reads in greyscale.
+              </Text>
+            </Stack>
+            <Stack gap="xs">
+              <Text variant="body" as="h3" weight="medium">Fast review</Text>
+              <Text variant="body-sm" tone="secondary">
+                See what changed, who changed it, and what needs attention.
+              </Text>
+            </Stack>
+          </Grid>
+        </Section>
+      </Page>
+    </Container>
+    <Container width="full" padding="xl">
       <Footer
         links={[{ label: 'Docs' }, { label: 'Status' }, { label: 'Privacy' }]}
         note="© 2026 Acme"
       />
-    </div>
+    </Container>
   </div>
 </Story>
 
@@ -95,37 +108,5 @@
   .landing {
     background: var(--color-workspace);
     color: var(--color-text-primary);
-  }
-
-  .wrap {
-    width: min(1120px, 100%);
-    margin: 0 auto;
-    padding: 0 var(--space-xl);
-  }
-
-  .features {
-    padding-bottom: var(--space-2xl);
-  }
-
-  .features :global(h2) {
-    margin-bottom: var(--space-lg);
-  }
-
-  .feature-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: var(--space-xl) var(--space-2xl);
-  }
-
-  .feature {
-    display: grid;
-    gap: var(--space-xs);
-    min-width: 0;
-  }
-
-  @media (max-width: 800px) {
-    .feature-list {
-      grid-template-columns: 1fr;
-    }
   }
 </style>

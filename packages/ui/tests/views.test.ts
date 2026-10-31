@@ -47,14 +47,14 @@ describe('composed workspace views', () => {
   it('composes the Dashboard table under a section heading with an action', async () => {
     const dashboard = await readStory('../src/stories/Dashboard.stories.svelte');
 
-    expect(dashboard).toContain('<Stack as="section" gap="sm">');
-    expect(dashboard).not.toMatch(/<Stack as="section"[^>]*aria-labelledby/);
-    expect(dashboard).toContain(
-      '<Text variant="subheading" as="h2" id="recent-heading">Recent projects</Text>'
-    );
+    expect(dashboard).toContain('<Section');
+    expect(dashboard).toContain('id="recent-heading"');
+    expect(dashboard).toContain('title="Recent projects"');
+    expect(dashboard).toContain('actions={viewAll}');
     expect(dashboard).toContain('<Button variant="secondary">View all</Button>');
     expect(dashboard).toContain('labelledBy="recent-heading"');
     expect(dashboard).not.toMatch(/<Table[^>]*\bcaption=/);
+    expect(dashboard).not.toContain('section-heading');
   });
 
   it('renders Settings on a white workspace with sidebar navigation alone', async () => {
@@ -65,7 +65,7 @@ describe('composed workspace views', () => {
     expect(settings).toContain('<Sidebar');
     expect(settings).not.toContain('<Navbar');
     expect(settings).not.toContain('{navbar}');
-    expect(settings).toContain('var(--layout-form-width)');
+    expect(settings).toContain('<Page width="form"');
     expect(settings).not.toContain('max-width: 820px');
     expect(settings).toContain('<Dialog');
   });
@@ -75,13 +75,10 @@ describe('composed workspace views', () => {
     const cards = settings.match(/<Card title="[^"]+">/g) ?? [];
 
     expect(cards).toEqual(['<Card title="Danger zone">']);
-    expect(settings.match(/<section class="settings-section"/g) ?? []).toHaveLength(2);
-    expect(settings).toContain(
-      '<Text variant="subheading" as="h2" id="settings-workspace">Workspace</Text>'
-    );
-    expect(settings).toContain(
-      '<Text variant="subheading" as="h2" id="settings-review">Review rules</Text>'
-    );
+    expect(settings.match(/<Section /g) ?? []).toHaveLength(2);
+    expect(settings).toContain('<Section id="settings-workspace" title="Workspace"');
+    expect(settings).toContain('<Section id="settings-review" title="Review rules"');
+    expect(settings).not.toContain('settings-section');
     expect(settings).toContain('title="Settings"');
     expect(settings).toContain("{ label: 'Settings', active: true }");
     expect(settings).not.toContain("{ label: 'Preferences', active: true }");
@@ -102,14 +99,12 @@ describe('composed workspace views', () => {
 
   it('test_shared_surface: sections and Hero draw no background of their own', async () => {
     const landing = await readStory('../src/stories/Landing.stories.svelte');
+    const backgrounds = landing.match(/background\s*:/g) ?? [];
 
-    for (const selector of ['.wrap', '.features', '.feature']) {
-      const block = blockFor(landing, selector);
-
-      expect(block, selector).not.toBe('');
-      expect(block, selector).not.toContain('background');
-    }
-
+    expect(backgrounds).toHaveLength(1);
+    expect(landing).toContain('<Page>');
+    expect(landing).toContain('<Section');
+    expect(landing).toContain('<Grid');
     expect(landing).not.toMatch(/<main[^>]*\bstyle=/);
     expect(landing).not.toContain('.hero');
   });
@@ -118,10 +113,7 @@ describe('composed workspace views', () => {
     const landing = await readStory('../src/stories/Landing.stories.svelte');
 
     for (const selector of ['.landing', '.wrap', '.features', '.feature']) {
-      const block = blockFor(landing, selector);
-
-      expect(block, selector).not.toBe('');
-      expect(block, selector).not.toContain('border');
+      expect(blockFor(landing, selector), selector).not.toContain('border');
     }
 
     expect(landing).not.toMatch(/<main[^>]*\bstyle=/);
@@ -144,11 +136,12 @@ describe('composed workspace views', () => {
   it('test_no_card_inflation: feature sections stay plain and only the Hero aside is a Card', async () => {
     const landing = await readStory('../src/stories/Landing.stories.svelte');
     const cards = landing.match(/<Card\b/g) ?? [];
-    const features = landing.slice(landing.indexOf('class="features"'), landing.indexOf('<Footer'));
+    const features = landing.slice(landing.indexOf('<Section'), landing.indexOf('<Footer'));
 
     expect(cards).toHaveLength(1);
     expect(features).not.toContain('<Card');
-    expect(landing).toContain('<section class="feature"');
+    expect(features).toContain('<Grid columns={3}');
+    expect(features).toContain('Clear ownership');
   });
 
   it('test_page_fill: Landing stays in normal document flow without a viewport shell', async () => {
@@ -161,14 +154,14 @@ describe('composed workspace views', () => {
     expect(root).not.toContain('position: absolute');
   });
 
-  it('test_responsive: wrap stays at 1120px and features stack at 800px', async () => {
+  it('test_responsive: Page owns the measure and features collapse at 800px', async () => {
     const landing = await readStory('../src/stories/Landing.stories.svelte');
 
-    expect(blockFor(landing, '.wrap')).toContain('width: min(1120px, 100%)');
-    expect(landing).toContain('@media (max-width: 800px)');
-    expect(landing.slice(landing.indexOf('@media (max-width: 800px)'))).toContain(
-      'grid-template-columns: 1fr'
-    );
+    expect(landing).toContain('<Container as="main" width="full" padding="xl">');
+    expect(landing).toContain('<Page>');
+    expect(landing).toContain('<Grid columns={3} collapseAt="md" gap="xl">');
+    expect(landing).not.toContain('width: min(1120px, 100%)');
+    expect(landing).not.toContain('@media (max-width: 800px)');
   });
 
   it('uses a ghost link for the Landing sign-in utility', async () => {
@@ -181,14 +174,12 @@ describe('composed workspace views', () => {
 
   it('renders Landing features as plain sections instead of cards', async () => {
     const landing = await readStory('../src/stories/Landing.stories.svelte');
-    const features = landing.slice(
-      landing.indexOf('class="features"'),
-      landing.indexOf('<Footer')
-    );
+    const features = landing.slice(landing.indexOf('<Section'), landing.indexOf('<Footer'));
 
     expect(features.length).toBeGreaterThan(0);
     expect(features).not.toContain('<Card');
-    expect(features).toContain('<section class="feature"');
+    expect(features).toContain('title="Built for the work between meetings"');
+    expect(features.match(/<Text variant="body" as="h3"/g) ?? []).toHaveLength(3);
   });
 
   it('lets AppShell stories inherit workspace and navigation surfaces without overrides', async () => {
@@ -206,9 +197,8 @@ describe('composed workspace views', () => {
   it('keeps the AppShell projects table inside a titled section', async () => {
     const appShell = await readStory('../src/stories/AppShell.stories.svelte');
 
-    expect(appShell).toContain('<section class="projects">');
     expect(appShell).toContain(
-      '<Text variant="subheading" as="h2" id="projects-heading">Active projects</Text>'
+      '<Section id="projects-heading" title="Active projects" labelledBy={false}>'
     );
     expect(appShell).toContain('<Table');
     expect(appShell).toContain('<TableRow>');
@@ -216,20 +206,21 @@ describe('composed workspace views', () => {
     expect(appShell).not.toContain('u-right');
     expect(appShell).toContain('labelledBy="projects-heading"');
     expect(appShell).not.toMatch(/<Table[^>]*\bcaption=/);
+    expect(appShell).not.toMatch(/\.projects(?![\w-])\s*\{/);
   });
 
-  it('fills the workspace for PageHeader stories through Container and a block-padding page', async () => {
+  it('fills the workspace for PageHeader stories through Container and Page', async () => {
     const pageHeader = await readStory('../src/stories/PageHeader.stories.svelte');
     const pageRule = blockFor(pageHeader, ':global(.page)');
 
     expect(pageHeader).toContain("layout: 'fullscreen'");
     expect(pageRule).toContain('background: var(--color-workspace)');
-    expect(pageRule).toContain('padding-block: var(--space-2xl)');
+    expect(pageRule).not.toContain('padding');
     expect(pageRule).not.toContain('100vh');
-    expect(pageHeader).toContain('<Container width="content" padding="xl" class="page">');
-    expect(pageHeader).toContain(':global(.page-header)');
-    expect(pageHeader).toContain(':global(.table-wrap)');
-    expect(pageHeader).toContain('max-width: var(--layout-content-width)');
+    expect(pageHeader).toContain('<Container width="full" padding="xl" class="page">');
+    expect(pageHeader).toContain('<Page header={projectsHeader}>');
+    expect(pageHeader).not.toContain(':global(.page-header)');
+    expect(pageHeader).not.toContain(':global(.table-wrap)');
     expect(pageHeader).not.toContain('<Card');
     expect(pageHeader).toContain('<PageHeader');
     expect(pageHeader).toContain('<Table');
@@ -242,8 +233,9 @@ describe('composed workspace views', () => {
     expect(blockFor(personal, ':global(.page)')).toContain('background: var(--color-workspace)');
     expect(blockFor(personal, ':global(.page)')).not.toContain('100vh');
     expect(personal).toContain('as="main"');
-    expect(personal).toContain('width="reading"');
+    expect(personal).toContain('<Page width="reading">');
     expect(personal).toContain('<Container');
+    expect(personal).toContain('<Section id="connect-heading" title="Connect">');
     expect(personal).not.toContain('background: var(--color-canvas)');
     expect(personal).toContain('<Link');
     expect(personal).not.toContain('<Card');
