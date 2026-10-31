@@ -68,7 +68,6 @@
         { label: 'Privacy' }
       ]}
       note="© 2026 Stellar"
-      bordered={false}
     />
   </div>
 </Story>
@@ -92,6 +91,7 @@
   .page {
     display: grid;
     min-width: 0;
+    background: var(--color-workspace);
   }
 
   .doc {

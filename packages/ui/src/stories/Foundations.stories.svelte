@@ -26,6 +26,7 @@
   <main class="foundations">
     <section aria-labelledby="colors-heading">
       <h1 id="colors-heading">Colors</h1>
+      <p>White is the default for application surfaces. Canvas is reserved for subdued public, marketing, and empty contexts.</p>
       <p>Light semantic tokens use one blue accent for meaningful actions and focus.</p>
       <div class="swatches">
         {#each colors as [name, value]}
@@ -69,7 +70,7 @@
 </Story>
 
 <style>
-  .foundations { max-width: 960px; padding: var(--space-xl); color: var(--color-text-primary); background: var(--color-canvas); font-family: var(--font-family-sans); }
+  .foundations { max-width: 960px; padding: var(--space-xl); color: var(--color-text-primary); background: var(--color-workspace); font-family: var(--font-family-sans); }
   section { margin-bottom: var(--space-2xl); }
   h1, h2, h3, p { margin: 0; }
   h1 { font-size: var(--font-size-display); line-height: var(--line-height-display); }
