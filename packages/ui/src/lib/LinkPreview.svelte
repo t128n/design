@@ -85,7 +85,7 @@
 
   :global(.link-preview-trigger:focus-visible) {
     outline: var(--border-width-emphasis) solid var(--color-focus);
-    outline-offset: 2px;
+    outline-offset: var(--border-width-emphasis);
     border-radius: var(--radius-sm);
   }
 
@@ -94,7 +94,7 @@
     min-width: 16rem;
     max-width: min(24rem, calc(100vw - 2rem));
     padding: var(--space-md);
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-lg);
     background: var(--color-surface);
     box-shadow: var(--shadow-overlay);

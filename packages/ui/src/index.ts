@@ -61,4 +61,5 @@ export { default as Grid } from './lib/Grid.svelte';
 export { default as Container } from './lib/Container.svelte';
 export { default as List } from './lib/List.svelte';
 export type { TextAlign, TextTag, TextTone, TextVariant, TextWeight } from './lib/typography';
-export type { LayoutTag, ListMarker, Space } from './lib/layout';
+export { breakpoints } from './lib/layout';
+export type { Breakpoint, CollapseAt, LayoutTag, ListMarker, Space } from './lib/layout';

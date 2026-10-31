@@ -34,7 +34,7 @@
   .input {
     min-height: var(--control-height);
     padding: 0 var(--space-md);
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     color: var(--color-text-primary);
@@ -43,8 +43,8 @@
   }
 
   .input:focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .input[aria-invalid='true'] {

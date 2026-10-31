@@ -77,8 +77,8 @@
   :global(.rating-group .rating-item) {
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
+    width: var(--touch-target);
+    height: var(--touch-target);
     border-radius: var(--radius-sm);
     color: var(--color-text-muted);
     cursor: pointer;
@@ -89,8 +89,8 @@
   }
 
   :global(.rating-group:focus-visible) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
     border-radius: var(--radius-sm);
   }
 
@@ -104,8 +104,8 @@
   }
 
   :global(.rating-icon) {
-    width: 20px;
-    height: 20px;
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
   }
 
   :global(.rating-icon.filled) {

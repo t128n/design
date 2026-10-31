@@ -111,7 +111,7 @@
     width: 100%;
     min-height: var(--control-height);
     padding: 0 var(--space-md);
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     color: var(--color-text-primary);
@@ -130,8 +130,8 @@
   }
 
   .select-field :global(.select-trigger:focus-visible) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .select-field :global(.select-trigger[aria-invalid='true']:focus-visible) {
@@ -153,8 +153,8 @@
 
   .select-field :global(.chevron) {
     flex: none;
-    width: 16px;
-    height: 16px;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
     color: var(--color-text-secondary);
     transition: transform var(--transition-duration);
   }
@@ -172,7 +172,7 @@
     min-width: 14rem;
     max-width: min(28rem, calc(100vw - 2rem));
     padding: var(--space-xs);
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     box-shadow: var(--shadow-overlay);
@@ -187,7 +187,7 @@
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    min-height: 32px;
+    min-height: var(--control-height-sm);
     padding: 0 var(--space-sm);
     border-radius: var(--radius-sm);
     color: var(--color-text-primary);
@@ -210,14 +210,14 @@
     display: grid;
     flex: none;
     place-items: center;
-    width: 16px;
-    height: 16px;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
     color: var(--color-accent);
   }
 
   .check :global(.check-icon) {
-    width: 14px;
-    height: 14px;
+    width: var(--icon-size-xs);
+    height: var(--icon-size-xs);
   }
 
   .error {

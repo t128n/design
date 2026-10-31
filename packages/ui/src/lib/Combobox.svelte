@@ -123,7 +123,7 @@
     align-items: center;
     width: 100%;
     min-height: var(--control-height);
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     overflow: hidden;
@@ -149,8 +149,8 @@
   }
 
   .combobox-input-group:focus-within {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .combobox-input-group.invalid {
@@ -164,8 +164,8 @@
   .combobox-field :global(.combobox-trigger) {
     display: grid;
     place-items: center;
-    width: 36px;
-    height: 36px;
+    width: var(--control-height);
+    height: var(--control-height);
     border: 0;
     background: transparent;
     color: var(--color-text-secondary);
@@ -173,14 +173,14 @@
   }
 
   .combobox-field :global(.combobox-trigger):focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: -2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: calc(-1 * var(--border-width-emphasis));
     border-radius: var(--radius-sm);
   }
 
   .combobox-field :global(.chevron) {
-    width: 16px;
-    height: 16px;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
   }
 
   :global(.combobox-content) {
@@ -192,7 +192,7 @@
     min-width: 14rem;
     max-width: min(28rem, calc(100vw - 2rem));
     padding: var(--space-xs);
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     box-shadow: var(--shadow-overlay);
@@ -207,7 +207,7 @@
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    min-height: 32px;
+    min-height: var(--control-height-sm);
     padding: 0 var(--space-sm);
     border-radius: var(--radius-sm);
     color: var(--color-text-primary);
@@ -230,14 +230,14 @@
     display: grid;
     flex: none;
     place-items: center;
-    width: 16px;
-    height: 16px;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
     color: var(--color-accent);
   }
 
   .check :global(.check-icon) {
-    width: 14px;
-    height: 14px;
+    width: var(--icon-size-xs);
+    height: var(--icon-size-xs);
   }
 
   .panel :global(.empty) {

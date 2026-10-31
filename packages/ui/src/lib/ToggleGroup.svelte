@@ -87,7 +87,7 @@
 <style>
   :global(.toggle-group) {
     display: inline-flex;
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     overflow: hidden;
@@ -117,7 +117,7 @@
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-label);
     cursor: pointer;
-    border-right: 1px solid var(--color-border);
+    border-right: var(--border-width) solid var(--color-border);
     transition:
       background-color var(--transition-duration),
       color var(--transition-duration);
@@ -125,7 +125,7 @@
 
   :global(.toggle-group.vertical .toggle-group-item) {
     border-right: 0;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: var(--border-width) solid var(--color-border);
     width: 100%;
     justify-content: flex-start;
   }
@@ -143,8 +143,8 @@
   }
 
   :global(.toggle-group .toggle-group-item):focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: -2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: calc(-1 * var(--border-width-emphasis));
     z-index: 1;
   }
 

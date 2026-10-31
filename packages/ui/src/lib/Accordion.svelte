@@ -79,11 +79,11 @@
   }
 
   .accordion :global(.accordion-item) {
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: var(--border-width) solid var(--color-border);
   }
 
   .accordion :global(.accordion-item:first-child) {
-    border-top: 1px solid var(--color-border);
+    border-top: var(--border-width) solid var(--color-border);
   }
 
   .accordion :global(.accordion-header) {
@@ -113,8 +113,8 @@
   }
 
   .accordion :global(.accordion-trigger:focus-visible) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
     border-radius: var(--radius-sm);
   }
 
@@ -128,8 +128,8 @@
   }
 
   .accordion :global(.accordion-chevron) {
-    width: 16px;
-    height: 16px;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
     flex-shrink: 0;
     color: var(--color-text-secondary);
     transition: transform var(--transition-duration);

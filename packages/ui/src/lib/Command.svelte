@@ -126,7 +126,7 @@
     flex-direction: column;
     width: 100%;
     max-width: 28rem;
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-lg);
     background: var(--color-surface);
     color: var(--color-text-primary);
@@ -138,7 +138,7 @@
     display: flex;
     align-items: center;
     padding: 0 var(--space-md);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: var(--border-width) solid var(--color-border);
   }
 
   :global(.command-input) {
@@ -196,7 +196,7 @@
     display: flex;
     align-items: center;
     gap: var(--space-sm);
-    min-height: 32px;
+    min-height: var(--control-height-sm);
     padding: 0 var(--space-sm);
     border-radius: var(--radius-sm);
     color: var(--color-text-primary);
@@ -216,8 +216,8 @@
   }
 
   :global(.command-item:focus-visible) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .item-icon {
@@ -225,14 +225,14 @@
     align-items: center;
     justify-content: center;
     flex: none;
-    width: 16px;
-    height: 16px;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
     color: var(--color-text-secondary);
   }
 
   .item-icon :global(svg) {
-    width: 16px;
-    height: 16px;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
   }
 
   .item-label {

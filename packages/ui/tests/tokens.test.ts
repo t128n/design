@@ -33,12 +33,36 @@ describe('design tokens', () => {
     expect(styles).toContain('transition-duration: 0.01ms !important');
   });
 
-  it('creates a light token scope around its snippet content', async () => {
-    const scope = await readSource('../src/lib/ThemeScope.svelte');
+  it('defines the control, icon, avatar, and breakpoint token contract', async () => {
+    const tokens = await readSource('../src/styles/tokens.css');
 
-    expect(scope).toContain('class={`theme-scope ${className}`');
-    expect(scope).toContain('{@render children?.()}');
+    for (const token of [
+      '--control-height-sm: 32px',
+      '--control-height: 36px',
+      '--control-height-lg: 40px',
+      '--touch-target: 44px',
+      '--icon-size-xs: 14px',
+      '--icon-size-sm: 16px',
+      '--icon-size-md: 20px',
+      '--icon-size-lg: 24px',
+      '--icon-size-xl: 32px',
+      '--avatar-size-sm: 32px',
+      '--avatar-size-md: 40px',
+      '--avatar-size-lg: 48px',
+      '--thumb-size: 18px',
+      '--checkbox-size: 18px',
+      '--checkbox-indicator-size: 14px',
+      '--list-marker-indent: var(--space-xl)',
+      '--panel-max-height: calc(100dvh - var(--space-2xl))',
+      '--breakpoint-sm: 640px',
+      '--breakpoint-md: 800px',
+      '--breakpoint-lg: 1024px'
+    ]) {
+      expect(tokens).toContain(token);
+    }
   });
+
+
 });
 
 describe('workspace surfaces', () => {

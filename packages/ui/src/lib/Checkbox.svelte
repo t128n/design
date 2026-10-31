@@ -79,8 +79,8 @@
   }
 
   .checkbox :global(.checkbox-root):focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .checkbox :global(.checkbox-root):disabled {
@@ -92,9 +92,9 @@
     display: grid;
     flex: none;
     place-items: center;
-    width: 18px;
-    height: 18px;
-    border: 1px solid var(--color-border);
+    width: var(--checkbox-size);
+    height: var(--checkbox-size);
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-sm);
     background: var(--color-surface);
     color: var(--color-on-accent);
@@ -113,8 +113,8 @@
   }
 
   .box :global(.icon) {
-    width: 14px;
-    height: 14px;
+    width: var(--checkbox-indicator-size);
+    height: var(--checkbox-indicator-size);
   }
 
   .label {
@@ -124,7 +124,7 @@
   }
 
   .description {
-    margin-left: calc(18px + var(--space-sm));
+    margin-left: calc(var(--checkbox-size) + var(--space-sm));
     color: var(--color-text-secondary);
     font-size: var(--font-size-body-sm);
     line-height: var(--line-height-body);

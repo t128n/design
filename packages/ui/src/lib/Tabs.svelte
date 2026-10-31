@@ -50,13 +50,13 @@
   .tabs :global(.tabs-list) {
     display: flex;
     gap: var(--space-xs);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: var(--border-width) solid var(--color-border);
   }
 
   .tabs :global(.tabs-trigger) {
     padding: var(--space-sm) var(--space-md);
     border: 0;
-    border-bottom: 2px solid transparent;
+    border-bottom: var(--border-width-emphasis) solid transparent;
     background: transparent;
     color: var(--color-text-secondary);
     font: inherit;
@@ -76,8 +76,8 @@
   }
 
   .tabs :global(.tabs-trigger:focus-visible) {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
     border-radius: var(--radius-sm);
   }
 

@@ -127,8 +127,8 @@
   }
 
   .radio-group :global(.radio-item):focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .radio-group :global(.radio-item):disabled,
@@ -141,10 +141,10 @@
     display: grid;
     flex: none;
     place-items: center;
-    width: 18px;
-    height: 18px;
+    width: var(--radio-size);
+    height: var(--radio-size);
     margin-top: 1px;
-    border: 1px solid var(--color-border);
+    border: var(--border-width) solid var(--color-border);
     border-radius: 50%;
     background: var(--color-surface);
   }
@@ -160,8 +160,8 @@
   }
 
   .radio-dot {
-    width: 10px;
-    height: 10px;
+    width: var(--radio-indicator-size);
+    height: var(--radio-indicator-size);
     border-radius: 50%;
     background: var(--color-accent);
   }

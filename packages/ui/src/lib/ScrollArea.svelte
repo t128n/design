@@ -57,11 +57,11 @@
   }
 
   :global(.scroll-area .scroll-area-scrollbar[data-orientation='vertical']) {
-    width: 10px;
+    width: var(--scrollbar-size);
   }
 
   :global(.scroll-area .scroll-area-scrollbar[data-orientation='horizontal']) {
-    height: 10px;
+    height: var(--scrollbar-size);
     flex-direction: column;
   }
 
@@ -81,8 +81,8 @@
   }
 
   :global(.scroll-area .scroll-area-thumb):focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   :global(.scroll-area .scroll-area-corner) {
