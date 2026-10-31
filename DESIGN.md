@@ -29,6 +29,33 @@ colors:
   scrim: "rgb(22 22 22 / 45%)"
   disabled-bg: "#DDE1E6"
   disabled-text: "#697077"
+darkColors:
+  canvas: "#0B0B0B"
+  workspace: "#161616"
+  surface: "#262626"
+  surface-subtle: "#1C1C1C"
+  navigation-surface: "#1C1C1C"
+  navigation-selected: "#393939"
+  text-primary: "#F2F4F8"
+  text-secondary: "#DDE1E6"
+  text-muted: "#A8A8B3"
+  border: "#393939"
+  accent: "#78A9FF"
+  on-accent: "#161616"
+  focus: "#78A9FF"
+  info: "#82CFFF"
+  info-surface: "#0E2438"
+  progress: "#BE95FF"
+  progress-surface: "#241634"
+  success: "#42BE65"
+  success-surface: "#0F2618"
+  warning: "#FF6F00"
+  warning-surface: "#2B1A00"
+  danger: "#FF7EB6"
+  danger-surface: "#33131F"
+  scrim: "rgb(0 0 0 / 65%)"
+  disabled-bg: "#393939"
+  disabled-text: "#A8A8B3"
 typography:
   display:
     fontFamily: "IBM Plex Sans, system-ui, sans-serif"
@@ -109,23 +136,26 @@ Design quiet, spacious, minimal tools and applications. Emphasize utility and te
 
 **Continuous workspaces over segmented dashboards.** Organization comes from typography, alignment, whitespace, and structure; use subtle surface differentiation only for orientation.
 
-This is a **light-first** system. Dark mode is a future requirement, not a set of invented tokens in v0.1.
+This is a **two-theme** system. Light is the default; dark follows the OS
+`prefers-color-scheme` or an explicit `data-theme`. Both themes share one
+semantic contract, and every color pairing is contrast-validated.
 
-**Status:** The philosophy, IBM Plex Sans font family, blue accent, selective-boundary treatment, and Carbon icon family are selected preferences. Numeric sizing, spacing, and radius tokens are **initial implementation defaults** subject to validation on real screens. Application workspace, navigation surface, and navigation selected surfaces are validated.
+**Status:** The philosophy, IBM Plex Sans font family, blue accent, selective-boundary treatment, and Carbon icon family are selected preferences. Numeric sizing, spacing, and radius tokens are **initial implementation defaults** subject to validation on real screens. Application workspace, navigation surface, and navigation selected surfaces are validated in both themes.
 
 ## Colors
 
-Use [Base16 Oxocarbon Light](https://github.com/nyoom-engineering/base16-oxocarbon/blob/main/base16-oxocarbon-light.yaml) as the palette foundation. Map palette colors to semantic application tokens instead of reusing Base16 editor-role names directly.
+Use [Base16 Oxocarbon Light](https://github.com/nyoom-engineering/base16-oxocarbon/blob/main/base16-oxocarbon-light.yaml) for light and [Base16 Oxocarbon Dark](https://github.com/nyoom-engineering/base16-oxocarbon/blob/main/base16-oxocarbon-dark.yaml) for dark as the palette foundations. Map palette colors to semantic application tokens instead of reusing Base16 editor-role names directly. Both themes use the same semantic names; only the values change.
 
 - Canvas `#F2F4F8`, border `#DDE1E6`, foreground `#161616`, secondary text `#525252`, and accent `#0F62FE` are grounded in Oxocarbon Light.
 - White `#FFFFFF` is an intentional application-surface extension, not an Oxocarbon Base16 palette token.
 - Semantic surfaces have distinct roles. **Canvas** `#F2F4F8` is the subdued public or empty context, limited to selected backgrounds or genuinely distinct contexts; it is never an application page background. **Workspace** `#FFFFFF` is the primary white application content region and the default for application views, Navbar, landing pages, workspaces, and persistent Sidebars. **Surface** `#FFFFFF` is a component fill, such as a card or control. **Navigation surface** `#F7F8FA` is a quiet sidebar or navigation region, deliberately lighter than canvas, used only for an explicitly requested navigation variant. **Navigation selected** `#E8EBEE` marks the selected navigation row and stays quieter than the border `#DDE1E6`.
 - Workspace and surface are both white but semantically distinct: workspace is a region, surface is a component fill.
-- The application surfaces are contrast-validated: primary and secondary text pass AA on workspace, navigation surface, and selected rows; muted text passes on the navigation surface; active-row badges use secondary text; accent focus indicators meet at least 3:1 on workspace and navigation surface.
+- The application surfaces are contrast-validated: primary and secondary text pass AA on workspace, navigation surface, and selected rows; muted text passes on the navigation surface; active-row badges use secondary text; accent focus indicators meet at least 3:1 on workspace and navigation surface. The dark theme repeats the same pairings and passes AA; selected rows pair secondary or muted text according to the theme.
+- Dark mode maps the same semantic roles to Oxocarbon Dark: canvas `#0B0B0B`, workspace `#161616`, surface `#262626`, navigation surface `#1C1C1C`, navigation selected `#393939`, primary text `#F2F4F8`, secondary text `#DDE1E6`, muted text `#A8A8B3`, border `#393939`, accent and focus `#78A9FF`, info `#82CFFF`, progress `#BE95FF`, success `#42BE65`, warning `#FF6F00`, and danger `#FF7EB6`. Status surfaces and the overlay shadow are remapped alongside the text roles.
 - Use **only one expressive primary accent: blue `#0F62FE`**. Reserve it for primary actions, selected states, meaningful links, and focus indicators.
 - Most of the interface should be neutral. Do not color every card, heading, number, or icon blue.
 - Status roles are **neutral, info, progress, success, warning, danger, and disabled**. Each has a text token and, where useful, a surface tint. Status is always text plus one role; never color alone.
-- Status text tokens pass AA on their own surfaces and on canvas. Use status color for state and feedback, not decoration. Danger remains the only role for invalid input and destructive actions.
+- Status text tokens pass AA on their own surfaces and on canvas in both themes. Use status color for state and feedback, not decoration. Danger remains the only role for invalid input and destructive actions.
 - Meet WCAG AA contrast for ordinary text and visible focus indicators. Do not rely on color alone to convey state. Recheck contrast for muted text and disabled variants.
 
 ## Typography
@@ -192,7 +222,7 @@ Keep tokens, `src/lib/layout.ts`, and component media queries in sync. Do not ad
 
 ### Application workspaces
 
-Application workspaces are continuous and light-first. Organization comes from typography, alignment, whitespace, and structure, not from panels.
+Application workspaces are continuous in both themes: light uses a white workspace, dark uses `#161616`. Organization comes from typography, alignment, whitespace, and structure, not from panels.
 
 - Primary content sits on a white workspace; Navbar and persistent Sidebars share the same white by default, and the navigation surface is an explicit variant.
 - Navigation is never more prominent than content. Promote content through hierarchy, not by tinting the workspace.
@@ -258,7 +288,7 @@ A structural border belongs to exactly one region.
 - **Tabs** switch between peer sections with one accent underline. Do not place a primary action inside the tab strip.
 - **Dialog** is for a focused task or confirmation: trap focus, close on Escape, return focus to the trigger, and place the scrim behind it. **Tooltip** is supplementary; never make it the only place an action or error is explained.
 - [Bits UI](https://bits-ui.com/) supplies behavior and accessibility. The styled wrappers own tokens, layout, and visual states.
-- **ThemeScope** is the supported theming seam. It applies a single light `data-theme` and inline custom-property overrides; nested scopes inherit and override naturally. Only `--`-prefixed public tokens are accepted. Dark mode is a separate, future theme and is not inferred from this seam.
+- **ThemeScope** is the supported theming seam. It can force `theme="light"` or `theme="dark"`, or leave `theme="system"` to inherit the OS or surrounding scope, and it applies inline custom-property overrides; nested scopes inherit and override naturally. Only `--`-prefixed public tokens are accepted. Components need no dark-specific code because semantic tokens swap inside each theme block.
 
 ### Layouts and views
 
@@ -369,7 +399,7 @@ These are deliberate omissions, not gaps. Each rule is a refusal paired with the
 | R30 | ▲ Decorative shadows, hover-lift, more than one shadow token            | A single overlay shadow, for floating layers only          |
 | R31 | ▲ Gradients, mesh, glass, noise, illustrations, mascots, stock photography in product surfaces | Flat surface and type                              |
 | R32 | ▲ Radius beyond 6px; `9999px` pills                                     | `sm`, `md`, `lg` only; pills are for switch tracks only    |
-| R33 | Inventing dark-mode or extra status colors before those themes are designed | Design the dark theme separately; validate statuses in light first |
+| R33 | A one-off dark override, a component-level `data-theme` selector, or an unvalidated color in either theme | Change the semantic token in `tokens.css` and validate both light and dark contrast |
 
 ### Motion
 
@@ -418,6 +448,8 @@ Prefer budgets to bans where a ban is a judgement call: one accent-filled elemen
 - No `letter-spacing` above 0.02em.
 - No `outline: none` without a `:focus-visible` rule, except on a non-interactive focus target or a listbox highlight.
 - No raw hex values under `packages/ui/src/lib`.
+- No `[data-theme='light']` or `[data-theme='dark']` selectors under `packages/ui/src/lib`; theme switching belongs to `tokens.css`.
+- No local `prefers-color-scheme` query under `packages/ui/src/lib`; the token contract owns it.
 - No literal `font-size`, `font-weight`, `line-height`, or `font-family` values under `packages/ui/src/lib`; use a token.
 - No raw `<p>` or `<h1>`–`<h6>` in components or stories; use `Text`.
 - No raw `<ul>`/`<ol>`/`<li>` in stories; use `List` with `Text as="li"`.
@@ -430,4 +462,4 @@ Prefer budgets to bans where a ban is a judgement call: one accent-filled elemen
 2. Compare selective borders against borderless sections in a realistic app screen.
 3. Confirm primary blue contrast in all interactive states; define semantic status colors if needed.
 4. Test 36px controls, Carbon 16px/20px visual alignment with IBM Plex Sans, and 44px icon-only touch targets.
-5. Define and validate the dark theme independently.
+5. Recheck light and dark on real screens when adding a color token or pairing; run the contrast suite for both themes.

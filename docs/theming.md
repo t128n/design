@@ -1,39 +1,128 @@
 # Theming
 
-The framework ships one validated light theme. All tokens live in a single
-`:root` block in `packages/ui/src/styles/tokens.css`; there is no second copy on
+The framework ships two validated themes, light and dark, from one semantic
+token contract. All tokens live in `packages/ui/src/styles/tokens.css`; there
+is no second stylesheet and no per-component theme code.
+
+- Light is the default at the document root.
+- Dark is adapted from
+  [Oxocarbon Base16 Dark](https://github.com/nyoom-engineering/base16-oxocarbon/blob/main/base16-oxocarbon-dark.yaml).
+- Components consume only semantic tokens, so both themes work without
+  dark-specific selectors or props.
+
+## Automatic behavior
+
+Theme selection has one precedence order:
+
+1. An explicit `data-theme="light"` or `data-theme="dark"` on an element wins
+   for that subtree.
+2. Without an explicit value, the OS `prefers-color-scheme` decides for the
+   document root.
+3. `color-scheme` is set alongside each theme so native controls, scrollbars,
+   and form widgets follow the active theme.
+
+Nothing else is required from an application: importing
+`@t128n/ui/styles` installs both blocks and the OS fallback.
+
+To force a whole application, set the attribute on `<html>`:
+
+```html
+<html data-theme="dark">
+  <!-- or data-theme="light" -->
+</html>
+```
+
+To keep the OS preference, omit the attribute. To override a region, use
 `ThemeScope`.
+
+## Semantic token maps
+
+| Token | Light | Dark |
+| --- | --- | --- |
+| `--color-canvas` | `#F2F4F8` | `#0B0B0B` |
+| `--color-workspace` | `#FFFFFF` | `#161616` |
+| `--color-surface` | `#FFFFFF` | `#262626` |
+| `--color-surface-subtle` | `#F2F4F8` | `#1C1C1C` |
+| `--color-navigation-surface` | `#F7F8FA` | `#1C1C1C` |
+| `--color-navigation-selected` | `#E8EBEE` | `#393939` |
+| `--color-text-primary` | `#161616` | `#F2F4F8` |
+| `--color-text-secondary` | `#525252` | `#DDE1E6` |
+| `--color-text-muted` | `#697077` | `#A8A8B3` |
+| `--color-border` | `#DDE1E6` | `#393939` |
+| `--color-accent` | `#0F62FE` | `#78A9FF` |
+| `--color-on-accent` | `#FFFFFF` | `#161616` |
+| `--color-focus` | `#0F62FE` | `#78A9FF` |
+| `--color-info` | `#0043CE` | `#82CFFF` |
+| `--color-info-surface` | `#EDF5FF` | `#0E2438` |
+| `--color-progress` | `#6929C4` | `#BE95FF` |
+| `--color-progress-surface` | `#F6F2FF` | `#241634` |
+| `--color-success` | `#0E6027` | `#42BE65` |
+| `--color-success-surface` | `#DEFBE6` | `#0F2618` |
+| `--color-warning` | `#684E00` | `#FF6F00` |
+| `--color-warning-surface` | `#FCF4D6` | `#2B1A00` |
+| `--color-danger` | `#DA1E28` | `#FF7EB6` |
+| `--color-danger-surface` | `#FFF1F1` | `#33131F` |
+| `--color-scrim` | `rgb(22 22 22 / 45%)` | `rgb(0 0 0 / 65%)` |
+| `--color-disabled-background` | `#DDE1E6` | `#393939` |
+| `--color-disabled-text` | `#697077` | `#A8A8B3` |
+| `--shadow-overlay` | `0 12px 32px rgb(22 22 22 / 16%)` | `0 12px 32px rgb(0 0 0 / 55%)` |
+
+The dark mapping uses these Oxocarbon Base16 Dark values:
+`base00 #161616`, `base01 #262626`, `base02 #393939`, `base03 #525252`,
+`base04 #DDE1E6`, `base05 #F2F4F8`, `base06 #FFFFFF`, `base07 #08BDBA`,
+`base08 #3DDBD9`, `base09 #78A9FF`, `base0A #EE5396`, `base0B #33B1FF`,
+`base0C #FF7EB6`, `base0D #42BE65`, `base0E #BE95FF`, `base0F #82CFFF`.
+
+`--color-canvas` dark is darker than `base00` so it reads as a recessive page
+context. Workspace uses `base00`; surface uses `base01`; borders and selected
+rows use `base02`; primary and secondary text use `base05` and `base04`.
+
+Both token sets are contrast-validated in `tests/contrast.test.ts`.
+
+Light selected rows pair secondary text rather than muted text: the muted token
+is `4.19:1` on `--color-navigation-selected` in light, so it is reserved for
+captions on workspace, surface, and navigation surfaces. Disabled text is exempt
+from WCAG text contrast but still clears 3:1 on the disabled background in both
+themes.
 
 ## ThemeScope
 
-`ThemeScope` is a thin wrapper that sets `data-theme` and applies named custom
-properties inline. Because CSS custom properties inherit, nested scopes inherit
-the outer values and override only the tokens they name.
+`ThemeScope` is a thin wrapper that optionally sets `data-theme` and applies
+named custom properties inline. Because CSS custom properties inherit, nested
+scopes inherit the outer values and override only the tokens they name.
+
+`theme` defaults to `'system'`, which emits no attribute and inherits the OS or
+the surrounding scope. Explicit `light` and `dark` values render `data-theme`
+and can invert the surrounding theme at any depth.
 
 ```svelte
 <script lang="ts">
   import { Button, Card, Stack, Text, ThemeScope } from '@t128n/ui';
 </script>
 
-<ThemeScope tokens={{ '--color-accent': '#6929C4' }}>
+<!-- Follow the OS / surrounding scope. -->
+<ThemeScope>...</ThemeScope>
+
+<!-- Force dark for this region, including inside a light application. -->
+<ThemeScope theme="dark">
   <Stack gap="lg">
-    <Text variant="heading" as="h2">Purple workspace accent</Text>
+    <Text variant="heading" as="h2">Dark region</Text>
     <Button>Primary action</Button>
 
-    <ThemeScope
-      tokens={{
-        '--color-surface': '#F6F2FF',
-        '--color-accent': '#0043CE'
-      }}
-    >
-      <Card title="Nested scope">
+    <!-- Explicit light always wins inside a dark scope. -->
+    <ThemeScope theme="light">
+      <Card title="Light island">
         <Text variant="body" tone="secondary">
-          The inner scope overrides the surface and accent but keeps the outer
-          typography, spacing, and layout tokens.
+          Light tokens apply here even though the parent is dark.
         </Text>
       </Card>
     </ThemeScope>
   </Stack>
+</ThemeScope>
+
+<!-- Token overrides work independently of the theme. -->
+<ThemeScope theme="dark" tokens={{ '--color-accent': '#BE95FF' }}>
+  <Button>Purple accent in dark</Button>
 </ThemeScope>
 ```
 
@@ -41,7 +130,7 @@ API:
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `theme` | `'light'` | `'light'` | Rendered as `data-theme`. Dark mode is not implemented. |
+| `theme` | `'light' \| 'dark' \| 'system'` | `'system'` | `light`/`dark` render `data-theme`; `system` emits nothing and inherits. |
 | `tokens` | `Record<string, string>` | `{}` | Keys must start with `--`; other keys throw during render. |
 | `class` | `string` | `''` | Merged onto the wrapper element. |
 | `children` | `Snippet` | — | Rendered inside the scope. |
@@ -61,7 +150,7 @@ These token families are public API. Name them in application CSS and in
 
 | Family | Tokens | Purpose |
 | --- | --- | --- |
-| Color | `--color-*` | Semantic surfaces, text, status, accent, focus, disabled, scrim |
+| Color | `--color-*` | Semantic surfaces, text, status, accent, focus, disabled, scrim. Values swap per theme; names do not. |
 | Typography | `--font-family-*`, `--font-size-*`, `--font-weight-*`, `--line-height-*` | Type scale and families |
 | Spacing | `--space-xs` … `--space-3xl` | 4px-based rhythm |
 | Layout | `--layout-content-width`, `--layout-reading-width`, `--layout-form-width`, `--layout-sidebar-width`, `--layout-aside-width`, `--layout-grid-min-*`, `--list-marker-indent`, `--panel-max-height` | Measures and structural geometry |
@@ -69,9 +158,25 @@ These token families are public API. Name them in application CSS and in
 | Control geometry | `--control-height-sm`, `--control-height`, `--control-height-lg`, `--touch-target`, `--icon-size-*`, `--avatar-size-*`, `--thumb-size`, `--checkbox-size`, `--checkbox-indicator-size`, `--radio-size`, `--radio-indicator-size`, `--switch-track-width`, `--switch-track-height`, `--switch-thumb-size`, `--track-size`, `--scrollbar-size`, `--calendar-cell-size` | Reusable control and icon sizes |
 | Breakpoints | `--breakpoint-sm`, `--breakpoint-md`, `--breakpoint-lg` | Documentation source of truth for 640px, 800px, and 1024px |
 
-Overriding a public token is supported. Examples: `--color-accent` for a
-product accent, `--color-workspace` for a tinted embedded workspace, or
-`--layout-content-width` for a wider application frame.
+Overriding a public token is supported in both themes. Examples:
+`--color-accent` for a product accent, `--color-workspace` for a tinted
+embedded workspace, or `--layout-content-width` for a wider application frame.
+
+### Dark-mode contract
+
+Dark mode is not a second API. The same semantic names change value inside
+`[data-theme='dark']` and the OS fallback. Applications that override a token
+should override the semantic name, not the palette value, so the override
+continues to work in both themes:
+
+```svelte
+<!-- Supported in light and dark. -->
+<ThemeScope tokens={{ '--color-accent': '#BE95FF' }}>...</ThemeScope>
+```
+
+Do not write `[data-theme='dark']` selectors in components or stories. If a
+pairing feels wrong in dark, add or adjust a semantic token in `tokens.css` and
+validate both themes in `tests/contrast.test.ts`.
 
 ## Internal tokens
 
@@ -82,7 +187,7 @@ should not be overridden by applications or stories.
 | --- | --- |
 | `--border-width`, `--border-width-emphasis`, `--border-width-accent` | Structural stroke scale; components choose the correct weight |
 | `--radius-pill` | Reserved for switch tracks only (DESIGN.md R32) |
-| `--shadow-overlay` | One overlay elevation for floating layers |
+| `--shadow-overlay` | One overlay elevation for floating layers; the value changes per theme |
 | `--transition-duration` | Motion timing owned by the framework |
 
 ## Breakpoints and media queries
@@ -108,8 +213,19 @@ export const breakpoints = { sm: 640, md: 800, lg: 1024 } as const;
 Keep tokens, the TypeScript constant, and component media queries in sync. The
 layout foundation tests fail if a component introduces an unnamed breakpoint.
 
-## Dark mode
+## Components and themes
 
-Dark mode is explicitly out of scope. It is a future theme that needs its own
-validated contrast pairings, status surfaces, and overlay colors. Do not invent
-dark tokens or `ThemeScope theme="dark"` values before that work lands.
+Components use semantic tokens exclusively:
+
+```css
+.card {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border: var(--border-width) solid var(--color-border);
+}
+```
+
+No component has a dark-only selector, a local `prefers-color-scheme` query, or
+a hardcoded palette value. `packages/ui/tests/tokens.test.ts` audits `src/lib`
+for all three. A component that needs a new color should add a semantic token
+to `tokens.css` and validate both themes.

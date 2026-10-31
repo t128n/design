@@ -148,13 +148,33 @@ Choose one owner:
 Use `AppShell padding="none"` for full-bleed regions that own their own edge
 spacing, or when a page-level `Container` should be the single padding owner.
 
-### Theming
+### Themes
 
-`ThemeScope` renders `data-theme="light"` and applies validated custom-property
-overrides inline, so nested scopes inherit naturally. See
-[`docs/theming.md`](../../docs/theming.md) for the public token contract, the
-internal token list, and the nested override example. Dark mode is out of scope
-until it is designed and contrast-validated separately.
+The package ships validated light and dark themes from one semantic token
+contract. Light is the default; dark follows the OS `prefers-color-scheme`
+unless an explicit `data-theme` is present. `color-scheme` is set with each
+theme so native controls and scrollbars follow.
+
+```svelte
+<!-- Inherit the OS or surrounding scope. -->
+<ThemeScope>...</ThemeScope>
+
+<!-- Force a region. Explicit light inside dark (or dark inside light) works. -->
+<ThemeScope theme="dark">
+  <Button>Primary action</Button>
+</ThemeScope>
+
+<!-- Token overrides work in both themes. -->
+<ThemeScope tokens={{ '--color-accent': '#BE95FF' }}>...</ThemeScope>
+```
+
+Set `data-theme="light"` or `data-theme="dark"` on `<html>` to force a whole
+application. Components consume only semantic tokens, so they need no
+dark-specific code or styles.
+
+See [`docs/theming.md`](../../docs/theming.md) for the light and dark semantic
+maps, the public token contract, the internal token list, and nested-scope
+examples.
 
 ## Component inventory
 
