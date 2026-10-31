@@ -49,13 +49,14 @@ describe('package delivery', () => {
     expect(index).toContain("import './styles/index.css'");
   });
 
-  it('test_package_metadata: declares an internal-only, side-effect-aware package', async () => {
+  it('test_package_metadata: declares a public, side-effect-aware package', async () => {
     const pkg = JSON.parse(await read(join(uiRoot, 'package.json')));
 
-    expect(pkg.private).toBe(true);
-    expect(pkg.license).toBe('UNLICENSED');
+    expect(pkg.private).toBe(false);
+    expect(pkg.license).toBe('MIT');
+    expect(pkg.publishConfig).toEqual({ access: 'public' });
     expect(pkg.sideEffects).toEqual(['**/*.css']);
-    expect(pkg.files).toEqual(['dist']);
+    expect(pkg.files).toEqual(['dist', 'CHANGELOG.md']);
     expect(pkg.repository).toEqual({
       type: 'git',
       url: 'git+https://github.com/t128n/design.git',
@@ -83,5 +84,27 @@ describe('package delivery', () => {
 
     expect(main).toContain("from '@t128n/ui'");
     expect(main).toContain("import '@t128n/ui/styles'");
+  });
+
+  it('test_release_config: versions with Changesets and publishes with OIDC', async () => {
+    const repoRoot = dirname(dirname(uiRoot));
+    const config = JSON.parse(await read(join(repoRoot, '.changeset/config.json')));
+    const workflow = await read(join(repoRoot, '.github/workflows/publish.yml'));
+
+    expect(config.baseBranch).toBe('main');
+    expect(config.access).toBe('public');
+    expect(config.changelog).toBeDefined();
+    expect(config.privatePackages).toBeUndefined();
+
+    expect(workflow).toContain('changesets/action/select-mode@v2');
+    expect(workflow).toContain('changesets/action/version@v2');
+    expect(workflow).toContain('changesets/action/pack@v2');
+    expect(workflow).toContain('changesets/action/publish@v2');
+    expect(workflow).toContain('id-token: write');
+
+    // Trusted publishing must not fall back to a stored npm token.
+    expect(workflow).not.toContain('NODE_AUTH_TOKEN');
+    expect(workflow).not.toContain('NPM_TOKEN');
+    expect(workflow).not.toContain('registry-url');
   });
 });

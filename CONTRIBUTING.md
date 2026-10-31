@@ -1,6 +1,7 @@
 # Contributing
 
-This repository is an internal design framework. Contributions must preserve the
+This repository is the Svelte 5 design framework published as `@t128n/ui`.
+Contributions must preserve the
 visual contract in [`DESIGN.md`](DESIGN.md), keep the public API documented, and
 leave the checks green.
 
@@ -43,8 +44,9 @@ A component change is complete only when all of the following are true:
    component's purpose, key props, a correct example, and a “not for” boundary.
 5. **Coverage table.** Add or update the component's row in
    `docs/component-coverage.md`. Keep the links to `components.md` valid.
-6. **Changelog.** Add the user-visible change under `Unreleased` in
-   [`CHANGELOG.md`](CHANGELOG.md).
+6. **Changeset.** Run `bun run changeset` and describe the user-visible change.
+   Commit the generated `.changeset/*.md` file. Do not edit
+   `packages/ui/CHANGELOG.md` by hand; it is generated from changesets.
 
 `packages/ui/tests/r48-coverage.test.ts` enforces the export list, the coverage
 table, the not-for links, and the “screen or exception” rule. A new export
@@ -99,16 +101,20 @@ Before opening a pull request:
 - [ ] No component behavior, prop, package metadata, build script, or CI change
       is outside the pull request's stated scope.
 - [ ] New or changed components have a story, a screen use or documented
-      exception, a not-for note, and a changelog entry.
+      exception, a not-for note, and a changeset.
 - [ ] The component reference and coverage table match the actual exports.
 - [ ] Documentation links resolve, including `docs/storybook.md` only where the
       Storybook information-architecture branch provides it.
-- [ ] No license is invented. The package stays private and `UNLICENSED` until an
-      explicit license decision is made.
+- [ ] The package stays MIT-licensed and public, with no npm token in the
+      repository: publishing relies on OIDC trusted publishing.
 
 ## Commits and releases
 
 Use small, logical commits with a clear prefix (`feat:`, `fix:`, `docs:`,
 `test:`, `refactor:`). Keep generated output out of commits. The repository is
-versioned in the `0.x` line while the framework stabilizes; the coordinator owns
-the release number, the tag, and publication decisions.
+versioned in the `0.x` line while the framework stabilizes.
+
+Releases are not cut by hand. Changesets open a version pull request on `main`;
+merging it publishes the verified tarball to npm, tags the release, and writes
+the GitHub release. Do not run `npm publish` locally, and do not commit a
+version bump or a `packages/ui/CHANGELOG.md` edit yourself.
