@@ -362,6 +362,24 @@ When a `Table` points at a `Section` heading id, pass `labelledBy={false}` to th
 - Prefer **build-time bundled icon imports** (e.g., `unplugin-icons` with `~icons/carbon/search` where applicable) to runtime network fetching. Icônes is the visual catalog, not a required production runtime.
 - Official usage guidance: https://www.carbondesignsystem.com/building-blocks/foundations/icons/guidelines/
 
+#### Identity marks
+
+Application icons are a separate layer from UI iconography. They are generated from one registry entry, never drawn per app, so a growing fleet of applications stays coherent.
+
+| Role | Shape | Colour | Content |
+| --- | --- | --- | --- |
+| People | circle (`Avatar`) | photograph or neutral | — |
+| Applications and tools | rounded square (`AppMark`) | one fixed identity tone | Carbon glyph, or a one- or two-character monogram |
+| UI actions | no tile | inherits surrounding text | Carbon only |
+
+- **One grammar, three values.** Every app mark is a tone, a Carbon glyph (or monogram), and a label. No per-app logos, gradients, multicolour glyphs, or custom silhouettes.
+- **The registry is the source of truth.** `appRegistry` in `@t128n/ui` stores `id`, `label`, `tone`, optional `glyph`, and optional `monogram`. Adding an application is one entry; the mark and its favicons are generated from it.
+- **Optical sizes.** `16–20px` uses the `tab` render (glyph 82%), `24–32px` the `compact` render (68%), and `40px` and above the `tile` render (58%). It is one geometry, not three drawings.
+- **Favicons are exports, not a second design.** `bun run icons` writes the SVG, the PNG ladder, the ICO, and a manifest from the same registry and tokens. The tab icon and the in-product mark cannot drift.
+- **Identity is not status.** Identity tones are their own token set (`--app-tone-*`), never the status roles, even where the hue is close. A tile never carries state on its own, so R27 still holds.
+- **The glyph stays Carbon**, so R38 still holds, and the monogram is set in Plex Mono, so R23 still holds.
+- **Exception to R32.** An app mark uses a 21% corner radius rather than the 6px cap. The silhouette has to survive OS masking at 512px and stay recognisable at 16px; an app mark is an identity asset, not UI chrome. In-product marks at 48px are the largest affected case. Exported assets live outside `packages/ui/src/lib`, so the component radius rule is unchanged.
+
 ### Motion and interaction
 
 - Feedback should feel immediate. Use **subtle, purposeful** transitions only where they clarify hover, selection, expansion, and state changes.
@@ -502,3 +520,4 @@ Prefer budgets to bans where a ban is a judgement call: one accent-filled elemen
 3. Confirm primary blue contrast in all interactive states; define semantic status colors if needed.
 4. Test 36px controls, Carbon 16px/20px visual alignment with IBM Plex Sans, and 44px icon-only touch targets.
 5. Recheck light and dark on real screens when adding a color token or pairing; run the contrast suite for both themes.
+6. Validate the identity tones and the exported favicon ladder at 16px, in light and dark browser chrome.

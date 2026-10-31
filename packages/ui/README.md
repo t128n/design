@@ -409,6 +409,20 @@ Replace raw markup with the framework vocabulary. The audit in `packages/ui/test
 </AppShell>
 ```
 
+### Application marks
+
+`AppMark` is the identity tile for an application or tool. It is not a UI icon: use Carbon directly for actions, and reserve `AppMark` for the thing itself.
+
+```svelte
+<script lang="ts">
+  import { AppMark, appRegistry } from '@t128n/ui';
+</script>
+
+<AppMark app={appRegistry.design} size="md" />
+```
+
+The registry entry is the contract: `{ id, label, tone, glyph | monogram }`. Tones are `graphite`, `slate`, `blue`, `teal`, `green`, `amber`, `red`, and `purple`; glyphs come from `APP_GLYPHS`; sizes are `xs` 16, `sm` 24, `md` 32, `lg` 40, and `xl` 48. Pass `label={null}` when visible text sits next to the mark, so the name is announced once. Run `bun run icons` to export the favicon ladder.
+
 ## 9. Governance
 
 ### Versioning and releases
