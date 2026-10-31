@@ -2,15 +2,17 @@
   import type { Snippet } from 'svelte';
   import type { HTMLAttributes } from 'svelte/elements';
 
+  type Theme = 'light' | 'dark' | 'system';
+
   type Props = HTMLAttributes<HTMLDivElement> & {
-    theme?: 'light';
+    theme?: Theme;
     tokens?: Record<string, string>;
     class?: string;
     children?: Snippet;
   };
 
   let {
-    theme = 'light',
+    theme = 'system',
     tokens = {},
     class: className = '',
     style,
@@ -31,13 +33,16 @@
     return entries.map(([key, value]) => `${key}: ${value};`).join(' ');
   }
 
+  // "system" inherits the surrounding or OS theme, so it must not emit
+  // data-theme. Explicit values opt the subtree into that theme block.
+  const explicitTheme = $derived(theme === 'system' ? undefined : theme);
   const overrideStyle = $derived(tokenStyle(tokens));
   const mergedStyle = $derived([overrideStyle, style].filter(Boolean).join(' '));
 </script>
 
 <div
   {...restProps}
-  data-theme={theme}
+  data-theme={explicitTheme}
   class={className}
   style={mergedStyle || undefined}
 >

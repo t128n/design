@@ -2,10 +2,15 @@
   import ThemeScope from '../../src/lib/ThemeScope.svelte';
 </script>
 
-<ThemeScope tokens={{ '--color-accent': 'rebeccapurple', '--color-surface': 'linen' }}>
+<ThemeScope theme="dark" tokens={{ '--color-accent': 'rebeccapurple', '--color-surface': 'linen' }}>
   <div data-testid="outer">
-    <ThemeScope tokens={{ '--color-accent': 'steelblue' }}>
-      <span data-testid="inner">Nested theme</span>
+    <ThemeScope theme="light" tokens={{ '--color-accent': 'steelblue' }}>
+      <div data-testid="inner">
+        Nested theme
+        <ThemeScope theme="dark">
+          <div data-testid="inner-dark">Dark inside light</div>
+        </ThemeScope>
+      </div>
     </ThemeScope>
   </div>
 </ThemeScope>
