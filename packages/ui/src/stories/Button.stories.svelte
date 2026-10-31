@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Button',
+    title: 'Components/Controls/Button',
     component: Button,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Button triggers an action in the current context. Use it for submit, save, delete, and other state changes, not for navigation to another page. Keep one primary button per region and use secondary or ghost variants for supporting actions. Do start the label with a verb and keep it short; do not use a button for a destination that should be a Link.'
+        }
+      }
+    }
   });
 </script>
 

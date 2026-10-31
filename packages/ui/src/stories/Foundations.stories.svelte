@@ -4,9 +4,16 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Foundations',
+    title: 'Foundations/Overview',
     tags: ['autodocs'],
-    parameters: { controls: { disable: true } }
+    parameters: {
+      controls: { disable: true },
+      docs: {
+        description: {
+          component: 'Overview documents the visual contract: color roles, the type scale, spacing, radii, and control height. Use it as the reference for choosing tokens, not as a component inventory. Read it before inventing a new value and keep examples on the workspace surface.'
+        }
+      }
+    }
   });
 
   const colors = [

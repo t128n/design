@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/PinInput',
+    title: 'Components/Forms/PinInput',
     component: PinInput,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'PinInput collects a short fixed-length code across separate cells. Use it for verification and one-time codes, not for passwords or free-form numbers. Keep the label visible and let paste and keyboard navigation work across the whole group.'
+        }
+      }
+    }
   });
 </script>
 

@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Feedback/Progress',
+    title: 'Components/Feedback/Progress',
     component: Progress,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Progress shows completion of a task with a known total. Use it for uploads, imports, and other bounded operations, not for static measurements or indefinite loading. Pair it with a label when the operation is not obvious and keep the value updated.'
+        }
+      }
+    }
   });
 </script>
 

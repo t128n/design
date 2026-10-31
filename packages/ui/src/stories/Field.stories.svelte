@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/Field',
+    title: 'Components/Forms/Field',
     component: Field,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Field composes a label, description, error, and control into one accessible group. Use it whenever a control needs shared labelling and validation, not for display text or standalone buttons. Do pass the field state into the control so ids and aria-describedby stay connected; do not repeat the description inside the control.'
+        }
+      }
+    }
   });
 </script>
 

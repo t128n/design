@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Input',
+    title: 'Components/Forms/Input',
     component: Input,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Input collects a single line of text with a label and optional description. Use it for names, search terms, and short values, not for long prose or structured dates. Do use the right input type and autocomplete and keep format guidance in the description; do not use placeholder text as the only label.'
+        }
+      }
+    }
   });
 </script>
 

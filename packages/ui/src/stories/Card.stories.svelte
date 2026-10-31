@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Card',
+    title: 'Layouts/Card',
     component: Card,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Card groups one independent subject with its own heading and supporting content. Use it for a meaningful region that could stand alone, not for every visual grouping or for page layout. Keep the heading level aligned with document order and avoid nesting cards more than one level.'
+        }
+      }
+    }
   });
 </script>
 

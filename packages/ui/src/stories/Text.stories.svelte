@@ -7,7 +7,14 @@
     title: 'Primitives/Text',
     component: Text,
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: {
+      layout: 'fullscreen',
+      docs: {
+        description: {
+          component: 'Text renders every piece of copy with a semantic element and a visual variant. Use it for headings, paragraphs, labels, and captions, not for links, buttons, or code. Choose as for document structure and variant for appearance, and keep one h1 per page.'
+        }
+      }
+    }
   });
 </script>
 

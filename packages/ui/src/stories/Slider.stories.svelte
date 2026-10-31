@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Slider',
+    title: 'Components/Forms/Slider',
     component: Slider,
     tags: ['autodocs'],
-    parameters: { layout: 'padded' }
+    parameters: {
+      layout: 'padded',
+      docs: {
+        description: {
+          component: 'Slider selects a value from a continuous or stepped range. Use it for approximate settings such as volume or intensity, not for precise values that need typing. Keep the current value visible and provide a text input when exact entry matters.'
+        }
+      }
+    }
   });
 </script>
 

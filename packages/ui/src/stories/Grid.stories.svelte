@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Grid',
+    title: 'Layouts/Grid',
     component: Grid,
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: {
+      layout: 'fullscreen',
+      docs: {
+        description: {
+          component: 'Grid arranges related items in equal columns with consistent gaps. Use it for card sets, feature groups, and metric tiles, not for page structure or for a single column of text. Choose the column count from the content and let it collapse to one column on narrow screens.'
+        }
+      }
+    }
   });
 
   const features = [

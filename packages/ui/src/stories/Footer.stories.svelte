@@ -7,7 +7,14 @@
     title: 'Layouts/Footer',
     component: Footer,
     tags: ['autodocs'],
-    parameters: { layout: 'padded' }
+    parameters: {
+      layout: 'padded',
+      docs: {
+        description: {
+          component: 'Footer closes a page with brand, links, and legal context. Use it at the end of a document or marketing page, not inside application panels or between sections. Keep link groups short and use the compact variant when the footer sits under a dense workspace.'
+        }
+      }
+    }
   });
 </script>
 

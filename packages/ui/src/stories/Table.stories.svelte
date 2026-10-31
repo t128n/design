@@ -28,10 +28,17 @@
   ];
 
   const { Story } = defineMeta({
-    title: 'Components/Table',
+    title: 'Components/Data/Table',
     component: Table,
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: {
+      layout: 'fullscreen',
+      docs: {
+        description: {
+          component: 'Table presents comparable records in rows and columns. Use Table with TableRow and TableCell for structured data, not for layout or a short list that reads better as text. Do keep one header row, put numbers in numeric right-aligned cells, and use the empty slot with EmptyState when there are no rows; do not nest tables or use them for page layout.'
+        }
+      }
+    }
   });
 </script>
 

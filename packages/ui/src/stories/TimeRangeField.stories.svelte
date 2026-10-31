@@ -3,10 +3,17 @@
   import { TimeRangeField } from '../index.js';
 
   const { Story } = defineMeta({
-    title: 'Primitives/TimeRangeField',
+    title: 'Components/Forms/TimeRangeField',
     component: TimeRangeField,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'TimeRangeField collects a start and end time as one labelled group. Use it for opening hours and availability windows, not for elapsed duration. Keep the two fields adjacent and validate that the end follows the start.'
+        }
+      }
+    }
   });
   import '../styles/index.css';
 </script>

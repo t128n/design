@@ -7,7 +7,14 @@
     title: 'Layouts/Navbar',
     component: Navbar,
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: {
+      layout: 'fullscreen',
+      docs: {
+        description: {
+          component: 'Navbar provides the top-level navigation and account utilities for a workspace. Use it once per application shell, not inside content sections or as a substitute for a sidebar. Keep primary links short and move overflow into a menu at narrow widths.'
+        }
+      }
+    }
   });
 
   const primaryLinks = [

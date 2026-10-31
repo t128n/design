@@ -3,10 +3,17 @@
   import { DateRangeField } from '../index.js';
 
   const { Story } = defineMeta({
-    title: 'Primitives/DateRangeField',
+    title: 'Components/Forms/DateRangeField',
     component: DateRangeField,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'DateRangeField renders two labelled date inputs for a start and end date. Use it for typed ranges, not for comparing many dates across months. Keep the two fields adjacent and describe the accepted order in the field description.'
+        }
+      }
+    }
   });
   import '../styles/index.css';
 </script>

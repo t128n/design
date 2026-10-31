@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/ToggleGroup',
+    title: 'Components/Controls/ToggleGroup',
     component: ToggleGroup,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'ToggleGroup lets the reader choose one or more pressed options from a small set. Use it for view modes and formatting controls, not for form submission or long option lists. Keep the options mutually exclusive when the group is single-select and label the group.'
+        }
+      }
+    }
   });
 
   const alignItems = [

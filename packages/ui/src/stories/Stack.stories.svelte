@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Stack',
+    title: 'Layouts/Stack',
     component: Stack,
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: {
+      layout: 'fullscreen',
+      docs: {
+        description: {
+          component: 'Stack arranges children in one vertical flow with consistent gaps. Use it for page sections, form groups, and content blocks, not for horizontal rows or two-dimensional layouts. Choose the gap from the relationship between items and avoid overriding margins inside the stack.'
+        }
+      }
+    }
   });
 </script>
 

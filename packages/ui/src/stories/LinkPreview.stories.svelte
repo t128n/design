@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/LinkPreview',
+    title: 'Components/Overlays/LinkPreview',
     component: LinkPreview,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'LinkPreview shows a small preview when a link is hovered or focused. Use it for supplementary context on an external or referenced destination, not for essential content or touch-only flows. Keep the preview short and ensure the same information is reachable without hover.'
+        }
+      }
+    }
   });
 </script>
 

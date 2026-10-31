@@ -4,12 +4,20 @@
   import Popover from '../lib/Popover.svelte';
 
   const { Story } = defineMeta({
-    title: 'Components/Popover',
+    title: 'Components/Overlays/Popover',
     component: Popover,
+    tags: ['autodocs'],
     args: {
       triggerLabel: 'Open popover'
     },
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Popover anchors a small interactive panel to a trigger. Use it for contextual detail, filters, or a compact menu, not for long forms or content that must stay open while the page changes. Keep one trigger and close on outside click or Escape.'
+        }
+      }
+    }
   });
   import '../styles/index.css';
 </script>

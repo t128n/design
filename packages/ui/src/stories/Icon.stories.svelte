@@ -7,10 +7,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/Icon',
+    title: 'Primitives/Icon',
     component: Icon,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Icon renders a decorative or labelled glyph from the Carbon set. Use it to support adjacent text or to label an icon-only control, not as a substitute for a text label in navigation. Mark decorative icons hidden and give meaningful icons an accessible name.'
+        }
+      }
+    }
   });
 </script>
 

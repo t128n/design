@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/Accordion',
+    title: 'Components/Navigation/Accordion',
     component: Accordion,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Accordion reveals secondary detail in place so the page stays scannable. Use it for progressive disclosure inside one region, not for navigation or for content that should always be visible. Do keep each trigger a short section name and open one panel by default; do not use an accordion to hide the primary action of a page.'
+        }
+      }
+    }
   });
 </script>
 

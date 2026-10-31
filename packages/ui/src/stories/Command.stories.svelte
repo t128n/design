@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Command',
+    title: 'Components/Overlays/Command',
     component: Command,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Command provides a searchable list of actions for a keyboard-first palette. Use it for global or contextual commands, not as the only way to reach a primary workflow. Group commands by task and keep each label an imperative verb.'
+        }
+      }
+    }
   });
 </script>
 

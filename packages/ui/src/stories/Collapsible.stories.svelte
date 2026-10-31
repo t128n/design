@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/Collapsible',
+    title: 'Components/Navigation/Collapsible',
     component: Collapsible,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Collapsible hides optional detail behind a single trigger. Use it for supplementary explanation that most readers can skip, not for essential instructions or navigation. Keep the trigger label specific to the hidden content and preserve focus when the panel opens.'
+        }
+      }
+    }
   });
 </script>
 

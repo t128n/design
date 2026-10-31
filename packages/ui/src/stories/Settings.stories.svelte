@@ -23,7 +23,15 @@
   const { Story } = defineMeta({
     title: 'Views/Settings',
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen', controls: { disable: true } }
+    parameters: {
+      layout: 'fullscreen',
+      controls: { disable: true },
+      docs: {
+        description: {
+          component: 'Settings is a composed workspace view with navigation, sections, and form controls. Use it as a reference for preference screens, not as a form primitive. Keep each section focused on one decision and save changes explicitly.'
+        }
+      }
+    }
   });
 
   const sections = [

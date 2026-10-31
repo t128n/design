@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Link',
+    title: 'Components/Controls/Link',
     component: Link,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Link navigates to another page, section, or resource. Use it for destinations and in-text references, not for actions that change state in place. Do keep the label descriptive of the destination and underline links inside body copy; do not style a link to look like a primary button.'
+        }
+      }
+    }
   });
 </script>
 

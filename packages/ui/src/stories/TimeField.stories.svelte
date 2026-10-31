@@ -3,10 +3,17 @@
   import { TimeField } from '../index.js';
 
   const { Story } = defineMeta({
-    title: 'Primitives/TimeField',
+    title: 'Components/Forms/TimeField',
     component: TimeField,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'TimeField collects a single time with a label and validation. Use it for appointments and schedules, not for durations or free-form timestamps. Keep the hour cycle explicit and show the accepted format in the description.'
+        }
+      }
+    }
   });
   import '../styles/index.css';
 </script>

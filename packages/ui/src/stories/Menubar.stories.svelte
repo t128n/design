@@ -3,9 +3,17 @@
   import Menubar from '../lib/Menubar.svelte';
 
   const { Story } = defineMeta({
-    title: 'Components/Menubar',
+    title: 'Components/Overlays/Menubar',
     component: Menubar,
-    parameters: { layout: 'centered' }
+    tags: ['autodocs'],
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Menubar provides a persistent row of application menus. Use it for desktop-style commands that belong to the whole window, not for page navigation or mobile layouts. Keep menus task-oriented and make every command reachable from the keyboard.'
+        }
+      }
+    }
   });
   import '../styles/index.css';
 </script>

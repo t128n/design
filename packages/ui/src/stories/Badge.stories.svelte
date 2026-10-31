@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/Badge',
+    title: 'Primitives/Badge',
     component: Badge,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Badge labels a compact status, count, or category beside content. Use it for short non-interactive metadata, not for actions, navigation, or long sentences. Choose the tone from the semantic meaning and keep the label to one or two words.'
+        }
+      }
+    }
   });
 </script>
 

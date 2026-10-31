@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Components/EmptyState',
+    title: 'Components/Feedback/EmptyState',
     component: EmptyState,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'EmptyState explains why a region has no content and what to do next. Use it for a genuinely empty collection or first-run surface, not for loading, errors, or a filtered result that still has data. Keep the title factual, the description short, and one clear action.'
+        }
+      }
+    }
   });
 </script>
 

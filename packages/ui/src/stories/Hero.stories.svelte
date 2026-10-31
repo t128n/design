@@ -7,7 +7,14 @@
     title: 'Layouts/Hero',
     component: Hero,
     tags: ['autodocs'],
-    parameters: { layout: 'padded' }
+    parameters: {
+      layout: 'padded',
+      docs: {
+        description: {
+          component: 'Hero introduces a page with a headline, supporting copy, and primary actions. Use it once at the top of a landing or overview page, not inside application panels or repeated per section. Keep the headline outcome-focused and limit the action set to one primary and one secondary.'
+        }
+      }
+    }
   });
 </script>
 

@@ -7,7 +7,14 @@
     title: 'Primitives/List',
     component: List,
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: {
+      layout: 'fullscreen',
+      docs: {
+        description: {
+          component: 'List presents ordered, unordered, or descriptive items with shared spacing. Use it for genuine sequences and term-value pairs, not for layout or navigation menus. Keep items parallel in grammar and use Text as the item element so typography stays in one place.'
+        }
+      }
+    }
   });
 
   const steps = [

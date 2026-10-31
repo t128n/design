@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Primitives/Toolbar',
+    title: 'Components/Controls/Toolbar',
     component: Toolbar,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Toolbar groups related actions in a compact row. Use it for formatting and view controls around a shared target, not for page navigation or a single button. Do group related controls with separators and give icon-only items accessible names; do not mix destructive actions into the primary cluster.'
+        }
+      }
+    }
   });
 </script>
 

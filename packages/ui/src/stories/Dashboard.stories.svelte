@@ -22,7 +22,15 @@
   const { Story } = defineMeta({
     title: 'Views/Dashboard',
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen', controls: { disable: true } }
+    parameters: {
+      layout: 'fullscreen',
+      controls: { disable: true },
+      docs: {
+        description: {
+          component: 'Dashboard is a composed workspace view with page header, metrics, alerts, and a project table. Use it as a reference for operational screens, not as a reusable template with hard-coded content. Keep the page on the workspace surface and let sections own their own headings.'
+        }
+      }
+    }
   });
 
   const sections = [

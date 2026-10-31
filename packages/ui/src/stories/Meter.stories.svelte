@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Feedback/Meter',
+    title: 'Components/Feedback/Meter',
     component: Meter,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Meter shows a measured value within a known range, such as disk usage. Use it for a static measurement, not for task progress or an indeterminate wait. Keep the value and label visible and avoid color as the only signal of a threshold.'
+        }
+      }
+    }
   });
 </script>
 

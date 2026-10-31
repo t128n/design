@@ -4,10 +4,17 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Navigation/Pagination',
+    title: 'Components/Controls/Pagination',
     component: Pagination,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Pagination moves through a long result set in fixed pages. Use it when the total and page size are known, not for infinite feeds or short lists that fit on one screen. Keep the current page announced and preserve filters across page changes.'
+        }
+      }
+    }
   });
 </script>
 
