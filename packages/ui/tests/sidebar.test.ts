@@ -67,6 +67,22 @@ describe('Sidebar', () => {
     expect(rule(sidebar, '.disclosure')).toContain('display: none');
   });
 
+  it('draws the disclosure indicator and focus rings with tokens', async () => {
+    const sidebar = await readSource('../src/lib/Sidebar.svelte');
+    const chevron = rule(sidebar, '.chevron');
+
+    expect(chevron).toContain('width: var(--space-sm)');
+    expect(chevron).toContain('height: var(--space-sm)');
+    expect(chevron).toContain('border-right: var(--border-width-emphasis) solid currentColor');
+    expect(chevron).toContain('border-bottom: var(--border-width-emphasis) solid currentColor');
+    expect(rule(sidebar, '.disclosure:focus-visible')).toContain(
+      'outline: var(--border-width-emphasis) solid var(--color-focus)'
+    );
+    expect(rule(sidebar, '.item:focus-visible')).toContain(
+      'outline-offset: var(--border-width-emphasis)'
+    );
+  });
+
   it('wraps long labels and keeps badges from shrinking', async () => {
     const sidebar = await readSource('../src/lib/Sidebar.svelte');
     const badge = rule(sidebar, '.badge');

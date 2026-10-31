@@ -126,16 +126,16 @@
   }
 
   .disclosure:focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .chevron {
     flex: none;
-    width: 8px;
-    height: 8px;
-    border-right: 1.5px solid currentColor;
-    border-bottom: 1.5px solid currentColor;
+    width: var(--space-sm);
+    height: var(--space-sm);
+    border-right: var(--border-width-emphasis) solid currentColor;
+    border-bottom: var(--border-width-emphasis) solid currentColor;
     transform: rotate(45deg);
     transition: transform var(--transition-duration) ease-out;
   }
@@ -164,7 +164,7 @@
 
   ul {
     display: grid;
-    gap: 2px;
+    gap: var(--space-xs);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -195,8 +195,8 @@
   }
 
   .item:focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .item.active {
