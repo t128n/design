@@ -23,6 +23,14 @@
 
 <Story name="Loading" args={{ loading: true }}>Saving</Story>
 
+<Story name="Geometry" asChild>
+  <div class="button-states" data-testid="button-geometry">
+    <Button>Save changes</Button>
+    <Button variant="secondary">Cancel</Button>
+    <Button variant="ghost">Account</Button>
+  </div>
+</Story>
+
 <Story name="All states" asChild>
   <div class="button-states">
     <Button>Save changes</Button>

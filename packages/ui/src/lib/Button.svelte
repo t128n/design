@@ -38,10 +38,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
     gap: var(--space-sm);
+    height: var(--control-height);
     min-height: var(--control-height);
     padding: 0 var(--space-md);
-    border: 1px solid var(--color-accent);
+    border: var(--border-width) solid var(--color-accent);
     border-radius: var(--radius-md);
     background: var(--color-accent);
     color: var(--color-on-accent);
@@ -49,6 +51,7 @@
     font-size: var(--font-size-label);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-label);
+    white-space: nowrap;
     cursor: pointer;
     transition:
       background-color var(--transition-duration),
@@ -71,7 +74,7 @@
   }
 
   .button.ghost {
-    border: 0;
+    border-color: transparent;
     background: transparent;
     color: var(--color-text-primary);
     min-height: var(--control-height);
@@ -87,6 +90,7 @@
   }
 
   .button.link {
+    height: auto;
     border: 0;
     background: transparent;
     color: var(--color-accent);

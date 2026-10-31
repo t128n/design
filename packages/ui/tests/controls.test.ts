@@ -18,7 +18,7 @@ describe('Button variants', () => {
     expect(button).toContain("variant?: 'primary' | 'secondary' | 'ghost' | 'link'");
 
     const ghost = rule(button, '.button.ghost {');
-    expect(ghost).toContain('border: 0');
+    expect(ghost).toContain('border-color: transparent');
     expect(ghost).toContain('background: transparent');
     expect(ghost).toContain('color: var(--color-text-primary)');
     expect(ghost).toContain('min-height: var(--control-height)');
@@ -39,6 +39,22 @@ describe('Button variants', () => {
 
     const linkHover = rule(button, '.button.link:hover:not(:disabled)');
     expect(linkHover).toContain('text-decoration: underline');
+  });
+
+  it('test_button_geometry: all boxed variants share identical geometry', async () => {
+    const button = await readSource('../src/lib/Button.svelte');
+    const base = rule(button, '.button {');
+    const ghost = rule(button, '.button.ghost {');
+    const link = rule(button, '.button.link {');
+
+    expect(base).toContain('box-sizing: border-box');
+    expect(base).toContain('height: var(--control-height)');
+    expect(base).toContain('padding: 0 var(--space-md)');
+    expect(base).toContain('border: var(--border-width) solid var(--color-accent)');
+    expect(base).toContain('line-height: var(--line-height-label)');
+    expect(ghost).toContain('border-color: transparent');
+    expect(ghost).not.toContain('height: auto');
+    expect(link).toContain('height: auto');
   });
 
   it('test_focus_and_disabled: keeps a token focus ring and disabled/loading behaviour', async () => {
