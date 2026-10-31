@@ -109,12 +109,17 @@ describe('composed workspace views', () => {
     expect(appShell).not.toContain('narrow-frame');
   });
 
-  it('wraps PageHeader stories in a workspace surface with padding', async () => {
+  it('fills the workspace for PageHeader stories', async () => {
     const pageHeader = await readStory('../src/stories/PageHeader.stories.svelte');
     const storyRule = pageHeader.match(/\.story\s*\{([^}]*)\}/)?.[1] ?? '';
 
-    expect(pageHeader).toContain('background: var(--color-workspace)');
+    expect(pageHeader).toContain("layout: 'fullscreen'");
+    expect(storyRule).toContain('background: var(--color-workspace)');
+    expect(storyRule).toContain('min-height: 100vh');
     expect(storyRule).toContain('padding:');
+    expect(pageHeader).toContain(':global(.page-header)');
+    expect(pageHeader).toContain(':global(.table-wrap)');
+    expect(pageHeader).toContain('max-width: var(--layout-content-width)');
     expect(pageHeader).not.toContain('<Card');
     expect(pageHeader).toContain('<PageHeader');
     expect(pageHeader).toContain('<Table');

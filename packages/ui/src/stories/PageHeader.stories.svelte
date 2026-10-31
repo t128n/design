@@ -14,7 +14,7 @@
     title: 'Layouts/Page header',
     component: PageHeader,
     tags: ['autodocs'],
-    parameters: { layout: 'padded' }
+    parameters: { layout: 'fullscreen' }
   });
 </script>
 
@@ -105,8 +105,16 @@
 
 <style>
   .story {
-    width: min(56rem, 100%);
-    padding: var(--space-xl);
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding: var(--space-2xl) var(--space-xl);
     background: var(--color-workspace);
+  }
+
+  .story :global(.page-header),
+  .story :global(.table-wrap) {
+    width: 100%;
+    max-width: var(--layout-content-width);
+    margin-inline: auto;
   }
 </style>
