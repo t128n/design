@@ -11,18 +11,18 @@
   let { ratio = 1, children, class: className = '' }: Props = $props();
 </script>
 
-<AspectRatio.Root {ratio} class={`aspect-ratio ${className}`}>
+<AspectRatio.Root {ratio} class={`t128n-aspect-ratio ${className}`}>
   {@render children?.()}
 </AspectRatio.Root>
 
 <style>
-  :global(.aspect-ratio) {
+  :global(.t128n-aspect-ratio) {
     position: relative;
     width: 100%;
   }
 
-  :global(.aspect-ratio img),
-  :global(.aspect-ratio video) {
+  :global(.t128n-aspect-ratio img),
+  :global(.t128n-aspect-ratio video) {
     width: 100%;
     height: 100%;
     object-fit: cover;

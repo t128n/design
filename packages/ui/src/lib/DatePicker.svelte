@@ -230,7 +230,7 @@
     box-shadow: var(--shadow-overlay);
   }
 
-  .date-picker-panel :global(.calendar-header) {
+  .date-picker-panel .calendar-header {
     display: flex;
     align-items: center;
     justify-content: space-between;

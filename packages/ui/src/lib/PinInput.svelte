@@ -128,18 +128,18 @@
     color: var(--color-disabled-text);
   }
 
-  .pin-field :global(.pin-text) {
+  .pin-field .pin-text {
     line-height: var(--line-height-none);
   }
 
-  .pin-field :global(.pin-caret) {
+  .pin-field .pin-caret {
     position: absolute;
     height: 60%;
     width: 1px;
     background: var(--color-text-primary);
   }
 
-  .pin-field :global(.pin-root[disabled]) :global(.pin-caret) {
+  .pin-field :global(.pin-root[disabled] .pin-caret) {
     display: none;
   }
 </style>

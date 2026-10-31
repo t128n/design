@@ -79,7 +79,7 @@
     background: var(--color-surface-subtle);
   }
 
-  .meter :global(.meter-indicator) {
+  .meter .meter-indicator {
     height: 100%;
     width: 100%;
     background: var(--color-text-secondary);
@@ -87,7 +87,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .meter :global(.meter-indicator) {
+    .meter .meter-indicator {
       transition: none;
     }
   }

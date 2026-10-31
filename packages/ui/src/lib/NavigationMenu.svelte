@@ -22,21 +22,21 @@
   let { items, ariaLabel = 'Navigation' }: Props = $props();
 </script>
 
-<NavigationMenu.Root class="nav-root" aria-label={ariaLabel}>
-  <NavigationMenu.List class="nav-list">
+<NavigationMenu.Root class="t128n-nav-root" aria-label={ariaLabel}>
+  <NavigationMenu.List class="t128n-nav-list">
     {#each items as item}
       <NavigationMenu.Item>
-        <NavigationMenu.Trigger class="nav-trigger">{item.trigger}</NavigationMenu.Trigger>
-        <NavigationMenu.Content class="nav-content">
-          <div class="nav-panel">
+        <NavigationMenu.Trigger class="t128n-nav-trigger">{item.trigger}</NavigationMenu.Trigger>
+        <NavigationMenu.Content class="t128n-nav-content">
+          <div class="t128n-nav-panel">
             {#if item.content}
               {@render item.content()}
             {:else}
-              <ul class="nav-list-items">
+              <ul class="t128n-nav-list-items">
                 {#each item.links as link}
                   <li>
                     <NavigationMenu.Link
-                      class="nav-link"
+                      class="t128n-nav-link"
                       href={link.href}
                       aria-current={link.active ? 'page' : undefined}
                     >
@@ -51,15 +51,15 @@
       </NavigationMenu.Item>
     {/each}
   </NavigationMenu.List>
-  <NavigationMenu.Viewport class="nav-viewport" />
+  <NavigationMenu.Viewport class="t128n-nav-viewport" />
 </NavigationMenu.Root>
 
 <style>
-  :global(.nav-root) {
+  :global(.t128n-nav-root) {
     position: relative;
   }
 
-  :global(.nav-root .nav-list) {
+  :global(.t128n-nav-root .t128n-nav-list) {
     display: flex;
     align-items: center;
     gap: var(--space-xs);
@@ -69,7 +69,7 @@
     font-family: var(--font-family-sans);
   }
 
-  :global(.nav-root .nav-trigger) {
+  :global(.t128n-nav-root .t128n-nav-trigger) {
     padding: var(--space-xs) var(--space-sm);
     border: 0;
     border-radius: var(--radius-sm);
@@ -81,20 +81,20 @@
     cursor: pointer;
   }
 
-  :global(.nav-root .nav-trigger:hover) {
+  :global(.t128n-nav-root .t128n-nav-trigger:hover) {
     background: var(--color-surface-subtle);
   }
 
-  :global(.nav-root .nav-trigger[data-state='open']) {
+  :global(.t128n-nav-root .t128n-nav-trigger[data-state='open']) {
     background: var(--color-navigation-selected);
   }
 
-  :global(.nav-root .nav-trigger:focus-visible) {
+  :global(.t128n-nav-root .t128n-nav-trigger:focus-visible) {
     outline: var(--border-width-emphasis) solid var(--color-focus);
     outline-offset: calc(-1 * var(--border-width-emphasis));
   }
 
-  :global(.nav-root .nav-viewport) {
+  :global(.t128n-nav-root .t128n-nav-viewport) {
     position: absolute;
     left: 0;
     top: 100%;
@@ -105,7 +105,7 @@
     overflow: hidden;
   }
 
-  .nav-panel {
+  .t128n-nav-panel {
     min-width: 16rem;
     padding: var(--space-sm);
     border: var(--border-width) solid var(--color-border);
@@ -115,7 +115,7 @@
     color: var(--color-text-primary);
   }
 
-  .nav-list-items {
+  .t128n-nav-list-items {
     display: grid;
     gap: var(--space-xs);
     margin: 0;
@@ -123,7 +123,7 @@
     list-style: none;
   }
 
-  :global(.nav-root .nav-link) {
+  :global(.t128n-nav-root .t128n-nav-link) {
     display: block;
     padding: var(--space-xs) var(--space-sm);
     border-radius: var(--radius-sm);
@@ -133,15 +133,15 @@
     line-height: var(--line-height-label);
   }
 
-  :global(.nav-root .nav-link:hover) {
+  :global(.t128n-nav-root .t128n-nav-link:hover) {
     background: var(--color-surface-subtle);
   }
 
-  :global(.nav-root .nav-link[aria-current='page']) {
+  :global(.t128n-nav-root .t128n-nav-link[aria-current='page']) {
     background: var(--color-navigation-selected);
   }
 
-  :global(.nav-root .nav-link:focus-visible) {
+  :global(.t128n-nav-root .t128n-nav-link:focus-visible) {
     outline: var(--border-width-emphasis) solid var(--color-focus);
     outline-offset: calc(-1 * var(--border-width-emphasis));
   }

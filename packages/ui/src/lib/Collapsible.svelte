@@ -23,7 +23,7 @@
   }: Props = $props();
 </script>
 
-<Collapsible.Root bind:open {onOpenChange} {disabled} class={`collapsible ${className}`}>
+<Collapsible.Root bind:open {onOpenChange} {disabled} class={`t128n-collapsible ${className}`}>
   <Collapsible.Trigger class="collapsible-trigger">
     <span class="collapsible-trigger-content">
       {@render trigger()}
@@ -38,11 +38,11 @@
 </Collapsible.Root>
 
 <style>
-  :global(.collapsible) {
+  :global(.t128n-collapsible) {
     width: 100%;
   }
 
-  :global(.collapsible .collapsible-trigger) {
+  :global(.t128n-collapsible .collapsible-trigger) {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -60,17 +60,17 @@
     gap: var(--space-sm);
   }
 
-  :global(.collapsible .collapsible-trigger):hover:not(:disabled) {
+  :global(.t128n-collapsible .collapsible-trigger):hover:not(:disabled) {
     color: var(--color-text-primary);
   }
 
-  :global(.collapsible .collapsible-trigger):focus-visible {
+  :global(.t128n-collapsible .collapsible-trigger):focus-visible {
     outline: var(--border-width-emphasis) solid var(--color-focus);
     outline-offset: var(--border-width-emphasis);
     border-radius: var(--radius-sm);
   }
 
-  :global(.collapsible .collapsible-trigger):disabled {
+  :global(.t128n-collapsible .collapsible-trigger):disabled {
     color: var(--color-disabled-text);
     cursor: not-allowed;
   }
@@ -79,17 +79,17 @@
     flex: 1;
   }
 
-  :global(.collapsible .collapsible-chevron) {
+  :global(.t128n-collapsible .collapsible-chevron) {
     flex-shrink: 0;
     transition: transform var(--transition-duration);
     color: var(--color-text-secondary);
   }
 
-  :global(.collapsible [data-state='open'] .collapsible-chevron) {
+  :global(.t128n-collapsible [data-state='open'] .collapsible-chevron) {
     transform: rotate(90deg);
   }
 
-  :global(.collapsible .collapsible-content) {
+  :global(.t128n-collapsible .collapsible-content) {
     overflow: hidden;
   }
 
