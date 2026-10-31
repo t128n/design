@@ -96,24 +96,12 @@
     <Dialog.Portal>
       <Dialog.Overlay>
         {#snippet child({ props })}
-          <div
-            {...props}
-            class="drawer-overlay"
-            style:position="fixed"
-            style:inset="0"
-          ></div>
+          <div {...props} class="drawer-overlay"></div>
         {/snippet}
       </Dialog.Overlay>
       <Dialog.Content>
         {#snippet child({ props })}
-          <div
-            {...props}
-            class="drawer-content"
-            style:position="fixed"
-            style:top="0"
-            style:left="0"
-            style:bottom="0"
-          >
+          <div {...props} class="drawer-content">
             <div class="drawer-panel">
               <div class="drawer-header">
                 <Dialog.Title class="drawer-title">Navigation</Dialog.Title>
@@ -410,11 +398,17 @@
   }
 
   .drawer-overlay {
+    position: fixed;
+    inset: 0;
     z-index: 50;
     background: var(--color-scrim);
   }
 
   .drawer-content {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
     z-index: 51;
     width: min(100vw, var(--layout-aside-width));
     border: 0;

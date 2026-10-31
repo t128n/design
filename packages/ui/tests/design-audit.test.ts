@@ -123,9 +123,12 @@ describe('design audit', () => {
 
   it('test_no_fixed_outside_skip_link: only AppShell positions fixed outside overlay layers', async () => {
     const sources = await readSources(libRoot, ['.svelte']);
-    // Dialog owns the overlay layer, where fixed positioning is the documented exception.
+    // Dialog and Sidebar own overlay layers, where fixed positioning is the documented exception.
     const found = violations(
-      sources.filter(({ relativePath }) => !relativePath.endsWith('Dialog.svelte')),
+      sources.filter(
+        ({ relativePath }) =>
+          !relativePath.endsWith('Dialog.svelte') && !relativePath.endsWith('Sidebar.svelte')
+      ),
       (source) =>
         [...source.matchAll(POSITION_FIXED)].map((match) => ({ value: match[0], index: match.index ?? 0 }))
     );

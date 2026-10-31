@@ -147,15 +147,13 @@ describe('Sidebar', () => {
 
   it('test_drawer_anchor: the drawer is a left-anchored panel with compact, top-aligned rows', async () => {
     const sidebar = await readSource('../src/lib/Sidebar.svelte');
-    const content = sidebar.slice(
-      sidebar.indexOf('class="drawer-content"'),
-      sidebar.indexOf('<div class="drawer-panel">')
-    );
+    const drawerContent = rule(sidebar, '.drawer-content');
 
-    expect(content).toContain('style:left="0"');
-    expect(content).toContain('style:top="0"');
-    expect(content).toContain('style:bottom="0"');
-    expect(content).not.toContain('style:right="0"');
+    expect(drawerContent).toContain('position: fixed');
+    expect(drawerContent).toContain('left: 0');
+    expect(drawerContent).toContain('top: 0');
+    expect(drawerContent).toContain('bottom: 0');
+    expect(drawerContent).not.toContain('right: 0');
     expect(rule(sidebar, '.drawer-nav')).toContain('align-content: start');
     expect(rule(sidebar, '.section')).toContain('align-content: start');
   });
