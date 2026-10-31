@@ -49,7 +49,8 @@ describe('Storybook stories', () => {
   it('exposes every required layout story name', async () => {
     const stories: Record<string, string[]> = {
       AppShell: ['Top navigation', 'Sidebar navigation', 'Combined navigation', 'Narrow screen'],
-      Sidebar: ['Flat', 'Grouped', 'Nested', 'Selected', 'Focus'],
+      Sidebar: ['Flat', 'Grouped', 'Nested', 'Selected', 'Focus', 'White surface'],
+      Table: ['Default', 'Bordered'],
       Navbar: ['Basic', 'Account utilities', 'Narrow screen', 'Long labels'],
       PageHeader: [
         'Title only',
@@ -69,6 +70,19 @@ describe('Storybook stories', () => {
         expect(story).toContain(`name="${name}"`);
       }
     }
+  });
+
+  it('test_view_surfaces: composed views sit on workspace or canvas surfaces', async () => {
+    const dashboard = await readStory('../src/stories/Dashboard.stories.svelte');
+    const settings = await readStory('../src/stories/Settings.stories.svelte');
+    const landing = await readStory('../src/stories/Landing.stories.svelte');
+    const pageHeader = await readStory('../src/stories/PageHeader.stories.svelte');
+
+    expect(dashboard).toContain('background: var(--color-workspace)');
+    expect(settings).toContain('background: var(--color-workspace)');
+    expect(landing).toContain('background: var(--color-canvas)');
+    expect(pageHeader).toContain('background: var(--color-workspace)');
+    expect(pageHeader).toContain('padding:');
   });
 
   it('test_viewport_presets: registers narrow320, narrow375, tablet768, desktop1280', async () => {

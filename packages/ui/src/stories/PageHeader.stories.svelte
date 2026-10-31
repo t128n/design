@@ -105,6 +105,8 @@
 
 <style>
   .story {
-    width: min(56rem, calc(100vw - 2rem));
+    width: min(56rem, 100%);
+    padding: var(--space-xl);
+    background: var(--color-workspace);
   }
 </style>

@@ -55,67 +55,73 @@
 {/snippet}
 
 <Story name="Dashboard">
-  <AppShell {sidebar}>
-    <PageHeader
-      title="Overview"
-      description="What changed, what needs attention, and who owns the next step."
-      actions={headerActions}
-    />
-    <div class="stack">
-      <Alert tone="warning" title="Two projects need an owner">
-        Assign an owner to Beacon and Cinder before the review on Friday.
-      </Alert>
-      <div class="metrics">
-        <div class="metric">
-          <span class="metric-label">Active projects</span>
-          <strong class="metric-value">12</strong>
-          <Badge tone="success">+2 this week</Badge>
+  <div class="dashboard">
+    <AppShell {sidebar}>
+      <PageHeader
+        title="Overview"
+        description="What changed, what needs attention, and who owns the next step."
+        actions={headerActions}
+      />
+      <div class="stack">
+        <Alert tone="warning" title="Two projects need an owner">
+          Assign an owner to Beacon and Cinder before the review on Friday.
+        </Alert>
+        <div class="metrics">
+          <div class="metric">
+            <span class="metric-label">Active projects</span>
+            <strong class="metric-value">12</strong>
+            <Badge tone="success">+2 this week</Badge>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Needs review</span>
+            <strong class="metric-value">3</strong>
+            <Badge tone="warning">Due Friday</Badge>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Archived this quarter</span>
+            <strong class="metric-value">28</strong>
+            <Badge tone="neutral">No action needed</Badge>
+          </div>
         </div>
-        <div class="metric">
-          <span class="metric-label">Needs review</span>
-          <strong class="metric-value">3</strong>
-          <Badge tone="warning">Due Friday</Badge>
-        </div>
-        <div class="metric">
-          <span class="metric-label">Archived this quarter</span>
-          <strong class="metric-value">28</strong>
-          <Badge tone="neutral">No action needed</Badge>
-        </div>
+        <section class="recent" aria-labelledby="recent-heading">
+          <h2 id="recent-heading">Recent projects</h2>
+          <Table {columns}>
+            <tr>
+              <td>Orbit</td>
+              <td>Mara Chen</td>
+              <td class="u-right">2 minutes ago · 10:42</td>
+              <td><Badge tone="success">Healthy</Badge></td>
+            </tr>
+            <tr>
+              <td>Atlas</td>
+              <td>Devon Ruiz</td>
+              <td class="u-right">18 minutes ago · 10:26</td>
+              <td><Badge tone="progress">In progress</Badge></td>
+            </tr>
+            <tr>
+              <td>Beacon</td>
+              <td>No owner</td>
+              <td class="u-right">Yesterday · 16:10</td>
+              <td><Badge tone="warning">Needs owner</Badge></td>
+            </tr>
+            <tr>
+              <td>Cinder</td>
+              <td>Priya Shah</td>
+              <td class="u-right">2 days ago · 09:05</td>
+              <td><Badge tone="disabled">Archived</Badge></td>
+            </tr>
+          </Table>
+        </section>
       </div>
-      <section class="recent" aria-labelledby="recent-heading">
-        <h2 id="recent-heading">Recent projects</h2>
-        <Table {columns}>
-          <tr>
-            <td>Orbit</td>
-            <td>Mara Chen</td>
-            <td class="u-right">2 minutes ago · 10:42</td>
-            <td><Badge tone="success">Healthy</Badge></td>
-          </tr>
-          <tr>
-            <td>Atlas</td>
-            <td>Devon Ruiz</td>
-            <td class="u-right">18 minutes ago · 10:26</td>
-            <td><Badge tone="progress">In progress</Badge></td>
-          </tr>
-          <tr>
-            <td>Beacon</td>
-            <td>No owner</td>
-            <td class="u-right">Yesterday · 16:10</td>
-            <td><Badge tone="warning">Needs owner</Badge></td>
-          </tr>
-          <tr>
-            <td>Cinder</td>
-            <td>Priya Shah</td>
-            <td class="u-right">2 days ago · 09:05</td>
-            <td><Badge tone="disabled">Archived</Badge></td>
-          </tr>
-        </Table>
-      </section>
-    </div>
-  </AppShell>
+    </AppShell>
+  </div>
 </Story>
 
 <style>
+  .dashboard {
+    background: var(--color-workspace);
+  }
+
   .brand {
     display: grid;
     gap: 2px;
