@@ -16,11 +16,6 @@
 <Story name="Default" asChild>
   <DropdownMenu
     triggerLabel="Actions"
-    items={[
-      { label: 'Edit', shortcut: '⌘E' },
-      { label: 'Duplicate' },
-      { type: 'checkbox', label: 'Show details', checked: true }
-    ]}
     groups={[
       {
         label: 'Actions',
@@ -31,7 +26,7 @@
       },
       {
         label: 'View',
-        items: [{ type: 'checkbox', label: 'Show sidebar', checked: false }]
+        items: [{ type: 'checkbox', label: 'Show sidebar', checked: true }]
       }
     ]}
   />
