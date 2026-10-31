@@ -67,14 +67,25 @@ describe('Sidebar', () => {
     expect(rule(sidebar, '.disclosure')).toContain('display: none');
   });
 
-  it('draws the disclosure indicator and focus rings with tokens', async () => {
+  it('declares the Carbon icon dependency used by the disclosure', async () => {
+    const manifest = JSON.parse(await readSource('../package.json')) as {
+      dependencies?: Record<string, string>;
+    };
+
+    expect(manifest.dependencies?.['carbon-icons-svelte']).toBe('^13.17.0');
+  });
+
+  it('uses the Carbon chevron and token focus rings', async () => {
     const sidebar = await readSource('../src/lib/Sidebar.svelte');
     const chevron = rule(sidebar, '.chevron');
 
-    expect(chevron).toContain('width: var(--space-sm)');
-    expect(chevron).toContain('height: var(--space-sm)');
-    expect(chevron).toContain('border-right: var(--border-width-emphasis) solid currentColor');
-    expect(chevron).toContain('border-bottom: var(--border-width-emphasis) solid currentColor');
+    expect(sidebar).toContain(
+      "import ChevronDown from 'carbon-icons-svelte/lib/ChevronDown.svelte'"
+    );
+    expect(sidebar).toContain('<ChevronDown size={16} />');
+    expect(chevron).toContain('display: inline-flex');
+    expect(chevron).toContain('flex: none');
+    expect(chevron).not.toContain('border-right');
     expect(rule(sidebar, '.disclosure:focus-visible')).toContain(
       'outline: var(--border-width-emphasis) solid var(--color-focus)'
     );

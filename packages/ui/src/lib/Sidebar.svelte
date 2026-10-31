@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import ChevronDown from 'carbon-icons-svelte/lib/ChevronDown.svelte';
 
   type Item = {
     label: string;
@@ -46,7 +47,9 @@
     onclick={() => (open = !open)}
   >
     <span>{toggleLabel}</span>
-    <span class="chevron" aria-hidden="true"></span>
+    <span class="chevron" aria-hidden="true">
+      <ChevronDown size={16} />
+    </span>
   </button>
   <nav id={navId} class="nav" class:open aria-label={label}>
     {#each sections as section}
@@ -131,17 +134,14 @@
   }
 
   .chevron {
+    display: inline-flex;
     flex: none;
-    width: var(--space-sm);
-    height: var(--space-sm);
-    border-right: var(--border-width-emphasis) solid currentColor;
-    border-bottom: var(--border-width-emphasis) solid currentColor;
-    transform: rotate(45deg);
+    color: currentColor;
     transition: transform var(--transition-duration) ease-out;
   }
 
   .disclosure[aria-expanded='true'] .chevron {
-    transform: rotate(225deg);
+    transform: rotate(180deg);
   }
 
   .nav {
