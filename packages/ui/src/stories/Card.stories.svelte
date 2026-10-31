@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Card } from '../index.js';
+  import { Card, Text } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -12,12 +12,7 @@
 </script>
 
 <Story name="Default" args={{ title: 'Project details' }}>
-  <p class="card-text">Use cards for meaningful independent regions, not every content group.</p>
+  <Text variant="body-sm" tone="secondary">
+    Use cards for meaningful independent regions, not every content group.
+  </Text>
 </Story>
-
-<style>
-  .card-text {
-    margin: 0;
-    color: var(--color-text-secondary);
-  }
-</style>

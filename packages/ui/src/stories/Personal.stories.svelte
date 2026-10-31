@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Link } from '../index.js';
+  import { Link, List, Stack, Text } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -13,22 +13,32 @@
 <Story name="Personal">
   <div class="page">
     <main class="personal" aria-labelledby="personal-name">
-      <p class="wordmark"><Link href="/">t128n.dev</Link></p>
+      <div class="wordmark"><Link href="/">t128n.dev</Link></div>
 
-      <h1 id="personal-name">Torben Haack</h1>
-      <p class="intro">
-        Technical Product Owner and Software Engineer in the automotive industry. Building and
-        managing data and software systems, defining technical standards, studying Business
-        Informatics at BHT Berlin.
-      </p>
+      <Stack gap="lg">
+        <Text variant="display" as="h1" id="personal-name">Torben Haack</Text>
+        <Text variant="body" as="p">
+          Technical Product Owner and Software Engineer in the automotive industry. Building and
+          managing data and software systems, defining technical standards, studying Business
+          Informatics at BHT Berlin.
+        </Text>
+      </Stack>
 
       <section class="connect" aria-labelledby="connect-heading">
-        <h2 id="connect-heading">Connect</h2>
-        <ul>
-          <li><Link href="https://bsky.app/">Bluesky</Link></li>
-          <li><Link href="https://github.com/">GitHub</Link></li>
-          <li><Link href="mailto:hello@t128n.dev">Email</Link></li>
-        </ul>
+        <Stack gap="sm">
+          <Text variant="subheading" as="h2" id="connect-heading">Connect</Text>
+          <List marker="none" gap="xs">
+            <Text as="li" variant="body" tone="secondary">
+              <Link href="https://bsky.app/">Bluesky</Link>
+            </Text>
+            <Text as="li" variant="body" tone="secondary">
+              <Link href="https://github.com/">GitHub</Link>
+            </Text>
+            <Text as="li" variant="body" tone="secondary">
+              <Link href="mailto:hello@t128n.dev">Email</Link>
+            </Text>
+          </List>
+        </Stack>
       </section>
     </main>
   </div>
@@ -37,10 +47,9 @@
 <style>
   .page {
     min-height: 100vh;
+    padding: var(--space-3xl) var(--space-xl);
     background: var(--color-workspace);
     color: var(--color-text-primary);
-    font-family: var(--font-family-sans);
-    padding: var(--space-3xl) var(--space-xl);
   }
 
   .personal {
@@ -50,7 +59,7 @@
   }
 
   .wordmark {
-    margin: 0 0 var(--space-2xl);
+    margin-bottom: var(--space-2xl);
     font-family: var(--font-family-mono);
     font-size: var(--font-size-body-sm);
     line-height: var(--line-height-body);
@@ -58,8 +67,6 @@
 
   .wordmark :global(a) {
     color: var(--color-text-secondary);
-    font-family: var(--font-family-mono);
-    font-size: var(--font-size-body-sm);
     text-decoration: none;
   }
 
@@ -68,45 +75,11 @@
     text-decoration: underline;
   }
 
-  h1 {
-    margin: 0 0 var(--space-lg);
-    font-size: var(--font-size-display);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-display);
-  }
-
-  .intro {
-    margin: 0;
-    max-width: var(--layout-reading-width);
-    color: var(--color-text-primary);
-    font-size: var(--font-size-body);
-    line-height: var(--line-height-body);
-  }
-
   .connect {
     margin-top: var(--space-3xl);
   }
 
-  h2 {
-    margin: 0 0 var(--space-sm);
-    font-size: var(--font-size-subheading);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-subheading);
-  }
-
-  ul {
-    display: grid;
-    gap: var(--space-xs);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  li {
-    display: flex;
-  }
-
-  li :global(a) {
+  .connect :global(a) {
     display: inline-flex;
     min-height: var(--control-height);
     align-items: center;

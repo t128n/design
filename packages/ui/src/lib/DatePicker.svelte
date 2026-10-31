@@ -5,6 +5,7 @@
   import ChevronLeft from '~icons/carbon/chevron-left';
   import ChevronRight from '~icons/carbon/chevron-right';
   import Button from './Button.svelte';
+  import Text from './Text.svelte';
 
   type Props = {
     value?: DateValue;
@@ -70,7 +71,7 @@
   >
     <DatePicker.Label class="date-picker-label">{label}</DatePicker.Label>
     {#if description}
-      <p class="date-picker-description" id={descId}>{description}</p>
+      <Text as="p" variant="body-sm" tone="secondary" id={descId}>{description}</Text>
     {/if}
     <div class="date-picker-field">
       <DatePicker.Input class="date-picker-input" aria-invalid={error ? 'true' : undefined} aria-describedby={[description ? descId : null, error ? errorId : null].filter(Boolean).join(' ') || undefined}>
@@ -151,13 +152,6 @@
     font-size: var(--font-size-label);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-label);
-  }
-
-  .date-picker-description {
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   .date-picker-field {

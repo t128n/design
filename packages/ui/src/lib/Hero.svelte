@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import Text from './Text.svelte';
 
   type Props = {
     eyebrow?: string;
@@ -18,6 +19,8 @@
     aside,
     align = 'left'
   }: Props = $props();
+
+  const textAlign = $derived(align === 'center' ? 'center' : 'start');
 </script>
 
 <section
@@ -27,11 +30,15 @@
 >
   <div class="copy">
     {#if eyebrow}
-      <span class="eyebrow">{eyebrow}</span>
+      <Text variant="label" as="span" tone="secondary" align={textAlign}>{eyebrow}</Text>
     {/if}
-    <h1>{title}</h1>
+    <div class="title">
+      <Text variant="display" as="h1" align={textAlign}>{title}</Text>
+    </div>
     {#if description}
-      <p>{description}</p>
+      <div class="description">
+        <Text variant="body" tone="secondary" align={textAlign}>{description}</Text>
+      </div>
     {/if}
     {#if actions}
       <div class="actions">{@render actions()}</div>
@@ -48,7 +55,6 @@
     gap: var(--space-2xl);
     padding: var(--space-3xl) 0;
     color: var(--color-text-primary);
-    font-family: var(--font-family-sans);
   }
 
   .hero.has-aside {
@@ -72,33 +78,16 @@
     justify-items: center;
   }
 
-  .eyebrow {
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-body);
-  }
-
-  h1 {
+  .title {
     max-width: 18ch;
-    margin: 0;
-    overflow-wrap: anywhere;
-    font-size: var(--font-size-display);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-display);
   }
 
-  .center h1 {
+  .center .title {
     max-width: 22ch;
   }
 
-  p {
+  .description {
     max-width: var(--layout-reading-width);
-    margin: 0;
-    overflow-wrap: anywhere;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body);
-    line-height: var(--line-height-body);
   }
 
   .actions {
@@ -122,8 +111,9 @@
       grid-template-columns: 1fr;
     }
 
-    h1 {
-      font-size: var(--font-size-heading);
+    .copy {
+      --text-size-display: var(--font-size-heading);
+      --text-leading-display: var(--line-height-heading);
     }
   }
 </style>

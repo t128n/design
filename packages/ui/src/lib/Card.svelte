@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import Text from './Text.svelte';
 
   type Props = {
     title?: string;
@@ -11,25 +12,19 @@
 
 <section class="card" aria-label={title}>
   {#if title}
-    <h2>{title}</h2>
+    <Text variant="subheading" as="h2">{title}</Text>
   {/if}
   {@render children?.()}
 </section>
 
 <style>
   .card {
+    display: grid;
+    gap: var(--space-md);
     padding: var(--space-lg);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     color: var(--color-text-primary);
-  }
-
-  h2 {
-    margin: 0 0 var(--space-md);
-    font-family: var(--font-family-sans);
-    font-size: var(--font-size-subheading);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-subheading);
   }
 </style>

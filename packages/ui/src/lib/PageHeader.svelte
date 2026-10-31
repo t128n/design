@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import Breadcrumbs from './Breadcrumbs.svelte';
+  import Text from './Text.svelte';
 
   type Crumb = {
     label: string;
@@ -30,9 +31,11 @@
   {/if}
   <div class="row">
     <div class="copy">
-      <h1>{title}</h1>
+      <Text variant="heading" as="h1">{title}</Text>
       {#if description}
-        <p class="description">{description}</p>
+        <div class="description">
+          <Text variant="body-sm" tone="secondary">{description}</Text>
+        </div>
       {/if}
     </div>
     {#if actions}
@@ -49,7 +52,6 @@
     display: grid;
     gap: var(--space-sm);
     margin-bottom: var(--space-2xl);
-    font-family: var(--font-family-sans);
     color: var(--color-text-primary);
   }
 
@@ -64,23 +66,11 @@
     display: grid;
     gap: var(--space-xs);
     min-width: 0;
-  }
-
-  h1 {
-    min-width: 0;
-    margin: 0;
     overflow-wrap: anywhere;
-    font-size: var(--font-size-heading);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-heading);
   }
 
   .description {
     max-width: var(--layout-reading-width);
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   .actions {
@@ -90,9 +80,10 @@
   }
 
   .meta {
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-sm);
   }
 
   @media (max-width: 640px) {

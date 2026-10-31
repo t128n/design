@@ -1,6 +1,7 @@
 <script lang="ts">
   import { DateField } from 'bits-ui';
   import type { DateValue } from '@internationalized/date';
+  import Text from './Text.svelte';
 
   type Props = {
     value?: DateValue;
@@ -59,7 +60,7 @@
   >
     <DateField.Label class="date-field-label">{label}</DateField.Label>
     {#if description}
-      <p class="date-field-description" id={descId}>{description}</p>
+      <Text as="p" variant="body-sm" tone="secondary" id={descId}>{description}</Text>
     {/if}
     <DateField.Input
       class="date-field-input"
@@ -93,13 +94,6 @@
     font-size: var(--font-size-label);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-label);
-  }
-
-  .date-field-description {
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   .date-field :global(.date-field-input) {

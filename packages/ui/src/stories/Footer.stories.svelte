@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Footer, Navbar } from '../index.js';
+  import { Footer, List, Navbar, Text } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -34,26 +34,32 @@
       ]}
     />
     <main class="doc">
-      <h1>Connecting a repository</h1>
-      <p>
+      <Text variant="display" as="h1">Connecting a repository</Text>
+      <Text variant="body" tone="secondary">
         Acme reads a repository through a deploy key that you approve once. The key is
         scoped to a single repository and can be revoked from the same screen at any time.
-      </p>
-      <h2>Before you start</h2>
-      <p>
+      </Text>
+      <Text variant="heading" as="h2" weight="medium">Before you start</Text>
+      <Text variant="body" tone="secondary">
         You need permission to add deploy keys to the repository. If you are not an
         administrator, ask one to complete the first step or to grant you access.
-      </p>
-      <h2>Steps</h2>
-      <ol>
-        <li>Open workspace settings and choose Repositories.</li>
-        <li>Select Add repository, then paste the repository URL.</li>
-        <li>Review the requested access, then approve the key in your Git host.</li>
-      </ol>
-      <p>
+      </Text>
+      <Text variant="heading" as="h2" weight="medium">Steps</Text>
+      <List as="ol" gap="sm">
+        <Text as="li" variant="body" tone="secondary">
+          Open workspace settings and choose Repositories.
+        </Text>
+        <Text as="li" variant="body" tone="secondary">
+          Select Add repository, then paste the repository URL.
+        </Text>
+        <Text as="li" variant="body" tone="secondary">
+          Review the requested access, then approve the key in your Git host.
+        </Text>
+      </List>
+      <Text variant="body" tone="secondary">
         The first sync starts automatically. Later changes arrive on the schedule shown in
         the repository settings, or immediately when you select Sync now.
-      </p>
+      </Text>
     </main>
     <Footer
       brand="Acme"
@@ -94,35 +100,7 @@
     gap: var(--space-lg);
     max-width: var(--layout-reading-width);
     padding: var(--space-3xl) var(--space-xl);
-    color: var(--color-text-primary);
-    font-family: var(--font-family-sans);
-    font-size: var(--font-size-body);
-    line-height: var(--line-height-body);
   }
 
-  .doc h1 {
-    margin: 0;
-    font-size: var(--font-size-display);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-display);
-  }
 
-  .doc h2 {
-    margin: var(--space-md) 0 0;
-    font-size: var(--font-size-heading);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-heading);
-  }
-
-  .doc p,
-  .doc ol {
-    margin: 0;
-    color: var(--color-text-secondary);
-  }
-
-  .doc ol {
-    display: grid;
-    gap: var(--space-sm);
-    padding-left: var(--space-xl);
-  }
 </style>

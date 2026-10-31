@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Badge, Button, Table } from '../index.js';
+  import { Badge, Button, Table, Text } from '../index.js';
   import '../styles/index.css';
 
   const columns = [
@@ -23,8 +23,8 @@
     <section class="section" aria-labelledby="active-projects-heading">
       <div class="section-heading">
         <div class="section-copy">
-          <h2 id="active-projects-heading">Active projects</h2>
-          <p>Ownership and status for work in flight.</p>
+          <Text variant="subheading" as="h2" id="active-projects-heading">Active projects</Text>
+          <Text variant="body-sm" tone="secondary">Ownership and status for work in flight.</Text>
         </div>
         <div class="section-actions">
           <Button variant="secondary">View all</Button>
@@ -59,8 +59,10 @@
     <section class="section" aria-labelledby="archived-projects-heading">
       <div class="section-heading">
         <div class="section-copy">
-          <h2 id="archived-projects-heading">Archived projects</h2>
-          <p>An independent surface for records outside the active workspace.</p>
+          <Text variant="subheading" as="h2" id="archived-projects-heading">Archived projects</Text>
+          <Text variant="body-sm" tone="secondary">
+            An independent surface for records outside the active workspace.
+          </Text>
         </div>
         <div class="section-actions">
           <Button variant="secondary">Export</Button>
@@ -100,8 +102,10 @@
   <div class="page">
     <section class="section" aria-labelledby="project-health-heading">
       <div class="section-copy">
-        <h2 id="project-health-heading">Project health</h2>
-        <p>A compact layout for scanning many records at once.</p>
+        <Text variant="subheading" as="h2" id="project-health-heading">Project health</Text>
+        <Text variant="body-sm" tone="secondary">
+          A compact layout for scanning many records at once.
+        </Text>
       </div>
       <Table {columns} density="dense">
         <tr>
@@ -143,8 +147,12 @@
   <div class="page">
     <section class="section" aria-labelledby="narrow-projects-heading">
       <div class="section-copy">
-        <h2 id="narrow-projects-heading">Deployment pipeline for the Orbit production environment</h2>
-        <p>Long names stay readable while the table scrolls on its own axis.</p>
+        <Text variant="subheading" as="h2" id="narrow-projects-heading">
+          Deployment pipeline for the Orbit production environment
+        </Text>
+        <Text variant="body-sm" tone="secondary">
+          Long names stay readable while the table scrolls on its own axis.
+        </Text>
       </div>
       <Table {columns}>
         <tr>
@@ -196,21 +204,6 @@
     display: grid;
     gap: var(--space-xs);
     min-width: 0;
-  }
-
-  .section h2 {
-    margin: 0;
-    font-size: var(--font-size-subheading);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-subheading);
-  }
-
-  .section p {
-    max-width: var(--layout-reading-width);
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   .section-actions {

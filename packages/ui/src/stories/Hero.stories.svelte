@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Button, Card, Hero } from '../index.js';
+  import { Button, Card, Hero, List, Text } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -18,22 +18,34 @@
 
 {#snippet nextSteps()}
   <Card title="Next steps">
-    <ol class="steps">
-      <li>Invite the project owners from the workspace.</li>
-      <li>Connect a repository and set the default branch.</li>
-      <li>Choose who confirms production deploys.</li>
-    </ol>
+    <List as="ol" gap="sm">
+      <Text as="li" variant="body-sm" tone="secondary">
+        Invite the project owners from the workspace.
+      </Text>
+      <Text as="li" variant="body-sm" tone="secondary">
+        Connect a repository and set the default branch.
+      </Text>
+      <Text as="li" variant="body-sm" tone="secondary">
+        Choose who confirms production deploys.
+      </Text>
+    </List>
   </Card>
 {/snippet}
 
 {#snippet recentActivity()}
   <div class="activity">
-    <h2>Recent activity</h2>
-    <ul>
-      <li>Mara Chen approved the Orbit release.</li>
-      <li>Devon Ruiz connected the Atlas repository.</li>
-      <li>The Beacon workspace was restored.</li>
-    </ul>
+    <Text variant="label" as="h2">Recent activity</Text>
+    <List marker="none" gap="xs">
+      <Text as="li" variant="body-sm" tone="secondary">
+        Mara Chen approved the Orbit release.
+      </Text>
+      <Text as="li" variant="body-sm" tone="secondary">
+        Devon Ruiz connected the Atlas repository.
+      </Text>
+      <Text as="li" variant="body-sm" tone="secondary">
+        The Beacon workspace was restored.
+      </Text>
+    </List>
   </div>
 {/snippet}
 
@@ -110,38 +122,10 @@
     width: min(44rem, calc(100vw - 2rem));
   }
 
-  .steps {
-    margin: 0;
-    padding-left: var(--space-lg);
-    display: grid;
-    gap: var(--space-sm);
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
-  }
-
   .activity {
     display: grid;
     gap: var(--space-sm);
     padding: var(--space-lg) 0;
     border-top: var(--border-width) solid var(--color-border);
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-  }
-
-  .activity h2 {
-    margin: 0;
-    color: var(--color-text-primary);
-    font-size: var(--font-size-body-sm);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-body);
-  }
-
-  .activity ul {
-    display: grid;
-    gap: var(--space-xs);
-    margin: 0;
-    padding: 0;
-    list-style: none;
   }
 </style>

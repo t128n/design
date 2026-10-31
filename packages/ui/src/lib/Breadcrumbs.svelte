@@ -1,4 +1,7 @@
 <script lang="ts">
+  import Link from './Link.svelte';
+  import Text from './Text.svelte';
+
   type Item = {
     label: string;
     href?: string;
@@ -12,14 +15,16 @@
     {#each items as item, index}
       <li>
         {#if index > 0}
-          <span class="separator" aria-hidden="true">/</span>
+          <Text variant="body-sm" as="span" tone="muted" aria-hidden="true">/</Text>
         {/if}
         {#if item.href}
-          <a href={item.href}>{item.label}</a>
+          <Text variant="body-sm" as="span">
+            <Link href={item.href} class="breadcrumb-link">{item.label}</Link>
+          </Text>
         {:else if index === items.length - 1}
-          <span aria-current="page">{item.label}</span>
+          <Text variant="body-sm" as="span" weight="medium" aria-current="page">{item.label}</Text>
         {:else}
-          <span>{item.label}</span>
+          <Text variant="body-sm" as="span" tone="secondary">{item.label}</Text>
         {/if}
       </li>
     {/each}
@@ -27,12 +32,6 @@
 </nav>
 
 <style>
-  .breadcrumbs {
-    font-family: var(--font-family-sans);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
-  }
-
   ol {
     display: flex;
     flex-wrap: wrap;
@@ -47,30 +46,20 @@
     display: inline-flex;
     align-items: center;
     gap: var(--space-xs);
-    color: var(--color-text-secondary);
   }
 
-  a {
+  .breadcrumbs :global(.breadcrumb-link) {
     color: var(--color-text-secondary);
     text-decoration: none;
   }
 
-  a:hover {
+  .breadcrumbs :global(.breadcrumb-link:hover) {
     color: var(--color-text-primary);
     text-decoration: underline;
   }
 
-  a:focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
-  }
-
-  .separator {
-    color: var(--color-text-muted);
-  }
-
-  [aria-current='page'] {
-    color: var(--color-text-primary);
-    font-weight: var(--font-weight-medium);
+  .breadcrumbs :global(.breadcrumb-link:focus-visible) {
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 </style>

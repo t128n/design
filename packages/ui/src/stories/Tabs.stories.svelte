@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Tabs } from '../index.js';
+  import { Tabs, Text } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -12,15 +12,21 @@
 </script>
 
 {#snippet overview()}
-  <p>Projects collect the work, owners, and activity for one initiative.</p>
+  <Text variant="body" tone="secondary">
+    Projects collect the work, owners, and activity for one initiative.
+  </Text>
 {/snippet}
 
 {#snippet activity()}
-  <p>Recent changes appear here with the actor and timestamp.</p>
+  <Text variant="body" tone="secondary">
+    Recent changes appear here with the actor and timestamp.
+  </Text>
 {/snippet}
 
 {#snippet settings()}
-  <p>Rename the project, move it between teams, or archive it.</p>
+  <Text variant="body" tone="secondary">
+    Rename the project, move it between teams, or archive it.
+  </Text>
 {/snippet}
 
 <Story name="Default" asChild>
@@ -38,12 +44,5 @@
 <style>
   .tabs-story {
     width: min(36rem, calc(100vw - 2rem));
-    font-family: var(--font-family-sans);
-  }
-
-  .tabs-story :global(p) {
-    margin: 0;
-    color: var(--color-text-secondary);
-    line-height: var(--line-height-body);
   }
 </style>

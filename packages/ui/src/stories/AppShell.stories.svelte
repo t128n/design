@@ -5,10 +5,12 @@
     Badge,
     Button,
     Link,
+    List,
     Navbar,
     PageHeader,
     Sidebar,
-    Table
+    Table,
+    Text
   } from '../index.js';
   import '../styles/index.css';
 
@@ -78,7 +80,7 @@
 
 {#snippet projectTable()}
   <section class="projects" aria-labelledby="projects-heading">
-    <h2 id="projects-heading">Active projects</h2>
+    <Text variant="subheading" as="h2" id="projects-heading">Active projects</Text>
     <Table columns={projectColumns}>
       <tr>
         <td>Orbit</td>
@@ -143,12 +145,21 @@
       actions={headerActions}
     />
     <section class="activity" aria-labelledby="activity-heading">
-      <h2 id="activity-heading">Recent activity</h2>
-      <ul>
-        <li><strong>Mara Chen</strong> updated the release plan for Orbit.</li>
-        <li><strong>Devon Ruiz</strong> assigned two reviewers to Atlas.</li>
-        <li><strong>Priya Shah</strong> moved Beacon to in review.</li>
-      </ul>
+      <Text variant="subheading" as="h2" id="activity-heading">Recent activity</Text>
+      <List marker="none" separated gap="sm">
+        <Text as="li" variant="body-sm" tone="secondary">
+          <Text as="strong" variant="body-sm" weight="medium" tone="primary">Mara Chen</Text>
+          updated the release plan for Orbit.
+        </Text>
+        <Text as="li" variant="body-sm" tone="secondary">
+          <Text as="strong" variant="body-sm" weight="medium" tone="primary">Devon Ruiz</Text>
+          assigned two reviewers to Atlas.
+        </Text>
+        <Text as="li" variant="body-sm" tone="secondary">
+          <Text as="strong" variant="body-sm" weight="medium" tone="primary">Priya Shah</Text>
+          moved Beacon to in review.
+        </Text>
+      </List>
     </section>
   </AppShell>
 </Story>
@@ -181,32 +192,5 @@
     gap: var(--space-sm);
   }
 
-  .projects h2,
-  .activity h2 {
-    margin: 0;
-    font-size: var(--font-size-subheading);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-subheading);
-  }
 
-  .activity ul {
-    display: grid;
-    gap: var(--space-sm);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .activity li {
-    padding-top: var(--space-sm);
-    border-top: var(--border-width) solid var(--color-border);
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
-  }
-
-  .activity strong {
-    color: var(--color-text-primary);
-    font-weight: var(--font-weight-medium);
-  }
 </style>

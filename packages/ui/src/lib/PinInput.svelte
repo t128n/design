@@ -145,7 +145,7 @@
   }
 
   .pin-field :global(.pin-text) {
-    line-height: 1;
+    line-height: var(--line-height-none);
   }
 
   .pin-field :global(.pin-caret) {

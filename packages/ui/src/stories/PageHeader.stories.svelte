@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Badge, Button, PageHeader, Table } from '../index.js';
+  import { Badge, Button, PageHeader, Table, Text } from '../index.js';
   import '../styles/index.css';
 
   const columns = [
@@ -81,7 +81,7 @@
       actions={projectsActions}
     />
     <section class="projects" aria-labelledby="projects-heading">
-      <h2 id="projects-heading">All projects</h2>
+      <Text variant="subheading" as="h2" id="projects-heading">All projects</Text>
       <Table {columns}>
         <tr>
           <td>Orbit</td>
@@ -125,12 +125,5 @@
   .projects {
     display: grid;
     gap: var(--space-sm);
-  }
-
-  .projects h2 {
-    margin: 0;
-    font-size: var(--font-size-subheading);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-subheading);
   }
 </style>

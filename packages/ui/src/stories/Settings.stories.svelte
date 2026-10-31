@@ -10,7 +10,8 @@
     PageHeader,
     Select,
     Sidebar,
-    Switch
+    Switch,
+    Text
   } from '../index.js';
   import '../styles/index.css';
 
@@ -68,7 +69,7 @@
       />
       <div class="settings">
         <section class="settings-section" aria-labelledby="settings-workspace">
-          <h2 id="settings-workspace">Workspace</h2>
+          <Text variant="subheading" as="h2" id="settings-workspace">Workspace</Text>
           <div class="form-grid">
             <Input label="Workspace name" value="Acme" />
             <Select label="Default region" items={regions} value="us-east" />
@@ -76,7 +77,7 @@
         </section>
 
         <section class="settings-section" aria-labelledby="settings-review">
-          <h2 id="settings-review">Review rules</h2>
+          <Text variant="subheading" as="h2" id="settings-review">Review rules</Text>
           <div class="choices">
             <Switch
               label="Require review before archive"
@@ -91,9 +92,9 @@
         </section>
 
         <Card title="Danger zone">
-          <p class="danger-copy">
+          <Text variant="body-sm" tone="secondary">
             Archiving removes the workspace from search and makes every project read-only.
-          </p>
+          </Text>
           <Dialog
             title="Archive workspace"
             description="This changes access for everyone in the workspace."
@@ -101,7 +102,9 @@
             triggerVariant="secondary"
             footer={dialogFooter}
           >
-            <p>You can restore the workspace later from the audit log.</p>
+            <Text variant="body" tone="secondary">
+              You can restore the workspace later from the audit log.
+            </Text>
           </Dialog>
         </Card>
 
@@ -131,14 +134,6 @@
     gap: var(--space-md);
   }
 
-  .settings-section h2 {
-    margin: 0;
-    font-family: var(--font-family-sans);
-    font-size: var(--font-size-subheading);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-subheading);
-  }
-
   .form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -148,13 +143,6 @@
   .choices {
     display: grid;
     gap: var(--space-md);
-  }
-
-  .danger-copy {
-    margin: 0 0 var(--space-md);
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   .actions {

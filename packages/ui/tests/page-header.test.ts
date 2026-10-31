@@ -103,10 +103,12 @@ describe('PageHeader', () => {
     const projects = storyBlock(stories, 'Projects page');
 
     expect(projects).toContain('<section class="projects" aria-labelledby="projects-heading">');
-    expect(projects).toContain('<h2 id="projects-heading">All projects</h2>');
+    expect(projects).toContain(
+      '<Text variant="subheading" as="h2" id="projects-heading">All projects</Text>'
+    );
     expect(projects).not.toMatch(/<Table[^>]*\bcaption=/);
-    expect(stories).toContain('.projects h2');
-    expect(stories).toContain('font-size: var(--font-size-subheading)');
+    expect(stories).not.toContain('.projects h2');
+    expect(stories).not.toContain('font-size: var(--font-size-subheading)');
   });
 
   it('keeps detail-page breadcrumbs contextual rather than repeating the title', async () => {

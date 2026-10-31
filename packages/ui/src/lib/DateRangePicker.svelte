@@ -5,6 +5,7 @@
   import ChevronLeft from '~icons/carbon/chevron-left';
   import ChevronRight from '~icons/carbon/chevron-right';
   import Button from './Button.svelte';
+  import Text from './Text.svelte';
 
   type RangeValue = { start: DateValue | undefined; end: DateValue | undefined };
 
@@ -72,7 +73,7 @@
   >
     <DateRangePicker.Label class="date-range-picker-label">{label}</DateRangePicker.Label>
     {#if description}
-      <p class="date-range-picker-description" id={descId}>{description}</p>
+      <Text as="p" variant="body-sm" tone="secondary" id={descId}>{description}</Text>
     {/if}
     <div class="date-range-picker-field">
       <div class="date-range-picker-inputs">
@@ -163,13 +164,6 @@
     font-size: var(--font-size-label);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-label);
-  }
-
-  .date-range-picker-description {
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   .date-range-picker-field {

@@ -11,7 +11,7 @@ describe('Breadcrumbs', () => {
     const breadcrumbs = await readSource('../src/lib/Breadcrumbs.svelte');
     const link = section(breadcrumbs, '{#if item.href}', '{:else if');
 
-    expect(link).toContain('<a href={item.href}>{item.label}</a>');
+    expect(link).toContain('<Link href={item.href} class="breadcrumb-link">{item.label}</Link>');
     expect(link).not.toContain('aria-current');
     expect(breadcrumbs).not.toContain('index < items.length - 1');
   });
@@ -25,7 +25,8 @@ describe('Breadcrumbs', () => {
     );
     const fallback = section(breadcrumbs, '{:else}', '{/if}');
 
-    expect(current).toContain('<span aria-current="page">{item.label}</span>');
+    expect(current).toContain('aria-current="page"');
+    expect(current).toContain('{item.label}');
     expect(fallback).not.toContain('aria-current');
   });
 

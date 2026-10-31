@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Button, Dialog } from '../index.js';
+  import { Button, Dialog, Text } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -25,5 +25,7 @@
     footer
   }}
 >
-  <p>Project names must be unique within the workspace.</p>
+  <Text variant="body" tone="secondary">
+    Project names must be unique within the workspace.
+  </Text>
 </Story>

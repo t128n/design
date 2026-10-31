@@ -25,9 +25,7 @@
   .link {
     display: inline;
     color: var(--color-accent);
-    font-family: var(--font-family-sans);
-    font-size: var(--font-size-label);
-    line-height: var(--line-height-label);
+    font: inherit;
     text-decoration: none;
     text-underline-offset: var(--space-xs);
     transition: color var(--transition-duration);
@@ -45,12 +43,16 @@
   .link.ghost {
     display: inline-flex;
     align-items: center;
+    min-height: var(--control-height);
+    padding: 0 var(--space-sm);
     border: 0;
     border-radius: var(--radius-md);
     background: transparent;
     color: var(--color-text-secondary);
-    min-height: var(--control-height);
-    padding: 0 var(--space-sm);
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-label);
     text-decoration: none;
   }
 
