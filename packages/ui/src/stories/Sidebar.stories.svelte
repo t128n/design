@@ -139,9 +139,9 @@
   </div>
 </Story>
 
-<Story name="White surface" asChild>
-  <div class="sidebar-story sidebar-story-workspace">
-    <Sidebar surface="workspace" sections={groupedSections} toggleLabel="Navigation" />
+<Story name="Navigation surface" asChild>
+  <div class="sidebar-story sidebar-story-navigation">
+    <Sidebar surface="navigation" sections={groupedSections} toggleLabel="Navigation" />
   </div>
 </Story>
 
@@ -152,7 +152,7 @@
     background: var(--color-canvas);
   }
 
-  .sidebar-story-workspace {
+  .sidebar-story-navigation {
     background: var(--color-workspace);
   }
 

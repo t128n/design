@@ -42,21 +42,40 @@ describe('Sidebar', () => {
     expect(sidebar).not.toContain('var(--color-accent)');
   });
 
-  it('test_surface_default: the sidebar sits on the navigation surface by default', async () => {
+  it('test_default_white: the sidebar defaults to the white workspace surface', async () => {
     const sidebar = await readSource('../src/lib/Sidebar.svelte');
 
-    expect(sidebar).toContain("surface = 'navigation'");
-    expect(rule(sidebar, '.sidebar')).toContain('background: var(--color-navigation-surface)');
+    expect(sidebar).toContain("surface?: 'workspace' | 'navigation'");
+    expect(sidebar).toContain("surface = 'workspace'");
+    expect(rule(sidebar, '.sidebar')).toContain('background: var(--color-workspace)');
+    expect(rule(sidebar, '.sidebar')).not.toContain('var(--color-navigation-surface)');
   });
 
-  it('test_white_surface: surface="workspace" switches the sidebar to white', async () => {
+  it('test_navigation_variant: surface="navigation" opts into the navigation surface', async () => {
     const sidebar = await readSource('../src/lib/Sidebar.svelte');
 
-    expect(sidebar).toContain("surface?: 'navigation' | 'workspace'");
-    expect(sidebar).toContain('class:workspace');
-    expect(rule(sidebar, '.sidebar.workspace')).toContain(
-      'background: var(--color-workspace)'
+    expect(sidebar).toContain('class:navigation');
+    expect(rule(sidebar, '.sidebar.navigation')).toContain(
+      'background: var(--color-navigation-surface)'
     );
+  });
+
+  it('test_structural_border: the sidebar owns exactly one right border with border tokens', async () => {
+    const sidebar = await readSource('../src/lib/Sidebar.svelte');
+    const base = rule(sidebar, '.sidebar');
+
+    expect(base).toContain('border-right: var(--border-width) solid var(--color-border)');
+    expect(base).not.toContain('border-top');
+    expect(base).not.toContain('border-bottom');
+    expect(base).not.toContain('border-left');
+  });
+
+  it('test_mobile_border_reset: the narrow layout drops the desktop right border', async () => {
+    const sidebar = await readSource('../src/lib/Sidebar.svelte');
+    const mobile = sidebar.slice(sidebar.indexOf('@media (max-width: 800px)'));
+
+    expect(sidebar).toContain('border-right: 0');
+    expect(rule(mobile, '.sidebar')).toContain('border-right: 0');
   });
 
   it('test_badge_contrast: active-row badges use secondary text while others stay muted', async () => {
@@ -216,21 +235,22 @@ describe('Sidebar', () => {
     expect(desktop).toContain('top: 0');
     expect(desktop).toContain('max-height: 100vh');
     expect(desktop).toContain('overflow-y: auto');
-    expect(sidebar).not.toContain('border-right');
-    expect(sidebar).not.toContain('border-bottom');
+    expect(desktop).not.toContain('border-bottom');
   });
 
-  it('test_stories: keeps Flat, Grouped, Nested, Selected, and Focus with an active nested child', async () => {
+  it('test_stories: keeps Flat, Grouped, Nested, Selected, and Focus with a Navigation surface story', async () => {
     const story = await readSource('../src/stories/Sidebar.stories.svelte');
 
-    for (const name of ['Flat', 'Grouped', 'Nested', 'Selected', 'Focus', 'White surface']) {
+    for (const name of ['Flat', 'Grouped', 'Nested', 'Selected', 'Focus', 'Navigation surface']) {
       expect(story).toContain(`name="${name}"`);
     }
 
-    const white = story.slice(story.indexOf('name="White surface"'));
+    expect(story).not.toContain('White surface');
 
-    expect(white).toContain('surface="workspace"');
-    expect(white).toContain('sections={groupedSections}');
+    const navigation = story.slice(story.indexOf('name="Navigation surface"'));
+
+    expect(navigation).toContain('surface="navigation"');
+    expect(navigation).toContain('sections={groupedSections}');
 
     const nested = story.slice(
       story.indexOf('const nestedSections'),

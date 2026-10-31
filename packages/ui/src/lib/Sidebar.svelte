@@ -24,7 +24,7 @@
     footer?: Snippet;
     label?: string;
     toggleLabel?: string;
-    surface?: 'navigation' | 'workspace';
+    surface?: 'workspace' | 'navigation';
   };
 
   let {
@@ -33,7 +33,7 @@
     footer,
     label = 'Sections',
     toggleLabel = 'Navigation',
-    surface = 'navigation'
+    surface = 'workspace'
   }: Props = $props();
 
   const baseId = $props.id();
@@ -79,7 +79,7 @@
   }
 </script>
 
-<aside class="sidebar" class:workspace={surface === 'workspace'}>
+<aside class="sidebar" class:navigation={surface === 'navigation'}>
   {#if header}
     <div class="sidebar-header">{@render header()}</div>
   {/if}
@@ -215,13 +215,14 @@
     width: 100%;
     min-height: 100%;
     padding: var(--space-md) var(--space-sm);
-    background: var(--color-navigation-surface);
+    border-right: var(--border-width) solid var(--color-border);
+    background: var(--color-workspace);
     color: var(--color-text-primary);
     font-family: var(--font-family-sans);
   }
 
-  .sidebar.workspace {
-    background: var(--color-workspace);
+  .sidebar.navigation {
+    background: var(--color-navigation-surface);
   }
 
   .sidebar-header,
@@ -494,6 +495,10 @@
   }
 
   @media (max-width: 800px) {
+    .sidebar {
+      border-right: 0;
+    }
+
     .drawer-trigger {
       display: inline-flex;
     }
