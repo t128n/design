@@ -1,6 +1,5 @@
 # Build context for the Storybook preview image.
-# Keep this in sync with .gitignore; the image only needs the source, the
-# Storybook config and the lockfile.
+# The image only needs the source, the Storybook config and the lockfile.
 
 # ---- Version control & tooling ------------------------------------------
 .git
@@ -10,8 +9,6 @@
 .vscode
 
 # ---- Local state ---------------------------------------------------------
-.superlite
-docs
 .DS_Store
 
 # ---- Build artifacts (rebuilt inside the image) --------------------------
@@ -21,5 +18,4 @@ dist
 
 # ---- Not needed to build Storybook --------------------------------------
 *.md
-playwright.config.ts
 vitest.config.ts
