@@ -141,6 +141,7 @@ describe('design audit', () => {
     expect(tokens).toContain('--layout-reading-width: 65ch');
     expect(tokens).toContain('--layout-form-width: 48rem');
     expect(tokens).toContain('--layout-sidebar-width: 13.5rem');
+    expect(tokens).toContain('--layout-aside-width: 17.5rem');
     expect(tokens).toContain('--border-width: 1px');
     expect(tokens).toContain('--border-width-emphasis: 2px');
   });
