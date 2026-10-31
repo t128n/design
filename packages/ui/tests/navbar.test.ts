@@ -76,6 +76,17 @@ describe('Navbar', () => {
     expect(navbar).not.toContain('@media (max-width: 640px)');
   });
 
+  it('test_measure_is_clipped: hidden measurement box contributes no scroll width', async () => {
+    const navbar = await readSource('../src/lib/Navbar.svelte');
+    const measure = blockFor(navbar, '.measure');
+
+    expect(measure).toContain('width: 0;');
+    expect(measure).toContain('height: 0;');
+    expect(measure).toContain('overflow: hidden;');
+    expect(measure).not.toContain('width: max-content');
+    expect(blockFor(navbar, '.measure-links')).toContain('display: flex');
+  });
+
   it('test_compact_trigger: Menu icon, visible label, current destination, and ARIA wiring', async () => {
     const navbar = await readSource('../src/lib/Navbar.svelte');
 
@@ -163,5 +174,19 @@ describe('Navbar', () => {
     expect(story).not.toContain('<div class="narrow"');
     expect(story).not.toContain('scroll-frame');
     expect(story).not.toContain('width: 360px');
+  });
+
+  it('test_narrow_stories_use_compact_utilities: narrow viewports drop the Sign out action', async () => {
+    const story = await readSource('../src/stories/Navbar.stories.svelte');
+    const narrow = story.match(/\{#snippet narrowUtilities\(\)\}([\s\S]*?)\{\/snippet\}/)?.[1] ?? '';
+    const block = (name: string) =>
+      story.match(new RegExp(`<Story name="${name}"[\\s\\S]*?</Story>`))?.[0] ?? '';
+
+    expect(narrow).toContain('href="/help"');
+    expect(narrow).toContain('href="/account"');
+    expect(narrow).not.toContain('Sign out');
+    expect(block('Narrow screen')).toContain('actions={narrowUtilities}');
+    expect(block('Long labels')).toContain('actions={narrowUtilities}');
+    expect(block('Account utilities')).toContain('actions={accountUtilities}');
   });
 });
