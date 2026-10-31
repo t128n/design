@@ -38,7 +38,7 @@
     },
     "packages/ui": {
       "name": "@t128n/ui",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "dependencies": {
         "@internationalized/date": "^3.12.4",
         "bits-ui": "^2.20.2",
