@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import type { Space } from './layout';
+  import VisuallyHidden from './VisuallyHidden.svelte';
 
   type Props = {
     sidebar?: Snippet;
@@ -21,7 +22,9 @@
   class:with-sidebar={Boolean(sidebar)}
   class:has-navbar={Boolean(navbar)}
 >
-  <a class="skip-link" href="#main-content">Skip to content</a>
+  <VisuallyHidden as="a" href="#main-content" focusable class="skip-link">
+    Skip to content
+  </VisuallyHidden>
   {#if navbar}
     <div class="navbar">{@render navbar()}</div>
   {/if}
@@ -122,7 +125,8 @@
     margin-inline: auto;
   }
 
-  .skip-link {
+  /* The skip link is a VisuallyHidden anchor; AppShell owns its overlay chrome. */
+  .app-shell > :global(.skip-link) {
     position: fixed;
     top: var(--space-sm);
     left: var(--space-sm);
@@ -133,13 +137,11 @@
     color: var(--color-on-accent);
     font-size: var(--font-size-label);
     text-decoration: none;
-    transform: translateY(-200%);
   }
 
-  .skip-link:focus-visible {
+  .app-shell > :global(.skip-link:focus-visible) {
     outline: var(--border-width-emphasis) solid var(--color-focus);
     outline-offset: var(--border-width);
-    transform: translateY(0);
   }
 
   /* --breakpoint-md: 800px; media queries cannot consume the custom property. */

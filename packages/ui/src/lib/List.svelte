@@ -1,10 +1,11 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import type { HTMLAttributes } from 'svelte/elements';
+  import { mergeClasses } from './class';
   import type { ListMarker, Space } from './layout';
 
   type Props = HTMLAttributes<HTMLElement> & {
-    as?: 'ul' | 'ol';
+    as?: 'ul' | 'ol' | 'dl';
     marker?: ListMarker;
     orientation?: 'vertical' | 'horizontal';
     gap?: Space;
@@ -24,14 +25,23 @@
     ...restProps
   }: Props = $props();
 
-  const listMarker = $derived(marker ?? (as === 'ol' ? 'decimal' : 'disc'));
+  const listMarker = $derived(
+    as === 'dl' ? 'none' : (marker ?? (as === 'ol' ? 'decimal' : 'disc'))
+  );
+
+  const classes = $derived(
+    mergeClasses(
+      'list',
+      `gap-${gap}`,
+      `orientation-${orientation}`,
+      as === 'dl' ? '' : `marker-${listMarker}`,
+      separated ? 'separated' : '',
+      className
+    )
+  );
 </script>
 
-<svelte:element
-  this={as}
-  {...restProps}
-  class={`list gap-${gap} marker-${listMarker} orientation-${orientation} ${separated ? 'separated' : ''} ${className}`}
->
+<svelte:element this={as} {...restProps} class={classes}>
   {@render children?.()}
 </svelte:element>
 
@@ -79,8 +89,8 @@
     list-style-type: upper-roman;
   }
 
+  /* The grid/flex gap carries the rhythm; the separator is the only extra rule. */
   :global(.list.separated > li + li) {
-    padding-top: var(--space-sm);
     border-top: var(--border-width) solid var(--color-border);
   }
 

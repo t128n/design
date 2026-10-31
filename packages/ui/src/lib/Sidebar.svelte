@@ -4,6 +4,7 @@
   import ChevronRight from 'carbon-icons-svelte/lib/ChevronRight.svelte';
   import Close from 'carbon-icons-svelte/lib/Close.svelte';
   import Menu from 'carbon-icons-svelte/lib/Menu.svelte';
+  import VisuallyHidden from './VisuallyHidden.svelte';
 
   type Item = {
     label: string;
@@ -113,13 +114,9 @@
               </div>
               <Dialog.Close>
                 {#snippet child({ props })}
-                  <button
-                    {...props}
-                    type="button"
-                    class="drawer-close"
-                    aria-label="Close navigation"
-                  >
-                    <Close size={20} />
+                  <button {...props} type="button" class="drawer-close">
+                    <Close size={20} aria-hidden="true" />
+                    <VisuallyHidden>Close navigation</VisuallyHidden>
                   </button>
                 {/snippet}
               </Dialog.Close>
@@ -188,12 +185,14 @@
               class="expander"
               aria-expanded={isOpen(id, item)}
               aria-controls={childrenId}
-              aria-label={`${isOpen(id, item) ? 'Collapse' : 'Expand'} ${item.label}`}
               onclick={() => toggleItem(id)}
             >
               <span class="chevron" aria-hidden="true">
                 <ChevronRight size={16} />
               </span>
+              <VisuallyHidden>
+                {isOpen(id, item) ? 'Collapse' : 'Expand'} {item.label}
+              </VisuallyHidden>
             </button>
           {/if}
         </div>

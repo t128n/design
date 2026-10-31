@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Container, Stack, Text } from '../index.js';
+  import { Button, Container, EmptyState, Stack, Text } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -34,14 +34,17 @@
   </Container>
 </Story>
 
+{#snippet createProject()}
+  <Button>New project</Button>
+{/snippet}
+
 <Story name="Centered" asChild>
   <Container width="reading">
-    <Stack gap="sm" align="center">
-      <Text variant="subheading" as="h2" align="center">No projects yet</Text>
-      <Text variant="body-sm" tone="secondary" align="center">
-        Create the first project to give the team a shared place to work.
-      </Text>
-    </Stack>
+    <EmptyState
+      title="No projects yet"
+      description="Create the first project to give the team a shared place to work."
+      action={createProject}
+    />
   </Container>
 </Story>
 

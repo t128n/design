@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import Text from './Text.svelte';
+  import { headingTag, type HeadingLevel } from './typography';
 
   type Props = {
     eyebrow?: string;
@@ -9,6 +10,8 @@
     actions?: Snippet;
     aside?: Snippet;
     align?: 'left' | 'center';
+    /** Semantic heading level for document order; 1 is the page title. */
+    level?: HeadingLevel;
   };
 
   let {
@@ -17,7 +20,8 @@
     description,
     actions,
     aside,
-    align = 'left'
+    align = 'left',
+    level = 1
   }: Props = $props();
 
   const textAlign = $derived(align === 'center' ? 'center' : 'start');
@@ -33,7 +37,7 @@
       <Text variant="label" as="span" tone="secondary" align={textAlign}>{eyebrow}</Text>
     {/if}
     <div class="title">
-      <Text variant="display" as="h1" align={textAlign}>{title}</Text>
+      <Text variant="display" as={headingTag(level)} align={textAlign}>{title}</Text>
     </div>
     {#if description}
       <div class="description">

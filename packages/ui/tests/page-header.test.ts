@@ -62,6 +62,15 @@ describe('PageHeader', () => {
     expect(header).toMatch(/margin-bottom: var\(--space-/);
   });
 
+  it('maps the semantic heading level to the native heading', async () => {
+    const header = await readSource('../src/lib/PageHeader.svelte');
+
+    expect(header).toContain('level?: HeadingLevel');
+    expect(header).toContain('level = 1');
+    expect(header).toContain('<Text variant="heading" as={headingTag(level)}>');
+    expect(header).not.toMatch(/<Text[^>]*as="h1"/);
+  });
+
   it('stacks the actions below the copy at narrow widths', async () => {
     const header = await readSource('../src/lib/PageHeader.svelte');
     const mobile = header.slice(header.indexOf('@media (max-width: 640px)'));

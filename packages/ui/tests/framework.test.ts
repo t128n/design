@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { render } from '@testing-library/svelte';
 import { describe, expect, it } from 'vitest';
 import { Code, Container, Grid, Inline, List, Stack, Text } from '../src/index.js';
+import DefinitionListFixture from './fixtures/DefinitionListFixture.svelte';
 
 const readSource = (path: string) => readFile(new URL(path, import.meta.url), 'utf8');
 
@@ -154,6 +155,61 @@ describe('layout primitives', () => {
 
     expect(element).toHaveClass('list', 'gap-sm', 'marker-disc', 'orientation-vertical');
     expect(element).not.toHaveClass('separated');
+  });
+
+  it('test_list_definition: description lists default to no marker and no marker padding', () => {
+    const { container } = render(List, { as: 'dl', gap: 'md' });
+    const element = container.querySelector('dl');
+
+    expect(element).toHaveClass('list', 'gap-md', 'orientation-vertical');
+    expect(element).not.toHaveClass('marker-none', 'marker-disc');
+    expect(element?.className).not.toContain('marker-');
+  });
+
+  it('test_list_definition_composes: Text dt and dd compose inside a description list', () => {
+    const { container } = render(DefinitionListFixture);
+    const list = container.querySelector('dl');
+
+    expect(list).toHaveClass('list', 'gap-md', 'definition');
+    expect(list?.className).not.toContain('marker-');
+    expect(container.querySelectorAll('dl > dt')).toHaveLength(2);
+    expect(container.querySelectorAll('dl > dd')).toHaveLength(2);
+    expect(container.querySelector('dl > dd')?.textContent).toBe('Mara Chen');
+    expect(container.querySelector('dl > dt')?.className).toContain('text-label');
+  });
+
+  it('test_list_separated_spacing: the grid gap carries the rhythm, not a second padding', async () => {
+    const source = await readSource('../src/lib/List.svelte');
+    const separated = source.slice(
+      source.indexOf(':global(.list.separated'),
+      source.indexOf('}', source.indexOf(':global(.list.separated'))
+    );
+
+    expect(separated).toContain('border-top: var(--border-width)');
+    expect(separated).not.toContain('padding');
+    expect(source).not.toContain('padding-top');
+  });
+
+  it('test_list_separated_gaps: separated lists keep the requested gap', () => {
+    for (const gap of ['xs', 'lg'] as const) {
+      const { container } = render(List, { marker: 'none', separated: true, gap });
+
+      expect(container.querySelector('ul')).toHaveClass('separated', `gap-${gap}`, 'marker-none');
+    }
+  });
+
+  it('test_list_stories: covers definition lists, separated gaps, and nesting', async () => {
+    const stories = await readSource('../src/stories/List.stories.svelte');
+
+    expect(stories).toContain('name="Definition list"');
+    expect(stories).toContain('<List as="dl" gap="md">');
+    expect(stories).toContain('as="dt"');
+    expect(stories).toContain('as="dd"');
+    expect(stories).toContain('name="Separated tight"');
+    expect(stories).toContain('name="Separated loose"');
+    expect(stories).toContain('name="Nested"');
+    expect(stories).toContain('gap="xs"');
+    expect(stories).toContain('gap="lg"');
   });
 
   it('test_layout_tokens: no literal spacing values in layout primitives', async () => {

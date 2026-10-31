@@ -41,6 +41,8 @@ describe('Storybook stories', () => {
       ['Grid', 'Primitives/Grid'],
       ['Container', 'Primitives/Container'],
       ['List', 'Primitives/List'],
+      ['EmptyState', 'Components/EmptyState'],
+      ['VisuallyHidden', 'Primitives/Visually hidden'],
       ['Checkbox', 'Primitives/Checkbox'],
       ['Switch', 'Primitives/Switch'],
       ['Select', 'Primitives/Select'],

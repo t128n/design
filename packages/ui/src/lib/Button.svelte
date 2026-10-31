@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import type { HTMLButtonAttributes } from 'svelte/elements';
+  import { mergeClasses } from './class';
 
   type Props = HTMLButtonAttributes & {
     variant?: 'primary' | 'secondary' | 'ghost' | 'link' | 'danger';
@@ -13,18 +14,19 @@
     variant = 'primary',
     disabled = false,
     loading = false,
+    class: className,
     children,
     ...restProps
   }: Props = $props();
+
+  const classes = $derived(
+    mergeClasses('button', variant === 'primary' ? '' : variant, className)
+  );
 </script>
 
 <button
   {...restProps}
-  class:secondary={variant === 'secondary'}
-  class:ghost={variant === 'ghost'}
-  class:link={variant === 'link'}
-  class:danger={variant === 'danger'}
-  class="button"
+  class={classes}
   disabled={disabled || loading}
   aria-busy={loading ? 'true' : undefined}
 >

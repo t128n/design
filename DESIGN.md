@@ -171,10 +171,12 @@ Use **IBM Plex Sans** for headings, body text, labels, and controls. Use system 
 
 The typography and layout primitives are the vocabulary for application and story content. They keep the scale, semantics, and spacing tied to tokens instead of local CSS.
 
-- Use **`Text`** for prose and headings. `variant` controls appearance; `as` controls the native element. They are independent: choose both explicitly.
+- Use **`Text`** for prose and headings. `variant` is visual; `as` is semantic. They are independent: choose both explicitly. Choose heading levels for document order, not size; `PageHeader`, `Hero`, and `Card` expose `level` (defaults 1, 1, and 2) and render the matching `h1`–`h6`. Each element also types its own attributes, so `as="time"` accepts `datetime` while `as="a"` is refused.
 - Use **`Code`** for inline code and code blocks. Do not switch ordinary labels to mono.
 - Use **`Stack`**, **`Inline`**, **`Grid`**, and **`Container`** for rhythm, rows, columns, and measure. `Text` has no margins; spacing belongs to the layout primitive.
-- Use **`List`** for `<ul>` and `<ol>` and **`Text as="li"`** for list items. `List` owns the container, marker, orientation, spacing, and optional separators.
+- Use **`List`** for `<ul>`, `<ol>`, and `<dl>`, and **`Text as="li"`** (or `Text as="dt"`/`as="dd"`) for its items. There is no `ListItem` component. `List` owns the container, marker, orientation, spacing, and optional separators; a `dl` never emits a marker or marker padding, and `separated` adds only the row separator while `gap` carries the rhythm.
+- Use **`EmptyState`** for an empty region: a heading, one sentence, and one required action. No illustration, no optional action.
+- Use **`VisuallyHidden`** for the accessible name of an icon-only control and for the AppShell skip link. Never pair hidden text with a duplicate `aria-label`. A `focusable` instance reveals itself on keyboard focus.
 - Use **`Link`** for navigation and **`Button`** for actions. `Text` never renders an anchor or button.
 - Use the existing **`Label`** for form labels. `Text variant="label"` is display text, not a form association.
 - Control internals (buttons, inputs, menus, date fields, tables) may keep local token-based CSS so their geometry and states remain precise. Application and story prose must not write raw typography CSS.
@@ -295,7 +297,8 @@ A structural border belongs to exactly one region.
 - **AppShell** owns the frame: sidebar, navbar, a focusable main region, and a skip link. The main region is the white **workspace**; **Sidebar** and **Navbar** are independent so an app can use either alone. A structural border belongs to exactly one region: AppShell arranges regions without drawing their borders, and each region owns its own structural edge.
 - **Sidebar** sits on the white **workspace** by default and stays quieter than the content it serves. Use the **navigation surface** only when an explicitly requested navigation variant calls for it. Selected rows use the neutral **navigation selected** surface with primary text; inactive items stay quiet. No blue bars; reserve blue for focus only. Use spacing before dividers rather than adding lines everywhere.
 - **Navbar** shares the **workspace** and owns its bottom border so it reads as part of the page. Prefer ghost and link-level utilities; borders only where they carry meaning.
-- **PageHeader** carries breadcrumbs, title, description, and page actions on the workspace itself: no background, no card. **Hero** is for landing or empty-state moments, not for ordinary application pages.
+- **PageHeader** carries breadcrumbs, title, description, and page actions on the workspace itself: no background, no card. **Hero** is for landing or empty-state moments, not for ordinary application pages. Both default to `level={1}`; pass `level` when the page title is rendered elsewhere.
+- **Card** is an independent surface, not a spacing device. Its title defaults to `level={2}`; pass `level` when the card sits deeper in the document. Headings stay sequential in document order even when the visual scale is the same.
 - **Settings** pages group ordinary preferences under section headings and whitespace, not cards. Reserve a bordered or tinted surface for exceptional regions: danger zones, audit and history panels, or genuinely independent sub-surfaces.
 - **Badge** and **Alert** encode status as text plus one role. **Table** keeps rows aligned and scrolls horizontally rather than turning into cards. Tables are borderless in white workspaces when row separators are enough; add `bordered` only when the table needs a structural container.
 - Composed pages live under **Views** in Storybook. They are examples of the pieces working together, not extra primitives.
@@ -309,6 +312,11 @@ A section owns its heading, description, optional actions, and the spacing that 
 - Keep the gap between a section title and the column headers compact (8px). Use consistent, restrained cell padding, and align the first and last cells with the section edges.
 - Do not wrap an ordinary data table in a full-width bordered card. Use `bordered` only when the table is a genuinely independent surface, and use `Card` only for that same reason.
 - Keep status badges inside cells unchanged; they already carry role through text plus one tone.
+
+### Empty states and hidden text
+
+- **EmptyState** owns an empty region: a heading at the requested `level`, one sentence, and exactly one required action. Put it on the workspace; it is not a card and carries no illustration.
+- **VisuallyHidden** supplies text that stays in the accessibility tree while clipped on screen. Use it for icon-only control names and for the AppShell skip link, and remove any `aria-label` that would otherwise duplicate the name. `focusable` reveals the element on keyboard focus, which is what makes a hidden skip link visible when it receives focus.
 
 ### Iconography — concrete choice
 
@@ -452,7 +460,8 @@ Prefer budgets to bans where a ban is a judgement call: one accent-filled elemen
 - No local `prefers-color-scheme` query under `packages/ui/src/lib`; the token contract owns it.
 - No literal `font-size`, `font-weight`, `line-height`, or `font-family` values under `packages/ui/src/lib`; use a token.
 - No raw `<p>` or `<h1>`–`<h6>` in components or stories; use `Text`.
-- No raw `<ul>`/`<ol>`/`<li>` in stories; use `List` with `Text as="li"`.
+- No raw `<ul>`/`<ol>`/`<li>` in stories; use `List` with `Text as="li"` (and `as="dt"`/`as="dd"` in a `dl`).
+- No icon-only control without an accessible name, and no accessible name duplicated by both `aria-label` and hidden text.
 - No `font-size` below 12px.
 - At least one `:focus-visible` rule per interactive component.
 

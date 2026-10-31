@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import type { HTMLAnchorAttributes } from 'svelte/elements';
+  import { mergeClasses } from './class';
 
   type Props = HTMLAnchorAttributes & {
     href: string;
@@ -8,16 +9,19 @@
     children?: Snippet;
   };
 
-  let { href, variant = 'default', children, ...restProps }: Props = $props();
+  let { href, variant = 'default', class: className, children, ...restProps }: Props = $props();
+
+  const classes = $derived(
+    mergeClasses(
+      'link',
+      variant === 'ghost' ? 'ghost' : '',
+      variant === 'link' ? 'link-variant' : '',
+      className
+    )
+  );
 </script>
 
-<a
-  {href}
-  {...restProps}
-  class="link"
-  class:ghost={variant === 'ghost'}
-  class:link-variant={variant === 'link'}
->
+<a {href} {...restProps} class={classes}>
   {@render children?.()}
 </a>
 
