@@ -9,6 +9,7 @@ export { default as Dialog } from './lib/Dialog.svelte';
 export { default as Footer } from './lib/Footer.svelte';
 export { default as Hero } from './lib/Hero.svelte';
 export { default as Input } from './lib/Input.svelte';
+export { default as Link } from './lib/Link.svelte';
 export { default as Navbar } from './lib/Navbar.svelte';
 export { default as PageHeader } from './lib/PageHeader.svelte';
 export { default as Select } from './lib/Select.svelte';

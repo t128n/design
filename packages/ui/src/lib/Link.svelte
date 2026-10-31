@@ -1,0 +1,72 @@
+<script lang="ts">
+  import type { Snippet } from 'svelte';
+  import type { HTMLAnchorAttributes } from 'svelte/elements';
+
+  type Props = HTMLAnchorAttributes & {
+    href: string;
+    variant?: 'default' | 'ghost' | 'link';
+    children?: Snippet;
+  };
+
+  let { href, variant = 'default', children, ...restProps }: Props = $props();
+</script>
+
+<a
+  {href}
+  {...restProps}
+  class="link"
+  class:ghost={variant === 'ghost'}
+  class:link-variant={variant === 'link'}
+>
+  {@render children?.()}
+</a>
+
+<style>
+  .link {
+    display: inline;
+    color: var(--color-accent);
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-label);
+    line-height: var(--line-height-label);
+    text-decoration: none;
+    text-underline-offset: var(--space-xs);
+    transition: color var(--transition-duration);
+  }
+
+  .link:hover {
+    text-decoration: underline;
+  }
+
+  .link:focus-visible {
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
+  }
+
+  .link.ghost {
+    display: inline-flex;
+    align-items: center;
+    border: 0;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-text-secondary);
+    min-height: var(--control-height);
+    padding: 0 var(--space-sm);
+    text-decoration: none;
+  }
+
+  .link.ghost:hover {
+    background: var(--color-surface-subtle);
+    color: var(--color-text-primary);
+    text-decoration: none;
+  }
+
+  .link.link-variant {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  .link.link-variant:hover {
+    color: var(--color-text-primary);
+    text-decoration: underline;
+  }
+</style>

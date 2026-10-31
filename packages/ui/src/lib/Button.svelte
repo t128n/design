@@ -3,7 +3,7 @@
   import type { HTMLButtonAttributes } from 'svelte/elements';
 
   type Props = HTMLButtonAttributes & {
-    variant?: 'primary' | 'secondary';
+    variant?: 'primary' | 'secondary' | 'ghost' | 'link';
     disabled?: boolean;
     loading?: boolean;
     children?: Snippet;
@@ -21,6 +21,8 @@
 <button
   {...restProps}
   class:secondary={variant === 'secondary'}
+  class:ghost={variant === 'ghost'}
+  class:link={variant === 'link'}
   class="button"
   disabled={disabled || loading}
   aria-busy={loading ? 'true' : undefined}
@@ -48,7 +50,10 @@
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-label);
     cursor: pointer;
-    transition: background-color var(--transition-duration), border-color var(--transition-duration);
+    transition:
+      background-color var(--transition-duration),
+      border-color var(--transition-duration),
+      color var(--transition-duration);
   }
 
   .button:hover:not(:disabled) {
@@ -65,9 +70,44 @@
     background: var(--color-surface-subtle);
   }
 
+  .button.ghost {
+    border: 0;
+    background: transparent;
+    color: var(--color-text-primary);
+    min-height: var(--control-height);
+    padding: 0 var(--space-md);
+  }
+
+  .button.ghost:hover:not(:disabled) {
+    background: var(--color-surface-subtle);
+  }
+
+  .button.ghost:active:not(:disabled) {
+    background: var(--color-surface-subtle);
+  }
+
+  .button.link {
+    border: 0;
+    background: transparent;
+    color: var(--color-accent);
+    min-height: auto;
+    padding: 0;
+    text-decoration: none;
+  }
+
+  .button.link:hover:not(:disabled) {
+    background: transparent;
+    text-decoration: underline;
+  }
+
+  .button.link:active:not(:disabled) {
+    background: transparent;
+    color: var(--color-text-primary);
+  }
+
   .button:focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 
   .button:disabled {
@@ -75,6 +115,13 @@
     background: var(--color-disabled-background);
     color: var(--color-disabled-text);
     cursor: not-allowed;
+  }
+
+  .button.ghost:disabled,
+  .button.link:disabled {
+    border-color: transparent;
+    background: transparent;
+    color: var(--color-disabled-text);
   }
 
   .loading {
