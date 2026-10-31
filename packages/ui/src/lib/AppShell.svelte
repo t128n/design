@@ -10,7 +10,7 @@
   let { sidebar, navbar, children }: Props = $props();
 </script>
 
-<div class="app-shell">
+<div class="app-shell" class:with-sidebar={Boolean(sidebar)}>
   <a class="skip-link" href="#main-content">Skip to content</a>
   {#if sidebar}
     <div class="sidebar">{@render sidebar()}</div>
@@ -19,8 +19,10 @@
     {#if navbar}
       <div class="navbar">{@render navbar()}</div>
     {/if}
-    <main id="main-content" class="content" tabindex="-1">
-      {@render children?.()}
+    <main id="main-content" tabindex="-1" class="content">
+      <div class="content-inner">
+        {@render children?.()}
+      </div>
     </main>
   </div>
 </div>
@@ -28,21 +30,26 @@
 <style>
   .app-shell {
     display: grid;
-    grid-template-columns: minmax(200px, 240px) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     min-height: 100vh;
     background: var(--color-canvas);
     color: var(--color-text-primary);
     font-family: var(--font-family-sans);
   }
 
-  .sidebar {
+  .app-shell.with-sidebar {
+    grid-template-columns: var(--layout-sidebar-width) minmax(0, 1fr);
+  }
+
+  .sidebar,
+  .main,
+  .navbar {
     min-width: 0;
   }
 
   .main {
     display: flex;
     flex-direction: column;
-    min-width: 0;
   }
 
   .content {
@@ -53,6 +60,12 @@
 
   .content:focus {
     outline: none;
+  }
+
+  .content-inner {
+    width: 100%;
+    max-width: var(--layout-content-width);
+    margin-inline: auto;
   }
 
   .skip-link {
@@ -69,17 +82,15 @@
     transform: translateY(-200%);
   }
 
-  .skip-link:focus {
+  .skip-link:focus-visible {
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width);
     transform: translateY(0);
   }
 
   @media (max-width: 800px) {
-    .app-shell {
-      grid-template-columns: 1fr;
-    }
-
-    .sidebar {
-      border-bottom: 1px solid var(--color-border);
+    .app-shell.with-sidebar {
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .content {
