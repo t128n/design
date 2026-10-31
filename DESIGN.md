@@ -488,6 +488,7 @@ Prefer budgets to bans where a ban is a judgement call: one accent-filled elemen
 - No `[data-theme='light']` or `[data-theme='dark']` selectors under `packages/ui/src/lib`; theme switching belongs to `tokens.css`.
 - No local `prefers-color-scheme` query under `packages/ui/src/lib`; the token contract owns it.
 - No literal `font-size`, `font-weight`, `line-height`, or `font-family` values under `packages/ui/src/lib`; use a token.
+- No unapproved `:global(...)` class hooks under `packages/ui/src`; component internals are scoped, and child-root hooks use the `t128n-` or a documented component-family prefix.
 - No raw `<p>` or `<h1>`–`<h6>` in components or stories; use `Text`.
 - No raw `<ul>`/`<ol>`/`<li>` in stories; use `List` with `Text as="li"` (and `as="dt"`/`as="dd"` in a `dl`).
 - No icon-only control without an accessible name, and no accessible name duplicated by both `aria-label` and hidden text.

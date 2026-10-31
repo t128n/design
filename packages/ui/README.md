@@ -381,6 +381,34 @@ See [`docs/theming.md`](../../docs/theming.md) for the light and dark semantic
 maps, the public token contract, the internal token list, and nested-scope
 examples.
 
+## CSS scoping
+
+Components own their internals. Consumers compose components and style them
+through documented props and the `class` passthrough; they must not depend on
+internal class names.
+
+- Native elements a component declares stay component-scoped. Prefer a plain
+  scoped selector over `:global(...)`.
+- Classes passed to a bits-ui (or another child component) root cannot receive
+  the parent scope hash. Those hooks stay global and are namespaced with
+  `t128n-<component>-<part>` for new or generic names, or a documented
+  component-family prefix such as `calendar-`, `date-`, `toggle-`, `slider-`,
+  `scroll-area-`, or `menubar-`.
+- Selectors for consumer-provided content, such as `.table :global(td)`, stay
+  global but must be anchored by a component-scoped class. Third-party state
+  attributes (`[data-state]`, `[data-disabled]`, `[data-highlighted]`,
+  `[aria-current]`) are allowed inside those hooks.
+- The only bare global hooks are the two documented entries in
+  [`tests/global-scoping.test.ts`](tests/global-scoping.test.ts): `navbar-menu`
+  (the `Popover.Content` root) and `field-required` (the shared required marker
+  rendered by the date and time fields).
+
+To add a global, first try a scoped selector or a `t128n-` class passed to the
+child root. If the hook is genuinely unavoidable, add the class to
+`GLOBAL_ALLOWLIST` (or a structural element to the story allowlist) with the
+reason. The audit reports the file, line, selector, and the entry it needs, so a
+new unapproved global fails the unit suite.
+
 ## Component inventory
 
 - **Typography:** `Text`, `Code`
