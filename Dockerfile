@@ -10,7 +10,7 @@
 # Run:    docker run --rm -p 8080:80 design-storybook
 
 # ---- build ----------------------------------------------------------------
-FROM oven/bun:1 AS build
+FROM oven/bun:1.4.3 AS build
 WORKDIR /app
 
 # Skip the anonymous usage telemetry ping during CI builds.
