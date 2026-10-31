@@ -62,10 +62,11 @@ describe('surface rules acceptance', () => {
 
   it('test_acceptance_no_double: AppShell draws no borders and its region wrappers add none', async () => {
     const shell = await readSource('../src/lib/AppShell.svelte');
+    const regions = shell.match(/\.sidebar,\s*\.main,\s*\.navbar\s*\{([^}]*)\}/)?.[1] ?? '';
 
+    expect(regions).toContain('min-width: 0');
+    expect(regions).not.toContain('border');
     expect(shell).not.toMatch(/border-(top|bottom|left|right)\s*:/);
-    expect(rule(shell, '.navbar')).not.toContain('border');
-    expect(rule(shell, '.sidebar')).not.toContain('border');
     expect(rule(shell, '.body')).not.toContain('border');
     expect(rule(shell, '.content')).not.toContain('border');
   });
@@ -75,9 +76,13 @@ describe('surface rules acceptance', () => {
 
     expect(landing).not.toContain('background: var(--color-canvas)');
     expect(landing).not.toContain('background: var(--color-navigation-surface)');
+    expect(landing).not.toMatch(/<main[^>]*\bstyle=/);
 
-    for (const selector of ['main', '.wrap', '.features', '.feature', '.feature-list']) {
-      expect(rule(landing, selector), selector).not.toContain('background');
+    for (const selector of ['.wrap', '.features', '.feature', '.feature-list']) {
+      const block = rule(landing, selector);
+
+      expect(block, selector).not.toBe('');
+      expect(block, selector).not.toContain('background');
     }
   });
 
