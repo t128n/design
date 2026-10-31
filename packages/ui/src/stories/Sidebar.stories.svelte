@@ -13,11 +13,11 @@
   const flatSections = [
     {
       items: [
-        { label: 'Overview', active: true },
-        { label: 'Projects', badge: '12' },
-        { label: 'Activity' },
-        { label: 'Reports' },
-        { label: 'Team' }
+        { label: 'Overview', href: '/', active: true },
+        { label: 'Projects', href: '/projects', badge: '12' },
+        { label: 'Activity', href: '/activity' },
+        { label: 'Reports', href: '/reports' },
+        { label: 'Team', href: '/team' }
       ]
     }
   ];
@@ -26,18 +26,18 @@
     {
       label: 'Workspace',
       items: [
-        { label: 'Overview', active: true },
-        { label: 'Projects', badge: '12' },
-        { label: 'Activity' },
-        { label: 'Reports' }
+        { label: 'Overview', href: '/', active: true },
+        { label: 'Projects', href: '/projects', badge: '12' },
+        { label: 'Activity', href: '/activity' },
+        { label: 'Reports', href: '/reports' }
       ]
     },
     {
       label: 'Account',
       items: [
-        { label: 'Preferences' },
-        { label: 'Members' },
-        { label: 'Billing' }
+        { label: 'Preferences', href: '/settings/preferences' },
+        { label: 'Members', href: '/settings/members' },
+        { label: 'Billing', href: '/settings/billing' }
       ]
     }
   ];
@@ -46,23 +46,24 @@
     {
       label: 'Workspace',
       items: [
-        { label: 'Overview' },
+        { label: 'Overview', href: '/' },
         {
           label: 'Projects',
+          href: '/projects',
           children: [
-            { label: 'Orbit' },
-            { label: 'Atlas', active: true },
-            { label: 'Beacon' }
+            { label: 'Orbit', href: '/projects/orbit' },
+            { label: 'Atlas', href: '/projects/atlas', active: true },
+            { label: 'Beacon', href: '/projects/beacon' }
           ]
         },
-        { label: 'Activity' }
+        { label: 'Activity', href: '/activity' }
       ]
     },
     {
       label: 'Account',
       items: [
-        { label: 'Preferences' },
-        { label: 'Members' }
+        { label: 'Preferences', href: '/settings/preferences' },
+        { label: 'Members', href: '/settings/members' }
       ]
     }
   ];
@@ -71,24 +72,24 @@
     {
       label: 'Workspace',
       items: [
-        { label: 'Overview' },
-        { label: 'Projects', active: true, badge: '12' },
-        { label: 'Activity' },
-        { label: 'Reports' }
+        { label: 'Overview', href: '/' },
+        { label: 'Projects', href: '/projects', active: true, badge: '12' },
+        { label: 'Activity', href: '/activity' },
+        { label: 'Reports', href: '/reports' }
       ]
     },
     {
       label: 'Account',
       items: [
-        { label: 'Preferences' },
-        { label: 'Members' },
-        { label: 'Billing' }
+        { label: 'Preferences', href: '/settings/preferences' },
+        { label: 'Members', href: '/settings/members' },
+        { label: 'Billing', href: '/settings/billing' }
       ]
     }
   ];
 
   function focusFirstLink(node: HTMLElement) {
-    node.querySelector<HTMLElement>('a.item')?.focus();
+    node.querySelector<HTMLElement>('a.item-link')?.focus();
   }
 </script>
 
