@@ -142,7 +142,7 @@
     gap: var(--space-lg);
     min-height: calc(var(--control-height) + var(--space-sm) * 2);
     padding: 0 var(--space-xl);
-    background: var(--color-surface);
+    background: var(--color-workspace);
     color: var(--color-text-primary);
     font-family: var(--font-family-sans);
   }

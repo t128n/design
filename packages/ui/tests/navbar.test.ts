@@ -44,6 +44,16 @@ describe('Navbar', () => {
     expect(navbar).not.toContain('border-bottom: var(--border-width) solid var(--color-border)');
   });
 
+  it('test_navbar_workspace: the navbar merges with the workspace surface', async () => {
+    const navbar = await readSource('../src/lib/Navbar.svelte');
+    const root = blockFor(navbar, '.navbar');
+
+    expect(root).toContain('background: var(--color-workspace)');
+    expect(root).not.toContain('background: var(--color-surface)');
+    expect(root).not.toContain('background: var(--color-navigation-surface)');
+    expect(root).not.toMatch(/border-(top|right|bottom|left)\s*:/);
+  });
+
   it('test_structure: brand, nav slot, spacer, and utilities in one row', async () => {
     const navbar = await readSource('../src/lib/Navbar.svelte');
 

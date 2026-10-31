@@ -37,7 +37,7 @@
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr);
     min-height: 100vh;
-    background: var(--color-canvas);
+    background: var(--color-workspace);
     color: var(--color-text-primary);
     font-family: var(--font-family-sans);
   }

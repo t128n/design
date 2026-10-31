@@ -4,8 +4,15 @@ import { describe, expect, it } from 'vitest';
 const readSource = (path: string) => readFile(new URL(path, import.meta.url), 'utf8');
 
 const shellSource = () => readSource('../src/lib/AppShell.svelte');
+const pageHeaderSource = () => readSource('../src/lib/PageHeader.svelte');
 const storySource = () => readSource('../src/stories/AppShell.stories.svelte');
 const previewSource = () => readSource('../../../.storybook/preview.ts');
+
+const blockFor = (source: string, selector: string) => {
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = source.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`));
+  return match?.[1] ?? '';
+};
 
 const storyBlock = (source: string, name: string) => {
   const start = source.indexOf(`name="${name}"`);
@@ -134,6 +141,41 @@ describe('AppShell', () => {
 
     expect(shell).not.toMatch(/#[0-9a-f]{3,8}/i);
     expect(shell).toContain('var(--border-width');
+  });
+
+  it('test_shell_workspace: the root is workspace rather than canvas', async () => {
+    const shell = await shellSource();
+    const root = blockFor(shell, '.app-shell');
+
+    expect(root).toContain('background: var(--color-workspace)');
+    expect(shell).not.toContain('background: var(--color-canvas)');
+    expect(root).not.toContain('background: var(--color-surface)');
+  });
+
+  it('test_content: the main content region inherits the workspace surface', async () => {
+    const shell = await shellSource();
+    const content = blockFor(shell, '.content');
+
+    expect(content).not.toMatch(/background\s*:/);
+    expect(content).not.toContain('color-canvas');
+    expect(content).not.toContain('color-surface');
+  });
+
+  it('test_no_region_borders: regions join without borders or seams', async () => {
+    const shell = await shellSource();
+
+    expect(shell).not.toMatch(/border-(top|bottom|left|right)\s*:/);
+    expect(shell).not.toContain('box-shadow');
+  });
+
+  it('test_pageheader_untouched: PageHeader stays background-free and card-free', async () => {
+    const pageHeader = await pageHeaderSource();
+    const header = blockFor(pageHeader, '.page-header');
+
+    expect(header).not.toMatch(/background\s*:/);
+    expect(header).not.toMatch(/border\s*:/);
+    expect(header).not.toContain('box-shadow');
+    expect(pageHeader).not.toContain('<Card');
   });
 });
 
