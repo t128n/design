@@ -118,6 +118,20 @@
 
 /* Theme-independent tokens. Do not repeat these per theme. */
 :root {
+  /* Identity tones for application marks. Deliberately a separate token set
+     from the status roles: an app tile is identity, never state. Carbon
+     80-step values keep a white glyph above AA and stay distinct from the
+     status text colours. */
+  --app-tone-graphite: #262626;
+  --app-tone-slate: #525252;
+  --app-tone-blue: #002D9C;
+  --app-tone-teal: #004144;
+  --app-tone-green: #044317;
+  --app-tone-amber: #483700;
+  --app-tone-magenta: #9F1853;
+  --app-tone-purple: #491D8B;
+  --app-mark-foreground: #FFFFFF;
+
   --font-family-sans: "IBM Plex Sans", system-ui, sans-serif;
   --font-family-mono: "IBM Plex Mono", ui-monospace, monospace;
   --font-size-display: 2rem;
@@ -169,6 +183,8 @@
   --radius-pill: 999px;
 
   --control-height-sm: 32px;
+  /* Identity exception: app marks are not UI chrome. See DESIGN.md. */
+  --app-mark-radius: 12%;
   --control-height: 36px;
   --control-height-lg: 40px;
   --touch-target: 44px;

@@ -5,6 +5,7 @@ import './styles/index.css';
 export { default as Accordion } from './lib/Accordion.svelte';
 export { default as Alert } from './lib/Alert.svelte';
 export { default as AlertDialog } from './lib/AlertDialog.svelte';
+export { default as AppMark } from './lib/AppMark.svelte';
 export { default as AppShell } from './lib/AppShell.svelte';
 export { default as AspectRatio } from './lib/AspectRatio.svelte';
 export { default as Avatar } from './lib/Avatar.svelte';
@@ -90,3 +91,21 @@ export type {
 } from './lib/typography';
 export { breakpoints } from './lib/layout';
 export type { Breakpoint, CollapseAt, LayoutTag, ListMarker, Space } from './lib/layout';
+export {
+  APP_GLYPHS,
+  APP_MARK_GEOMETRY,
+  APP_MARK_RADIUS,
+  APP_MARK_SIZES,
+  APP_TONES,
+  markMonogram,
+  opticalVariant
+} from './lib/app-icons';
+export type {
+  AppGlyphName,
+  AppIcon,
+  AppMarkSize,
+  AppMarkVariant,
+  AppTone
+} from './lib/app-icons';
+export { appGlyphs } from './lib/app-glyphs';
+export { appRegistry } from './lib/apps';
