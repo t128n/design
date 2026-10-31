@@ -51,6 +51,7 @@ describe('Storybook stories', () => {
       ['Hero', 'Layouts/Hero'],
       ['Footer', 'Layouts/Footer'],
       ['Landing', 'Views/Landing'],
+      ['Personal', 'Views/Personal'],
       ['Dashboard', 'Views/Dashboard'],
       ['Settings', 'Views/Settings']
     ];
