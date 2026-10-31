@@ -42,7 +42,7 @@
     const gap = Number.parseFloat(style.columnGap) || 0;
     const padding = (Number.parseFloat(style.paddingLeft) || 0) + (Number.parseFloat(style.paddingRight) || 0);
     const brandWidth = brandEl?.getBoundingClientRect().width ?? 0;
-    const linksWidth = measureLinks.getBoundingClientRect().width;
+    const linksWidth = measureLinks.scrollWidth;
     const actionsWidth = actionsEl?.getBoundingClientRect().width ?? 0;
     const parts = [brandWidth, linksWidth];
     if (actions) parts.push(actionsWidth);

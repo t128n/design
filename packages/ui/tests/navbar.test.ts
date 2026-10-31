@@ -87,6 +87,13 @@ describe('Navbar', () => {
     expect(blockFor(navbar, '.measure-links')).toContain('display: flex');
   });
 
+  it('test_measure_uses_scroll_width: clipped measure row reports natural link width', async () => {
+    const navbar = await readSource('../src/lib/Navbar.svelte');
+
+    expect(navbar).toContain('measureLinks.scrollWidth');
+    expect(navbar).not.toContain('measureLinks.getBoundingClientRect()');
+  });
+
   it('test_compact_trigger: Menu icon, visible label, current destination, and ARIA wiring', async () => {
     const navbar = await readSource('../src/lib/Navbar.svelte');
 
