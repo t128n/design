@@ -10,6 +10,8 @@
     PageHeader,
     Sidebar,
     Table,
+    TableCell,
+    TableRow,
     Text
   } from '../index.js';
   import '../styles/index.css';
@@ -63,7 +65,7 @@
   const projectColumns = [
     { label: 'Project' },
     { label: 'Owner' },
-    { label: 'Updated', align: 'right' as const },
+    { label: 'Updated', align: 'right' as const, numeric: true },
     { label: 'Status' }
   ];
 </script>
@@ -79,33 +81,33 @@
 {/snippet}
 
 {#snippet projectTable()}
-  <section class="projects" aria-labelledby="projects-heading">
+  <section class="projects">
     <Text variant="subheading" as="h2" id="projects-heading">Active projects</Text>
-    <Table columns={projectColumns}>
-      <tr>
-        <td>Orbit</td>
-        <td>Mara Chen</td>
-        <td class="u-right">2 minutes ago</td>
-        <td><Badge tone="success">Healthy</Badge></td>
-      </tr>
-      <tr>
-        <td>Atlas</td>
-        <td>Devon Ruiz</td>
-        <td class="u-right">18 minutes ago</td>
-        <td><Badge tone="progress">In progress</Badge></td>
-      </tr>
-      <tr>
-        <td>Beacon</td>
-        <td>—</td>
-        <td class="u-right">Yesterday</td>
-        <td><Badge tone="warning">Needs owner</Badge></td>
-      </tr>
-      <tr>
-        <td>Cinder</td>
-        <td>Priya Shah</td>
-        <td class="u-right">2 days ago</td>
-        <td><Badge tone="disabled">Archived</Badge></td>
-      </tr>
+    <Table columns={projectColumns} labelledBy="projects-heading">
+      <TableRow>
+        <TableCell>Orbit</TableCell>
+        <TableCell>Mara Chen</TableCell>
+        <TableCell>2 minutes ago</TableCell>
+        <TableCell><Badge tone="success">Healthy</Badge></TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>Atlas</TableCell>
+        <TableCell>Devon Ruiz</TableCell>
+        <TableCell>18 minutes ago</TableCell>
+        <TableCell><Badge tone="progress">In progress</Badge></TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>Beacon</TableCell>
+        <TableCell>—</TableCell>
+        <TableCell>Yesterday</TableCell>
+        <TableCell><Badge tone="warning">Needs owner</Badge></TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>Cinder</TableCell>
+        <TableCell>Priya Shah</TableCell>
+        <TableCell>2 days ago</TableCell>
+        <TableCell><Badge tone="disabled">Archived</Badge></TableCell>
+      </TableRow>
     </Table>
   </section>
 {/snippet}

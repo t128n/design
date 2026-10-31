@@ -98,8 +98,9 @@ describe('PageHeader', () => {
     const actions = snippetBlock(stories, 'projectsActions');
 
     expect(projects).toContain('<Table');
-    expect(projects).toContain('<tr>');
-    expect(projects).toContain('<td>Orbit</td>');
+    expect(projects).toContain('<TableRow>');
+    expect(projects).toContain('<TableCell>Orbit</TableCell>');
+    expect(projects).toContain('labelledBy="projects-heading"');
     expect(projects).toContain('actions={projectsActions}');
     expect(projects).not.toMatch(/label: 'Projects'/);
     expect(actions).toContain('New project');
@@ -111,10 +112,11 @@ describe('PageHeader', () => {
     const stories = await readSource('../src/stories/PageHeader.stories.svelte');
     const projects = storyBlock(stories, 'Projects page');
 
-    expect(projects).toContain('<section class="projects" aria-labelledby="projects-heading">');
+    expect(projects).toContain('<section class="projects">');
     expect(projects).toContain(
       '<Text variant="subheading" as="h2" id="projects-heading">All projects</Text>'
     );
+    expect(projects).toContain('labelledBy="projects-heading"');
     expect(projects).not.toMatch(/<Table[^>]*\bcaption=/);
     expect(stories).not.toContain('.projects h2');
     expect(stories).not.toContain('font-size: var(--font-size-subheading)');

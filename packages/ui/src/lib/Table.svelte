@@ -1,27 +1,33 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-
-  type Column = {
-    label: string;
-    align?: 'left' | 'right';
-    numeric?: boolean;
-  };
+  import { setTableColumns, type TableColumn } from './table-context';
 
   type Props = {
-    columns: Column[];
+    columns: TableColumn[];
     caption?: string;
+    /** Id of the element that names the scroll region. */
+    labelledBy?: string;
     bordered?: boolean;
     density?: 'standard' | 'dense';
+    isEmpty?: boolean;
+    empty?: Snippet;
     children?: Snippet;
   };
 
   let {
     columns,
     caption,
+    labelledBy,
     bordered = false,
     density = 'standard',
+    isEmpty = false,
+    empty,
     children
   }: Props = $props();
+
+  setTableColumns(() => columns);
+
+  const hasRegionName = $derived(Boolean(labelledBy || caption));
 </script>
 
 <!-- svelte-ignore a11y_no_noninteractive_tabindex (scrollable regions must be keyboard-focusable) -->
@@ -29,8 +35,9 @@
   class="table-wrap"
   class:bordered
   class:dense={density === 'dense'}
-  role="region"
-  aria-label={caption ?? 'Table'}
+  role={hasRegionName ? 'region' : undefined}
+  aria-labelledby={labelledBy}
+  aria-label={labelledBy ? undefined : caption}
   tabindex="0"
 >
   <table class="table">
@@ -51,7 +58,15 @@
       </tr>
     </thead>
     <tbody>
-      {@render children?.()}
+      {#if isEmpty}
+        <tr class="empty-row">
+          <td colspan={columns.length} class="empty-cell">
+            {@render empty?.()}
+          </td>
+        </tr>
+      {:else}
+        {@render children?.()}
+      {/if}
     </tbody>
   </table>
 </div>
@@ -104,7 +119,8 @@
     text-align: left;
   }
 
-  .table th.right {
+  .table th.right,
+  .table :global(td.right) {
     text-align: right;
   }
 
@@ -145,11 +161,12 @@
     background: var(--color-surface-subtle);
   }
 
-  .right {
-    text-align: right;
+  .table :global(td.numeric) {
+    font-variant-numeric: tabular-nums;
   }
 
-  .numeric {
-    font-variant-numeric: tabular-nums;
+  .table :global(td.empty-cell) {
+    padding-inline: 0;
+    white-space: normal;
   }
 </style>

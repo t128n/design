@@ -307,6 +307,10 @@ A structural border belongs to exactly one region.
 
 A section owns its heading, description, optional actions, and the spacing that groups them. The table owns column headers, rows, and cells. A table never renders a section title or heading; use the surrounding section heading as the visual title and connect it with `aria-labelledby`, or keep a semantic `<caption>` for the table itself.
 
+- Compose body rows with **`TableRow` and `TableCell`**. `Table` provides its `columns` through context; each row tracks its cell position and each cell inherits the matching column's `align` and `numeric` metadata. Keep raw `<tr>`/`<td>` working for one-off markup, but use the components for data tables.
+- Use `TableCell` for every cell in a row that relies on column metadata; raw cells do not advance the inherited column position. A cell can override its column with `align` or `numeric`, and `colspan` advances the inherited position. Put status badges in cells unchanged.
+- Name the scroll region deliberately. Pass `labelledBy` (the surrounding section heading id) or `caption`; the wrapper only becomes a `region` when one of those provides a real name. Do not rely on a generic “Table” label, and never render a section heading inside `Table`. When `Table` points at a section heading, leave the section itself unnamed (or name it differently) so the two landmarks do not share one accessible name.
+- Set `isEmpty` with an `empty` snippet to render one full-width row. Use the existing `EmptyState` with exactly one action inside that snippet instead of an ad-hoc empty row.
 - Use the **subheading** scale (18px / 600) for section titles. Column headers are subordinate: use the existing 14px **label** scale in secondary text.
 - Place the table directly on the white workspace. It is borderless by default, with subtle horizontal row separators and no vertical grid lines.
 - Keep the gap between a section title and the column headers compact (8px). Use consistent, restrained cell padding, and align the first and last cells with the section edges.

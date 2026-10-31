@@ -1,6 +1,10 @@
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { render, screen } from '@testing-library/svelte';
+import { createRawSnippet } from 'svelte';
 import { describe, expect, it } from 'vitest';
+import Table from '../src/lib/Table.svelte';
+import TableFixture from './fixtures/TableFixture.svelte';
 
 const readSource = (path: string) => readFile(new URL(path, import.meta.url), 'utf8');
 
@@ -20,6 +24,21 @@ const storyBlock = (stories: string, name: string) => {
 
   return next === -1 ? rest : rest.slice(0, next);
 };
+
+const snippetBlock = (stories: string, name: string) => {
+  const start = stories.indexOf(`{#snippet ${name}()}`);
+  expect(start).toBeGreaterThanOrEqual(0);
+  const end = stories.indexOf('{/snippet}', start);
+
+  return stories.slice(start, end);
+};
+
+const tableColumns = [
+  { label: 'Project' },
+  { label: 'Owner' },
+  { label: 'Updated', align: 'right' as const, numeric: true },
+  { label: 'Status' }
+];
 
 describe('Table', () => {
   it('defaults to a borderless wrapper that stays scrollable', async () => {
@@ -109,12 +128,106 @@ describe('Table', () => {
   });
 });
 
+describe('Table data layer', () => {
+  it('renders TableRow and TableCell and merges consumer classes', () => {
+    const { container } = render(TableFixture);
+    const rows = container.querySelectorAll('tbody tr');
+
+    expect(rows[0]).toHaveClass('consumer-row');
+    expect(rows[0]?.querySelectorAll('td')[0]).toHaveClass('consumer-cell');
+  });
+
+  it('applies column align and numeric metadata to body cells', () => {
+    const { container } = render(TableFixture);
+    const firstRow = container.querySelectorAll('tbody tr')[0];
+    const cells = firstRow?.querySelectorAll('td') ?? [];
+
+    expect(cells[0]).not.toHaveClass('right');
+    expect(cells[2]).toHaveClass('right');
+    expect(cells[2]).toHaveClass('numeric');
+    expect(cells[3]).not.toHaveClass('numeric');
+  });
+
+  it('lets an explicit cell prop override the column metadata', () => {
+    const { container } = render(TableFixture);
+    const thirdRow = container.querySelectorAll('tbody tr')[2];
+    const cell = thirdRow?.querySelectorAll('td')[2];
+
+    expect(cell).not.toHaveClass('right');
+    expect(cell).not.toHaveClass('numeric');
+  });
+
+  it('advances the column index by colspan', () => {
+    const { container } = render(TableFixture);
+    const secondRow = container.querySelectorAll('tbody tr')[1];
+    const cells = secondRow?.querySelectorAll('td') ?? [];
+
+    expect(cells[0]).toHaveAttribute('colspan', '2');
+    expect(cells[0]).not.toHaveClass('right');
+    expect(cells[1]).toHaveClass('right');
+    expect(cells[1]).toHaveClass('numeric');
+  });
+});
+
+describe('Table naming and empty state', () => {
+  it('uses a real caption to name the table and its scroll region', () => {
+    const { container } = render(Table, { columns: tableColumns, caption: 'Projects' });
+    const wrapper = container.querySelector('.table-wrap');
+    const table = screen.getByRole('table', { name: 'Projects' });
+
+    expect(table).toBeInTheDocument();
+    expect(wrapper).toHaveAttribute('role', 'region');
+    expect(wrapper).toHaveAttribute('aria-label', 'Projects');
+    expect(wrapper).toHaveAttribute('tabindex', '0');
+  });
+
+  it('names the scroll region with labelledBy when no caption exists', () => {
+    const { container } = render(Table, {
+      columns: tableColumns,
+      labelledBy: 'projects-heading'
+    });
+    const wrapper = container.querySelector('.table-wrap');
+
+    expect(wrapper).toHaveAttribute('role', 'region');
+    expect(wrapper).toHaveAttribute('aria-labelledby', 'projects-heading');
+    expect(wrapper).not.toHaveAttribute('aria-label');
+  });
+
+  it('never invents a generic Table name for the scroll region', async () => {
+    const { container } = render(Table, { columns: tableColumns });
+    const wrapper = container.querySelector('.table-wrap');
+    const source = await readSource('../src/lib/Table.svelte');
+
+    expect(wrapper).not.toHaveAttribute('role');
+    expect(wrapper).not.toHaveAttribute('aria-label');
+    expect(wrapper).not.toHaveAttribute('aria-labelledby');
+    expect(source).not.toContain("caption ?? 'Table'");
+  });
+
+  it('renders one full-width row with the empty snippet when isEmpty', () => {
+    const empty = createRawSnippet(() => ({
+      render: () => '<p>No projects yet</p>'
+    }));
+    const { container } = render(Table, {
+      columns: tableColumns,
+      isEmpty: true,
+      empty
+    });
+    const cells = container.querySelectorAll('tbody td');
+
+    expect(cells).toHaveLength(1);
+    expect(cells[0]).toHaveAttribute('colspan', String(tableColumns.length));
+    expect(screen.getByText('No projects yet')).toBeInTheDocument();
+  });
+});
+
 describe('Table stories', () => {
-  it('keeps the default story and adds a bordered comparison', async () => {
+  it('keeps the default story and adds bordered, numeric, and empty comparisons', async () => {
     const stories = await readSource('../src/stories/Table.stories.svelte');
 
-    expect(stories).toContain('name="Default"');
-    expect(stories).toContain('name="Bordered"');
+    for (const name of ['Default', 'Bordered', 'Numeric', 'Empty']) {
+      expect(stories).toContain(`name="${name}"`);
+    }
   });
 
   it('shows the default table borderless on a white workspace surface', async () => {
@@ -130,15 +243,17 @@ describe('Table stories', () => {
     const stories = await readSource('../src/stories/Table.stories.svelte');
     const defaultStory = storyBlock(stories, 'Default');
 
-    expect(defaultStory).toContain('<section');
-    expect(defaultStory).toContain('aria-labelledby="active-projects-heading"');
+    expect(defaultStory).toContain('<section class="section">');
+    expect(defaultStory).toContain('id="active-projects-heading"');
     expect(defaultStory).toContain(
       '<Text variant="subheading" as="h2" id="active-projects-heading">Active projects</Text>'
     );
     expect(defaultStory).toContain('<Text variant="body-sm" tone="secondary">');
     expect(defaultStory).toContain('<Button variant="secondary">View all</Button>');
+    expect(defaultStory).toContain('labelledBy="active-projects-heading"');
     expect(defaultStory).not.toContain('caption=');
     expect(stories).not.toContain('caption=');
+    expect(stories).not.toMatch(/<section class="section"[^>]*aria-labelledby/);
   });
 
   it('uses the subheading scale for section titles and a compact gap to the headers', async () => {
@@ -155,16 +270,17 @@ describe('Table stories', () => {
     const borderedStory = storyBlock(stories, 'Bordered');
 
     expect(borderedStory).toMatch(/<Table[^>]*\bbordered\b/);
-    expect(borderedStory).toContain('<td>');
+    expect(borderedStory).toContain('<TableRow>');
+    expect(borderedStory).toContain('<TableCell>');
     expect(borderedStory).toContain('<Badge');
     expect(borderedStory).toContain('as="h2"');
     expect(borderedStory).not.toContain('caption=');
   });
 
-  it('demonstrates dense rows, narrow overflow, long content, and status badges', async () => {
+  it('demonstrates dense rows, numeric figures, narrow overflow, long content, and badges', async () => {
     const stories = await readSource('../src/stories/Table.stories.svelte');
 
-    for (const name of ['Default', 'Bordered', 'Dense', 'Narrow screen']) {
+    for (const name of ['Default', 'Bordered', 'Dense', 'Numeric', 'Empty', 'Narrow screen']) {
       expect(stories).toContain(`name="${name}"`);
     }
 
@@ -173,6 +289,43 @@ describe('Table stories', () => {
     expect(storyBlock(stories, 'Narrow screen')).toContain("viewport: { value: 'narrow375' }");
     expect(storyBlock(stories, 'Narrow screen')).toContain('Deployment pipeline for the Orbit');
     expect(storyBlock(stories, 'Narrow screen')).toContain('<Badge');
+    expect(storyBlock(stories, 'Numeric')).toContain('columns={numericColumns}');
+    expect(stories).toContain(
+      "{ label: 'Requests', align: 'right' as const, numeric: true }"
+    );
+  });
+
+  it('renders the empty state with exactly one action inside a full-width row', async () => {
+    const stories = await readSource('../src/stories/Table.stories.svelte');
+    const emptyStory = storyBlock(stories, 'Empty');
+    const action = snippetBlock(stories, 'createProject');
+
+    expect(emptyStory).toMatch(/<Table[^>]*\bisEmpty\b/);
+    expect(emptyStory).toContain('empty={projectsEmpty}');
+    expect(emptyStory).toContain('labelledBy="empty-projects-heading"');
+    expect(stories).toContain('<EmptyState');
+    expect(stories).toContain('action={createProject}');
+    expect(action.match(/<Button\b/g) ?? []).toHaveLength(1);
+  });
+
+  it('migrates every table story to TableRow and TableCell without u-right', async () => {
+    for (const file of ['Table', 'Dashboard', 'PageHeader', 'AppShell']) {
+      const stories = await readSource(`../src/stories/${file}.stories.svelte`);
+
+      expect(stories, file).not.toContain('u-right');
+      expect(stories, file).toContain('<TableRow>');
+      expect(stories, file).toContain('<TableCell>');
+    }
+  });
+
+  it('keeps a single borderless table region named by its section heading in composed views', async () => {
+    const dashboard = await readSource('../src/stories/Dashboard.stories.svelte');
+    const pageHeader = await readSource('../src/stories/PageHeader.stories.svelte');
+    const appShell = await readSource('../src/stories/AppShell.stories.svelte');
+
+    expect(dashboard).toContain('labelledBy="recent-heading"');
+    expect(pageHeader).toContain('labelledBy="projects-heading"');
+    expect(appShell).toContain('labelledBy="projects-heading"');
   });
 });
 
@@ -186,5 +339,8 @@ describe('Table composition contract', () => {
     expect(design).toContain('A table never renders a section title');
     expect(design).toContain('Use the **subheading** scale (18px / 600) for section titles');
     expect(design).toContain('Do not wrap an ordinary data table in a full-width bordered card');
+    expect(design).toContain('`TableRow` and `TableCell`');
+    expect(design).toContain('`labelledBy`');
+    expect(design).toContain('`isEmpty`');
   });
 });

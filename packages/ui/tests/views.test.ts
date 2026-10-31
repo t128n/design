@@ -27,6 +27,9 @@ describe('composed workspace views', () => {
     expect(dashboard).toContain('<Button>New project</Button>');
     expect(dashboard).toContain('<Table');
     expect(dashboard).not.toMatch(/<Table[^>]*\bbordered\b/);
+    expect(dashboard).toContain('<TableRow>');
+    expect(dashboard).toContain('<TableCell>');
+    expect(dashboard).not.toContain('u-right');
     expect(dashboard).toContain('Recent projects');
     expect(dashboard).toContain('Mara Chen');
   });
@@ -44,11 +47,13 @@ describe('composed workspace views', () => {
   it('composes the Dashboard table under a section heading with an action', async () => {
     const dashboard = await readStory('../src/stories/Dashboard.stories.svelte');
 
-    expect(dashboard).toContain('<Stack as="section" gap="sm" aria-labelledby="recent-heading">');
+    expect(dashboard).toContain('<Stack as="section" gap="sm">');
+    expect(dashboard).not.toMatch(/<Stack as="section"[^>]*aria-labelledby/);
     expect(dashboard).toContain(
       '<Text variant="subheading" as="h2" id="recent-heading">Recent projects</Text>'
     );
     expect(dashboard).toContain('<Button variant="secondary">View all</Button>');
+    expect(dashboard).toContain('labelledBy="recent-heading"');
     expect(dashboard).not.toMatch(/<Table[^>]*\bcaption=/);
   });
 
@@ -201,11 +206,15 @@ describe('composed workspace views', () => {
   it('keeps the AppShell projects table inside a titled section', async () => {
     const appShell = await readStory('../src/stories/AppShell.stories.svelte');
 
-    expect(appShell).toContain('<section class="projects" aria-labelledby="projects-heading">');
+    expect(appShell).toContain('<section class="projects">');
     expect(appShell).toContain(
       '<Text variant="subheading" as="h2" id="projects-heading">Active projects</Text>'
     );
     expect(appShell).toContain('<Table');
+    expect(appShell).toContain('<TableRow>');
+    expect(appShell).toContain('<TableCell>');
+    expect(appShell).not.toContain('u-right');
+    expect(appShell).toContain('labelledBy="projects-heading"');
     expect(appShell).not.toMatch(/<Table[^>]*\bcaption=/);
   });
 
