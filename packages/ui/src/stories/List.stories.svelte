@@ -56,6 +56,39 @@
   </Container>
 </Story>
 
+<Story name="Definition list" asChild>
+  <Container width="form">
+    <List as="dl" gap="md">
+      <Text as="dt" variant="label" tone="secondary">Owner</Text>
+      <Text as="dd" variant="body">Mara Chen</Text>
+      <Text as="dt" variant="label" tone="secondary">Environment</Text>
+      <Text as="dd" variant="body">Production</Text>
+      <Text as="dt" variant="label" tone="secondary">Last deploy</Text>
+      <Text as="dd" variant="body" numeric>31 October 2026, 10:42</Text>
+    </List>
+  </Container>
+</Story>
+
+<Story name="Separated tight" asChild>
+  <Container width="reading">
+    <List marker="none" separated gap="xs">
+      <Text as="li" variant="body-sm" tone="secondary">Orbit · Mara updated the plan.</Text>
+      <Text as="li" variant="body-sm" tone="secondary">Atlas · Devon assigned reviewers.</Text>
+      <Text as="li" variant="body-sm" tone="secondary">Beacon · Status changed to in progress.</Text>
+    </List>
+  </Container>
+</Story>
+
+<Story name="Separated loose" asChild>
+  <Container width="reading">
+    <List marker="none" separated gap="lg">
+      <Text as="li" variant="body-sm" tone="secondary">Orbit · Mara updated the plan.</Text>
+      <Text as="li" variant="body-sm" tone="secondary">Atlas · Devon assigned reviewers.</Text>
+      <Text as="li" variant="body-sm" tone="secondary">Beacon · Status changed to in progress.</Text>
+    </List>
+  </Container>
+</Story>
+
 <Story name="Horizontal" asChild>
   <Container width="content">
     <List orientation="horizontal" marker="none" gap="xl">
