@@ -112,7 +112,7 @@
   <Sidebar sections={workspaceSections} label="Workspace" />
 {/snippet}
 
-<Story name="Top navigation">
+<Story name="Top navigation" asChild>
   <AppShell navbar={topNavbar}>
     <PageHeader
       title="Projects"
@@ -123,7 +123,7 @@
   </AppShell>
 </Story>
 
-<Story name="Sidebar navigation">
+<Story name="Sidebar navigation" asChild>
   <AppShell sidebar={sidebarNav}>
     <PageHeader
       title="Overview"
@@ -141,7 +141,7 @@
   </AppShell>
 </Story>
 
-<Story name="Combined navigation">
+<Story name="Combined navigation" asChild>
   <AppShell navbar={combinedNavbar} sidebar={combinedSidebar}>
     <PageHeader
       title="Projects"
@@ -152,7 +152,7 @@
   </AppShell>
 </Story>
 
-<Story name="Narrow screen">
+<Story name="Narrow screen" asChild>
   <div class="narrow-frame">
     <AppShell navbar={narrowNavbar} sidebar={narrowSidebar}>
       <PageHeader

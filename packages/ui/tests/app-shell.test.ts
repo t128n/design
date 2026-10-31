@@ -103,6 +103,19 @@ describe('AppShell stories', () => {
     }
   });
 
+  it('renders stories without the meta component wrapper', async () => {
+    const stories = await storySource();
+
+    for (const name of [
+      'Top navigation',
+      'Sidebar navigation',
+      'Combined navigation',
+      'Narrow screen'
+    ]) {
+      expect(stories).toContain(`<Story name="${name}" asChild>`);
+    }
+  });
+
   it('keeps each navigation mode isolated to the region it demonstrates', async () => {
     const stories = await storySource();
     const top = storyBlock(stories, 'Top navigation');
