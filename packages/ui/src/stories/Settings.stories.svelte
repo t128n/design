@@ -28,7 +28,7 @@
       controls: { disable: true },
       docs: {
         description: {
-          component: 'Settings is a composed workspace view with navigation, sections, and form controls. Use it as a reference for preference screens, not as a form primitive. Keep each section focused on one decision and save changes explicitly.'
+          component: 'Settings is a composed workspace view with navigation, sections, and form controls. Use it as a reference for preference screens, not as a form primitive. Keep each section focused on one decision; switches apply immediately, typed fields and checkboxes use the section Save action, and the two commit models are labeled. Signature patterns: continuous workspace, section headings, one danger-zone card.'
         }
       }
     }
@@ -59,6 +59,17 @@
   ];
 </script>
 
+{#snippet saveWorkspace()}
+  <Inline gap="sm">
+    <Button variant="secondary">Reset</Button>
+    <Button>Save workspace details</Button>
+  </Inline>
+{/snippet}
+
+{#snippet saveReviewRules()}
+  <Button variant="secondary">Save review rules</Button>
+{/snippet}
+
 {#snippet sidebar()}
   <Sidebar {sections} label="Settings" toggleLabel="Settings" />
 {/snippet}
@@ -84,23 +95,23 @@
   <div class="settings-view">
     <AppShell {sidebar}>
       <Page width="form" header={pageHeader}>
-        <Section id="settings-workspace" title="Workspace" gap="md">
+        <Section id="settings-workspace" title="Workspace" actions={saveWorkspace} gap="md">
           <Grid columns="auto" minItem="md" gap="md">
             <Input label="Workspace name" value="Acme" />
             <Select label="Default region" items={regions} value="us-east" />
           </Grid>
         </Section>
 
-        <Section id="settings-review" title="Review rules" gap="md">
+        <Section id="settings-review" title="Review rules" actions={saveReviewRules} gap="md">
           <Stack gap="md">
             <Switch
               label="Require review before archive"
-              description="An owner must approve the archive before it takes effect."
+              description="Applies immediately. An owner must approve the archive before it takes effect."
               checked
             />
             <Checkbox
               label="Allow guest access"
-              description="Guests can read projects but cannot change them."
+              description="Saved with Save review rules. Guests can read projects but cannot change them."
             />
           </Stack>
         </Section>
@@ -121,11 +132,6 @@
             </Text>
           </Dialog>
         </Card>
-
-        <Inline justify="end" gap="sm">
-          <Button variant="secondary">Reset</Button>
-          <Button>Save changes</Button>
-        </Inline>
       </Page>
     </AppShell>
   </div>

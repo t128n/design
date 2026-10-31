@@ -11,7 +11,7 @@
       layout: 'centered',
       docs: {
         description: {
-          component: 'Card groups one independent subject with its own heading and supporting content. Use it for a meaningful region that could stand alone, not for every visual grouping or for page layout. Keep the heading level aligned with document order and avoid nesting cards more than one level.'
+          component: 'Card groups one independent subject with its own heading and supporting content. Use it for a meaningful region that could stand alone, not for every visual grouping, a metric row, or page layout. Keep the heading level aligned with document order and never nest a card inside another card.'
         }
       }
     }

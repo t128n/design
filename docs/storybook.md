@@ -92,6 +92,23 @@ If a component fits two groups, choose the group that describes what the reader
 does with it. A date picker is a form control even though it opens an overlay; a
 sidebar is a layout even though it contains navigation.
 
+## Design intent and voice
+
+Storybook is the worked example of `DESIGN.md`, not a catalogue of everything the
+components can do. Read **Design intent**, **Identity and differentiation**, and
+**Voice and tone** in [`DESIGN.md`](../DESIGN.md) before adding a story.
+
+- A component description states its purpose, its boundary, and the intent
+  constraint it protects: content leads, one primary action, feedback in place,
+  a continuous workspace, or text plus one role for status.
+- A composed view names the surface it uses (`workspace` or `reading`) and the
+  signature patterns it demonstrates. At least two patterns are required.
+- Story copy follows the voice rules: sentence case, verb-first actions, and the
+  object, cause, and fix. It never uses “Oops”, “Uh oh”, “Something went wrong”,
+  “Invalid input”, or “Successfully”.
+- A story that contradicts a refusal is a bug. Fix the story or record a dated
+  exception in `DESIGN.md`; do not quietly invent a variant in Storybook.
+
 ## Story metadata requirements
 
 Every `defineMeta` call must include:
@@ -110,18 +127,27 @@ parameters: {
 The component description is the single place for do/don't guidance. Controls,
 tables, forms, and navigation components must state both a "Do" rule and a
 "Do not" rule. Table guidance must cover `TableRow`/`TableCell`, the empty
-state, and numeric alignment.
+state, numeric alignment, and the density limit.
+
+The description must also name the intent constraint the component protects.
+Composed views add `Signature patterns:` and name the surface. A description is
+not a restatement of the props table; it explains when the component is the
+right choice and when it is not.
 
 ## Enforcement
 
-Two unit tests keep the sidebar honest:
+Three unit tests keep the contract honest:
 
 - `packages/ui/tests/story-taxonomy.test.ts` parses every story title, rejects
   an unapproved top-level group, and checks the exact target for every
   classified story file. A new story file must be added to its registry.
 - `packages/ui/tests/story-docs.test.ts` requires autodocs, a component
-  description, and explicit do/don't guidance for the key controls, table,
-  forms, and navigation stories.
+  description, explicit do/don't guidance for the key controls, table, forms,
+  and navigation stories, a voice-safe description, and the surface plus
+  signature patterns for every composed view.
+- `packages/ui/tests/design-intent.test.ts` keeps the intent, precedence,
+  differentiation, and voice sections in `DESIGN.md`, and checks that the
+  Storybook guidance and Foundations story document the same contract.
 
 Run `bun run test` after changing a title or description, and
 `bun run test:storybook` to confirm the stories still render.

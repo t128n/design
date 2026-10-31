@@ -25,7 +25,7 @@
       controls: { disable: true },
       docs: {
         description: {
-          component: 'Landing is a composed marketing view with hero, navigation, features, and footer. Use it as a reference for public pages, not for signed-in workspace screens. Keep the canvas surface for the page and let the hero own the single primary call to action.'
+          component: 'Landing is a composed marketing view with hero, navigation, features, and footer. Use it as a reference for public pages, not for signed-in workspace screens. Keep the page on the white workspace, let the hero own the single primary call to action, and use whitespace instead of alternating bands. Signature patterns: continuous workspace, one accent action, selective borders.'
         }
       }
     }

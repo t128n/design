@@ -52,6 +52,30 @@ const readMeta = async (file: string): Promise<StoryMeta | null> => {
   return { file, block: match[0], line: lineAt(source, match.index) };
 };
 
+const COMPOSED_VIEWS: Record<string, string> = {
+  Dashboard: 'workspace',
+  Settings: 'workspace',
+  Landing: 'workspace',
+  Personal: 'reading'
+};
+
+const SIGNATURE_TERMS = [
+  'continuous workspace',
+  'one accent',
+  'inline alert',
+  'inline feedback',
+  'borderless table',
+  'section headings',
+  'reading measure',
+  'quiet navigation',
+  'selective borders',
+  'whitespace grouping',
+  'danger-zone card',
+  'one primary action'
+];
+
+const FORBIDDEN_COPY = /Oops|Uh oh|Something went wrong|Invalid input|Successfully|!/i;
+
 describe('story docs', () => {
   it('gives every story autodocs and a component description', async () => {
     const files = (await readdir(storiesRoot)).filter((file) => file.endsWith('.stories.svelte'));
@@ -113,6 +137,53 @@ describe('story docs', () => {
             `${component}:${meta.line}: guidance (${rule.reason}) must mention "${term}"`
           );
         }
+      }
+    }
+
+    expect(issues, issues.join('\n')).toEqual([]);
+  });
+
+  it('keeps every component description inside the voice contract', async () => {
+    const files = (await readdir(storiesRoot)).filter((file) => file.endsWith('.stories.svelte'));
+    const issues: string[] = [];
+
+    for (const file of files) {
+      const meta = await readMeta(file);
+      const description = meta?.block.match(COMPONENT_DESCRIPTION)?.[1] ?? '';
+
+      if (FORBIDDEN_COPY.test(description)) {
+        issues.push(`${file}:${meta?.line ?? 0}: description uses copy the voice contract refuses`);
+      }
+    }
+
+    expect(issues, issues.join('\n')).toEqual([]);
+  });
+
+  it('names the surface and at least two signature patterns in every composed view', async () => {
+    const issues: string[] = [];
+
+    for (const [component, surface] of Object.entries(COMPOSED_VIEWS)) {
+      const meta = await readMeta(`${component}.stories.svelte`);
+      const description = meta?.block.match(COMPONENT_DESCRIPTION)?.[1] ?? '';
+      const lower = description.toLowerCase();
+      const patterns = SIGNATURE_TERMS.filter((term) => lower.includes(term));
+
+      if (!lower.includes(surface)) {
+        issues.push(`${component}:${meta?.line ?? 0}: must name the ${surface} surface`);
+      }
+
+      if (!description.includes('Signature patterns:')) {
+        issues.push(`${component}:${meta?.line ?? 0}: must include a Signature patterns line`);
+      }
+
+      if (patterns.length < 2) {
+        issues.push(
+          `${component}:${meta?.line ?? 0}: must name at least two signature patterns (found ${patterns.length})`
+        );
+      }
+
+      if (component === 'Landing' && lower.includes('canvas surface')) {
+        issues.push(`${component}:${meta?.line ?? 0}: Landing is a workspace page, not a canvas page`);
       }
     }
 
