@@ -75,6 +75,7 @@
     min-width: 0;
     min-height: 0;
     padding: var(--space-xl);
+    background: var(--color-workspace);
   }
 
   .content:focus {

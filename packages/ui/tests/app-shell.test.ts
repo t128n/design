@@ -152,20 +152,49 @@ describe('AppShell', () => {
     expect(root).not.toContain('background: var(--color-surface)');
   });
 
-  it('test_content: the main content region inherits the workspace surface', async () => {
+  it('test_content_workspace: the main content region is the workspace surface', async () => {
     const shell = await shellSource();
     const content = blockFor(shell, '.content');
 
-    expect(content).not.toMatch(/background\s*:/);
+    expect(content).toContain('background: var(--color-workspace)');
     expect(content).not.toContain('color-canvas');
     expect(content).not.toContain('color-surface');
   });
 
-  it('test_no_region_borders: regions join without borders or seams', async () => {
+  it('test_no_structural_borders: regions join without borders or seams', async () => {
     const shell = await shellSource();
 
     expect(shell).not.toMatch(/border-(top|bottom|left|right)\s*:/);
     expect(shell).not.toContain('box-shadow');
+  });
+
+  it('test_no_extra_container: one main with an unpainted inner measure', async () => {
+    const shell = await shellSource();
+    const inner = blockFor(shell, '.content-inner');
+
+    expect(shell.match(/<main\b/g) ?? []).toHaveLength(1);
+    expect(shell).not.toContain('content-wrapper');
+    expect(inner).not.toMatch(/border\s*:/);
+    expect(inner).not.toMatch(/background\s*:/);
+    expect(inner).toContain('max-width: var(--layout-content-width)');
+  });
+
+  it('test_compositions: stories compose regions without surface overrides', async () => {
+    const stories = await storySource();
+
+    for (const name of [
+      'Top navigation',
+      'Sidebar navigation',
+      'Combined navigation',
+      'Narrow screen'
+    ]) {
+      const story = storyBlock(stories, name);
+
+      expect(story).not.toMatch(/background\s*:/);
+      expect(story).not.toContain('style=');
+      expect(story).not.toContain('--color-canvas');
+      expect(story).not.toContain('--color-navigation-surface');
+    }
   });
 
   it('test_pageheader_untouched: PageHeader stays background-free and card-free', async () => {
