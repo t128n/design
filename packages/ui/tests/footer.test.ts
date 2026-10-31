@@ -82,9 +82,20 @@ describe('Footer', () => {
     expect(complete).toContain('<Navbar');
     expect(complete).toContain('<h1');
     expect(complete).toContain('<Footer');
-    expect(complete).toContain('bordered={false}');
+    expect(complete).not.toContain('bordered={false}');
 
     expect(stacked).toContain('max-width');
     expect(stacked).toContain('<Footer');
+  });
+
+  it('test_footer_reconciled: the complete page relies on the owned default top border', async () => {
+    const stories = await readSource('../src/stories/Footer.stories.svelte');
+    const complete = story(stories, 'Complete page');
+
+    expect(complete).toContain('<Footer');
+    expect(complete).not.toContain('bordered={false}');
+    expect(complete).not.toMatch(/border-(top|bottom|left|right)\s*:/);
+    expect(complete).not.toContain('background: var(--color-canvas)');
+    expect(stories).toContain('background: var(--color-workspace)');
   });
 });
