@@ -142,6 +142,7 @@
     gap: var(--space-lg);
     min-height: calc(var(--control-height) + var(--space-sm) * 2);
     padding: 0 var(--space-xl);
+    border-bottom: var(--border-width) solid var(--color-border);
     background: var(--color-workspace);
     color: var(--color-text-primary);
     font-family: var(--font-family-sans);
@@ -176,6 +177,7 @@
     align-items: center;
     padding: 0 var(--space-sm);
     border-bottom: var(--border-width-emphasis) solid transparent;
+    background: transparent;
     color: var(--color-text-secondary);
     font-size: var(--font-size-label);
     font-weight: var(--font-weight-regular);

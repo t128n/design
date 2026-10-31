@@ -36,22 +36,58 @@ describe('Navbar', () => {
     expect(link).toContain('font-weight: var(--font-weight-regular)');
   });
 
-  it('test_no_border: the navbar has no bottom border', async () => {
+  it('test_lightweight_controls: links stay transparent and regular with an accent underline only when active', async () => {
+    const navbar = await readSource('../src/lib/Navbar.svelte');
+    const link = blockFor(navbar, '.link');
+    const active = blockFor(navbar, '.link.active');
+
+    expect(link).toContain('background: transparent');
+    expect(link).toContain('font-weight: var(--font-weight-regular)');
+    expect(active).toContain('border-bottom-color: var(--color-accent)');
+    expect(active).toContain('color: var(--color-text-primary)');
+    expect(active).not.toContain('background');
+  });
+
+  it('test_menu_surface: the compact popover keeps the surface fill and an overlay border', async () => {
+    const navbar = await readSource('../src/lib/Navbar.svelte');
+    const menu = blockFor(navbar, ':global(.navbar-menu)');
+
+    expect(menu).toContain('background: var(--color-surface)');
+    expect(menu).toContain('border: var(--border-width) solid var(--color-border)');
+    expect(menu).not.toContain('background: var(--color-navigation-surface)');
+  });
+
+  it('test_responsive_preserved: ResizeObserver, natural link width, compact menu, and viewports remain', async () => {
+    const navbar = await readSource('../src/lib/Navbar.svelte');
+    const story = await readSource('../src/stories/Navbar.stories.svelte');
+
+    expect(navbar).toContain('new ResizeObserver');
+    expect(navbar).toContain('measureLinks.scrollWidth');
+    expect(navbar).toContain('class:compact');
+    expect(navbar).toContain('aria-expanded={menuOpen}');
+    expect(navbar).toContain('aria-current={link.active ? \'page\' : undefined}');
+    expect(story).toContain("viewport: { value: 'narrow320' }");
+    expect(story).toContain("viewport: { value: 'tablet768' }");
+  });
+
+  it('test_structural_border: the navbar owns one bottom edge using border tokens', async () => {
     const navbar = await readSource('../src/lib/Navbar.svelte');
     const root = blockFor(navbar, '.navbar');
 
-    expect(root).not.toContain('border-bottom');
-    expect(navbar).not.toContain('border-bottom: var(--border-width) solid var(--color-border)');
+    expect(root).toContain('border-bottom: var(--border-width) solid var(--color-border)');
+    expect(root).not.toContain('border-top');
+    expect(root).not.toContain('border-left');
+    expect(root).not.toContain('border-right');
   });
 
-  it('test_navbar_workspace: the navbar merges with the workspace surface', async () => {
+  it('test_default_surface: the navbar uses the workspace with no off-white fill', async () => {
     const navbar = await readSource('../src/lib/Navbar.svelte');
     const root = blockFor(navbar, '.navbar');
 
     expect(root).toContain('background: var(--color-workspace)');
     expect(root).not.toContain('background: var(--color-surface)');
     expect(root).not.toContain('background: var(--color-navigation-surface)');
-    expect(root).not.toMatch(/border-(top|right|bottom|left)\s*:/);
+    expect(root).not.toContain('background: var(--color-canvas)');
   });
 
   it('test_structure: brand, nav slot, spacer, and utilities in one row', async () => {
