@@ -220,11 +220,25 @@ describe('composed workspace views', () => {
     expect(pageHeader).not.toMatch(/<Table[^>]*\bbordered\b/);
   });
 
+  it('renders Personal as one quiet reading surface with token typography', async () => {
+    const personal = await readStory('../src/stories/Personal.stories.svelte');
+
+    expect(blockFor(personal, '.page')).toContain('background: var(--color-workspace)');
+    expect(personal).not.toContain('background: var(--color-canvas)');
+    expect(blockFor(personal, '.personal')).toContain('max-width: var(--layout-reading-width)');
+    expect(personal).toContain('<Link');
+    expect(personal).not.toContain('<Card');
+    expect(personal).not.toContain('letter-spacing');
+    expect(personal).not.toContain('text-transform');
+    expect(personal).not.toContain('font-family: serif');
+  });
+
   it('names every composed view story', async () => {
     const views = [
       ['Dashboard', 'Dashboard'],
       ['Settings', 'Settings'],
-      ['Landing', 'Landing']
+      ['Landing', 'Landing'],
+      ['Personal', 'Personal']
     ];
 
     for (const [file, name] of views) {
