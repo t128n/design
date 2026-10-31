@@ -1,5 +1,7 @@
 <script lang="ts">
   import { PinInput } from 'bits-ui';
+  import { mergeClasses } from './class';
+  import Field from './Field.svelte';
 
   type Props = {
     value?: string;
@@ -11,6 +13,7 @@
     error?: string;
     disabled?: boolean;
     required?: boolean;
+    id?: string;
     name?: string;
     inputmode?: 'numeric' | 'text' | 'tel' | 'none' | 'email' | 'url' | 'search' | 'decimal';
     pattern?: string;
@@ -28,6 +31,7 @@
     error,
     disabled = false,
     required = false,
+    id,
     name,
     inputmode = 'numeric',
     pattern = '[0-9]*',
@@ -35,50 +39,42 @@
     class: className = ''
   }: Props = $props();
 
-  const baseId = $props.id();
-  const inputId = `${baseId}-input`;
-  const descriptionId = `${baseId}-desc`;
-  const errorId = `${baseId}-err`;
+  const classes = $derived(mergeClasses('pin-field', className));
 </script>
 
-<div class="pin-field {className}">
-  {#if label}
-    <label class="label" for={inputId}>{label}{required ? '*' : ''}</label>
-  {/if}
-  {#if description}
-    <span id={descriptionId} class="description">{description}</span>
-  {/if}
-  <PinInput.Root
-    bind:value
-    {maxlength}
-    {disabled}
-    {name}
-    {inputmode}
-    {pattern}
-    {onValueChange}
-    {onComplete}
-    {inputId}
-    aria-label={label}
-    aria-invalid={error ? 'true' : undefined}
-    aria-describedby={[description ? descriptionId : null, error ? errorId : null].filter(Boolean).join(' ') || undefined}
-    class="pin-root"
-  >
-    {#snippet children({ cells })}
-      {#each cells as cell, i}
-        <PinInput.Cell {cell} class="pin-cell" data-index={i}>
-          {#if cell.char}
-            <span class="pin-text">{cell.char}</span>
-          {/if}
-          {#if cell.hasFakeCaret}
-            <span class="pin-caret" aria-hidden="true"></span>
-          {/if}
-        </PinInput.Cell>
-      {/each}
+<div class={classes}>
+  <Field {label} {description} {error} {disabled} {required} {id}>
+    {#snippet children(state)}
+      <PinInput.Root
+        bind:value
+        {maxlength}
+        {disabled}
+        {name}
+        {inputmode}
+        {pattern}
+        {onValueChange}
+        {onComplete}
+        inputId={state.id}
+        aria-required={state.required ? 'true' : undefined}
+        aria-invalid={state.invalid ? 'true' : undefined}
+        aria-describedby={state.describedBy}
+        class={state.invalid ? 'pin-root invalid' : 'pin-root'}
+      >
+        {#snippet children({ cells })}
+          {#each cells as cell, i}
+            <PinInput.Cell {cell} class="pin-cell" data-index={i}>
+              {#if cell.char}
+                <span class="pin-text">{cell.char}</span>
+              {/if}
+              {#if cell.hasFakeCaret}
+                <span class="pin-caret" aria-hidden="true"></span>
+              {/if}
+            </PinInput.Cell>
+          {/each}
+        {/snippet}
+      </PinInput.Root>
     {/snippet}
-  </PinInput.Root>
-  {#if error}
-    <span id={errorId} class="error" role="alert">{error}</span>
-  {/if}
+  </Field>
 </div>
 
 <style>
@@ -87,18 +83,6 @@
     gap: var(--space-xs);
     color: var(--color-text-primary);
     font-family: var(--font-family-sans);
-  }
-
-  .label {
-    font-size: var(--font-size-label);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-label);
-  }
-
-  .description {
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   .pin-field :global(.pin-root) {
@@ -130,11 +114,11 @@
     outline-offset: var(--border-width-emphasis);
   }
 
-  .pin-field :global(.pin-root[aria-invalid='true']) :global(.pin-cell) {
+  .pin-field :global(.pin-root.invalid) :global(.pin-cell) {
     border-color: var(--color-danger);
   }
 
-  .pin-field :global(.pin-root[aria-invalid='true']) :global(.pin-cell[data-active]) {
+  .pin-field :global(.pin-root.invalid) :global(.pin-cell[data-active]) {
     border-color: var(--color-danger);
   }
 
@@ -158,11 +142,4 @@
   .pin-field :global(.pin-root[disabled]) :global(.pin-caret) {
     display: none;
   }
-
-  .error {
-    color: var(--color-danger);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
-  }
-
 </style>

@@ -1,7 +1,11 @@
 <script lang="ts">
   import { Combobox } from 'bits-ui';
-  import CheckIcon from '~icons/carbon/checkmark';
   import ChevronDownIcon from '~icons/carbon/chevron-down';
+  import CheckIcon from '~icons/carbon/checkmark';
+  import { mergeClasses } from './class';
+  import Field from './Field.svelte';
+  import Icon from './Icon.svelte';
+  import VisuallyHidden from './VisuallyHidden.svelte';
 
   type Item = {
     value: string;
@@ -15,11 +19,14 @@
     onValueChange?: (value: string) => void;
     inputValue?: string;
     label: string;
+    description?: string;
     placeholder?: string;
     error?: string;
     disabled?: boolean;
     required?: boolean;
+    id?: string;
     name?: string;
+    class?: string;
   };
 
   let {
@@ -28,78 +35,82 @@
     onValueChange,
     inputValue = $bindable<string>(''),
     label,
+    description,
     placeholder = 'Search...',
     error,
     disabled = false,
     required = false,
-    name
+    id,
+    name,
+    class: className = ''
   }: Props = $props();
 
-  const baseId = $props.id();
-  const labelId = `${baseId}-label`;
-  const errorId = `${baseId}-error`;
+  const classes = $derived(mergeClasses('combobox-field', className));
 
   const filteredItems = $derived(
     items.filter((item) => item.label.toLowerCase().includes(inputValue.trim().toLowerCase()))
   );
 </script>
 
-<div class="combobox-field">
-  <span id={labelId} class="label">{label}</span>
-  <Combobox.Root
-    type="single"
-    bind:value
-    {items}
-    {disabled}
-    {required}
-    {name}
-    {onValueChange}
-  >
-    <div class="combobox-input-group" class:invalid={Boolean(error)}>
-      <Combobox.Input
-        class="combobox-input"
-        {placeholder}
-        oninput={(event) => {
-          inputValue = event.currentTarget.value;
-        }}
-        aria-labelledby={labelId}
-        aria-invalid={error ? 'true' : undefined}
-        aria-describedby={error ? errorId : undefined}
-      />
-      <Combobox.Trigger class="combobox-trigger" aria-label="Open">
-        <ChevronDownIcon class="chevron" />
-      </Combobox.Trigger>
-    </div>
-    <Combobox.Portal>
-      <Combobox.Content class="combobox-content" sideOffset={4}>
-        <div class="panel">
-          <Combobox.Viewport class="viewport">
-            {#each filteredItems as item}
-              <Combobox.Item
-                value={item.value}
-                label={item.label}
-                disabled={item.disabled}
-                class="combobox-item"
-              >
-                {#snippet children({ selected })}
-                  <span class="check" aria-hidden="true">
-                    {#if selected}<CheckIcon class="check-icon" />{/if}
-                  </span>
-                  <span>{item.label}</span>
-                {/snippet}
-              </Combobox.Item>
-            {/each}
-            {#if filteredItems.length === 0}
-              <div class="empty">No results</div>
-            {/if}
-          </Combobox.Viewport>
+<div class={classes}>
+  <Field {label} {description} {error} {disabled} {required} {id}>
+    {#snippet children(state)}
+      <Combobox.Root
+        type="single"
+        bind:value
+        {items}
+        {disabled}
+        {required}
+        {name}
+        {onValueChange}
+      >
+        <div class="combobox-input-group" class:invalid={state.invalid}>
+          <Combobox.Input
+            id={state.id}
+            class="combobox-input"
+            {placeholder}
+            oninput={(event) => {
+              inputValue = event.currentTarget.value;
+            }}
+            aria-labelledby={state.labelId}
+            aria-required={state.required ? 'true' : undefined}
+            aria-invalid={state.invalid ? 'true' : undefined}
+            aria-describedby={state.describedBy}
+          />
+          <Combobox.Trigger class="combobox-trigger">
+            <Icon icon={ChevronDownIcon} class="chevron" />
+            <VisuallyHidden>Open options</VisuallyHidden>
+          </Combobox.Trigger>
         </div>
-      </Combobox.Content>
-    </Combobox.Portal>
-  </Combobox.Root>
-  {#if error}
-    <span id={errorId} class="error" role="alert">{error}</span>
-  {/if}
+        <Combobox.Portal>
+          <Combobox.Content class="combobox-content" sideOffset={4}>
+            <div class="panel">
+              <Combobox.Viewport class="viewport">
+                {#each filteredItems as item}
+                  <Combobox.Item
+                    value={item.value}
+                    label={item.label}
+                    disabled={item.disabled}
+                    class="combobox-item"
+                  >
+                    {#snippet children({ selected })}
+                      <span class="check" aria-hidden="true">
+                        {#if selected}<Icon icon={CheckIcon} class="check-icon" />{/if}
+                      </span>
+                      <span>{item.label}</span>
+                    {/snippet}
+                  </Combobox.Item>
+                {/each}
+                {#if filteredItems.length === 0}
+                  <div class="empty">No results</div>
+                {/if}
+              </Combobox.Viewport>
+            </div>
+          </Combobox.Content>
+        </Combobox.Portal>
+      </Combobox.Root>
+    {/snippet}
+  </Field>
 </div>
 
 <style>
@@ -110,12 +121,6 @@
     gap: var(--space-xs);
     color: var(--color-text-primary);
     font-family: var(--font-family-sans);
-  }
-
-  .label {
-    font-size: var(--font-size-label);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-label);
   }
 
   .combobox-input-group {
@@ -179,8 +184,7 @@
   }
 
   .combobox-field :global(.chevron) {
-    width: var(--icon-size-sm);
-    height: var(--icon-size-sm);
+    color: var(--color-text-secondary);
   }
 
   :global(.combobox-content) {
@@ -235,21 +239,10 @@
     color: var(--color-accent);
   }
 
-  .check :global(.check-icon) {
-    width: var(--icon-size-xs);
-    height: var(--icon-size-xs);
-  }
-
   .panel :global(.empty) {
     padding: var(--space-xs) var(--space-sm);
     color: var(--color-text-muted);
     font-size: var(--font-size-body-sm);
-  }
-
-  .error {
-    color: var(--color-danger);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   @media (prefers-reduced-motion: reduce) {

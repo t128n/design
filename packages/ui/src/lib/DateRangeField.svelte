@@ -1,7 +1,8 @@
 <script lang="ts">
   import { DateRangeField } from 'bits-ui';
   import type { DateValue } from '@internationalized/date';
-  import Text from './Text.svelte';
+  import Field from './Field.svelte';
+  import VisuallyHidden from './VisuallyHidden.svelte';
 
   type RangeValue = { start: DateValue | undefined; end: DateValue | undefined };
 
@@ -16,6 +17,7 @@
     disabled?: boolean;
     readonly?: boolean;
     required?: boolean;
+    id?: string;
     locale?: string;
     granularity?: 'day' | 'hour' | 'minute' | 'second';
     minValue?: DateValue;
@@ -34,61 +36,76 @@
     disabled = false,
     readonly = false,
     required = false,
+    id,
     locale,
     granularity,
     minValue,
     maxValue,
     name
   }: Props = $props();
-
-  const id = $props.id();
-  const errorId = `${id}-error`;
-  const descId = `${id}-desc`;
 </script>
 
 <div class="date-range-field">
-  <DateRangeField.Root
-    bind:value
-    {onValueChange}
-    bind:placeholder
-    {onPlaceholderChange}
-    {disabled}
-    {readonly}
-    {required}
-    {locale}
-    {granularity}
-    {minValue}
-    {maxValue}
-  >
-    <DateRangeField.Label class="date-range-field-label">{label}</DateRangeField.Label>
-    {#if description}
-      <Text as="p" variant="body-sm" tone="secondary" id={descId}>{description}</Text>
-    {/if}
-    <div class="date-range-field-inputs">
-      <DateRangeField.Input type="start" class="date-range-field-input" {name} aria-invalid={error ? 'true' : undefined}>
-        {#snippet children({ segments })}
-          {#each segments as { part, value: segValue }}
-            <DateRangeField.Segment {part} class="date-range-field-segment">
-              {segValue}
-            </DateRangeField.Segment>
-          {/each}
-        {/snippet}
-      </DateRangeField.Input>
-      <span class="date-range-separator" aria-hidden="true">–</span>
-      <DateRangeField.Input type="end" class="date-range-field-input" {name} aria-invalid={error ? 'true' : undefined}>
-        {#snippet children({ segments })}
-          {#each segments as { part, value: segValue }}
-            <DateRangeField.Segment {part} class="date-range-field-segment">
-              {segValue}
-            </DateRangeField.Segment>
-          {/each}
-        {/snippet}
-      </DateRangeField.Input>
-    </div>
-  </DateRangeField.Root>
-  {#if error}
-    <span id={errorId} class="date-range-field-error" role="alert">{error}</span>
-  {/if}
+  <Field {description} {error} {disabled} {required} {id}>
+    {#snippet children(state)}
+      <DateRangeField.Root
+        bind:value
+        {onValueChange}
+        bind:placeholder
+        {onPlaceholderChange}
+        {disabled}
+        {readonly}
+        {required}
+        {locale}
+        {granularity}
+        {minValue}
+        {maxValue}
+      >
+        <DateRangeField.Label class="date-range-field-label" id={state.labelId}>
+          {label}
+          {#if state.required}
+            <span class="field-required" aria-hidden="true">*</span>
+            <VisuallyHidden>required</VisuallyHidden>
+          {/if}
+        </DateRangeField.Label>
+        <div class="date-range-field-inputs">
+          <DateRangeField.Input
+            type="start"
+            class="date-range-field-input"
+            {name}
+            aria-invalid={state.invalid ? 'true' : undefined}
+            data-invalid={state.invalid ? '' : undefined}
+            aria-describedby={state.describedBy}
+          >
+            {#snippet children({ segments })}
+              {#each segments as { part, value: segValue }}
+                <DateRangeField.Segment {part} class="date-range-field-segment">
+                  {segValue}
+                </DateRangeField.Segment>
+              {/each}
+            {/snippet}
+          </DateRangeField.Input>
+          <span class="date-range-separator" aria-hidden="true">–</span>
+          <DateRangeField.Input
+            type="end"
+            class="date-range-field-input"
+            {name}
+            aria-invalid={state.invalid ? 'true' : undefined}
+            data-invalid={state.invalid ? '' : undefined}
+            aria-describedby={state.describedBy}
+          >
+            {#snippet children({ segments })}
+              {#each segments as { part, value: segValue }}
+                <DateRangeField.Segment {part} class="date-range-field-segment">
+                  {segValue}
+                </DateRangeField.Segment>
+              {/each}
+            {/snippet}
+          </DateRangeField.Input>
+        </div>
+      </DateRangeField.Root>
+    {/snippet}
+  </Field>
 </div>
 
 <style>
@@ -124,7 +141,8 @@
     font-variant-numeric: tabular-nums;
   }
 
-  .date-range-field :global(.date-range-field-input[data-invalid]) {
+  .date-range-field :global(.date-range-field-input[data-invalid]),
+  .date-range-field :global(.date-range-field-input[aria-invalid='true']) {
     border-color: var(--color-danger);
   }
 
@@ -133,7 +151,8 @@
     outline-offset: var(--border-width-emphasis);
   }
 
-  .date-range-field :global(.date-range-field-input[data-invalid]:focus-within) {
+  .date-range-field :global(.date-range-field-input[data-invalid]:focus-within),
+  .date-range-field :global(.date-range-field-input[aria-invalid='true']:focus-within) {
     outline-color: var(--color-danger);
   }
 
@@ -154,11 +173,5 @@
 
   .date-range-field :global(.date-range-field-segment[data-placeholder]) {
     color: var(--color-text-muted);
-  }
-
-  .date-range-field-error {
-    color: var(--color-danger);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 </style>

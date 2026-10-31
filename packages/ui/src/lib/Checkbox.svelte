@@ -2,6 +2,8 @@
   import { Checkbox } from 'bits-ui';
   import CheckIcon from '~icons/carbon/checkmark';
   import SubtractIcon from '~icons/carbon/subtract';
+  import { createFieldState } from './field';
+  import Icon from './Icon.svelte';
 
   type Props = {
     checked?: boolean;
@@ -9,7 +11,10 @@
     onCheckedChange?: (checked: boolean) => void;
     label: string;
     description?: string;
+    error?: string;
+    required?: boolean;
     disabled?: boolean;
+    id?: string;
     name?: string;
     value?: string;
   };
@@ -20,38 +25,50 @@
     onCheckedChange,
     label,
     description,
+    error,
+    required = false,
     disabled = false,
+    id,
     name,
     value
   }: Props = $props();
 
-  const descriptionId = $props.id();
+  const baseId = $props.id();
+  const state = $derived(
+    createFieldState(baseId, { id, description, error, required, disabled })
+  );
 </script>
 
 <div class="checkbox">
   <Checkbox.Root
+    id={state.id}
     bind:checked
     bind:indeterminate
     {disabled}
+    {required}
     {name}
     {value}
     {onCheckedChange}
-    aria-describedby={description ? descriptionId : undefined}
+    aria-invalid={state.invalid ? 'true' : undefined}
+    aria-describedby={state.describedBy}
     class="checkbox-root"
   >
     {#snippet children({ checked, indeterminate })}
       <span class="box" aria-hidden="true">
         {#if indeterminate}
-          <SubtractIcon class="icon" />
+          <Icon icon={SubtractIcon} />
         {:else if checked}
-          <CheckIcon class="icon" />
+          <Icon icon={CheckIcon} />
         {/if}
       </span>
       <span class="label">{label}</span>
     {/snippet}
   </Checkbox.Root>
   {#if description}
-    <span id={descriptionId} class="description">{description}</span>
+    <span id={state.descriptionId} class="description">{description}</span>
+  {/if}
+  {#if error}
+    <span id={state.errorId} class="error" role="alert">{error}</span>
   {/if}
 </div>
 
@@ -112,11 +129,6 @@
     color: var(--color-disabled-text);
   }
 
-  .box :global(.icon) {
-    width: var(--checkbox-indicator-size);
-    height: var(--checkbox-indicator-size);
-  }
-
   .label {
     font-size: var(--font-size-label);
     font-weight: var(--font-weight-medium);
@@ -126,6 +138,13 @@
   .description {
     margin-left: calc(var(--checkbox-size) + var(--space-sm));
     color: var(--color-text-secondary);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body);
+  }
+
+  .error {
+    margin-left: calc(var(--checkbox-size) + var(--space-sm));
+    color: var(--color-danger);
     font-size: var(--font-size-body-sm);
     line-height: var(--line-height-body);
   }

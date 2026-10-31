@@ -5,7 +5,9 @@
   import ChevronLeft from '~icons/carbon/chevron-left';
   import ChevronRight from '~icons/carbon/chevron-right';
   import Button from './Button.svelte';
-  import Text from './Text.svelte';
+  import Field from './Field.svelte';
+  import Icon from './Icon.svelte';
+  import VisuallyHidden from './VisuallyHidden.svelte';
 
   type Props = {
     value?: DateValue;
@@ -18,6 +20,7 @@
     disabled?: boolean;
     readonly?: boolean;
     required?: boolean;
+    id?: string;
     locale?: string;
     granularity?: 'day' | 'hour' | 'minute' | 'second';
     minValue?: DateValue;
@@ -38,6 +41,7 @@
     disabled = false,
     readonly = false,
     required = false,
+    id,
     locale,
     granularity,
     minValue,
@@ -46,98 +50,108 @@
     onOpenChange,
     closeOnDateSelect = true
   }: Props = $props();
-
-  const id = $props.id();
-  const errorId = `${id}-error`;
-  const descId = `${id}-desc`;
 </script>
 
 <div class="date-picker">
-  <DatePicker.Root
-    bind:open
-    {onOpenChange}
-    bind:value
-    {onValueChange}
-    bind:placeholder
-    {onPlaceholderChange}
-    {disabled}
-    {readonly}
-    {required}
-    {locale}
-    {granularity}
-    {minValue}
-    {maxValue}
-    {closeOnDateSelect}
-  >
-    <DatePicker.Label class="date-picker-label">{label}</DatePicker.Label>
-    {#if description}
-      <Text as="p" variant="body-sm" tone="secondary" id={descId}>{description}</Text>
-    {/if}
-    <div class="date-picker-field">
-      <DatePicker.Input class="date-picker-input" aria-invalid={error ? 'true' : undefined} aria-describedby={[description ? descId : null, error ? errorId : null].filter(Boolean).join(' ') || undefined}>
-        {#snippet children({ segments })}
-          {#each segments as { part, value: segValue }}
-            <DatePicker.Segment {part} class="date-picker-segment">
-              {segValue}
-            </DatePicker.Segment>
-          {/each}
-        {/snippet}
-      </DatePicker.Input>
-      <DatePicker.Trigger>
-        {#snippet child({ props })}
-          <Button {...props} variant="secondary" aria-label="Open calendar" disabled={disabled}>
-            <CalendarIcon class="icon" />
-          </Button>
-        {/snippet}
-      </DatePicker.Trigger>
-    </div>
-    <DatePicker.Portal>
-      <DatePicker.Content class="date-picker-content" sideOffset={4}>
-        <div class="date-picker-panel">
-          <DatePicker.Calendar>
-            {#snippet children({ months, weekdays })}
-              <div class="calendar-header">
-                <DatePicker.PrevButton class="calendar-nav">
-                  <ChevronLeft class="icon" />
-                </DatePicker.PrevButton>
-                <DatePicker.Heading class="calendar-heading" />
-                <DatePicker.NextButton class="calendar-nav">
-                  <ChevronRight class="icon" />
-                </DatePicker.NextButton>
-              </div>
-              <div class="calendar-months">
-                {#each months as month}
-                  <DatePicker.Grid class="calendar-grid">
-                    <DatePicker.GridHead>
-                      <DatePicker.GridRow class="calendar-grid-row">
-                        {#each weekdays as weekday}
-                          <DatePicker.HeadCell class="calendar-head-cell">{weekday}</DatePicker.HeadCell>
-                        {/each}
-                      </DatePicker.GridRow>
-                    </DatePicker.GridHead>
-                    <DatePicker.GridBody>
-                      {#each month.weeks as week}
-                        <DatePicker.GridRow class="calendar-grid-row">
-                          {#each week as date}
-                            <DatePicker.Cell {date} month={month.value} class="calendar-cell">
-                              <DatePicker.Day class="calendar-day" />
-                            </DatePicker.Cell>
-                          {/each}
-                        </DatePicker.GridRow>
-                      {/each}
-                    </DatePicker.GridBody>
-                  </DatePicker.Grid>
-                {/each}
-              </div>
+  <Field {description} {error} {disabled} {required} {id}>
+    {#snippet children(state)}
+      <DatePicker.Root
+        bind:open
+        {onOpenChange}
+        bind:value
+        {onValueChange}
+        bind:placeholder
+        {onPlaceholderChange}
+        {disabled}
+        {readonly}
+        {required}
+        {locale}
+        {granularity}
+        {minValue}
+        {maxValue}
+        {closeOnDateSelect}
+      >
+        <DatePicker.Label class="date-picker-label" id={state.labelId}>
+          {label}
+          {#if state.required}
+            <span class="field-required" aria-hidden="true">*</span>
+            <VisuallyHidden>required</VisuallyHidden>
+          {/if}
+        </DatePicker.Label>
+        <div class="date-picker-field">
+          <DatePicker.Input
+            class="date-picker-input"
+            aria-invalid={state.invalid ? 'true' : undefined}
+            data-invalid={state.invalid ? '' : undefined}
+            aria-describedby={state.describedBy}
+          >
+            {#snippet children({ segments })}
+              {#each segments as { part, value: segValue }}
+                <DatePicker.Segment {part} class="date-picker-segment">
+                  {segValue}
+                </DatePicker.Segment>
+              {/each}
             {/snippet}
-          </DatePicker.Calendar>
+          </DatePicker.Input>
+          <DatePicker.Trigger>
+            {#snippet child({ props })}
+              <Button {...props} variant="secondary" disabled={disabled}>
+                <Icon icon={CalendarIcon} />
+                <VisuallyHidden>Open calendar</VisuallyHidden>
+              </Button>
+            {/snippet}
+          </DatePicker.Trigger>
         </div>
-      </DatePicker.Content>
-    </DatePicker.Portal>
-  </DatePicker.Root>
-  {#if error}
-    <span id={errorId} class="date-picker-error" role="alert">{error}</span>
-  {/if}
+        <DatePicker.Portal>
+          <DatePicker.Content class="date-picker-content" sideOffset={4}>
+            <div class="date-picker-panel">
+              <DatePicker.Calendar>
+                {#snippet children({ months, weekdays })}
+                  <div class="calendar-header">
+                    <DatePicker.PrevButton class="calendar-nav">
+                      <Icon icon={ChevronLeft} />
+                      <VisuallyHidden>Previous month</VisuallyHidden>
+                    </DatePicker.PrevButton>
+                    <DatePicker.Heading class="calendar-heading" />
+                    <DatePicker.NextButton class="calendar-nav">
+                      <Icon icon={ChevronRight} />
+                      <VisuallyHidden>Next month</VisuallyHidden>
+                    </DatePicker.NextButton>
+                  </div>
+                  <div class="calendar-months">
+                    {#each months as month}
+                      <DatePicker.Grid class="calendar-grid">
+                        <DatePicker.GridHead>
+                          <DatePicker.GridRow class="calendar-grid-row">
+                            {#each weekdays as weekday}
+                              <DatePicker.HeadCell class="calendar-head-cell"
+                                >{weekday}</DatePicker.HeadCell
+                              >
+                            {/each}
+                          </DatePicker.GridRow>
+                        </DatePicker.GridHead>
+                        <DatePicker.GridBody>
+                          {#each month.weeks as week}
+                            <DatePicker.GridRow class="calendar-grid-row">
+                              {#each week as date}
+                                <DatePicker.Cell {date} month={month.value} class="calendar-cell">
+                                  <DatePicker.Day class="calendar-day" />
+                                </DatePicker.Cell>
+                              {/each}
+                            </DatePicker.GridRow>
+                          {/each}
+                        </DatePicker.GridBody>
+                      </DatePicker.Grid>
+                    {/each}
+                  </div>
+                {/snippet}
+              </DatePicker.Calendar>
+            </div>
+          </DatePicker.Content>
+        </DatePicker.Portal>
+      </DatePicker.Root>
+    {/snippet}
+  </Field>
 </div>
 
 <style>
@@ -174,7 +188,8 @@
     font-variant-numeric: tabular-nums;
   }
 
-  .date-picker :global(.date-picker-input[data-invalid]) {
+  .date-picker :global(.date-picker-input[data-invalid]),
+  .date-picker :global(.date-picker-input[aria-invalid='true']) {
     border-color: var(--color-danger);
   }
 
@@ -183,7 +198,8 @@
     outline-offset: var(--border-width-emphasis);
   }
 
-  .date-picker :global(.date-picker-input[data-invalid]:focus-within) {
+  .date-picker :global(.date-picker-input[data-invalid]:focus-within),
+  .date-picker :global(.date-picker-input[aria-invalid='true']:focus-within) {
     outline-color: var(--color-danger);
   }
 
@@ -200,11 +216,6 @@
 
   .date-picker :global(.date-picker-segment[data-placeholder]) {
     color: var(--color-text-muted);
-  }
-
-  .date-picker :global(.icon) {
-    width: var(--icon-size-sm);
-    height: var(--icon-size-sm);
   }
 
   .date-picker :global(.date-picker-content) {
@@ -329,12 +340,6 @@
 
   .date-picker-panel :global(.calendar-day[data-unavailable]) {
     text-decoration: line-through;
-  }
-
-  .date-picker-error {
-    color: var(--color-danger);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -43,6 +43,8 @@ describe('Storybook stories', () => {
       ['List', 'Primitives/List'],
       ['EmptyState', 'Components/EmptyState'],
       ['VisuallyHidden', 'Primitives/Visually hidden'],
+      ['Icon', 'Components/Icon'],
+      ['Field', 'Components/Field'],
       ['Checkbox', 'Primitives/Checkbox'],
       ['Switch', 'Primitives/Switch'],
       ['Select', 'Primitives/Select'],

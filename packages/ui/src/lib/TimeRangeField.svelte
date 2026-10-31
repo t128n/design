@@ -1,6 +1,7 @@
 <script lang="ts">
   import { TimeRangeField } from 'bits-ui';
-  import Text from './Text.svelte';
+  import Field from './Field.svelte';
+  import VisuallyHidden from './VisuallyHidden.svelte';
 
   type TimeRangeValue = { start: any; end: any };
 
@@ -15,6 +16,7 @@
     disabled?: boolean;
     readonly?: boolean;
     required?: boolean;
+    id?: string;
     locale?: string;
     hourCycle?: 12 | 24;
     granularity?: 'hour' | 'minute' | 'second';
@@ -32,60 +34,73 @@
     disabled = false,
     readonly = false,
     required = false,
+    id,
     locale,
     hourCycle,
     granularity = 'minute',
     hideTimeZone = false
   }: Props = $props();
-
-  const id = $props.id();
-  const errorId = `${id}-error`;
-  const descId = `${id}-desc`;
 </script>
 
 <div class="time-range-field">
-  <TimeRangeField.Root
-    bind:value
-    {onValueChange}
-    bind:placeholder
-    {onPlaceholderChange}
-    {disabled}
-    {readonly}
-    {required}
-    {locale}
-    {hourCycle}
-    {granularity}
-    {hideTimeZone}
-  >
-    <TimeRangeField.Label class="time-range-field-label">{label}</TimeRangeField.Label>
-    {#if description}
-      <Text as="p" variant="body-sm" tone="secondary" id={descId}>{description}</Text>
-    {/if}
-    <div class="time-range-field-inputs">
-      <TimeRangeField.Input type="start" class="time-range-field-input" aria-invalid={error ? 'true' : undefined}>
-        {#snippet children({ segments })}
-          {#each segments as { part, value: segValue }}
-            <TimeRangeField.Segment {part} class="time-range-field-segment">
-              {segValue}
-            </TimeRangeField.Segment>
-          {/each}
-        {/snippet}
-      </TimeRangeField.Input>
-      <span class="time-range-separator" aria-hidden="true">–</span>
-      <TimeRangeField.Input type="end" class="time-range-field-input" aria-invalid={error ? 'true' : undefined}>
-        {#snippet children({ segments })}
-          {#each segments as { part, value: segValue }}
-            <TimeRangeField.Segment {part} class="time-range-field-segment">
-              {segValue}
-            </TimeRangeField.Segment>
-          {/each}
-        {/snippet}
-      </TimeRangeField.Input>
-    </div>
-  </TimeRangeField.Root>
-  {#if error}
-    <span id={errorId} class="time-range-field-error" role="alert">{error}</span>
-  {/if}
+  <Field {description} {error} {disabled} {required} {id}>
+    {#snippet children(state)}
+      <TimeRangeField.Root
+        bind:value
+        {onValueChange}
+        bind:placeholder
+        {onPlaceholderChange}
+        {disabled}
+        {readonly}
+        {required}
+        {locale}
+        {hourCycle}
+        {granularity}
+        {hideTimeZone}
+      >
+        <TimeRangeField.Label class="time-range-field-label" id={state.labelId}>
+          {label}
+          {#if state.required}
+            <span class="field-required" aria-hidden="true">*</span>
+            <VisuallyHidden>required</VisuallyHidden>
+          {/if}
+        </TimeRangeField.Label>
+        <div class="time-range-field-inputs">
+          <TimeRangeField.Input
+            type="start"
+            class="time-range-field-input"
+            aria-invalid={state.invalid ? 'true' : undefined}
+            data-invalid={state.invalid ? '' : undefined}
+            aria-describedby={state.describedBy}
+          >
+            {#snippet children({ segments })}
+              {#each segments as { part, value: segValue }}
+                <TimeRangeField.Segment {part} class="time-range-field-segment">
+                  {segValue}
+                </TimeRangeField.Segment>
+              {/each}
+            {/snippet}
+          </TimeRangeField.Input>
+          <span class="time-range-separator" aria-hidden="true">–</span>
+          <TimeRangeField.Input
+            type="end"
+            class="time-range-field-input"
+            aria-invalid={state.invalid ? 'true' : undefined}
+            data-invalid={state.invalid ? '' : undefined}
+            aria-describedby={state.describedBy}
+          >
+            {#snippet children({ segments })}
+              {#each segments as { part, value: segValue }}
+                <TimeRangeField.Segment {part} class="time-range-field-segment">
+                  {segValue}
+                </TimeRangeField.Segment>
+              {/each}
+            {/snippet}
+          </TimeRangeField.Input>
+        </div>
+      </TimeRangeField.Root>
+    {/snippet}
+  </Field>
 </div>
 
 <style>
@@ -121,7 +136,8 @@
     font-variant-numeric: tabular-nums;
   }
 
-  .time-range-field :global(.time-range-field-input[data-invalid]) {
+  .time-range-field :global(.time-range-field-input[data-invalid]),
+  .time-range-field :global(.time-range-field-input[aria-invalid='true']) {
     border-color: var(--color-danger);
   }
 
@@ -130,7 +146,8 @@
     outline-offset: var(--border-width-emphasis);
   }
 
-  .time-range-field :global(.time-range-field-input[data-invalid]:focus-within) {
+  .time-range-field :global(.time-range-field-input[data-invalid]:focus-within),
+  .time-range-field :global(.time-range-field-input[aria-invalid='true']:focus-within) {
     outline-color: var(--color-danger);
   }
 
@@ -151,11 +168,5 @@
 
   .time-range-field :global(.time-range-field-segment[data-placeholder]) {
     color: var(--color-text-muted);
-  }
-
-  .time-range-field-error {
-    color: var(--color-danger);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 </style>

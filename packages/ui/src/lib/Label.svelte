@@ -1,17 +1,19 @@
 <script lang="ts">
   import { Label } from 'bits-ui';
   import type { Snippet } from 'svelte';
+  import { mergeClasses } from './class';
 
   type Props = {
     for?: string;
-    children?: Snippet;
+    id?: string;
     class?: string;
+    children?: Snippet;
   };
 
-  let { for: forAttr, children, class: className = '' }: Props = $props();
+  let { for: forAttr, id, class: className = '', children }: Props = $props();
 </script>
 
-<Label.Root for={forAttr} class={`label ${className}`}>
+<Label.Root {id} for={forAttr} class={mergeClasses('label', className)}>
   {@render children?.()}
 </Label.Root>
 
