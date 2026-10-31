@@ -32,7 +32,7 @@
     <div class="copy">
       <h1>{title}</h1>
       {#if description}
-        <p>{description}</p>
+        <p class="description">{description}</p>
       {/if}
     </div>
     {#if actions}
@@ -48,14 +48,14 @@
   .page-header {
     display: grid;
     gap: var(--space-sm);
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-2xl);
     font-family: var(--font-family-sans);
     color: var(--color-text-primary);
   }
 
   .row {
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: space-between;
     gap: var(--space-lg);
   }
@@ -67,14 +67,16 @@
   }
 
   h1 {
+    min-width: 0;
     margin: 0;
+    overflow-wrap: anywhere;
     font-size: var(--font-size-heading);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-heading);
   }
 
-  p {
-    max-width: 60ch;
+  .description {
+    max-width: var(--layout-reading-width);
     margin: 0;
     color: var(--color-text-secondary);
     font-size: var(--font-size-body-sm);
@@ -95,9 +97,8 @@
 
   @media (max-width: 640px) {
     .row {
-      align-items: flex-start;
       flex-direction: column;
-      gap: var(--space-sm);
+      gap: var(--space-md);
     }
   }
 </style>
