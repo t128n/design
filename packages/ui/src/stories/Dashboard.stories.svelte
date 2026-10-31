@@ -6,7 +6,7 @@
   const { Story } = defineMeta({
     title: 'Views/Dashboard',
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: { layout: 'fullscreen', controls: { disable: true } }
   });
 
   const sections = [
@@ -84,7 +84,15 @@
           </div>
         </div>
         <section class="recent" aria-labelledby="recent-heading">
-          <h2 id="recent-heading">Recent projects</h2>
+          <div class="section-heading">
+            <div class="section-copy">
+              <h2 id="recent-heading">Recent projects</h2>
+              <p>Ownership, status, and the latest update for each project.</p>
+            </div>
+            <div class="section-actions">
+              <Button variant="secondary">View all</Button>
+            </div>
+          </div>
           <Table {columns}>
             <tr>
               <td>Orbit</td>
@@ -173,7 +181,20 @@
 
   .recent {
     display: grid;
-    gap: var(--space-md);
+    gap: var(--space-sm);
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-lg);
+  }
+
+  .section-copy {
+    display: grid;
+    gap: var(--space-xs);
+    min-width: 0;
   }
 
   .recent h2 {
@@ -181,5 +202,25 @@
     font-size: var(--font-size-subheading);
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-subheading);
+  }
+
+  .recent p {
+    max-width: var(--layout-reading-width);
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body);
+  }
+
+  .section-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  @media (max-width: 640px) {
+    .section-heading {
+      flex-direction: column;
+    }
   }
 </style>

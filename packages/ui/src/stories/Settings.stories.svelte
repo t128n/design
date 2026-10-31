@@ -17,7 +17,7 @@
   const { Story } = defineMeta({
     title: 'Views/Settings',
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: { layout: 'fullscreen', controls: { disable: true } }
   });
 
   const sections = [
@@ -67,14 +67,16 @@
         actions={headerActions}
       />
       <div class="settings">
-        <Card title="Workspace">
+        <section class="settings-section" aria-labelledby="settings-workspace">
+          <h2 id="settings-workspace">Workspace</h2>
           <div class="form-grid">
             <Input label="Workspace name" value="Stellar" />
             <Select label="Default region" items={regions} value="us-east" />
           </div>
-        </Card>
+        </section>
 
-        <Card title="Review rules">
+        <section class="settings-section" aria-labelledby="settings-review">
+          <h2 id="settings-review">Review rules</h2>
           <div class="choices">
             <Switch
               label="Require review before archive"
@@ -86,7 +88,7 @@
               description="Guests can read projects but cannot change them."
             />
           </div>
-        </Card>
+        </section>
 
         <Card title="Danger zone">
           <p class="danger-copy">
@@ -120,8 +122,21 @@
   .settings {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-lg);
+    gap: var(--space-2xl);
     max-width: var(--layout-form-width);
+  }
+
+  .settings-section {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .settings-section h2 {
+    margin: 0;
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-subheading);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-subheading);
   }
 
   .form-grid {

@@ -11,21 +11,16 @@
   });
 </script>
 
-<Story name="Minimal" asChild>
-  <Footer brand="Stellar" note="© 2026 Stellar" />
-</Story>
+<Story name="Minimal" args={{ brand: 'Stellar', note: '© 2026 Stellar' }} />
 
-<Story name="Utility links" asChild>
-  <Footer
-    brand="Stellar"
-    links={[
-      { label: 'Docs' },
-      { label: 'Status' },
-      { label: 'Privacy' }
-    ]}
-    note="© 2026 Stellar"
-  />
-</Story>
+<Story
+  name="Utility links"
+  args={{
+    brand: 'Stellar',
+    links: [{ label: 'Docs' }, { label: 'Status' }, { label: 'Privacy' }],
+    note: '© 2026 Stellar'
+  }}
+/>
 
 <Story name="Complete page" asChild>
   <div class="page">

@@ -4,12 +4,28 @@ import { describe, expect, it } from 'vitest';
 
 const readStory = (path: string) => readFile(new URL(path, import.meta.url), 'utf8');
 const readPreview = () => readFile(resolve(process.cwd(), '.storybook/preview.ts'), 'utf8');
+const readMain = () => readFile(resolve(process.cwd(), '.storybook/main.ts'), 'utf8');
 
 describe('Storybook stories', () => {
   it('discovers the foundations story title', async () => {
     const story = await readStory('../src/stories/Foundations.stories.svelte');
 
     expect(story).toContain("title: 'Foundations'");
+  });
+
+  it('test_story_controls: svelte docgen stays enabled so component props become controls', async () => {
+    const main = await readMain();
+
+    expect(main).toContain('docgen: true');
+    expect(main).not.toContain('docgen: false');
+  });
+
+  it('test_story_controls: composed views disable the controls panel instead of showing an empty one', async () => {
+    for (const file of ['Dashboard', 'Landing', 'Settings', 'Foundations']) {
+      const story = await readStory(`../src/stories/${file}.stories.svelte`);
+
+      expect(story).toContain('controls: { disable: true }');
+    }
   });
 
   it('keeps each primitive in its own story file', async () => {
@@ -50,7 +66,7 @@ describe('Storybook stories', () => {
     const stories: Record<string, string[]> = {
       AppShell: ['Top navigation', 'Sidebar navigation', 'Combined navigation', 'Narrow screen'],
       Sidebar: ['Flat', 'Grouped', 'Nested', 'Selected', 'Focus', 'Navigation surface'],
-      Table: ['Default', 'Bordered'],
+      Table: ['Default', 'Bordered', 'Dense', 'Narrow screen'],
       Navbar: ['Basic', 'Account utilities', 'Narrow screen', 'Long labels'],
       PageHeader: [
         'Title only',

@@ -109,6 +109,6 @@ describe('layout example surfaces', () => {
     expect(stories.Dashboard).not.toContain('<Card');
     expect(stories.Footer).not.toContain('<Card');
     expect(stories.Hero.match(/<Card\b/g) ?? []).toHaveLength(1);
-    expect(stories.Settings.match(/<Card title="[^"]+">/g) ?? []).toHaveLength(3);
+    expect(stories.Settings.match(/<Card title="[^"]+">/g) ?? []).toHaveLength(1);
   });
 });

@@ -80,26 +80,29 @@
       description="Every project in the workspace, with its owner and latest status."
       actions={projectsActions}
     />
-    <Table {columns} caption="All projects">
-      <tr>
-        <td>Orbit</td>
-        <td>Mara Chen</td>
-        <td>2 minutes ago</td>
-        <td><Badge tone="success">Healthy</Badge></td>
-      </tr>
-      <tr>
-        <td>Atlas</td>
-        <td>Devon Ruiz</td>
-        <td>18 minutes ago</td>
-        <td><Badge tone="progress">In progress</Badge></td>
-      </tr>
-      <tr>
-        <td>Beacon</td>
-        <td>—</td>
-        <td>Yesterday</td>
-        <td><Badge tone="warning">Needs review</Badge></td>
-      </tr>
-    </Table>
+    <section class="projects" aria-labelledby="projects-heading">
+      <h2 id="projects-heading">All projects</h2>
+      <Table {columns}>
+        <tr>
+          <td>Orbit</td>
+          <td>Mara Chen</td>
+          <td>2 minutes ago</td>
+          <td><Badge tone="success">Healthy</Badge></td>
+        </tr>
+        <tr>
+          <td>Atlas</td>
+          <td>Devon Ruiz</td>
+          <td>18 minutes ago</td>
+          <td><Badge tone="progress">In progress</Badge></td>
+        </tr>
+        <tr>
+          <td>Beacon</td>
+          <td>—</td>
+          <td>Yesterday</td>
+          <td><Badge tone="warning">Needs review</Badge></td>
+        </tr>
+      </Table>
+    </section>
   </div>
 </Story>
 
@@ -112,9 +115,22 @@
   }
 
   .story :global(.page-header),
-  .story :global(.table-wrap) {
+  .story :global(.table-wrap),
+  .story .projects {
     width: 100%;
     max-width: var(--layout-content-width);
     margin-inline: auto;
+  }
+
+  .projects {
+    display: grid;
+    gap: var(--space-sm);
+  }
+
+  .projects h2 {
+    margin: 0;
+    font-size: var(--font-size-subheading);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-subheading);
   }
 </style>

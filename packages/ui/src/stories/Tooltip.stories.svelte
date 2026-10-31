@@ -13,21 +13,17 @@
 
 <Story
   name="Default"
-  asChild
->
-  <Tooltip
-    content="Copy the project identifier to the clipboard."
-    triggerLabel="Copy project ID"
-  />
-</Story>
+  args={{
+    content: 'Copy the project identifier to the clipboard.',
+    triggerLabel: 'Copy project ID'
+  }}
+/>
 
 <Story
   name="Bottom"
-  asChild
->
-  <Tooltip
-    content="Archived projects are hidden from search."
-    triggerLabel="Archived projects"
-    side="bottom"
-  />
-</Story>
+  args={{
+    content: 'Archived projects are hidden from search.',
+    triggerLabel: 'Archived projects',
+    side: 'bottom'
+  }}
+/>

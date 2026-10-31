@@ -98,6 +98,17 @@ describe('PageHeader', () => {
     expect(actions).toContain('variant="secondary"');
   });
 
+  it('titles the Projects table in a surrounding section', async () => {
+    const stories = await readSource('../src/stories/PageHeader.stories.svelte');
+    const projects = storyBlock(stories, 'Projects page');
+
+    expect(projects).toContain('<section class="projects" aria-labelledby="projects-heading">');
+    expect(projects).toContain('<h2 id="projects-heading">All projects</h2>');
+    expect(projects).not.toMatch(/<Table[^>]*\bcaption=/);
+    expect(stories).toContain('.projects h2');
+    expect(stories).toContain('font-size: var(--font-size-subheading)');
+  });
+
   it('keeps detail-page breadcrumbs contextual rather than repeating the title', async () => {
     const stories = await readSource('../src/stories/PageHeader.stories.svelte');
     const detail = storyBlock(stories, 'Breadcrumbs and actions');

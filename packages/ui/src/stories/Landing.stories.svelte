@@ -6,7 +6,7 @@
   const { Story } = defineMeta({
     title: 'Views/Landing',
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: { layout: 'fullscreen', controls: { disable: true } }
   });
 </script>
 

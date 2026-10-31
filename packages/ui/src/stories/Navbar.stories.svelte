@@ -47,18 +47,18 @@
   <Link variant="ghost" href="/account">Account</Link>
 {/snippet}
 
-<Story name="Basic" asChild>
-  <Navbar links={primaryLinks} />
-</Story>
+<Story name="Basic" args={{ links: primaryLinks }} />
 
-<Story name="Account utilities" asChild>
-  <Navbar links={accountLinks} actions={accountUtilities} />
-</Story>
+<Story name="Account utilities" args={{ links: accountLinks, actions: accountUtilities }} />
 
-<Story name="Narrow screen" globals={{ viewport: { value: 'narrow320' } }} asChild>
-  <Navbar links={accountLinks} actions={narrowUtilities} />
-</Story>
+<Story
+  name="Narrow screen"
+  globals={{ viewport: { value: 'narrow320' } }}
+  args={{ links: accountLinks, actions: narrowUtilities }}
+/>
 
-<Story name="Long labels" globals={{ viewport: { value: 'tablet768' } }} asChild>
-  <Navbar links={longLinks} actions={narrowUtilities} />
-</Story>
+<Story
+  name="Long labels"
+  globals={{ viewport: { value: 'tablet768' } }}
+  args={{ links: longLinks, actions: narrowUtilities }}
+/>

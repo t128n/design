@@ -233,13 +233,13 @@ describe('Navbar', () => {
     const story = await readSource('../src/stories/Navbar.stories.svelte');
     const narrow = story.match(/\{#snippet narrowUtilities\(\)\}([\s\S]*?)\{\/snippet\}/)?.[1] ?? '';
     const block = (name: string) =>
-      story.match(new RegExp(`<Story name="${name}"[\\s\\S]*?</Story>`))?.[0] ?? '';
+      story.match(new RegExp(`<Story\\s+name="${name}"[\\s\\S]*?/>`))?.[0] ?? '';
 
     expect(narrow).toContain('href="/help"');
     expect(narrow).toContain('href="/account"');
     expect(narrow).not.toContain('Sign out');
-    expect(block('Narrow screen')).toContain('actions={narrowUtilities}');
-    expect(block('Long labels')).toContain('actions={narrowUtilities}');
-    expect(block('Account utilities')).toContain('actions={accountUtilities}');
+    expect(block('Narrow screen')).toContain('actions: narrowUtilities');
+    expect(block('Long labels')).toContain('actions: narrowUtilities');
+    expect(block('Account utilities')).toContain('actions: accountUtilities');
   });
 });

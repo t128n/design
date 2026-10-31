@@ -221,8 +221,19 @@ A structural border belongs to exactly one region.
 - **Sidebar** sits on the white **workspace** by default and stays quieter than the content it serves. Use the **navigation surface** only when an explicitly requested navigation variant calls for it. Selected rows use the neutral **navigation selected** surface with primary text; inactive items stay quiet. No blue bars; reserve blue for focus only. Use spacing before dividers rather than adding lines everywhere.
 - **Navbar** shares the **workspace** and owns its bottom border so it reads as part of the page. Prefer ghost and link-level utilities; borders only where they carry meaning.
 - **PageHeader** carries breadcrumbs, title, description, and page actions on the workspace itself: no background, no card. **Hero** is for landing or empty-state moments, not for ordinary application pages.
+- **Settings** pages group ordinary preferences under section headings and whitespace, not cards. Reserve a bordered or tinted surface for exceptional regions: danger zones, audit and history panels, or genuinely independent sub-surfaces.
 - **Badge** and **Alert** encode status as text plus one role. **Table** keeps rows aligned and scrolls horizontally rather than turning into cards. Tables are borderless in white workspaces when row separators are enough; add `bordered` only when the table needs a structural container.
 - Composed pages live under **Views** in Storybook. They are examples of the pieces working together, not extra primitives.
+
+### Sections and tables
+
+A section owns its heading, description, optional actions, and the spacing that groups them. The table owns column headers, rows, and cells. A table never renders a section title or heading; use the surrounding section heading as the visual title and connect it with `aria-labelledby`, or keep a semantic `<caption>` for the table itself.
+
+- Use the **subheading** scale (18px / 600) for section titles. Column headers are subordinate: use the existing 14px **label** scale in secondary text.
+- Place the table directly on the white workspace. It is borderless by default, with subtle horizontal row separators and no vertical grid lines.
+- Keep the gap between a section title and the column headers compact (8px). Use consistent, restrained cell padding, and align the first and last cells with the section edges.
+- Do not wrap an ordinary data table in a full-width bordered card. Use `bordered` only when the table is a genuinely independent surface, and use `Card` only for that same reason.
+- Keep status badges inside cells unchanged; they already carry role through text plus one tone.
 
 ### Iconography — concrete choice
 

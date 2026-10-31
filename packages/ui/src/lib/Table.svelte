@@ -7,15 +7,32 @@
     numeric?: boolean;
   };
 
+  type Props = {
+    columns: Column[];
+    caption?: string;
+    bordered?: boolean;
+    density?: 'standard' | 'dense';
+    children?: Snippet;
+  };
+
   let {
     columns,
     caption,
     bordered = false,
+    density = 'standard',
     children
-  }: { columns: Column[]; caption?: string; bordered?: boolean; children?: Snippet } = $props();
+  }: Props = $props();
 </script>
 
-<div class="table-wrap" class:bordered>
+<!-- svelte-ignore a11y_no_noninteractive_tabindex (scrollable regions must be keyboard-focusable) -->
+<div
+  class="table-wrap"
+  class:bordered
+  class:dense={density === 'dense'}
+  role="region"
+  aria-label={caption ?? 'Table'}
+  tabindex="0"
+>
   <table class="table">
     {#if caption}
       <caption>{caption}</caption>
@@ -45,6 +62,11 @@
     overflow-x: auto;
   }
 
+  .table-wrap:focus-visible {
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
+  }
+
   .table-wrap.bordered {
     border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
@@ -61,7 +83,7 @@
   }
 
   caption {
-    padding: var(--space-md) var(--space-md) 0;
+    padding: var(--space-sm) 0 0;
     color: var(--color-text-secondary);
     font-size: var(--font-size-body-sm);
     text-align: left;
@@ -74,7 +96,7 @@
     white-space: nowrap;
   }
 
-  th {
+  .table th {
     color: var(--color-text-secondary);
     font-size: var(--font-size-label);
     font-weight: var(--font-weight-medium);
@@ -84,6 +106,35 @@
 
   .table th.right {
     text-align: right;
+  }
+
+  .table th:first-child,
+  .table :global(td:first-child) {
+    padding-left: 0;
+  }
+
+  .table th:last-child,
+  .table :global(td:last-child) {
+    padding-right: 0;
+  }
+
+  .table-wrap.dense .table th,
+  .table-wrap.dense .table :global(td) {
+    padding-block: var(--space-xs);
+  }
+
+  .table-wrap.bordered caption {
+    padding: var(--space-md) var(--space-md) 0;
+  }
+
+  .table-wrap.bordered .table th:first-child,
+  .table-wrap.bordered .table :global(td:first-child) {
+    padding-left: var(--space-md);
+  }
+
+  .table-wrap.bordered .table th:last-child,
+  .table-wrap.bordered .table :global(td:last-child) {
+    padding-right: var(--space-md);
   }
 
   .table :global(tbody tr:last-child td) {

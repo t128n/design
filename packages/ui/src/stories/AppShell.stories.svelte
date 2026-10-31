@@ -77,32 +77,35 @@
 {/snippet}
 
 {#snippet projectTable()}
-  <Table columns={projectColumns} caption="Active projects">
-    <tr>
-      <td>Orbit</td>
-      <td>Mara Chen</td>
-      <td class="u-right">2 minutes ago</td>
-      <td><Badge tone="success">Healthy</Badge></td>
-    </tr>
-    <tr>
-      <td>Atlas</td>
-      <td>Devon Ruiz</td>
-      <td class="u-right">18 minutes ago</td>
-      <td><Badge tone="progress">In progress</Badge></td>
-    </tr>
-    <tr>
-      <td>Beacon</td>
-      <td>—</td>
-      <td class="u-right">Yesterday</td>
-      <td><Badge tone="warning">Needs owner</Badge></td>
-    </tr>
-    <tr>
-      <td>Cinder</td>
-      <td>Priya Shah</td>
-      <td class="u-right">2 days ago</td>
-      <td><Badge tone="disabled">Archived</Badge></td>
-    </tr>
-  </Table>
+  <section class="projects" aria-labelledby="projects-heading">
+    <h2 id="projects-heading">Active projects</h2>
+    <Table columns={projectColumns}>
+      <tr>
+        <td>Orbit</td>
+        <td>Mara Chen</td>
+        <td class="u-right">2 minutes ago</td>
+        <td><Badge tone="success">Healthy</Badge></td>
+      </tr>
+      <tr>
+        <td>Atlas</td>
+        <td>Devon Ruiz</td>
+        <td class="u-right">18 minutes ago</td>
+        <td><Badge tone="progress">In progress</Badge></td>
+      </tr>
+      <tr>
+        <td>Beacon</td>
+        <td>—</td>
+        <td class="u-right">Yesterday</td>
+        <td><Badge tone="warning">Needs owner</Badge></td>
+      </tr>
+      <tr>
+        <td>Cinder</td>
+        <td>Priya Shah</td>
+        <td class="u-right">2 days ago</td>
+        <td><Badge tone="disabled">Archived</Badge></td>
+      </tr>
+    </Table>
+  </section>
 {/snippet}
 
 {#snippet topNavbar()}
@@ -172,11 +175,13 @@
 </Story>
 
 <style>
+  .projects,
   .activity {
     display: grid;
     gap: var(--space-sm);
   }
 
+  .projects h2,
   .activity h2 {
     margin: 0;
     font-size: var(--font-size-subheading);

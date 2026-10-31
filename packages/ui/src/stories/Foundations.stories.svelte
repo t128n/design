@@ -4,7 +4,8 @@
 
   const { Story } = defineMeta({
     title: 'Foundations',
-    tags: ['autodocs']
+    tags: ['autodocs'],
+    parameters: { controls: { disable: true } }
   });
 
   const colors = [

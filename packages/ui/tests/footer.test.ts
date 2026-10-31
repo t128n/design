@@ -11,8 +11,12 @@ const block = (source: string, selector: string) => {
 const story = (source: string, name: string) => {
   const start = source.indexOf(`name="${name}"`);
   if (start === -1) return '';
-  const end = source.indexOf('</Story>', start);
-  return source.slice(start, end === -1 ? undefined : end);
+  const storyStart = source.lastIndexOf('<Story', start);
+  const tagEnd = source.indexOf('>', start);
+  if (tagEnd === -1) return '';
+  if (source[tagEnd - 1] === '/') return source.slice(storyStart, tagEnd + 1);
+  const closing = source.indexOf('</Story>', tagEnd);
+  return source.slice(storyStart, closing === -1 ? undefined : closing + '</Story>'.length);
 };
 
 describe('Footer', () => {
@@ -73,10 +77,10 @@ describe('Footer', () => {
     const complete = story(stories, 'Complete page');
     const stacked = story(stories, 'Stacked');
 
-    expect(minimal).toContain('<Footer');
-    expect(minimal).not.toContain('links=');
+    expect(minimal).toContain('args={{');
+    expect(minimal).not.toContain('links:');
 
-    expect(utility).toContain('links={[');
+    expect(utility).toContain('links: [');
     expect(utility).toContain("label: 'Docs'");
 
     expect(complete).toContain('<Navbar');

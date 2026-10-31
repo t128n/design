@@ -41,6 +41,18 @@ describe('composed workspace views', () => {
     );
   });
 
+  it('composes the Dashboard table under a section heading with an action', async () => {
+    const dashboard = await readStory('../src/stories/Dashboard.stories.svelte');
+    const section = blockFor(dashboard, '.recent');
+
+    expect(section).toContain('display: grid');
+    expect(section).toContain('gap: var(--space-sm)');
+    expect(dashboard).toContain('aria-labelledby="recent-heading"');
+    expect(dashboard).toContain('<h2 id="recent-heading">Recent projects</h2>');
+    expect(dashboard).toContain('<Button variant="secondary">View all</Button>');
+    expect(dashboard).not.toMatch(/<Table[^>]*\bcaption=/);
+  });
+
   it('renders Settings on a white workspace with sidebar navigation alone', async () => {
     const settings = await readStory('../src/stories/Settings.stories.svelte');
 
@@ -54,15 +66,14 @@ describe('composed workspace views', () => {
     expect(settings).toContain('<Dialog');
   });
 
-  it('keeps Cards only around independent Settings groups', async () => {
+  it('groups ordinary Settings sections with headings and keeps a Card only for the Danger zone', async () => {
     const settings = await readStory('../src/stories/Settings.stories.svelte');
     const cards = settings.match(/<Card title="[^"]+">/g) ?? [];
 
-    expect(cards).toEqual([
-      '<Card title="Workspace">',
-      '<Card title="Review rules">',
-      '<Card title="Danger zone">'
-    ]);
+    expect(cards).toEqual(['<Card title="Danger zone">']);
+    expect(settings.match(/<section class="settings-section"/g) ?? []).toHaveLength(2);
+    expect(settings).toContain('<h2 id="settings-workspace">Workspace</h2>');
+    expect(settings).toContain('<h2 id="settings-review">Review rules</h2>');
     expect(settings).toContain('title="Settings"');
     expect(settings).toContain("{ label: 'Settings', active: true }");
     expect(settings).not.toContain("{ label: 'Preferences', active: true }");
@@ -181,6 +192,15 @@ describe('composed workspace views', () => {
     expect(appShell).not.toContain('surface="workspace"');
     expect(appShell).toContain("viewport: { value: 'narrow375' }");
     expect(appShell).not.toContain('narrow-frame');
+  });
+
+  it('keeps the AppShell projects table inside a titled section', async () => {
+    const appShell = await readStory('../src/stories/AppShell.stories.svelte');
+
+    expect(appShell).toContain('<section class="projects" aria-labelledby="projects-heading">');
+    expect(appShell).toContain('<h2 id="projects-heading">Active projects</h2>');
+    expect(appShell).toContain('<Table');
+    expect(appShell).not.toMatch(/<Table[^>]*\bcaption=/);
   });
 
   it('fills the workspace for PageHeader stories', async () => {
