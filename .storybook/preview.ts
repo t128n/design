@@ -1,9 +1,13 @@
 import type { Preview } from '@storybook/svelte-vite';
+import { docsTheme } from './theme';
 
 const preview: Preview = {
   parameters: {
     a11y: {
       test: 'error'
+    },
+    docs: {
+      theme: docsTheme
     },
     controls: {
       expanded: true
