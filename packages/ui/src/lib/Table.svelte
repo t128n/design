@@ -10,11 +10,12 @@
   let {
     columns,
     caption,
+    bordered = false,
     children
-  }: { columns: Column[]; caption?: string; children?: Snippet } = $props();
+  }: { columns: Column[]; caption?: string; bordered?: boolean; children?: Snippet } = $props();
 </script>
 
-<div class="table-wrap">
+<div class="table-wrap" class:bordered>
   <table class="table">
     {#if caption}
       <caption>{caption}</caption>
@@ -42,7 +43,10 @@
   .table-wrap {
     width: 100%;
     overflow-x: auto;
-    border: 1px solid var(--color-border);
+  }
+
+  .table-wrap.bordered {
+    border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-surface);
   }
@@ -66,7 +70,7 @@
   .table th,
   .table :global(td) {
     padding: var(--space-sm) var(--space-md);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: var(--border-width) solid var(--color-border);
     white-space: nowrap;
   }
 

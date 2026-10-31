@@ -43,8 +43,41 @@
   </div>
 </Story>
 
+<Story name="Bordered" asChild>
+  <div class="table-story">
+    <Table {columns} caption="Active projects">
+      <tr>
+        <td>Orbit</td>
+        <td>Mara Chen</td>
+        <td>2 minutes ago</td>
+        <td><Badge tone="success">Healthy</Badge></td>
+      </tr>
+      <tr>
+        <td>Atlas</td>
+        <td>Devon Ruiz</td>
+        <td>18 minutes ago</td>
+        <td><Badge tone="progress">In progress</Badge></td>
+      </tr>
+      <tr>
+        <td>Beacon</td>
+        <td>Priya Nair</td>
+        <td>Yesterday</td>
+        <td><Badge tone="warning">Needs review</Badge></td>
+      </tr>
+      <tr>
+        <td>Comet</td>
+        <td>—</td>
+        <td>3 days ago</td>
+        <td><Badge tone="neutral">Paused</Badge></td>
+      </tr>
+    </Table>
+  </div>
+</Story>
+
 <style>
   .table-story {
     width: min(40rem, calc(100vw - 2rem));
+    padding: var(--space-lg);
+    background: var(--color-workspace);
   }
 </style>
