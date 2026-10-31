@@ -1,0 +1,261 @@
+<script lang="ts">
+  import { Combobox } from 'bits-ui';
+  import CheckIcon from '~icons/carbon/checkmark';
+  import ChevronDownIcon from '~icons/carbon/chevron-down';
+
+  type Item = {
+    value: string;
+    label: string;
+    disabled?: boolean;
+  };
+
+  type Props = {
+    items: Item[];
+    value?: string;
+    onValueChange?: (value: string) => void;
+    inputValue?: string;
+    label: string;
+    placeholder?: string;
+    error?: string;
+    disabled?: boolean;
+    required?: boolean;
+    name?: string;
+  };
+
+  let {
+    items,
+    value = $bindable<string | undefined>(undefined),
+    onValueChange,
+    inputValue = $bindable<string>(''),
+    label,
+    placeholder = 'Search...',
+    error,
+    disabled = false,
+    required = false,
+    name
+  }: Props = $props();
+
+  const baseId = $props.id();
+  const labelId = `${baseId}-label`;
+  const errorId = `${baseId}-error`;
+
+  const filteredItems = $derived(
+    items.filter((item) => item.label.toLowerCase().includes(inputValue.trim().toLowerCase()))
+  );
+</script>
+
+<div class="combobox-field">
+  <span id={labelId} class="label">{label}</span>
+  <Combobox.Root
+    type="single"
+    bind:value
+    {items}
+    {disabled}
+    {required}
+    {name}
+    {onValueChange}
+  >
+    <div class="combobox-input-group" class:invalid={Boolean(error)}>
+      <Combobox.Input
+        class="combobox-input"
+        {placeholder}
+        oninput={(event) => {
+          inputValue = event.currentTarget.value;
+        }}
+        aria-labelledby={labelId}
+        aria-invalid={error ? 'true' : undefined}
+        aria-describedby={error ? errorId : undefined}
+      />
+      <Combobox.Trigger class="combobox-trigger" aria-label="Open">
+        <ChevronDownIcon class="chevron" />
+      </Combobox.Trigger>
+    </div>
+    <Combobox.Portal>
+      <Combobox.Content class="combobox-content" sideOffset={4}>
+        <div class="panel">
+          <Combobox.Viewport class="viewport">
+            {#each filteredItems as item}
+              <Combobox.Item
+                value={item.value}
+                label={item.label}
+                disabled={item.disabled}
+                class="combobox-item"
+              >
+                {#snippet children({ selected })}
+                  <span class="check" aria-hidden="true">
+                    {#if selected}<CheckIcon class="check-icon" />{/if}
+                  </span>
+                  <span>{item.label}</span>
+                {/snippet}
+              </Combobox.Item>
+            {/each}
+            {#if filteredItems.length === 0}
+              <div class="empty">No results</div>
+            {/if}
+          </Combobox.Viewport>
+        </div>
+      </Combobox.Content>
+    </Combobox.Portal>
+  </Combobox.Root>
+  {#if error}
+    <span id={errorId} class="error" role="alert">{error}</span>
+  {/if}
+</div>
+
+<style>
+  .combobox-field {
+    display: grid;
+    min-width: 14rem;
+    max-width: 100%;
+    gap: var(--space-xs);
+    color: var(--color-text-primary);
+    font-family: var(--font-family-sans);
+  }
+
+  .label {
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-label);
+  }
+
+  .combobox-input-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: var(--control-height);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    overflow: hidden;
+  }
+
+  .combobox-field :global(.combobox-input) {
+    flex: 1 1 auto;
+    height: var(--control-height);
+    padding: 0 var(--space-md);
+    border: 0;
+    background: transparent;
+    color: var(--color-text-primary);
+    font: inherit;
+    line-height: var(--line-height-body);
+  }
+
+  .combobox-field :global(.combobox-input)::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .combobox-field :global(.combobox-input):focus-visible {
+    outline: none;
+  }
+
+  .combobox-input-group:focus-within {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .combobox-input-group.invalid {
+    border-color: var(--color-danger);
+  }
+
+  .combobox-input-group.invalid:focus-within {
+    outline-color: var(--color-danger);
+  }
+
+  .combobox-field :global(.combobox-trigger) {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+  }
+
+  .combobox-field :global(.combobox-trigger):focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: -2px;
+    border-radius: var(--radius-sm);
+  }
+
+  .combobox-field :global(.chevron) {
+    width: 16px;
+    height: 16px;
+  }
+
+  :global(.combobox-content) {
+    z-index: 50;
+  }
+
+  .panel {
+    width: max-content;
+    min-width: 14rem;
+    max-width: min(28rem, calc(100vw - 2rem));
+    padding: var(--space-xs);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-overlay);
+  }
+
+  .panel :global(.viewport) {
+    max-height: 18rem;
+    overflow-y: auto;
+  }
+
+  .panel :global(.combobox-item) {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    min-height: 32px;
+    padding: 0 var(--space-sm);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-label);
+    line-height: var(--line-height-label);
+    cursor: pointer;
+    outline: none;
+  }
+
+  .panel :global(.combobox-item[data-highlighted]) {
+    background: var(--color-surface-subtle);
+  }
+
+  .panel :global(.combobox-item[data-disabled]) {
+    color: var(--color-disabled-text);
+    cursor: not-allowed;
+  }
+
+  .check {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 16px;
+    height: 16px;
+    color: var(--color-accent);
+  }
+
+  .check :global(.check-icon) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .panel :global(.empty) {
+    padding: var(--space-xs) var(--space-sm);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-body-sm);
+  }
+
+  .error {
+    color: var(--color-danger);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .combobox-field :global(*) {
+      transition: none;
+      animation: none;
+    }
+  }
+</style>

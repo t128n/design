@@ -3,7 +3,7 @@
   import type { HTMLButtonAttributes } from 'svelte/elements';
 
   type Props = HTMLButtonAttributes & {
-    variant?: 'primary' | 'secondary' | 'ghost' | 'link';
+    variant?: 'primary' | 'secondary' | 'ghost' | 'link' | 'danger';
     disabled?: boolean;
     loading?: boolean;
     children?: Snippet;
@@ -23,6 +23,7 @@
   class:secondary={variant === 'secondary'}
   class:ghost={variant === 'ghost'}
   class:link={variant === 'link'}
+  class:danger={variant === 'danger'}
   class="button"
   disabled={disabled || loading}
   aria-busy={loading ? 'true' : undefined}
@@ -61,6 +62,16 @@
 
   .button:hover:not(:disabled) {
     background: var(--color-focus);
+  }
+
+  .button.danger {
+    border-color: var(--color-danger);
+    background: var(--color-danger);
+    color: var(--color-on-accent);
+  }
+
+  .button.danger:hover:not(:disabled) {
+    filter: brightness(0.9);
   }
 
   .button.secondary {

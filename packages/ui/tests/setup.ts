@@ -43,7 +43,7 @@ if (typeof window !== 'undefined' && !window.matchMedia) {
 
 if (typeof window !== 'undefined' && !window.requestAnimationFrame) {
   window.requestAnimationFrame = (callback: FrameRequestCallback) =>
-    setTimeout(() => callback(performance.now()), 0);
+    setTimeout(() => callback(performance.now()), 0) as unknown as number;
   window.cancelAnimationFrame = (handle: number) => clearTimeout(handle);
 }
 

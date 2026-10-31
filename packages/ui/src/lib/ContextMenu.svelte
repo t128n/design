@@ -1,0 +1,181 @@
+<script lang="ts">
+  import { ContextMenu } from 'bits-ui';
+  import type { Snippet } from 'svelte';
+  import CheckIcon from '~icons/carbon/checkmark';
+
+  type Item = {
+    type?: 'item' | 'checkbox';
+    value?: string;
+    label: string;
+    disabled?: boolean;
+    shortcut?: string;
+    checked?: boolean;
+    onSelect?: () => void;
+  };
+
+  type Group = {
+    label?: string;
+    items: Item[];
+  };
+
+  type Props = {
+    items?: Item[];
+    groups?: Group[];
+    children: Snippet;
+    align?: 'start' | 'center' | 'end';
+    side?: 'top' | 'right' | 'bottom' | 'left';
+    sideOffset?: number;
+    alignOffset?: number;
+  };
+
+  let {
+    items = [],
+    groups = [],
+    children,
+    align = 'start',
+    side = 'right',
+    sideOffset = 2,
+    alignOffset = -5
+  }: Props = $props();
+
+  const allGroups: Group[] = $derived(groups.length > 0 ? groups : items.length > 0 ? [{ items }] : []);
+</script>
+
+<ContextMenu.Root>
+  <ContextMenu.Trigger>
+    {#snippet child({ props })}
+      <div {...props}>
+        {@render children()}
+      </div>
+    {/snippet}
+  </ContextMenu.Trigger>
+  <ContextMenu.Portal>
+    <ContextMenu.Content class="context-content" {side} {align} {sideOffset} {alignOffset}>
+      <div class="context-panel">
+        {#each allGroups as group, groupIndex}
+          <ContextMenu.Group>
+            {#if group.label}
+              <ContextMenu.GroupHeading class="context-group-heading">
+                {group.label}
+              </ContextMenu.GroupHeading>
+            {/if}
+            {#each group.items as item}
+              {#if item.type === 'checkbox'}
+                <ContextMenu.CheckboxItem
+                  class="context-item"
+                  checked={item.checked}
+                  disabled={item.disabled}
+                  onSelect={item.onSelect}
+                >
+                  {#snippet children({ checked: isChecked })}
+                    <span class="indicator">
+                      {#if isChecked}<CheckIcon class="indicator-icon" />{/if}
+                    </span>
+                    <span class="label">{item.label}</span>
+                    {#if item.shortcut}<span class="shortcut">{item.shortcut}</span>{/if}
+                  {/snippet}
+                </ContextMenu.CheckboxItem>
+              {:else}
+                <ContextMenu.Item class="context-item" disabled={item.disabled} onSelect={item.onSelect}>
+                  <span class="label">{item.label}</span>
+                  {#if item.shortcut}<span class="shortcut">{item.shortcut}</span>{/if}
+                </ContextMenu.Item>
+              {/if}
+            {/each}
+          </ContextMenu.Group>
+          {#if groupIndex < allGroups.length - 1}
+            <ContextMenu.Separator class="context-separator" />
+          {/if}
+        {/each}
+      </div>
+    </ContextMenu.Content>
+  </ContextMenu.Portal>
+</ContextMenu.Root>
+
+<style>
+  :global(.context-content) {
+    z-index: 50;
+    outline: none;
+  }
+
+  .context-panel {
+    min-width: 14rem;
+    max-width: min(22rem, calc(100vw - 2rem));
+    padding: var(--space-xs);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-overlay);
+    color: var(--color-text-primary);
+    font-family: var(--font-family-sans);
+  }
+
+  .context-panel :global(.context-group-heading) {
+    padding: var(--space-xs) var(--space-sm);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-caption);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-caption);
+  }
+
+  .context-panel :global(.context-item) {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    min-height: 32px;
+    padding: 0 var(--space-sm);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-label);
+    line-height: var(--line-height-label);
+    cursor: pointer;
+    outline: none;
+  }
+
+  .context-panel :global(.context-item[data-highlighted]) {
+    background: var(--color-surface-subtle);
+  }
+
+  .context-panel :global(.context-item[data-disabled]) {
+    color: var(--color-disabled-text);
+    cursor: not-allowed;
+  }
+
+  .context-panel :global(.context-item:focus-visible) {
+    outline: 2px solid var(--color-focus);
+    outline-offset: -2px;
+  }
+
+  .indicator {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 16px;
+    height: 16px;
+  }
+
+  .indicator :global(.indicator-icon) {
+    width: 14px;
+    height: 14px;
+    color: var(--color-accent);
+  }
+
+  .label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .shortcut {
+    margin-left: auto;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-caption);
+  }
+
+  .context-panel :global(.context-separator) {
+    height: 1px;
+    margin: var(--space-xs) var(--space-sm);
+    background: var(--color-border);
+  }
+</style>

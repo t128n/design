@@ -77,12 +77,19 @@
 
   .tabs :global(.tabs-trigger:focus-visible) {
     outline: 2px solid var(--color-focus);
-    outline-offset: -2px;
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
   }
 
   .tabs :global(.tabs-trigger:disabled) {
     color: var(--color-disabled-text);
     cursor: not-allowed;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tabs :global(.tabs-trigger) {
+      transition: none;
+    }
   }
 
   .tabs :global(.tabs-content) {

@@ -79,13 +79,13 @@ afterEach(() => {
   if (originalClientWidth) {
     Object.defineProperty(HTMLElement.prototype, 'clientWidth', originalClientWidth);
   } else {
-    delete (HTMLElement.prototype as Partial<HTMLElement>).clientWidth;
+    delete (HTMLElement.prototype as unknown as Record<string, unknown>).clientWidth;
   }
 
   if (originalScrollWidth) {
     Object.defineProperty(Element.prototype, 'scrollWidth', originalScrollWidth);
   } else {
-    delete (Element.prototype as Partial<Element>).scrollWidth;
+    delete (Element.prototype as unknown as Record<string, unknown>).scrollWidth;
   }
 
   Element.prototype.getBoundingClientRect = originalRect;

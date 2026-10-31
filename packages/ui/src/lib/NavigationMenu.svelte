@@ -1,0 +1,148 @@
+<script lang="ts">
+  import { NavigationMenu } from 'bits-ui';
+  import type { Snippet } from 'svelte';
+
+  type LinkItem = {
+    href: string;
+    label: string;
+    active?: boolean;
+  };
+
+  type MenuItem = {
+    trigger: string;
+    links: LinkItem[];
+    content?: Snippet;
+  };
+
+  type Props = {
+    items: MenuItem[];
+    ariaLabel?: string;
+  };
+
+  let { items, ariaLabel = 'Navigation' }: Props = $props();
+</script>
+
+<NavigationMenu.Root class="nav-root" aria-label={ariaLabel}>
+  <NavigationMenu.List class="nav-list">
+    {#each items as item}
+      <NavigationMenu.Item>
+        <NavigationMenu.Trigger class="nav-trigger">{item.trigger}</NavigationMenu.Trigger>
+        <NavigationMenu.Content class="nav-content">
+          <div class="nav-panel">
+            {#if item.content}
+              {@render item.content()}
+            {:else}
+              <ul class="nav-list-items">
+                {#each item.links as link}
+                  <li>
+                    <NavigationMenu.Link
+                      class="nav-link"
+                      href={link.href}
+                      aria-current={link.active ? 'page' : undefined}
+                    >
+                      {link.label}
+                    </NavigationMenu.Link>
+                  </li>
+                {/each}
+              </ul>
+            {/if}
+          </div>
+        </NavigationMenu.Content>
+      </NavigationMenu.Item>
+    {/each}
+  </NavigationMenu.List>
+  <NavigationMenu.Viewport class="nav-viewport" />
+</NavigationMenu.Root>
+
+<style>
+  :global(.nav-root) {
+    position: relative;
+  }
+
+  :global(.nav-root .nav-list) {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs);
+    list-style: none;
+    margin: 0;
+    font-family: var(--font-family-sans);
+  }
+
+  :global(.nav-root .nav-trigger) {
+    padding: var(--space-xs) var(--space-sm);
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-primary);
+    font: inherit;
+    font-size: var(--font-size-label);
+    line-height: var(--line-height-label);
+    cursor: pointer;
+  }
+
+  :global(.nav-root .nav-trigger:hover) {
+    background: var(--color-surface-subtle);
+  }
+
+  :global(.nav-root .nav-trigger[data-state='open']) {
+    background: var(--color-navigation-selected);
+  }
+
+  :global(.nav-root .nav-trigger:focus-visible) {
+    outline: 2px solid var(--color-focus);
+    outline-offset: -2px;
+  }
+
+  :global(.nav-root .nav-viewport) {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 50;
+    width: var(--bits-navigation-menu-viewport-width, auto);
+    height: var(--bits-navigation-menu-viewport-height, auto);
+    margin-top: var(--space-xs);
+    overflow: hidden;
+  }
+
+  .nav-panel {
+    min-width: 16rem;
+    padding: var(--space-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-overlay);
+    color: var(--color-text-primary);
+  }
+
+  .nav-list-items {
+    display: grid;
+    gap: var(--space-xs);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  :global(.nav-root .nav-link) {
+    display: block;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    font-size: var(--font-size-label);
+    line-height: var(--line-height-label);
+  }
+
+  :global(.nav-root .nav-link:hover) {
+    background: var(--color-surface-subtle);
+  }
+
+  :global(.nav-root .nav-link[aria-current='page']) {
+    background: var(--color-navigation-selected);
+  }
+
+  :global(.nav-root .nav-link:focus-visible) {
+    outline: 2px solid var(--color-focus);
+    outline-offset: -2px;
+  }
+</style>
