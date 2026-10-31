@@ -92,19 +92,19 @@
 </Story>
 
 <style>
-  .foundations { max-width: 960px; padding: var(--space-xl); color: var(--color-text-primary); background: var(--color-workspace); }
+  .foundations { max-width: 60rem; padding: var(--space-xl); color: var(--color-text-primary); background: var(--color-workspace); }
   section { margin-bottom: var(--space-2xl); }
   section > :global(h1),
   section > :global(h2) { margin-bottom: var(--space-md); }
   :global(h3) { margin-bottom: var(--space-sm); }
-  .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: var(--space-md); margin-top: var(--space-md); }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(8.125rem, 1fr)); gap: var(--space-md); margin-top: var(--space-md); }
   .swatch { display: grid; gap: var(--space-xs); }
-  .sample { height: 64px; border: 1px solid var(--color-border); border-radius: var(--radius-md); }
-  .layout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-xl); margin-top: var(--space-md); }
-  .space-row { display: flex; align-items: center; gap: var(--space-sm); height: 28px; }
+  .sample { height: 4rem; border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); }
+  .layout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16.25rem, 1fr)); gap: var(--space-xl); margin-top: var(--space-md); }
+  .space-row { display: flex; align-items: center; gap: var(--space-sm); height: 1.75rem; }
   .space-row span { height: var(--space-sm); background: var(--color-accent); border-radius: var(--radius-sm); }
   .radii { display: flex; gap: var(--space-sm); margin-bottom: var(--space-lg); }
-  .radii span, .control-height { display: grid; place-items: center; min-height: var(--control-height); padding: 0 var(--space-md); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); }
+  .radii span, .control-height { display: grid; place-items: center; min-height: var(--control-height); padding: 0 var(--space-md); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); }
   .radii .small-radius { border-radius: var(--radius-sm); }
   .radii .large-radius { border-radius: var(--radius-lg); }
 </style>

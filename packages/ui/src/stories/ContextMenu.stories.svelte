@@ -18,8 +18,16 @@
       { type: 'checkbox', label: 'Show hidden', checked: true }
     ]}
   >
-    <div style="padding: 2rem; border: 1px dashed var(--color-border); text-align: center;">
+    <div class="context-demo">
       Right click here
     </div>
   </ContextMenu>
 </Story>
+
+<style>
+  .context-demo {
+    padding: var(--space-2xl);
+    border: var(--border-width) dashed var(--color-border);
+    text-align: center;
+  }
+</style>

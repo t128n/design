@@ -63,7 +63,9 @@ describe('layout example surfaces', () => {
   it('test_hero_examples_white: Hero wrappers are white or inherit, never a tinted band', async () => {
     const hero = await readStory('../src/stories/Hero.stories.svelte');
 
-    for (const selector of ['.story', '.page', '.stacked']) {
+    // The Hero demo frame was renamed .canvas so it cannot be mistaken for
+    // the Page primitive; the surface assertion still covers it.
+    for (const selector of ['.story', '.canvas', '.stacked']) {
       const rule = block(hero, selector);
       const background = rule.match(/background:\s*([^;]+);/)?.[1];
 

@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { LinkPreview } from '../index.js';
+  import { LinkPreview, Stack, Text } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -14,10 +14,10 @@
 <Story name="Default" asChild>
   <LinkPreview href="https://example.com" label="Hover over me">
     {#snippet content()}
-      <div style="display: grid; gap: var(--space-xs);">
-        <strong style="font-size: var(--font-size-label);">Example</strong>
-        <span style="color: var(--color-text-secondary);">Preview content for the link.</span>
-      </div>
+      <Stack gap="xs">
+        <Text variant="label" as="strong" weight="medium">Example</Text>
+        <Text variant="body-sm" tone="secondary">Preview content for the link.</Text>
+      </Stack>
     {/snippet}
   </LinkPreview>
 </Story>

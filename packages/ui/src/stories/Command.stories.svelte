@@ -18,7 +18,7 @@
 </script>
 
 <Story name="Default" asChild>
-  <div style="width: 28rem;">
+  <div class="command-demo">
     <Command
       items={[
         { value: 'search', label: 'Search', group: 'Suggestions', icon: searchIcon },
@@ -30,7 +30,7 @@
 </Story>
 
 <Story name="With placeholder" asChild>
-  <div style="width: 28rem;">
+  <div class="command-demo">
     <Command placeholder="Type a command or search…" emptyLabel="Nothing found." items={[{ value: 'new', label: 'New file' }, { value: 'open', label: 'Open file' }]} />
   </div>
 </Story>
@@ -46,3 +46,9 @@
 {#snippet settingsIcon()}
   <SettingsIcon />
 {/snippet}
+
+<style>
+  .command-demo {
+    width: 28rem;
+  }
+</style>

@@ -147,8 +147,8 @@
 
 <style>
   .sidebar-story {
-    width: 216px;
-    min-height: 560px;
+    width: 13.5rem;
+    min-height: 35rem;
     background: var(--color-canvas);
   }
 
@@ -158,7 +158,7 @@
 
   .sidebar-brand {
     display: grid;
-    gap: 2px;
+    gap: 0.125rem;
   }
 
   .brand-name {
@@ -190,7 +190,7 @@
   }
 
   .account:focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: var(--border-width-emphasis);
   }
 </style>
