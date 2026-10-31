@@ -7,7 +7,14 @@
     title: 'Components/Forms/Checkbox',
     component: Checkbox,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Checkbox records an independent yes or no choice, including mixed selection in a list. Use it for opt-in settings and multi-select sets, not for a single on/off preference that applies immediately. Do keep the label affirmative and group related boxes under a fieldset label; do not use a checkbox as a submit action.'
+        }
+      }
+    }
   });
 </script>
 

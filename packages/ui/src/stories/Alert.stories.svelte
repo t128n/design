@@ -7,7 +7,14 @@
     title: 'Components/Feedback/Alert',
     component: Alert,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Alert reports a status or consequence inline with the content it describes. Use it for passive feedback that should remain visible, not for transient notifications or field validation. Match the tone to the message and keep the title to the outcome, not the cause.'
+        }
+      }
+    }
   });
 </script>
 

@@ -7,7 +7,14 @@
     title: 'Layouts/Sidebar',
     component: Sidebar,
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: {
+      layout: 'fullscreen',
+      docs: {
+        description: {
+          component: 'Sidebar provides persistent section navigation inside an application shell. Use it for workspace-level destinations, not for page content or a second copy of the top navigation. Do keep groups shallow, labels stable, and the active destination visible; do not hide primary destinations behind collapsed groups by default.'
+        }
+      }
+    }
   });
 
   const flatSections = [

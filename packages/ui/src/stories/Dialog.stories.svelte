@@ -7,7 +7,14 @@
     title: 'Components/Overlays/Dialog',
     component: Dialog,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Dialog focuses a self-contained task on top of the page. Use it for short forms, settings, and confirmations that need context, not for long multi-step flows or content that should remain visible. Keep a clear title, one primary action, and a close path that does not discard work silently.'
+        }
+      }
+    }
   });
 </script>
 

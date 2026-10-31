@@ -7,7 +7,14 @@
     title: 'Components/Forms/Switch',
     component: Switch,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Switch turns one setting on or off immediately. Use it for preferences that apply without a save step, not for choices that need confirmation or for multi-select sets. Do place the label before the switch and describe the enabled state; do not use a switch for a destructive action.'
+        }
+      }
+    }
   });
 </script>
 

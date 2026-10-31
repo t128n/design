@@ -6,7 +6,14 @@
     title: 'Components/Forms/DatePicker',
     component: DatePicker,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'DatePicker pairs a date field with a calendar overlay. Use it when the reader benefits from seeing the month, not for dates that are always known or copied from elsewhere. Open the calendar from the field and keep the typed value and the picked value in sync.'
+        }
+      }
+    }
   });
   import '../styles/index.css';
 </script>

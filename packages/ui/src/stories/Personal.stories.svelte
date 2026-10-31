@@ -6,7 +6,15 @@
   const { Story } = defineMeta({
     title: 'Views/Personal',
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen', controls: { disable: true } }
+    parameters: {
+      layout: 'fullscreen',
+      controls: { disable: true },
+      docs: {
+        description: {
+          component: 'Personal is a composed profile view with an introduction, links, and selected work. Use it as a reference for a person page, not as a generic content layout. Keep the reading width narrow and let one primary link lead the page.'
+        }
+      }
+    }
   });
 </script>
 

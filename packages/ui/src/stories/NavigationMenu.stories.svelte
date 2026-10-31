@@ -5,7 +5,15 @@
   const { Story } = defineMeta({
     title: 'Components/Navigation/NavigationMenu',
     component: NavigationMenu,
-    parameters: { layout: 'centered' }
+    tags: ['autodocs'],
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'NavigationMenu opens grouped links from a top-level trigger. Use it for site-wide navigation with a shallow hierarchy, not for actions or deep application trees. Do keep each group labelled and the trigger a link to the section overview; do not hide the only path to a page inside a hover-only menu.'
+        }
+      }
+    }
   });
   import '../styles/index.css';
 </script>

@@ -7,7 +7,14 @@
     title: 'Components/Forms/Label',
     component: Label,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Label associates visible text with a form control. Use it through Field or the control label prop so the association is generated, not as free-floating display text. Keep the label a noun or short instruction and avoid ending it with a colon.'
+        }
+      }
+    }
   });
 </script>
 

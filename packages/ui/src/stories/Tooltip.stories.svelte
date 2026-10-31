@@ -7,7 +7,14 @@
     title: 'Components/Overlays/Tooltip',
     component: Tooltip,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Tooltip names a control or explains a short detail on hover and focus. Use it for supplementary labels, not for essential instructions or interactive content. Keep the text brief and make sure the same information is available without hover.'
+        }
+      }
+    }
   });
 </script>
 

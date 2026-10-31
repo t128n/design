@@ -7,7 +7,14 @@
     title: 'Primitives/AspectRatio',
     component: AspectRatio,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'AspectRatio reserves a stable box for media while the page loads. Use it for images, video, and charts that need a fixed ratio, not for text containers or cards whose height should follow content. Set the ratio that matches the source asset and let the child fill the box.'
+        }
+      }
+    }
   });
 </script>
 

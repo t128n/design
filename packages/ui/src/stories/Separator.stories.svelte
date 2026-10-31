@@ -7,7 +7,14 @@
     title: 'Primitives/Separator',
     component: Separator,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Separator marks a change of context between content groups. Use it sparingly to divide sections that are not already separated by spacing or a surface, not as decoration under every heading. Choose horizontal for stacked content and vertical for inline groups.'
+        }
+      }
+    }
   });
 </script>
 

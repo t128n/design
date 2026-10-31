@@ -16,7 +16,15 @@
   const { Story } = defineMeta({
     title: 'Foundations/Theming',
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen', controls: { disable: true } }
+    parameters: {
+      layout: 'fullscreen',
+      controls: { disable: true },
+      docs: {
+        description: {
+          component: 'Theming documents the token contract and nested ThemeScope overrides. Use it to learn which custom properties are public, not as a place to invent per-component color values. Override tokens at the smallest scope that needs them and keep the root theme as the default.'
+        }
+      }
+    }
   });
 </script>
 

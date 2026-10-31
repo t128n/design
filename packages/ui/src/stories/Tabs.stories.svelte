@@ -7,7 +7,14 @@
     title: 'Components/Navigation/Tabs',
     component: Tabs,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Tabs switch between peer views of the same subject without leaving the page. Use them for a small set of related panels, not for sequential steps or primary navigation. Do keep all panels in the same region and preserve the selected tab in the URL when the view is linkable; do not use tabs to hide unrelated content.'
+        }
+      }
+    }
   });
 </script>
 

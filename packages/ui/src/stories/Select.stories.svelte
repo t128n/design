@@ -13,7 +13,14 @@
     title: 'Components/Forms/Select',
     component: Select,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Select chooses one option from a known list in a compact trigger. Use it for short fixed sets, not for searchable lists or multi-select. Do keep the label visible and show the chosen value in the trigger; do not use Select for actions or navigation.'
+        }
+      }
+    }
   });
 </script>
 

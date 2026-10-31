@@ -6,7 +6,14 @@
     title: 'Components/Forms/DateField',
     component: DateField,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'DateField renders a labelled text field for a single date. Use it when the date is typed or pasted, not when the reader needs a calendar to compare dates. Do provide a visible label and a format example; do not rely on placeholder text as the label.'
+        }
+      }
+    }
   });
   import '../styles/index.css';
 </script>

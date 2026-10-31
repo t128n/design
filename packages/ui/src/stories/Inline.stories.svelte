@@ -7,7 +7,14 @@
     title: 'Layouts/Inline',
     component: Inline,
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: {
+      layout: 'fullscreen',
+      docs: {
+        description: {
+          component: 'Inline lays out a short row of items with consistent gaps and wrapping. Use it for actions, metadata, and tags that read as one line, not for page sections or long forms. Let it wrap at narrow widths and keep the alignment consistent across the row.'
+        }
+      }
+    }
   });
 </script>
 

@@ -7,7 +7,14 @@
     title: 'Primitives/ScrollArea',
     component: ScrollArea,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'ScrollArea contains a long region with its own scroll axis. Use it for lists and panels that must stay within a fixed frame, not for the main page or for content that should flow naturally. Keep the scroll region keyboard reachable and avoid nesting scroll areas.'
+        }
+      }
+    }
   });
 </script>
 

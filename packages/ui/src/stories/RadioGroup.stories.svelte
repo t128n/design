@@ -13,7 +13,14 @@
     title: 'Components/Forms/RadioGroup',
     component: RadioGroup,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'RadioGroup chooses exactly one option from a short visible set. Use it when every option should be compared at once, not for long lists or independent toggles. Keep option labels parallel and put shared guidance on the group label.'
+        }
+      }
+    }
   });
 </script>
 

@@ -22,7 +22,14 @@
     title: 'Layouts/App shell',
     component: AppShell,
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: {
+      layout: 'fullscreen',
+      docs: {
+        description: {
+          component: 'AppShell provides the persistent frame for an application screen: top navigation, sidebar, and main content. Use it for authenticated workspace views, not for marketing pages or isolated component demos. Compose Navbar and Sidebar into its named slots and keep one main landmark per screen.'
+        }
+      }
+    }
   });
 
   const overviewSections = [

@@ -14,7 +14,14 @@
     title: 'Components/Forms/Combobox',
     component: Combobox,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Combobox combines a text input with a filtered option list. Use it when the option set is long enough to search, not for a short fixed list that a Select can show directly. Keep the label visible, announce the active option, and allow keyboard selection without leaving the field.'
+        }
+      }
+    }
   });
 </script>
 

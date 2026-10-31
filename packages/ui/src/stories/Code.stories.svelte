@@ -7,7 +7,14 @@
     title: 'Primitives/Code',
     component: Code,
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: {
+      layout: 'fullscreen',
+      docs: {
+        description: {
+          component: 'Code marks identifiers, values, and short snippets inline or in a block. Use it for literal code and technical tokens, not for emphasis or general body copy. Keep blocks short enough to scan and wrap long lines rather than hiding them behind horizontal scroll.'
+        }
+      }
+    }
   });
 
   const sample = `type Project = {

@@ -7,7 +7,14 @@
     title: 'Primitives/Avatar',
     component: Avatar,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Avatar identifies a person or team with initials or an image. Use it beside names and ownership metadata, not as the only accessible label for an action. Pair it with a visible name or an explicit aria label and keep the size consistent within a row.'
+        }
+      }
+    }
   });
 </script>
 

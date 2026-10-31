@@ -7,7 +7,14 @@
     title: 'Components/Controls/Toggle',
     component: Toggle,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'Toggle switches a formatting or view option on and off. Use it for a pressed state that applies immediately, not for navigation or for a setting that needs a label and description. Do keep the label visible and announce the pressed state; do not use it as a submit button.'
+        }
+      }
+    }
   });
 </script>
 

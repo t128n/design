@@ -7,7 +7,14 @@
     title: 'Layouts/Container',
     component: Container,
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: {
+      layout: 'fullscreen',
+      docs: {
+        description: {
+          component: 'Container sets the readable width and horizontal padding for page content. Use it once per page region, not around every component or inside another Container. Choose the width from the content type and keep full-width containers for workspace surfaces.'
+        }
+      }
+    }
   });
 </script>
 

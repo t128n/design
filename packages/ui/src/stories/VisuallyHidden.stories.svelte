@@ -7,7 +7,14 @@
     title: 'Primitives/Visually hidden',
     component: VisuallyHidden,
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: {
+      layout: 'fullscreen',
+      docs: {
+        description: {
+          component: 'VisuallyHidden keeps text available to assistive technology while hiding it on screen. Use it to name icon-only controls and to add context to repeated links, not to hide content from sighted readers who need it. Keep the text short and specific to the control.'
+        }
+      }
+    }
   });
 </script>
 

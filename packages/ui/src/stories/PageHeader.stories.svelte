@@ -24,7 +24,14 @@
     title: 'Layouts/Page header',
     component: PageHeader,
     tags: ['autodocs'],
-    parameters: { layout: 'fullscreen' }
+    parameters: {
+      layout: 'fullscreen',
+      docs: {
+        description: {
+          component: 'PageHeader introduces a page with a title, optional description, breadcrumbs, and actions. Use it once at the top of a workspace page, not inside cards or repeated for subsections. Keep the title the page name and put supporting metadata in the description.'
+        }
+      }
+    }
   });
 </script>
 

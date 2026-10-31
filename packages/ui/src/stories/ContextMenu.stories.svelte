@@ -5,7 +5,15 @@
   const { Story } = defineMeta({
     title: 'Components/Overlays/ContextMenu',
     component: ContextMenu,
-    parameters: { layout: 'centered' }
+    tags: ['autodocs'],
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'ContextMenu exposes actions for the element the reader right-clicks or long-presses. Use it for secondary actions on a specific object, not for the only path to a primary action. Mirror the same actions somewhere visible and keep destructive items last.'
+        }
+      }
+    }
   });
   import '../styles/index.css';
 </script>

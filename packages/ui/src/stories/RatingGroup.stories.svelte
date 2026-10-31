@@ -7,7 +7,14 @@
     title: 'Components/Forms/RatingGroup',
     component: RatingGroup,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component: 'RatingGroup captures a score on a small fixed scale. Use it for satisfaction and review scores, not for ranking many items or for precise measurement. Keep the scale size and aria label explicit and show the current value to the reader.'
+        }
+      }
+    }
   });
 </script>
 
