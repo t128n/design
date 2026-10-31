@@ -149,15 +149,6 @@ describe('framework audit', () => {
       expect(story, component).toContain(`title: 'Layouts/${component}'`);
     }
 
-      expect(story, component).toContain(`title: 'Primitives/${component}'`);
-    }
-
-    for (const component of layouts) {
-      const story = await readFile(join(storiesRoot, `${component}.stories.svelte`), 'utf8');
-
-      expect(story, component).toContain(`title: 'Layouts/${component}'`);
-    }
-
     for (const view of ['Dashboard', 'Settings', 'Landing']) {
       const story = await readFileSource(join(storiesRoot, `${view}.stories.svelte`));
 
