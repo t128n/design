@@ -1,8 +1,11 @@
 :root,
 .theme-scope {
   --color-canvas: #F2F4F8;
+  --color-workspace: #FFFFFF;
   --color-surface: #FFFFFF;
   --color-surface-subtle: #F2F4F8;
+  --color-navigation-surface: #F7F8FA;
+  --color-navigation-selected: #E8EBEE;
   --color-text-primary: #161616;
   --color-text-secondary: #525252;
   --color-text-muted: #697077;

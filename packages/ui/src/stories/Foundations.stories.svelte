@@ -9,7 +9,10 @@
 
   const colors = [
     ['Canvas', '#F2F4F8'],
+    ['Workspace', '#FFFFFF'],
     ['Surface', '#FFFFFF'],
+    ['Navigation surface', '#F7F8FA'],
+    ['Navigation selected', '#E8EBEE'],
     ['Text primary', '#161616'],
     ['Text secondary', '#525252'],
     ['Border', '#DDE1E6'],
@@ -58,7 +61,7 @@
           <h3>Modest radii</h3>
           <div class="radii"><span class="small-radius">2px</span><span>4px</span><span class="large-radius">6px</span></div>
           <h3>Control height</h3>
-          <div class="control-height">40px</div>
+          <div class="control-height">36px</div>
         </div>
       </div>
     </section>

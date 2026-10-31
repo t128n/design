@@ -40,3 +40,90 @@ describe('design tokens', () => {
     expect(scope).toContain('{@render children?.()}');
   });
 });
+
+describe('workspace surfaces', () => {
+  it('test_workspace_tokens: defines workspace and navigation surface tokens', async () => {
+    const tokens = await readSource('../src/styles/tokens.css');
+
+    expect(tokens).toContain('--color-workspace: #FFFFFF');
+    expect(tokens).toContain('--color-navigation-surface: #F7F8FA');
+    expect(tokens).toContain('--color-navigation-selected: #E8EBEE');
+    expect(tokens).toContain('--color-canvas: #F2F4F8');
+    expect(tokens).toContain('--color-surface: #FFFFFF');
+    expect(tokens).toContain('--color-surface-subtle: #F2F4F8');
+  });
+
+  it('test_principles: states continuous workspaces over segmented dashboards', async () => {
+    const design = await readSource('../../../DESIGN.md');
+
+    expect(design).toContain('Continuous workspaces over segmented dashboards');
+    expect(design).toContain('subtle surface differentiation only for orientation');
+  });
+
+  it('test_design_roles: distinguishes workspace, surface, canvas, and navigation roles', async () => {
+    const design = await readSource('../../../DESIGN.md');
+
+    expect(design).toContain('workspace: "#FFFFFF"');
+    expect(design).toContain('navigation-surface: "#F7F8FA"');
+    expect(design).toContain('navigation-selected: "#E8EBEE"');
+    expect(design).toContain('**Canvas** `#F2F4F8` is the subdued public or empty context');
+    expect(design).toContain('**Workspace** `#FFFFFF` is the primary white application content region');
+    expect(design).toContain('**Surface** `#FFFFFF` is a component fill');
+    expect(design).toContain('**Navigation surface** `#F7F8FA`');
+    expect(design).toContain('**Navigation selected** `#E8EBEE`');
+    expect(design).toContain('Workspace and surface are both white but semantically distinct');
+    expect(design).toContain('deliberately lighter than canvas');
+  });
+
+  it('test_design_contrast: records validated surface contrast', async () => {
+    const design = await readSource('../../../DESIGN.md');
+
+    expect(design).toContain('primary and secondary text pass AA on workspace, navigation surface, and selected rows');
+    expect(design).toContain('muted text passes on the navigation surface');
+    expect(design).toContain('active-row badges use secondary text');
+    expect(design).toContain('accent focus indicators meet at least 3:1');
+  });
+
+  it('test_design_layout: documents application workspace layout rules', async () => {
+    const design = await readSource('../../../DESIGN.md');
+
+    expect(design).toContain('### Application workspaces');
+    expect(design).toContain('Primary content sits on a white workspace');
+    expect(design).toContain('Navigation is never more prominent than content');
+    expect(design).toContain('Avoid large contrasting regions');
+    expect(design).toContain('Let the workspace run continuously through tables, metrics, and forms');
+    expect(design).toContain('Use whitespace and typography for grouping');
+    expect(design).toContain('Preserve canvas `#F2F4F8` for subdued public');
+    expect(design).toContain('**Primary content > navigation > supporting surfaces**');
+  });
+
+  it('test_component_defaults: updates component surface guidance', async () => {
+    const design = await readSource('../../../DESIGN.md');
+
+    expect(design).toContain('The main region is the white **workspace**');
+    expect(design).toContain('Do not add seams or additional borders between regions');
+    expect(design).toContain('**Sidebar** sits on the **navigation surface**');
+    expect(design).toContain('No blue bars');
+    expect(design).toContain('reserve blue for focus only');
+    expect(design).toContain('**Navbar** shares the **workspace**');
+    expect(design).toContain('Prefer ghost and link-level utilities');
+    expect(design).toContain('no background, no card');
+    expect(design).toContain('Tables are borderless in white workspaces');
+  });
+
+  it('test_elevation: cards must earn their border', async () => {
+    const design = await readSource('../../../DESIGN.md');
+
+    expect(design).toContain('Cards must earn their border');
+  });
+
+  it('test_foundations: shows workspace swatches and the 36px control height', async () => {
+    const foundations = await readSource('../src/stories/Foundations.stories.svelte');
+
+    expect(foundations).toContain("['Workspace', '#FFFFFF']");
+    expect(foundations).toContain("['Navigation surface', '#F7F8FA']");
+    expect(foundations).toContain("['Navigation selected', '#E8EBEE']");
+    expect(foundations).toContain('36px');
+    expect(foundations).not.toContain('40px');
+  });
+});
