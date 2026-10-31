@@ -34,28 +34,24 @@ describe('Footer', () => {
     const footer = await readSource('../src/lib/Footer.svelte');
 
     expect(footer).toContain('<nav aria-label="Footer">');
-    expect(footer).toMatch(/<nav aria-label="Footer">\s*<ul>[\s\S]*?<li>[\s\S]*?<a/);
+    expect(footer).toMatch(/<nav aria-label="Footer">\s*<ul>[\s\S]*?<li>[\s\S]*?<Link/);
   });
 
   it('keeps brand, links, and note in a restrained hierarchy', async () => {
     const footer = await readSource('../src/lib/Footer.svelte');
 
-    expect(block(footer, '.brand')).toContain('color: var(--color-text-primary)');
-    expect(block(footer, '.brand')).toContain('font-weight: var(--font-weight-medium)');
-    expect(block(footer, 'a')).toContain('color: var(--color-text-secondary)');
-    expect(block(footer, '.note')).toContain('color: var(--color-text-muted)');
+    expect(footer).toContain('<Text variant="body-sm" as="span" weight="medium">{brand}</Text>');
+    expect(footer).toContain('<Text variant="body-sm" as="span" tone="muted">{note}</Text>');
+    expect(footer).toContain('color: var(--color-text-secondary)');
+    expect(footer).toContain('color: var(--color-text-primary)');
   });
 
   it('gives links a visible focus ring', async () => {
     const footer = await readSource('../src/lib/Footer.svelte');
 
-    expect(footer).toContain('a:focus-visible');
-    expect(block(footer, 'a:focus-visible')).toContain(
-      'outline: var(--border-width-emphasis) solid var(--color-focus)'
-    );
-    expect(block(footer, 'a:focus-visible')).toContain(
-      'outline-offset: var(--border-width-emphasis)'
-    );
+    expect(footer).toContain(':global(.footer-link:focus-visible)');
+    expect(footer).toContain('outline: var(--border-width-emphasis) solid var(--color-focus)');
+    expect(footer).toContain('outline-offset: var(--border-width-emphasis)');
   });
 
   it('stacks below 640px and releases the note to the start', async () => {
@@ -84,7 +80,7 @@ describe('Footer', () => {
     expect(utility).toContain("label: 'Docs'");
 
     expect(complete).toContain('<Navbar');
-    expect(complete).toContain('<h1');
+    expect(complete).toContain('<Text variant="display" as="h1">');
     expect(complete).toContain('<Footer');
     expect(complete).not.toContain('bordered={false}');
 

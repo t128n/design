@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Button, Card, Footer, Hero, Link, Navbar } from '../index.js';
+  import { Button, Card, Footer, Hero, Link, Navbar, Text } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -22,9 +22,24 @@
 {#snippet heroAside()}
   <Card title="Recent activity">
     <ul class="activity">
-      <li><strong>Orbit</strong> Mara updated the release plan.</li>
-      <li><strong>Atlas</strong> Devon assigned two reviewers.</li>
-      <li><strong>Beacon</strong> Status changed to in progress.</li>
+      <li>
+        <Text as="span" variant="body-sm" tone="secondary">
+          <Text as="strong" variant="body-sm" weight="medium" tone="primary">Orbit</Text>
+          Mara updated the release plan.
+        </Text>
+      </li>
+      <li>
+        <Text as="span" variant="body-sm" tone="secondary">
+          <Text as="strong" variant="body-sm" weight="medium" tone="primary">Atlas</Text>
+          Devon assigned two reviewers.
+        </Text>
+      </li>
+      <li>
+        <Text as="span" variant="body-sm" tone="secondary">
+          <Text as="strong" variant="body-sm" weight="medium" tone="primary">Beacon</Text>
+          Status changed to in progress.
+        </Text>
+      </li>
     </ul>
   </Card>
 {/snippet}
@@ -48,19 +63,27 @@
         aside={heroAside}
       />
       <section class="features" aria-labelledby="features-heading">
-        <h2 id="features-heading">Built for the work between meetings</h2>
+        <Text variant="subheading" as="h2" id="features-heading">
+          Built for the work between meetings
+        </Text>
         <div class="feature-list">
           <section class="feature">
-            <h3>Clear ownership</h3>
-            <p>Every project has a named owner and a visible next step.</p>
+            <Text variant="body" as="h3" weight="medium">Clear ownership</Text>
+            <Text variant="body-sm" tone="secondary">
+              Every project has a named owner and a visible next step.
+            </Text>
           </section>
           <section class="feature">
-            <h3>Quiet status</h3>
-            <p>Status is text and one role, so it still reads in greyscale.</p>
+            <Text variant="body" as="h3" weight="medium">Quiet status</Text>
+            <Text variant="body-sm" tone="secondary">
+              Status is text and one role, so it still reads in greyscale.
+            </Text>
           </section>
           <section class="feature">
-            <h3>Fast review</h3>
-            <p>See what changed, who changed it, and what needs attention.</p>
+            <Text variant="body" as="h3" weight="medium">Fast review</Text>
+            <Text variant="body-sm" tone="secondary">
+              See what changed, who changed it, and what needs attention.
+            </Text>
           </section>
         </div>
       </section>
@@ -79,7 +102,6 @@
     min-height: 100vh;
     background: var(--color-workspace);
     color: var(--color-text-primary);
-    font-family: var(--font-family-sans);
   }
 
   .wrap {
@@ -92,11 +114,8 @@
     padding-bottom: var(--space-2xl);
   }
 
-  h2 {
-    margin: 0 0 var(--space-lg);
-    font-size: var(--font-size-subheading);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-subheading);
+  .features :global(h2) {
+    margin-bottom: var(--space-lg);
   }
 
   .feature-list {
@@ -111,30 +130,12 @@
     min-width: 0;
   }
 
-  .feature h3 {
-    margin: 0;
-    font-size: var(--font-size-body);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-body);
-  }
-
-  .feature p {
-    max-width: var(--layout-reading-width);
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
-  }
-
   .activity {
     display: grid;
     gap: var(--space-sm);
     margin: 0;
     padding: 0;
     list-style: none;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   .activity li {
@@ -145,11 +146,6 @@
   .activity li:first-child {
     padding-top: 0;
     border-top: 0;
-  }
-
-  .activity strong {
-    color: var(--color-text-primary);
-    font-weight: var(--font-weight-medium);
   }
 
   @media (max-width: 800px) {

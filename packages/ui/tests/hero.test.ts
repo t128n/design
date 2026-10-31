@@ -9,9 +9,7 @@ describe('Hero', () => {
 
     expect(hero).not.toMatch(/text-transform/i);
     expect(hero).not.toMatch(/letter-spacing/i);
-    expect(hero).toMatch(
-      /\.eyebrow\s*\{[^}]*font-size: var\(--font-size-body-sm\)/s
-    );
+    expect(hero).toContain('<Text variant="label" as="span" tone="secondary"');
   });
 
   it('test_eyebrow_optional', async () => {
@@ -23,11 +21,10 @@ describe('Hero', () => {
   it('test_type_measure', async () => {
     const hero = await readSource('../src/lib/Hero.svelte');
 
-    expect(hero).toMatch(/h1\s*\{[^}]*max-width: 18ch/s);
-    expect(hero).toMatch(/\.center h1\s*\{[^}]*max-width: 22ch/s);
-    expect(hero).toMatch(
-      /p\s*\{[^}]*max-width: var\(--layout-reading-width\)/s
-    );
+    expect(hero).toMatch(/\.title\s*\{[^}]*max-width: 18ch/s);
+    expect(hero).toMatch(/\.center \.title\s*\{[^}]*max-width: 22ch/s);
+    expect(hero).toMatch(/\.description\s*\{[^}]*max-width: var\(--layout-reading-width\)/s);
+    expect(hero).toContain('<Text variant="display" as="h1"');
   });
 
   it('test_aside_top_aligned', async () => {

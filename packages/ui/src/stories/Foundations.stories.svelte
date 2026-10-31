@@ -1,5 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
+  import { Code, Stack, Text } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -26,44 +27,64 @@
 <Story name="Overview">
   <main class="foundations">
     <section aria-labelledby="colors-heading">
-      <h1 id="colors-heading">Colors</h1>
-      <p>White is the default for application surfaces. Canvas is reserved for subdued public, marketing, and empty contexts.</p>
-      <p>Light semantic tokens use one blue accent for meaningful actions and focus.</p>
+      <Text variant="display" as="h1" id="colors-heading">Colors</Text>
+      <Stack gap="sm">
+        <Text variant="body" tone="secondary">
+          White is the default for application surfaces. Canvas is reserved for subdued public,
+          marketing, and empty contexts.
+        </Text>
+        <Text variant="body" tone="secondary">
+          Light semantic tokens use one blue accent for meaningful actions and focus.
+        </Text>
+      </Stack>
       <div class="swatches">
         {#each colors as [name, value]}
           <div class="swatch">
             <span class="sample" style:background={value}></span>
-            <strong>{name}</strong>
-            <code>{value}</code>
+            <Text variant="body-sm" as="strong" weight="medium">{name}</Text>
+            <Code>{value}</Code>
           </div>
         {/each}
       </div>
     </section>
 
     <section aria-labelledby="type-heading">
-      <h2 id="type-heading">Typography</h2>
-      <p class="display">Display — IBM Plex Sans, 32px</p>
-      <p class="heading">Heading — IBM Plex Sans, 24px</p>
-      <p class="subheading">Subheading — IBM Plex Sans, 18px</p>
-      <p>Body — 16px / 1.5 for readable application content.</p>
-      <p class="small">Label and small UI text — 14px / 1.5.</p>
-      <code>const projectId = 'design-v0.1';</code>
+      <Text variant="heading" as="h2" id="type-heading">Typography</Text>
+      <Stack gap="sm">
+        <Text variant="display" as="p">Display — IBM Plex Sans, 32px</Text>
+        <Text variant="heading" as="p">Heading — IBM Plex Sans, 24px</Text>
+        <Text variant="subheading" as="p">Subheading — IBM Plex Sans, 18px</Text>
+        <Text variant="body" as="p">Body — 16px / 1.5 for readable application content.</Text>
+        <Text variant="body-sm" as="p">Small UI text — 14px / 1.5.</Text>
+        <Text variant="label" as="p">Label and small UI text — 14px / 1.5.</Text>
+        <Text variant="caption" as="p">Caption — IBM Plex Sans, 12px</Text>
+        <div>
+          <Code>const projectId = 'design-v0.1';</Code>
+        </div>
+      </Stack>
     </section>
 
     <section aria-labelledby="layout-heading">
-      <h2 id="layout-heading">Spacing, shape, and controls</h2>
+      <Text variant="heading" as="h2" id="layout-heading">Spacing, shape, and controls</Text>
       <div class="layout-grid">
         <div>
-          <h3>4px spacing scale</h3>
+          <Text variant="label" as="h3">4px spacing scale</Text>
           {#each spacing as value}
-            <div class="space-row"><span style:width={`${value}px`}></span><code>{value}px</code></div>
+            <div class="space-row">
+              <span style:width={`${value}px`}></span>
+              <Code>{value}px</Code>
+            </div>
           {/each}
         </div>
         <div>
-          <h3>Modest radii</h3>
-          <div class="radii"><span class="small-radius">2px</span><span>4px</span><span class="large-radius">6px</span></div>
-          <h3>Control height</h3>
-          <div class="control-height">36px</div>
+          <Text variant="label" as="h3">Modest radii</Text>
+          <div class="radii">
+            <span class="small-radius"><Text as="span" variant="body-sm">2px</Text></span>
+            <span><Text as="span" variant="body-sm">4px</Text></span>
+            <span class="large-radius"><Text as="span" variant="body-sm">6px</Text></span>
+          </div>
+          <Text variant="label" as="h3">Control height</Text>
+          <div class="control-height"><Text as="span" variant="body-sm">36px</Text></div>
         </div>
       </div>
     </section>
@@ -71,26 +92,19 @@
 </Story>
 
 <style>
-  .foundations { max-width: 960px; padding: var(--space-xl); color: var(--color-text-primary); background: var(--color-workspace); font-family: var(--font-family-sans); }
+  .foundations { max-width: 960px; padding: var(--space-xl); color: var(--color-text-primary); background: var(--color-workspace); }
   section { margin-bottom: var(--space-2xl); }
-  h1, h2, h3, p { margin: 0; }
-  h1 { font-size: var(--font-size-display); line-height: var(--line-height-display); }
-  h2 { font-size: var(--font-size-heading); line-height: var(--line-height-heading); }
-  h3 { margin-bottom: var(--space-sm); font-size: var(--font-size-label); }
-  section > p { margin-top: var(--space-sm); color: var(--color-text-secondary); }
+  section > :global(h1),
+  section > :global(h2) { margin-bottom: var(--space-md); }
+  :global(h3) { margin-bottom: var(--space-sm); }
   .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: var(--space-md); margin-top: var(--space-md); }
-  .swatch { display: grid; gap: var(--space-xs); font-size: var(--font-size-body-sm); }
+  .swatch { display: grid; gap: var(--space-xs); }
   .sample { height: 64px; border: 1px solid var(--color-border); border-radius: var(--radius-md); }
-  code { font-family: var(--font-family-mono); font-size: var(--font-size-body-sm); }
-  .display { font-size: var(--font-size-display); font-weight: var(--font-weight-semibold); line-height: var(--line-height-display); color: var(--color-text-primary); }
-  .heading { font-size: var(--font-size-heading); font-weight: var(--font-weight-semibold); line-height: var(--line-height-heading); color: var(--color-text-primary); }
-  .subheading { font-size: var(--font-size-subheading); font-weight: var(--font-weight-semibold); line-height: var(--line-height-subheading); color: var(--color-text-primary); }
-  .small { font-size: var(--font-size-body-sm); }
   .layout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-xl); margin-top: var(--space-md); }
   .space-row { display: flex; align-items: center; gap: var(--space-sm); height: 28px; }
   .space-row span { height: var(--space-sm); background: var(--color-accent); border-radius: var(--radius-sm); }
   .radii { display: flex; gap: var(--space-sm); margin-bottom: var(--space-lg); }
-  .radii span, .control-height { display: grid; place-items: center; min-height: var(--control-height); padding: 0 var(--space-md); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); font-size: var(--font-size-body-sm); }
+  .radii span, .control-height { display: grid; place-items: center; min-height: var(--control-height); padding: 0 var(--space-md); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); }
   .radii .small-radius { border-radius: var(--radius-sm); }
   .radii .large-radius { border-radius: var(--radius-lg); }
 </style>

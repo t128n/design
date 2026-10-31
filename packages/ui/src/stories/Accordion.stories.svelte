@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Accordion } from '../index.js';
+  import { Accordion, Text } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -12,15 +12,15 @@
 </script>
 
 {#snippet accountContent()}
-  <p>Update your email, password, and profile preferences.</p>
+  <Text variant="body-sm" tone="secondary">Update your email, password, and profile preferences.</Text>
 {/snippet}
 
 {#snippet billingContent()}
-  <p>Manage payment methods, invoices, and billing history.</p>
+  <Text variant="body-sm" tone="secondary">Manage payment methods, invoices, and billing history.</Text>
 {/snippet}
 
 {#snippet teamContent()}
-  <p>Invite members, assign roles, and control access.</p>
+  <Text variant="body-sm" tone="secondary">Invite members, assign roles, and control access.</Text>
 {/snippet}
 
 <Story name="Default" asChild>
@@ -50,13 +50,5 @@
 <style>
   .accordion-story {
     width: min(28rem, calc(100vw - 2rem));
-    font-family: var(--font-family-sans);
-  }
-
-  .accordion-story :global(p) {
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 </style>

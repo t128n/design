@@ -1,12 +1,15 @@
 <script lang="ts">
-  type Link = {
+  import Link from './Link.svelte';
+  import Text from './Text.svelte';
+
+  type LinkItem = {
     label: string;
     href?: string;
   };
 
   type Props = {
     brand?: string;
-    links?: Link[];
+    links?: LinkItem[];
     note?: string;
     bordered?: boolean;
   };
@@ -20,20 +23,24 @@
 </script>
 
 <footer class="footer" class:bordered={bordered}>
-  <span class="brand">{brand}</span>
+  <Text variant="body-sm" as="span" weight="medium">{brand}</Text>
   {#if links.length}
     <nav aria-label="Footer">
       <ul>
         {#each links as link}
           <li>
-            <a href={link.href ?? '#'}>{link.label}</a>
+            <Text variant="body-sm" as="span">
+              <Link href={link.href ?? '#'} class="footer-link">{link.label}</Link>
+            </Text>
           </li>
         {/each}
       </ul>
     </nav>
   {/if}
   {#if note}
-    <span class="note">{note}</span>
+    <span class="note">
+      <Text variant="body-sm" as="span" tone="muted">{note}</Text>
+    </span>
   {/if}
 </footer>
 
@@ -44,19 +51,10 @@
     align-items: center;
     gap: var(--space-md) var(--space-xl);
     padding: var(--space-lg) 0;
-    color: var(--color-text-secondary);
-    font-family: var(--font-family-sans);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   .footer.bordered {
     border-top: var(--border-width) solid var(--color-border);
-  }
-
-  .brand {
-    color: var(--color-text-primary);
-    font-weight: var(--font-weight-medium);
   }
 
   nav {
@@ -72,23 +70,22 @@
     list-style: none;
   }
 
-  a {
+  .footer :global(.footer-link) {
     color: var(--color-text-secondary);
     text-decoration: none;
   }
 
-  a:hover {
+  .footer :global(.footer-link:hover) {
     color: var(--color-text-primary);
     text-decoration: underline;
   }
 
-  a:focus-visible {
+  .footer :global(.footer-link:focus-visible) {
     outline: var(--border-width-emphasis) solid var(--color-focus);
     outline-offset: var(--border-width-emphasis);
   }
 
   .note {
-    color: var(--color-text-muted);
     margin-left: auto;
   }
 

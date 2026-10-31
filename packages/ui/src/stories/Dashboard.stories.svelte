@@ -1,6 +1,18 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Alert, AppShell, Badge, Button, PageHeader, Sidebar, Table } from '../index.js';
+  import {
+    Alert,
+    AppShell,
+    Badge,
+    Button,
+    Grid,
+    Inline,
+    PageHeader,
+    Sidebar,
+    Stack,
+    Table,
+    Text
+  } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -34,10 +46,10 @@
 </script>
 
 {#snippet sidebarHeader()}
-  <div class="brand">
-    <span class="brand-name">Stellar</span>
-    <span class="brand-workspace">Orbit team</span>
-  </div>
+  <Stack gap="xs">
+    <Text variant="label" as="span" weight="semibold">Stellar</Text>
+    <Text variant="caption" as="span" tone="muted">Orbit team</Text>
+  </Stack>
 {/snippet}
 
 {#snippet sidebar()}
@@ -62,36 +74,38 @@
         description="What changed, what needs attention, and who owns the next step."
         actions={headerActions}
       />
-      <div class="stack">
+      <Stack gap="2xl">
         <Alert tone="warning" title="Two projects need an owner">
           Assign an owner to Beacon and Cinder before the review on Friday.
         </Alert>
-        <div class="metrics">
-          <div class="metric">
-            <span class="metric-label">Active projects</span>
-            <strong class="metric-value">12</strong>
+        <Grid columns="auto" minItem="sm" gap="xl">
+          <Stack gap="xs">
+            <Text variant="body-sm" as="span" tone="secondary">Active projects</Text>
+            <Text variant="heading" as="strong" numeric>12</Text>
             <Badge tone="success">+2 this week</Badge>
-          </div>
-          <div class="metric">
-            <span class="metric-label">Needs review</span>
-            <strong class="metric-value">3</strong>
+          </Stack>
+          <Stack gap="xs">
+            <Text variant="body-sm" as="span" tone="secondary">Needs review</Text>
+            <Text variant="heading" as="strong" numeric>3</Text>
             <Badge tone="warning">Due Friday</Badge>
-          </div>
-          <div class="metric">
-            <span class="metric-label">Archived this quarter</span>
-            <strong class="metric-value">28</strong>
+          </Stack>
+          <Stack gap="xs">
+            <Text variant="body-sm" as="span" tone="secondary">Archived this quarter</Text>
+            <Text variant="heading" as="strong" numeric>28</Text>
             <Badge tone="neutral">No action needed</Badge>
-          </div>
-        </div>
-        <section class="recent" aria-labelledby="recent-heading">
+          </Stack>
+        </Grid>
+        <Stack as="section" gap="sm" aria-labelledby="recent-heading">
           <div class="section-heading">
-            <div class="section-copy">
-              <h2 id="recent-heading">Recent projects</h2>
-              <p>Ownership, status, and the latest update for each project.</p>
-            </div>
-            <div class="section-actions">
+            <Stack gap="xs">
+              <Text variant="subheading" as="h2" id="recent-heading">Recent projects</Text>
+              <Text variant="body-sm" tone="secondary">
+                Ownership, status, and the latest update for each project.
+              </Text>
+            </Stack>
+            <Inline gap="sm">
               <Button variant="secondary">View all</Button>
-            </div>
+            </Inline>
           </div>
           <Table {columns}>
             <tr>
@@ -119,8 +133,8 @@
               <td><Badge tone="disabled">Archived</Badge></td>
             </tr>
           </Table>
-        </section>
-      </div>
+        </Stack>
+      </Stack>
     </AppShell>
   </div>
 </Story>
@@ -130,92 +144,11 @@
     background: var(--color-workspace);
   }
 
-  .brand {
-    display: grid;
-    gap: 2px;
-  }
-
-  .brand-name {
-    color: var(--color-text-primary);
-    font-size: var(--font-size-label);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-label);
-  }
-
-  .brand-workspace {
-    color: var(--color-text-muted);
-    font-size: var(--font-size-caption);
-    line-height: var(--line-height-caption);
-  }
-
-  .stack {
-    display: grid;
-    gap: var(--space-2xl);
-  }
-
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: var(--space-xl);
-  }
-
-  .metric {
-    display: grid;
-    justify-items: start;
-    gap: var(--space-xs);
-  }
-
-  .metric-label {
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
-  }
-
-  .metric-value {
-    color: var(--color-text-primary);
-    font-size: var(--font-size-heading);
-    font-weight: var(--font-weight-semibold);
-    font-variant-numeric: tabular-nums;
-    line-height: var(--line-height-heading);
-  }
-
-  .recent {
-    display: grid;
-    gap: var(--space-sm);
-  }
-
   .section-heading {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: var(--space-lg);
-  }
-
-  .section-copy {
-    display: grid;
-    gap: var(--space-xs);
-    min-width: 0;
-  }
-
-  .recent h2 {
-    margin: 0;
-    font-size: var(--font-size-subheading);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-subheading);
-  }
-
-  .recent p {
-    max-width: var(--layout-reading-width);
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
-  }
-
-  .section-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-sm);
   }
 
   @media (max-width: 640px) {

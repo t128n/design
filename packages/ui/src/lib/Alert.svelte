@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import Text from './Text.svelte';
+  import type { TextTone } from './typography';
 
   type Tone = 'neutral' | 'info' | 'progress' | 'success' | 'warning' | 'danger';
 
@@ -8,6 +10,8 @@
     title,
     children
   }: { tone?: Tone; title: string; children?: Snippet } = $props();
+
+  const titleTone: TextTone = $derived(tone === 'neutral' ? 'primary' : tone);
 </script>
 
 <div
@@ -20,23 +24,22 @@
   class:danger={tone === 'danger'}
   role={tone === 'danger' ? 'alert' : 'status'}
 >
-  <strong class="title">{title}</strong>
+  <Text variant="label" as="strong" tone={titleTone}>{title}</Text>
   {#if children}
-    <div class="body">{@render children()}</div>
+    <Text as="div" variant="body-sm" tone="secondary">{@render children()}</Text>
   {/if}
 </div>
 
 <style>
   .alert {
     display: grid;
-    gap: 2px;
+    gap: var(--space-xs);
     padding: var(--space-sm) var(--space-md);
     border: 1px solid var(--color-border);
     border-left: 3px solid var(--color-text-muted);
     border-radius: var(--radius-md);
     background: var(--color-surface);
     color: var(--color-text-primary);
-    font-family: var(--font-family-sans);
   }
 
   .neutral {
@@ -67,24 +70,5 @@
   .danger {
     border-left-color: var(--color-danger);
     background: var(--color-danger-surface);
-  }
-
-  .title {
-    font-size: var(--font-size-label);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-label);
-  }
-
-  .neutral .title { color: var(--color-text-primary); }
-  .info .title { color: var(--color-info); }
-  .progress .title { color: var(--color-progress); }
-  .success .title { color: var(--color-success); }
-  .warning .title { color: var(--color-warning); }
-  .danger .title { color: var(--color-danger); }
-
-  .body {
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 </style>

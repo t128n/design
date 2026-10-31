@@ -18,8 +18,8 @@ describe('composed workspace views', () => {
     expect(dashboard).toContain('<Sidebar');
     expect(dashboard).not.toContain('<Navbar');
     expect(dashboard).not.toContain('{navbar}');
-    expect(dashboard).toContain('class="metrics"');
-    expect(dashboard).toContain('class="metric"');
+    expect(dashboard).toContain('<Grid columns="auto" minItem="sm" gap="xl">');
+    expect(dashboard).toContain('<Stack gap="xs">');
     expect(dashboard).not.toContain('<Card');
     expect(dashboard).not.toMatch(/<Card title="(Active projects|Needs review|Archived)"/);
     expect(dashboard).toContain('tone="warning"');
@@ -43,12 +43,11 @@ describe('composed workspace views', () => {
 
   it('composes the Dashboard table under a section heading with an action', async () => {
     const dashboard = await readStory('../src/stories/Dashboard.stories.svelte');
-    const section = blockFor(dashboard, '.recent');
 
-    expect(section).toContain('display: grid');
-    expect(section).toContain('gap: var(--space-sm)');
-    expect(dashboard).toContain('aria-labelledby="recent-heading"');
-    expect(dashboard).toContain('<h2 id="recent-heading">Recent projects</h2>');
+    expect(dashboard).toContain('<Stack as="section" gap="sm" aria-labelledby="recent-heading">');
+    expect(dashboard).toContain(
+      '<Text variant="subheading" as="h2" id="recent-heading">Recent projects</Text>'
+    );
     expect(dashboard).toContain('<Button variant="secondary">View all</Button>');
     expect(dashboard).not.toMatch(/<Table[^>]*\bcaption=/);
   });
@@ -72,8 +71,12 @@ describe('composed workspace views', () => {
 
     expect(cards).toEqual(['<Card title="Danger zone">']);
     expect(settings.match(/<section class="settings-section"/g) ?? []).toHaveLength(2);
-    expect(settings).toContain('<h2 id="settings-workspace">Workspace</h2>');
-    expect(settings).toContain('<h2 id="settings-review">Review rules</h2>');
+    expect(settings).toContain(
+      '<Text variant="subheading" as="h2" id="settings-workspace">Workspace</Text>'
+    );
+    expect(settings).toContain(
+      '<Text variant="subheading" as="h2" id="settings-review">Review rules</Text>'
+    );
     expect(settings).toContain('title="Settings"');
     expect(settings).toContain("{ label: 'Settings', active: true }");
     expect(settings).not.toContain("{ label: 'Preferences', active: true }");
@@ -198,7 +201,9 @@ describe('composed workspace views', () => {
     const appShell = await readStory('../src/stories/AppShell.stories.svelte');
 
     expect(appShell).toContain('<section class="projects" aria-labelledby="projects-heading">');
-    expect(appShell).toContain('<h2 id="projects-heading">Active projects</h2>');
+    expect(appShell).toContain(
+      '<Text variant="subheading" as="h2" id="projects-heading">Active projects</Text>'
+    );
     expect(appShell).toContain('<Table');
     expect(appShell).not.toMatch(/<Table[^>]*\bcaption=/);
   });

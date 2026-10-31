@@ -1,5 +1,6 @@
 <script lang="ts">
   import { TimeRangeField } from 'bits-ui';
+  import Text from './Text.svelte';
 
   type TimeRangeValue = { start: any; end: any };
 
@@ -58,7 +59,7 @@
   >
     <TimeRangeField.Label class="time-range-field-label">{label}</TimeRangeField.Label>
     {#if description}
-      <p class="time-range-field-description" id={descId}>{description}</p>
+      <Text as="p" variant="body-sm" tone="secondary" id={descId}>{description}</Text>
     {/if}
     <div class="time-range-field-inputs">
       <TimeRangeField.Input type="start" class="time-range-field-input" aria-invalid={error ? 'true' : undefined}>
@@ -99,13 +100,6 @@
     font-size: var(--font-size-label);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-label);
-  }
-
-  .time-range-field-description {
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   .time-range-field-inputs {

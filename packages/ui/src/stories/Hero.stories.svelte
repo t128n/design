@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Button, Card, Hero } from '../index.js';
+  import { Button, Card, Hero, Text } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -19,20 +19,32 @@
 {#snippet nextSteps()}
   <Card title="Next steps">
     <ol class="steps">
-      <li>Invite the project owners from the workspace.</li>
-      <li>Connect a repository and set the default branch.</li>
-      <li>Choose who confirms production deploys.</li>
+      <Text as="li" variant="body-sm" tone="secondary">
+        Invite the project owners from the workspace.
+      </Text>
+      <Text as="li" variant="body-sm" tone="secondary">
+        Connect a repository and set the default branch.
+      </Text>
+      <Text as="li" variant="body-sm" tone="secondary">
+        Choose who confirms production deploys.
+      </Text>
     </ol>
   </Card>
 {/snippet}
 
 {#snippet recentActivity()}
   <div class="activity">
-    <h2>Recent activity</h2>
+    <Text variant="label" as="h2">Recent activity</Text>
     <ul>
-      <li>Mara Chen approved the Orbit release.</li>
-      <li>Devon Ruiz connected the Atlas repository.</li>
-      <li>The Beacon workspace was restored.</li>
+      <Text as="li" variant="body-sm" tone="secondary">
+        Mara Chen approved the Orbit release.
+      </Text>
+      <Text as="li" variant="body-sm" tone="secondary">
+        Devon Ruiz connected the Atlas repository.
+      </Text>
+      <Text as="li" variant="body-sm" tone="secondary">
+        The Beacon workspace was restored.
+      </Text>
     </ul>
   </div>
 {/snippet}
@@ -115,9 +127,6 @@
     padding-left: var(--space-lg);
     display: grid;
     gap: var(--space-sm);
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   .activity {
@@ -125,16 +134,6 @@
     gap: var(--space-sm);
     padding: var(--space-lg) 0;
     border-top: var(--border-width) solid var(--color-border);
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-  }
-
-  .activity h2 {
-    margin: 0;
-    color: var(--color-text-primary);
-    font-size: var(--font-size-body-sm);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-body);
   }
 
   .activity ul {

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { TimeField } from 'bits-ui';
   import type { Time } from '@internationalized/date';
+  import Text from './Text.svelte';
 
   type Props = {
     value?: any;
@@ -59,7 +60,7 @@
   >
     <TimeField.Label class="time-field-label">{label}</TimeField.Label>
     {#if description}
-      <p class="time-field-description" id={descId}>{description}</p>
+      <Text as="p" variant="body-sm" tone="secondary" id={descId}>{description}</Text>
     {/if}
     <TimeField.Input
       class="time-field-input"
@@ -93,13 +94,6 @@
     font-size: var(--font-size-label);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-label);
-  }
-
-  .time-field-description {
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   .time-field :global(.time-field-input) {

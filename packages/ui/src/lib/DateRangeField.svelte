@@ -1,6 +1,7 @@
 <script lang="ts">
   import { DateRangeField } from 'bits-ui';
   import type { DateValue } from '@internationalized/date';
+  import Text from './Text.svelte';
 
   type RangeValue = { start: DateValue | undefined; end: DateValue | undefined };
 
@@ -61,7 +62,7 @@
   >
     <DateRangeField.Label class="date-range-field-label">{label}</DateRangeField.Label>
     {#if description}
-      <p class="date-range-field-description" id={descId}>{description}</p>
+      <Text as="p" variant="body-sm" tone="secondary" id={descId}>{description}</Text>
     {/if}
     <div class="date-range-field-inputs">
       <DateRangeField.Input type="start" class="date-range-field-input" {name} aria-invalid={error ? 'true' : undefined}>
@@ -102,13 +103,6 @@
     font-size: var(--font-size-label);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-label);
-  }
-
-  .date-range-field-description {
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   .date-range-field-inputs {
