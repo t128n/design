@@ -90,7 +90,7 @@
   }
 
   /* The grid/flex gap carries the rhythm; the separator is the only extra rule. */
-  :global(.list.separated > li + li) {
+  .list.separated > :global(li + li) {
     border-top: var(--border-width) solid var(--color-border);
   }
 

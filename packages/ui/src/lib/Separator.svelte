@@ -13,21 +13,21 @@
 <Separator.Root
   {orientation}
   decorative={decorative}
-  class={`separator ${orientation === 'vertical' ? 'vertical' : 'horizontal'} ${className}`}
+  class={`t128n-separator ${orientation === 'vertical' ? 'vertical' : 'horizontal'} ${className}`}
 />
 
 <style>
-  :global(.separator) {
+  :global(.t128n-separator) {
     background: var(--color-border);
     flex-shrink: 0;
   }
 
-  :global(.separator.horizontal) {
+  :global(.t128n-separator.horizontal) {
     height: 1px;
     width: 100%;
   }
 
-  :global(.separator.vertical) {
+  :global(.t128n-separator.vertical) {
     height: 100%;
     width: 1px;
   }

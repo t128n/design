@@ -27,7 +27,7 @@
   }: Props = $props();
 </script>
 
-<Toolbar.Root class="toolbar" {orientation} {loop} aria-label={ariaLabel}>
+<Toolbar.Root class="t128n-toolbar" {orientation} {loop} aria-label={ariaLabel}>
   {#if children}
     {@render children()}
   {:else}
@@ -58,7 +58,7 @@
 </Toolbar.Root>
 
 <style>
-  :global(.toolbar) {
+  :global(.t128n-toolbar) {
     display: inline-flex;
     align-items: center;
     gap: var(--space-xs);
@@ -70,7 +70,7 @@
     font-family: var(--font-family-sans);
   }
 
-  :global(.toolbar[data-orientation='vertical']) {
+  :global(.t128n-toolbar[data-orientation='vertical']) {
     flex-direction: column;
     align-items: stretch;
   }

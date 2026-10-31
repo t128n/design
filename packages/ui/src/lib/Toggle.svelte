@@ -26,13 +26,13 @@
   {onPressedChange}
   {disabled}
   aria-label={ariaLabel}
-  class={`toggle ${className}`}
+  class={`t128n-toggle ${className}`}
 >
   {@render children?.()}
 </Toggle.Root>
 
 <style>
-  :global(.toggle) {
+  :global(.t128n-toggle) {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -55,33 +55,33 @@
       color var(--transition-duration);
   }
 
-  :global(.toggle):hover:not(:disabled) {
+  :global(.t128n-toggle):hover:not(:disabled) {
     background: var(--color-surface-subtle);
   }
 
-  :global(.toggle):focus-visible {
+  :global(.t128n-toggle):focus-visible {
     outline: var(--border-width-emphasis) solid var(--color-focus);
     outline-offset: var(--border-width-emphasis);
   }
 
-  :global(.toggle[data-state='on']) {
+  :global(.t128n-toggle[data-state='on']) {
     border-color: var(--color-border);
     background: var(--color-surface-subtle);
     color: var(--color-accent);
   }
 
-  :global(.toggle[data-state='on']):hover:not(:disabled) {
+  :global(.t128n-toggle[data-state='on']):hover:not(:disabled) {
     background: var(--color-navigation-selected);
   }
 
-  :global(.toggle):disabled {
+  :global(.t128n-toggle):disabled {
     border-color: var(--color-disabled-background);
     background: var(--color-disabled-background);
     color: var(--color-disabled-text);
     cursor: not-allowed;
   }
 
-  :global(.toggle[data-state='on']):disabled {
+  :global(.t128n-toggle[data-state='on']):disabled {
     border-color: var(--color-disabled-background);
     background: var(--color-disabled-background);
     color: var(--color-disabled-text);

@@ -181,8 +181,8 @@ describe('layout primitives', () => {
   it('test_list_separated_spacing: the grid gap carries the rhythm, not a second padding', async () => {
     const source = await readSource('../src/lib/List.svelte');
     const separated = source.slice(
-      source.indexOf(':global(.list.separated'),
-      source.indexOf('}', source.indexOf(':global(.list.separated'))
+      source.indexOf('.list.separated > :global(li + li)'),
+      source.indexOf('}', source.indexOf('.list.separated > :global(li + li)'))
     );
 
     expect(separated).toContain('border-top: var(--border-width)');
