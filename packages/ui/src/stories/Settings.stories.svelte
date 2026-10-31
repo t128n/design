@@ -32,7 +32,7 @@
     {
       label: 'Account',
       items: [
-        { label: 'Preferences', active: true },
+        { label: 'Settings', active: true },
         { label: 'Members' }
       ]
     }

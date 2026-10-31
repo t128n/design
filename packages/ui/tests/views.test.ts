@@ -43,6 +43,14 @@ describe('composed views', () => {
     expect(settings).toContain('<Dialog');
   });
 
+  it('marks Settings active in the sidebar instead of Preferences', async () => {
+    const settings = await readStory('../src/stories/Settings.stories.svelte');
+
+    expect(settings).toContain("{ label: 'Settings', active: true }");
+    expect(settings).not.toContain("{ label: 'Preferences', active: true }");
+    expect(settings).toContain("{ label: 'Members' }");
+  });
+
   it('renders Landing with a top navbar, no sidebar, and a borderless footer', async () => {
     const landing = await readStory('../src/stories/Landing.stories.svelte');
 

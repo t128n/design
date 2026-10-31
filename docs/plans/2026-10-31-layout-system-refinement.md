@@ -20,6 +20,7 @@ flowchart LR
   HeaderT[PageHeader] --> Views
   HeroT[Hero] --> Views
   FooterT[Footer] --> Views
+  T9[composed semantics]
   %% taskgraph
   T2 --> T8
   T3 --> T8
@@ -51,10 +52,12 @@ gantt
   section lane 6
   T7 Footer :t7, 0, 137s
   section lane 7
+  T9 composed semantics follow-up :t9, 0, 129s
+  section lane 8
   T1 layout tokens and design audit :t1, 0, 100s
 ```
 
-critical path: T3 → T8 (6.2 min) · peak width 7 · predicted build 6.2 min · predicted total ≈ 9.7 min (target ✓)
+critical path: T3 → T8 (6.2 min) · peak width 8 · predicted build 6.2 min · predicted total ≈ 9.7 min (target ✓)
 
 ### T1 layout tokens and design audit · Complexity 3 (O-1) · Est. context 24k
 **Owns:** `DESIGN.md`, `packages/ui/src/styles/tokens.css`, `packages/ui/tests/design-audit.test.ts`
@@ -155,13 +158,26 @@ e.g. Dashboard -> Sidebar-only frame, no duplicated destination in a navbar
 e.g. Landing -> Navbar-only frame, Hero with aside, borderless Footer
 **Review Focus:** `test_dashboard_single_nav`: Dashboard renders Sidebar and no `<Navbar`; `test_settings_single_nav`: Settings renders Sidebar and no `<Navbar`; `test_landing_top_nav`: Landing renders Navbar, no Sidebar, plus Footer; `test_no_nested_cards`: Dashboard metrics are plain rows, no Card around a single number; `test_story_contracts`: all required story names from T2–T7 exist; `test_a11y_build`: `bun run build-storybook` exits 0.
 **Test code (verbatim):** `expect(dashboard).not.toContain('<Navbar')` · `expect(landing).toContain('<Footer')` · `expect(story).toContain("name=\"Top navigation\"")`
+### T9 composed semantics follow-up · Complexity 3 (O-1) · Est. context 22k
+**Owns:** `packages/ui/src/lib/Breadcrumbs.svelte`, `packages/ui/tests/breadcrumbs.test.ts`
+**Components:** 2
+**LOC owned:** 120
+**Tests:** fast
+**Model:** sonnet
+**Est. time:** 2.0 min (2 components, about 120 LOC, fast tests)
+**Consumes:** Breadcrumbs props `{ items: Item[] } -> HTMLElement`
+**Produces:** parent breadcrumb trail `{ label, href }[]` -> links with no `aria-current` on a linked parent
+e.g. `[{label:'Workspace',href:'#'},{label:'Projects',href:'#'}]` with title `Orbit` -> two links, no `aria-current="page"`
+**Review Focus:** `test_linked_last_crumb`: a last item with `href` renders `<a>` and no `aria-current`; `test_unlinked_last_crumb`: a last item without `href` renders `<span aria-current="page">`; `test_existing_trails`: the default three-item trail still marks Orbit current.
+**Test code (verbatim):** `expect(breadcrumbs).toContain("{#if item.href}")`
+
 ## Review Focus
 packages/ui: protocol, encoding — App type web UI. Protocol covers Storybook composition and navigation ownership; encoding covers ARIA, focus, and overflow.
-**Risks:** duplicate destinations; stacked active treatments; uppercase labels; crumbs repeating the title/nav; page-level horizontal scroll; clipped focus rings; card-around-metric and nested surfaces; `100vh` inner scroll; examples implying a mandatory shell.
+**Risks:** duplicate destinations; stacked active treatments; uppercase labels; wrong breadcrumb current item; page-level horizontal scroll; clipped focus rings; card-around-metric; `100vh` inner scroll.
 **Probe entry:** `serve=storybook dev -p 6006`
 
 ## Self-review
-- Coverage maps every scope section to T1–T8, including DESIGN.md §§Colors, Typography, Layout, Elevation & Depth, Shapes, Buttons and controls, Selection and overlay controls, Layouts and views, Iconography — concrete choice, Motion and interaction, Feedback and state, Layout and density, Color and status, Chrome, copy, ethics, System governance, Budgets, Mechanically checkable, Validation backlog. T1 covers Iconography, chrome copy, governance, and motion; T2–T7 cover component rules; T8 covers views.
-- No placeholders; each Owns path is unique; T8 is the only consumer with edges and intentionally waits for all producers.
+- Coverage maps every scope section to T1–T9, including DESIGN.md §§Colors, Typography, Layout, Elevation & Depth, Shapes, Buttons and controls, Selection and overlay controls, Layouts and views, Iconography — concrete choice, Motion and interaction, Feedback and state, Layout and density, Color and status, Chrome, copy, ethics, System governance, Budgets, Mechanically checkable, Validation backlog. T1 covers tokens and audit; T2–T7 components; T8 views; T9 semantics.
+- No placeholders; each Owns path is unique; T8 is the only consumer with edges.
 - APIs: T8 Consumes match T2–T7 Produces. Story headings in task text are quoted in `test_story_contracts`.
-- Sizes: all tasks 2.0–4.0 min; T8 owns three stories and is scheduled last.
+- Sizes: all tasks 2.0–4.0 min.
