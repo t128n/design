@@ -100,6 +100,12 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # `configure-pages` reads the Pages site via the API, so the build job's
+    # token needs `pages: write` on top of the workflow-level `contents: read`.
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v5
