@@ -1,6 +1,22 @@
-/* The single light theme contract. ThemeScope copies these custom properties
-   into nested scopes through inline overrides; do not duplicate this block. */
-:root {
+/* Theme precedence
+   1. An explicit data-theme="light" or data-theme="dark" on an element wins
+      for that subtree, including nested scopes.
+   2. Without an explicit value, the OS `prefers-color-scheme` decides for the
+      document root.
+   3. `color-scheme` makes native controls, scrollbars, and form widgets follow
+      the active theme instead of the OS default.
+
+   ThemeScope emits data-theme only for explicit light/dark. The default
+   "system" value emits no attribute, so the surrounding scope or the OS wins.
+
+   Only color and shadow tokens vary per theme. Typography, space, layout,
+   radius, control geometry, and breakpoints live once in the :root block below
+   so the themes cannot drift apart. */
+
+/* Light is the default at the document root and for any explicit light scope. */
+:root,
+[data-theme='light'] {
+  color-scheme: light;
   --color-canvas: #F2F4F8;
   --color-workspace: #FFFFFF;
   --color-surface: #FFFFFF;
@@ -28,7 +44,80 @@
   --color-disabled-background: #DDE1E6;
   --color-disabled-text: #697077;
   --shadow-overlay: 0 12px 32px rgb(22 22 22 / 16%);
+}
 
+/* Oxocarbon Base16 Dark semantic mapping. Explicit dark follows the light
+   defaults at the same specificity, so source order makes it win on a dark
+   element even when the OS prefers light. */
+[data-theme='dark'] {
+  color-scheme: dark;
+  --color-canvas: #0B0B0B;
+  --color-workspace: #161616;
+  --color-surface: #262626;
+  --color-surface-subtle: #1C1C1C;
+  --color-navigation-surface: #1C1C1C;
+  --color-navigation-selected: #393939;
+  --color-text-primary: #F2F4F8;
+  --color-text-secondary: #DDE1E6;
+  --color-text-muted: #A8A8B3;
+  --color-border: #393939;
+  --color-accent: #78A9FF;
+  --color-on-accent: #161616;
+  --color-focus: #78A9FF;
+  --color-info: #82CFFF;
+  --color-info-surface: #0E2438;
+  --color-progress: #BE95FF;
+  --color-progress-surface: #241634;
+  --color-success: #42BE65;
+  --color-success-surface: #0F2618;
+  --color-warning: #FF6F00;
+  --color-warning-surface: #2B1A00;
+  --color-danger: #FF7EB6;
+  --color-danger-surface: #33131F;
+  --color-scrim: rgb(0 0 0 / 65%);
+  --color-disabled-background: #393939;
+  --color-disabled-text: #A8A8B3;
+  --shadow-overlay: 0 12px 32px rgb(0 0 0 / 55%);
+}
+
+/* With no explicit theme, follow the OS. The :not() guard keeps an explicit
+   light choice above the OS even when the OS is dark. Explicit dark scopes
+   inside the page are unaffected because this rule targets only the root. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --color-canvas: #0B0B0B;
+    --color-workspace: #161616;
+    --color-surface: #262626;
+    --color-surface-subtle: #1C1C1C;
+    --color-navigation-surface: #1C1C1C;
+    --color-navigation-selected: #393939;
+    --color-text-primary: #F2F4F8;
+    --color-text-secondary: #DDE1E6;
+    --color-text-muted: #A8A8B3;
+    --color-border: #393939;
+    --color-accent: #78A9FF;
+    --color-on-accent: #161616;
+    --color-focus: #78A9FF;
+    --color-info: #82CFFF;
+    --color-info-surface: #0E2438;
+    --color-progress: #BE95FF;
+    --color-progress-surface: #241634;
+    --color-success: #42BE65;
+    --color-success-surface: #0F2618;
+    --color-warning: #FF6F00;
+    --color-warning-surface: #2B1A00;
+    --color-danger: #FF7EB6;
+    --color-danger-surface: #33131F;
+    --color-scrim: rgb(0 0 0 / 65%);
+    --color-disabled-background: #393939;
+    --color-disabled-text: #A8A8B3;
+    --shadow-overlay: 0 12px 32px rgb(0 0 0 / 55%);
+  }
+}
+
+/* Theme-independent tokens. Do not repeat these per theme. */
+:root {
   --font-family-sans: "IBM Plex Sans", system-ui, sans-serif;
   --font-family-mono: "IBM Plex Mono", ui-monospace, monospace;
   --font-size-display: 2rem;
