@@ -68,7 +68,7 @@
 
   .brand:focus-visible {
     outline: var(--border-width-emphasis) solid var(--color-focus);
-    outline-offset: 2px;
+    outline-offset: var(--border-width-emphasis);
   }
 
   .links {
@@ -104,7 +104,7 @@
 
   .link:focus-visible {
     outline: var(--border-width-emphasis) solid var(--color-focus);
-    outline-offset: -2px;
+    outline-offset: calc(-1 * var(--border-width-emphasis));
   }
 
   .link.active {

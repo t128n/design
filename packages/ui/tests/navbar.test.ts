@@ -71,6 +71,20 @@ describe('Navbar', () => {
     expect(navbar).toContain('overflow-x: auto');
   });
 
+  it('test_focus_offsets_from_tokens: focus rings use border tokens', async () => {
+    const navbar = await readSource('../src/lib/Navbar.svelte');
+
+    expect(blockFor(navbar, '.brand:focus-visible')).toContain(
+      'outline: var(--border-width-emphasis) solid var(--color-focus)'
+    );
+    expect(blockFor(navbar, '.brand:focus-visible')).toContain(
+      'outline-offset: var(--border-width-emphasis)'
+    );
+    expect(blockFor(navbar, '.link:focus-visible')).toContain(
+      'outline-offset: calc(-1 * var(--border-width-emphasis))'
+    );
+  });
+
   it('test_height_from_tokens: height derives from control height and spacing tokens', async () => {
     const navbar = await readSource('../src/lib/Navbar.svelte');
 
