@@ -117,9 +117,9 @@ describe('Sidebar', () => {
     expect(sidebar).toContain('<ChevronRight size={16} />');
     expect(sidebar).toContain('aria-expanded={isOpen(id, item)}');
     expect(sidebar).toContain('aria-controls={childrenId}');
-    expect(sidebar).toContain(
-      'aria-label={`${isOpen(id, item) ? \'Collapse\' : \'Expand\'} ${item.label}`}'
-    );
+    expect(sidebar).toContain('{isOpen(id, item) ? \'Collapse\' : \'Expand\'} {item.label}');
+    expect(sidebar).toContain('<VisuallyHidden>');
+    expect(sidebar).not.toContain('aria-label={`${isOpen(id, item) ? \'Collapse\' : \'Expand\'}');
     expect(sidebar).toContain('class="item-link"');
     expect(sidebar).toContain('class="expander"');
     expect(sidebar).toContain('{#if hasChildren}');
@@ -193,7 +193,8 @@ describe('Sidebar', () => {
     );
     expect(sidebar).toContain('class="drawer-close"');
     expect(sidebar).toContain('<Menu size={20} />');
-    expect(sidebar).toContain('<Close size={20} />');
+    expect(sidebar).toContain('<Close size={20} aria-hidden="true" />');
+    expect(sidebar).toContain('<VisuallyHidden>Close navigation</VisuallyHidden>');
     expect(sidebar).toContain('{toggleLabel}');
     expect(sidebar).toContain("toggleLabel = 'Navigation'");
     expect(sidebar).toContain('class="drawer-nav"');

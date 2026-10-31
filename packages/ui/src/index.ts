@@ -61,6 +61,7 @@ export { default as Grid } from './lib/Grid.svelte';
 export { default as Container } from './lib/Container.svelte';
 export { default as List } from './lib/List.svelte';
 export { default as EmptyState } from './lib/EmptyState.svelte';
+export { default as VisuallyHidden } from './lib/VisuallyHidden.svelte';
 export { headingLevels, headingTag } from './lib/typography';
 export type {
   HeadingLevel,

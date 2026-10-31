@@ -1,0 +1,58 @@
+<script module lang="ts">
+  import { defineMeta } from '@storybook/addon-svelte-csf';
+  import { Button, Container, Stack, Text, VisuallyHidden } from '../index.js';
+  import '../styles/index.css';
+
+  const { Story } = defineMeta({
+    title: 'Primitives/Visually hidden',
+    component: VisuallyHidden,
+    tags: ['autodocs'],
+    parameters: { layout: 'fullscreen' }
+  });
+</script>
+
+<Story name="Hidden label" asChild>
+  <Container width="form" padding="2xl">
+    <Stack gap="md">
+      <Text variant="body-sm" tone="secondary">
+        The control is icon-only on screen but is named "Add project" in the
+        accessibility tree.
+      </Text>
+      <div>
+        <Button variant="secondary">
+          <span aria-hidden="true">+</span>
+          <VisuallyHidden>Add project</VisuallyHidden>
+        </Button>
+      </div>
+    </Stack>
+  </Container>
+</Story>
+
+<Story name="Focusable skip link" asChild>
+  <div class="page">
+    <VisuallyHidden as="a" href="#visually-hidden-content" focusable>
+      Skip to the content
+    </VisuallyHidden>
+    <Text variant="body-sm" tone="secondary">
+      Press Tab: the link is clipped until it receives keyboard focus, then it
+      becomes visible and keeps working as a normal anchor.
+    </Text>
+    <Stack as="section" id="visually-hidden-content" gap="sm">
+      <Text variant="subheading" as="h2">Content region</Text>
+      <Text variant="body">Focus lands in the region, not on the link.</Text>
+      <div>
+        <Button variant="secondary">Continue</Button>
+      </div>
+    </Stack>
+  </div>
+</Story>
+
+<style>
+  .page {
+    display: grid;
+    gap: var(--space-lg);
+    width: min(40rem, calc(100vw - var(--space-2xl)));
+    margin-inline: auto;
+    padding-block: var(--space-2xl);
+  }
+</style>
