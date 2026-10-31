@@ -70,7 +70,7 @@
         <section class="settings-section" aria-labelledby="settings-workspace">
           <h2 id="settings-workspace">Workspace</h2>
           <div class="form-grid">
-            <Input label="Workspace name" value="Stellar" />
+            <Input label="Workspace name" value="Acme" />
             <Select label="Default region" items={regions} value="us-east" />
           </div>
         </section>

@@ -35,7 +35,7 @@
 
 {#snippet sidebarHeader()}
   <div class="brand">
-    <span class="brand-name">Stellar</span>
+    <span class="brand-name">Acme</span>
     <span class="brand-workspace">Orbit team</span>
   </div>
 {/snippet}

@@ -141,7 +141,7 @@ e.g. `{eyebrow:'Workspace', title:'Welcome back', aside}` -> sentence-case eyebr
 **Est. time:** 2.0 min (2 components, about 180 LOC, fast tests)
 **Consumes:** none
 **Produces:** Footer props `{ brand?: string; links?: Link[]; note?: string; bordered?: boolean } -> HTMLElement`
-e.g. `{links:[{label:'Docs',href:'#'}], note:'© 2026 Stellar', bordered:false}` -> borderless footer inside a composed page
+e.g. `{links:[{label:'Docs',href:'#'}], note:'© 2026 Acme', bordered:false}` -> borderless footer inside a composed page
 **Review Focus:** `test_border_optional`: `class:bordered={bordered}`, default true; `test_link_list_semantics`: links in `nav > ul > li`; `test_hierarchy`: brand primary/medium, links secondary, note muted; `test_focus_visible`: link focus ring; `test_responsive_stack`: under 640px column layout, note loses `margin-left: auto`; `test_stories_cover_cases`: Minimal, Utility links, Complete page, Stacked.
 **Test code (verbatim):** `expect(footer).toContain('class:bordered={bordered}')` · `expect(footer).toContain('<nav aria-label="Footer">')` · `expect(footer).toContain('flex-direction: column')`
 
