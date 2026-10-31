@@ -3,15 +3,14 @@
 # Storybook preview image.
 #
 # Coolify builds this image and serves the static Storybook build behind nginx.
-# Bun is used explicitly because the repository ships a `bun.lock` (there is no
-# pnpm lockfile), even though `package.json` still declares pnpm as the
-# package manager.
+# The repository is Bun-native: it ships a `bun.lock` and declares Bun as the
+# package manager in `package.json`.
 #
 # Build:  docker build -t design-storybook .
 # Run:    docker run --rm -p 8080:80 design-storybook
 
 # ---- build ----------------------------------------------------------------
-FROM oven/bun:1 AS build
+FROM oven/bun:1.4.3 AS build
 WORKDIR /app
 
 # Skip the anonymous usage telemetry ping during CI builds.

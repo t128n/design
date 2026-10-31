@@ -6,9 +6,9 @@
   "workspaces": [
     "packages/*"
   ],
-  "packageManager": "pnpm@10.20.0",
+  "packageManager": "bun@1.4.3",
   "scripts": {
-    "build": "pnpm --filter @t128n/ui build",
+    "build": "bun run --filter '@t128n/ui' build",
     "test": "vitest run --project=unit --passWithNoTests",
     "test:watch": "vitest --project=unit",
     "test:storybook": "vitest run --project=storybook",
