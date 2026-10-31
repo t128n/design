@@ -17,7 +17,7 @@ export const srcRoot = join(uiRoot, 'src');
 export const libRoot = join(srcRoot, 'lib');
 export const storiesRoot = join(srcRoot, 'stories');
 export const stylesRoot = join(srcRoot, 'styles');
-export const designPath = join(uiRoot, '..', '..', 'DESIGN.md');
+export const designPath = join(uiRoot, 'docs', 'design-language.mdx');
 
 export type SourceFile = {
   path: string;

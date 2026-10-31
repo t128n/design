@@ -16,7 +16,15 @@ const preview: Preview = {
       storySort: {
         order: [
           'Foundations',
-          ['Overview', 'Theming'],
+          [
+            'Overview',
+            'Manual',
+            'Design language',
+            'Theming',
+            'Theming reference',
+            'Components reference',
+            'Contributing'
+          ],
           'Primitives',
           'Layouts',
           'Components',

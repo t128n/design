@@ -192,14 +192,14 @@ describe('workspace surfaces', () => {
   });
 
   it('test_principles: states continuous workspaces over segmented dashboards', async () => {
-    const design = await readSource('../../../DESIGN.md');
+    const design = await readSource('../docs/design-language.mdx');
 
     expect(design).toContain('Continuous workspaces over segmented dashboards');
     expect(design).toContain('subtle surface differentiation only for orientation');
   });
 
   it('test_design_roles: distinguishes workspace, surface, canvas, and navigation roles', async () => {
-    const design = await readSource('../../../DESIGN.md');
+    const design = await readSource('../docs/design-language.mdx');
 
     expect(design).toContain('workspace: "#FFFFFF"');
     expect(design).toContain('navigation-surface: "#F7F8FA"');
@@ -214,7 +214,7 @@ describe('workspace surfaces', () => {
   });
 
   it('test_design_contrast: records validated surface contrast', async () => {
-    const design = await readSource('../../../DESIGN.md');
+    const design = await readSource('../docs/design-language.mdx');
 
     expect(design).toContain('primary and secondary text pass AA on workspace, navigation surface, and selected rows');
     expect(design).toContain('muted text passes on the navigation surface');
@@ -223,7 +223,7 @@ describe('workspace surfaces', () => {
   });
 
   it('test_design_layout: documents application workspace layout rules', async () => {
-    const design = await readSource('../../../DESIGN.md');
+    const design = await readSource('../docs/design-language.mdx');
 
     expect(design).toContain('### Application workspaces');
     expect(design).toContain('Primary content sits on a white workspace');
@@ -236,7 +236,7 @@ describe('workspace surfaces', () => {
   });
 
   it('test_component_defaults: updates component surface guidance', async () => {
-    const design = await readSource('../../../DESIGN.md');
+    const design = await readSource('../docs/design-language.mdx');
 
     expect(design).toContain('The main region is the white **workspace**');
     expect(design).toContain('A structural border belongs to exactly one region');
@@ -250,7 +250,7 @@ describe('workspace surfaces', () => {
   });
 
   it('test_default_surfaces: defaults Navbar, content, Landing, workspaces, and Sidebars to white', async () => {
-    const design = await readSource('../../../DESIGN.md');
+    const design = await readSource('../docs/design-language.mdx');
 
     expect(design).toContain('**Workspace** `#FFFFFF` is the primary white application content region');
     expect(design).toContain('the default for application views, Navbar, landing pages, workspaces, and persistent Sidebars');
@@ -260,7 +260,7 @@ describe('workspace surfaces', () => {
   });
 
   it('test_canvas_scope: limits canvas to subdued, selected, or genuinely distinct contexts', async () => {
-    const design = await readSource('../../../DESIGN.md');
+    const design = await readSource('../docs/design-language.mdx');
 
     expect(design).toContain('**Canvas** `#F2F4F8` is the subdued public or empty context');
     expect(design).toContain('selected backgrounds or genuinely distinct contexts');
@@ -268,14 +268,14 @@ describe('workspace surfaces', () => {
   });
 
   it('test_navigation_surface_scope: reserves the navigation surface for an explicit variant', async () => {
-    const design = await readSource('../../../DESIGN.md');
+    const design = await readSource('../docs/design-language.mdx');
 
     expect(design).toContain('Navigation surface** `#F7F8FA`');
     expect(design).toContain('only for an explicitly requested navigation variant');
   });
 
   it('test_surface_principles: prefers shared backgrounds, selective borders, and whitespace', async () => {
-    const design = await readSource('../../../DESIGN.md');
+    const design = await readSource('../docs/design-language.mdx');
 
     expect(design).toContain('Shared background + selective structural borders + whitespace');
     expect(design).toContain('Contrasting backgrounds + boxed sections + repeated dividers');
@@ -287,7 +287,7 @@ describe('workspace surfaces', () => {
   });
 
   it('test_border_ownership: gives each structural border one owner', async () => {
-    const design = await readSource('../../../DESIGN.md');
+    const design = await readSource('../docs/design-language.mdx');
 
     expect(design).toContain('### Border ownership');
     expect(design).toContain('Navbar owns its bottom border');
@@ -310,7 +310,7 @@ describe('workspace surfaces', () => {
   });
 
   it('test_elevation: cards must earn their border', async () => {
-    const design = await readSource('../../../DESIGN.md');
+    const design = await readSource('../docs/design-language.mdx');
 
     expect(design).toContain('Cards must earn their border');
   });

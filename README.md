@@ -1,0 +1,36 @@
+# t128n design
+
+The Svelte 5 design framework published as [`@t128n/ui`](https://www.npmjs.com/package/@t128n/ui): semantic tokens, a small typography and layout vocabulary, and components that consume only those tokens.
+
+- Documentation: https://t128n.github.io/design/
+- Package: [`@t128n/ui`](https://www.npmjs.com/package/@t128n/ui)
+- Design language: Storybook → Foundations → Design language
+- Agent and contributor contract: [`AGENTS.md`](AGENTS.md)
+
+## Install
+
+```sh
+bun add @t128n/ui
+```
+
+## Develop
+
+```sh
+bun install --frozen-lockfile
+bun run storybook        # documentation and stories at http://localhost:6006
+bun run test
+bun run build
+bun run verify
+```
+
+Components, styles, tests, and documentation pages live in `packages/ui`.
+Storybook configuration and sidebar order live in `.storybook`.
+
+## Contributing
+
+Read [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`AGENTS.md`](AGENTS.md). A change
+that affects the framework needs a changeset: `bun run changeset`.
+
+## License
+
+MIT. See [`LICENSE`](LICENSE).

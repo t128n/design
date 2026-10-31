@@ -1,4 +1,7 @@
-# Theming
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Theming reference" />
+
 
 The framework ships two validated themes, light and dark, from one semantic
 token contract. All tokens live in `packages/ui/src/styles/tokens.css`; there
@@ -186,7 +189,7 @@ should not be overridden by applications or stories.
 | Token | Why internal |
 | --- | --- |
 | `--border-width`, `--border-width-emphasis`, `--border-width-accent` | Structural stroke scale; components choose the correct weight |
-| `--radius-pill` | Reserved for switch tracks only (DESIGN.md R32) |
+| `--radius-pill` | Reserved for switch tracks only (design language R32) |
 | `--shadow-overlay` | One overlay elevation for floating layers; the value changes per theme |
 | `--transition-duration` | Motion timing owned by the framework |
 

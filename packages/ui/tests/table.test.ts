@@ -331,8 +331,8 @@ describe('Table stories', () => {
 });
 
 describe('Table composition contract', () => {
-  it('documents section and table responsibilities in DESIGN.md', async () => {
-    const design = await readFile(resolve(process.cwd(), 'DESIGN.md'), 'utf8');
+  it('documents section and table responsibilities in the design language page', async () => {
+    const design = await readFile(resolve(process.cwd(), 'packages/ui/docs/design-language.mdx'), 'utf8');
 
     expect(design).toContain('### Sections and tables');
     expect(design).toContain('A section owns its heading');

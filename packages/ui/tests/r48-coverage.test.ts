@@ -13,8 +13,8 @@ const uiRoot = dirname(testRoot);
 const repoRoot = dirname(dirname(uiRoot));
 
 const indexPath = join(uiRoot, 'src', 'index.ts');
-const componentsPath = join(repoRoot, 'docs', 'components.md');
-const coveragePath = join(repoRoot, 'docs', 'component-coverage.md');
+const componentsPath = join(uiRoot, 'docs', 'components.mdx');
+const coveragePath = join(repoRoot, 'AGENTS.md');
 
 type CoverageRow = {
   component: string;
@@ -107,12 +107,12 @@ describe('R48 component coverage', () => {
     expect(
       missing,
       `Missing R48 coverage rows for: ${missing.join(', ')}. ` +
-        `Add one row per component to docs/component-coverage.md.`
+        `Add one row per component to the coverage table in AGENTS.md.`
     ).toEqual([]);
 
     expect(
       unknown,
-      `docs/component-coverage.md has rows for components that are no longer exported: ` +
+      `AGENTS.md has coverage rows for components that are no longer exported: ` +
         `${unknown.join(', ')}. Remove them or restore the export.`
     ).toEqual([]);
   });
@@ -162,7 +162,7 @@ describe('R48 component coverage', () => {
     ).toEqual([]);
   });
 
-  it('test_component_notes: every row links to a real not-for note in docs/components.md', async () => {
+  it('test_component_notes: every row links to a real not-for note in the components page', async () => {
     const index = await readFile(indexPath, 'utf8');
     const coverage = await readFile(coveragePath, 'utf8');
     const components = await readFile(componentsPath, 'utf8');
@@ -175,12 +175,12 @@ describe('R48 component coverage', () => {
     for (const name of exports) {
       const section = sections.get(name);
       if (!section) {
-        failures.push(`docs/components.md is missing a "### ${name}" section.`);
+        failures.push(`packages/ui/docs/components.mdx is missing a "### ${name}" section.`);
         continue;
       }
 
       if (!/\*\*Not for:\*\*/.test(section)) {
-        failures.push(`docs/components.md#${name.toLowerCase()} has no "**Not for:**" note.`);
+        failures.push(`components.mdx#${name.toLowerCase()} has no "**Not for:**" note.`);
       }
     }
 
@@ -188,18 +188,18 @@ describe('R48 component coverage', () => {
       if (!row.note) {
         failures.push(
           `${row.component} (line ${row.line}): the not-for cell is empty. ` +
-            `Link to components.md#${row.component.toLowerCase()} or write a short note.`
+            `Link to components.mdx#${row.component.toLowerCase()} or write a short note.`
         );
         continue;
       }
 
-      const link = row.note.match(/components\.md#([A-Za-z0-9-]+)/);
+      const link = row.note.match(/components\.mdx?#([A-Za-z0-9-]+)/);
       if (link) {
         const anchor = link[1];
         const hasHeading = [...sections.keys()].some((name) => name.toLowerCase() === anchor);
         if (!hasHeading) {
           failures.push(
-            `${row.component} (line ${row.line}): components.md#${anchor} does not exist. ` +
+            `${row.component} (line ${row.line}): components.mdx#${anchor} does not exist. ` +
               `Fix the link or add the section.`
           );
         }
