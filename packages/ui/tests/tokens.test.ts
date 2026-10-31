@@ -63,6 +63,27 @@ describe('design tokens', () => {
   });
 
 
+  it('makes key components consume the geometry tokens', async () => {
+    const expectations: Record<string, string[]> = {
+      Avatar: ['--avatar-size-sm', '--avatar-size-md', '--avatar-size-lg'],
+      Checkbox: ['--checkbox-size', '--checkbox-indicator-size'],
+      Slider: ['--thumb-size', '--track-size'],
+      Switch: ['--switch-track-width', '--switch-track-height', '--switch-thumb-size'],
+      Pagination: ['--control-height-sm', '--icon-size-sm'],
+      RatingGroup: ['--touch-target', '--icon-size-md'],
+      Sidebar: ['--panel-max-height'],
+      List: ['--list-marker-indent']
+    };
+
+    for (const [component, tokens] of Object.entries(expectations)) {
+      const source = await readSource(`../src/lib/${component}.svelte`);
+
+      for (const token of tokens) {
+        expect(source, `${component} uses ${token}`).toContain(`var(${token})`);
+      }
+    }
+  });
+
 });
 
 describe('workspace surfaces', () => {
