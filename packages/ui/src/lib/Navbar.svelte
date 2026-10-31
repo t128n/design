@@ -20,15 +20,10 @@
     actions,
     label = 'Primary'
   }: Props = $props();
-
-  const mark = $derived(brand.slice(0, 1).toUpperCase());
 </script>
 
 <header class="navbar">
-  <a class="brand" href="/">
-    <span class="mark" aria-hidden="true">{mark}</span>
-    <span>{brand}</span>
-  </a>
+  <a class="brand" href="/">{brand}</a>
   {#if links.length}
     <nav class="links" aria-label={label}>
       {#each links as link}
@@ -53,60 +48,17 @@
     display: flex;
     align-items: center;
     gap: var(--space-lg);
-    min-height: 52px;
-    padding: 0 var(--space-lg);
-    border-bottom: 1px solid var(--color-border);
+    min-height: calc(var(--control-height) + var(--space-sm) * 2);
+    padding: 0 var(--space-xl);
+    border-bottom: var(--border-width) solid var(--color-border);
     background: var(--color-surface);
     color: var(--color-text-primary);
     font-family: var(--font-family-sans);
   }
 
   .brand {
-    display: inline-flex;
     flex: none;
-    align-items: center;
-    gap: var(--space-sm);
-    color: inherit;
-    font-size: var(--font-size-label);
-    font-weight: var(--font-weight-semibold);
-    line-height: var(--line-height-label);
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .brand:focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
-  }
-
-  .mark {
-    display: grid;
-    place-items: center;
-    width: 24px;
-    height: 24px;
-    border-radius: var(--radius-sm);
-    background: var(--color-accent);
-    color: var(--color-on-accent);
-    font-size: var(--font-size-caption);
-    font-weight: var(--font-weight-semibold);
-  }
-
-  .links {
-    display: flex;
-    flex: 1 1 auto;
-    align-items: stretch;
-    gap: var(--space-xs);
-    min-width: 0;
-    overflow-x: auto;
-    align-self: stretch;
-  }
-
-  .link {
-    display: inline-flex;
-    align-items: center;
-    padding: 0 var(--space-sm);
-    border-bottom: 2px solid transparent;
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
     font-size: var(--font-size-label);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-label);
@@ -114,18 +66,50 @@
     white-space: nowrap;
   }
 
+  .brand:focus-visible {
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .links {
+    display: flex;
+    flex: 1 1 auto;
+    align-self: stretch;
+    align-items: stretch;
+    gap: var(--space-xs);
+    min-width: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+
+  .link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 var(--space-sm);
+    border-bottom: var(--border-width-emphasis) solid transparent;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-label);
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      border-color var(--transition-duration) ease-out,
+      color var(--transition-duration) ease-out;
+  }
+
   .link:hover {
     color: var(--color-text-primary);
   }
 
   .link:focus-visible {
-    outline: 2px solid var(--color-focus);
+    outline: var(--border-width-emphasis) solid var(--color-focus);
     outline-offset: -2px;
   }
 
   .link.active {
     border-bottom-color: var(--color-accent);
-    color: var(--color-accent);
+    color: var(--color-text-primary);
   }
 
   .actions {
@@ -140,14 +124,14 @@
     .navbar {
       flex-wrap: wrap;
       gap: var(--space-sm);
-      padding: var(--space-sm) var(--space-md);
+      padding: var(--space-sm) var(--space-lg);
     }
 
     .links {
       order: 3;
       flex-basis: 100%;
       align-self: auto;
-      border-top: 1px solid var(--color-border);
+      padding-bottom: var(--space-xs);
     }
 
     .link {
