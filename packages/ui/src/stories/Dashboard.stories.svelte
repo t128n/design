@@ -12,6 +12,8 @@
     Sidebar,
     Stack,
     Table,
+    TableCell,
+    TableRow,
     Text
   } from '../index.js';
   import '../styles/index.css';
@@ -41,7 +43,7 @@
   const columns = [
     { label: 'Project' },
     { label: 'Owner' },
-    { label: 'Updated', align: 'right' as const },
+    { label: 'Updated', align: 'right' as const, numeric: true },
     { label: 'Status' }
   ];
 </script>
@@ -100,7 +102,7 @@
             <Badge tone="neutral">No action needed</Badge>
           </Stack>
         </Grid>
-        <Stack as="section" gap="sm" aria-labelledby="recent-heading">
+        <Stack as="section" gap="sm">
           <div class="section-heading">
             <Stack gap="xs">
               <Text variant="subheading" as="h2" id="recent-heading">Recent projects</Text>
@@ -112,31 +114,31 @@
               <Button variant="secondary">View all</Button>
             </Inline>
           </div>
-          <Table {columns}>
-            <tr>
-              <td>Orbit</td>
-              <td>Mara Chen</td>
-              <td class="u-right">2 minutes ago · 10:42</td>
-              <td><Badge tone="success">Healthy</Badge></td>
-            </tr>
-            <tr>
-              <td>Atlas</td>
-              <td>Devon Ruiz</td>
-              <td class="u-right">18 minutes ago · 10:26</td>
-              <td><Badge tone="progress">In progress</Badge></td>
-            </tr>
-            <tr>
-              <td>Beacon</td>
-              <td>No owner</td>
-              <td class="u-right">Yesterday · 16:10</td>
-              <td><Badge tone="warning">Needs owner</Badge></td>
-            </tr>
-            <tr>
-              <td>Cinder</td>
-              <td>Priya Shah</td>
-              <td class="u-right">2 days ago · 09:05</td>
-              <td><Badge tone="disabled">Archived</Badge></td>
-            </tr>
+          <Table {columns} labelledBy="recent-heading">
+            <TableRow>
+              <TableCell>Orbit</TableCell>
+              <TableCell>Mara Chen</TableCell>
+              <TableCell>2 minutes ago · 10:42</TableCell>
+              <TableCell><Badge tone="success">Healthy</Badge></TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Atlas</TableCell>
+              <TableCell>Devon Ruiz</TableCell>
+              <TableCell>18 minutes ago · 10:26</TableCell>
+              <TableCell><Badge tone="progress">In progress</Badge></TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Beacon</TableCell>
+              <TableCell>No owner</TableCell>
+              <TableCell>Yesterday · 16:10</TableCell>
+              <TableCell><Badge tone="warning">Needs owner</Badge></TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Cinder</TableCell>
+              <TableCell>Priya Shah</TableCell>
+              <TableCell>2 days ago · 09:05</TableCell>
+              <TableCell><Badge tone="disabled">Archived</Badge></TableCell>
+            </TableRow>
           </Table>
         </Stack>
         <EmptyState

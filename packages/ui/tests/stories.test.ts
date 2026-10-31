@@ -78,7 +78,7 @@ describe('Storybook stories', () => {
     const stories: Record<string, string[]> = {
       AppShell: ['Top navigation', 'Sidebar navigation', 'Combined navigation', 'Narrow screen'],
       Sidebar: ['Flat', 'Grouped', 'Nested', 'Selected', 'Focus', 'Navigation surface'],
-      Table: ['Default', 'Bordered', 'Dense', 'Narrow screen'],
+      Table: ['Default', 'Bordered', 'Dense', 'Numeric', 'Empty', 'Narrow screen'],
       Navbar: ['Basic', 'Account utilities', 'Narrow screen', 'Long labels'],
       PageHeader: [
         'Title only',

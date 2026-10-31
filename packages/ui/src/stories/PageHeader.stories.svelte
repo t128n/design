@@ -1,12 +1,21 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Badge, Button, Container, PageHeader, Table, Text } from '../index.js';
+  import {
+    Badge,
+    Button,
+    Container,
+    PageHeader,
+    Table,
+    TableCell,
+    TableRow,
+    Text
+  } from '../index.js';
   import '../styles/index.css';
 
   const columns = [
     { label: 'Project' },
     { label: 'Owner' },
-    { label: 'Updated' },
+    { label: 'Updated', align: 'right' as const, numeric: true },
     { label: 'Status' }
   ];
 
@@ -80,27 +89,27 @@
       description="Every project in the workspace, with its owner and latest status."
       actions={projectsActions}
     />
-    <section class="projects" aria-labelledby="projects-heading">
+    <section class="projects">
       <Text variant="subheading" as="h2" id="projects-heading">All projects</Text>
-      <Table {columns}>
-        <tr>
-          <td>Orbit</td>
-          <td>Mara Chen</td>
-          <td>2 minutes ago</td>
-          <td><Badge tone="success">Healthy</Badge></td>
-        </tr>
-        <tr>
-          <td>Atlas</td>
-          <td>Devon Ruiz</td>
-          <td>18 minutes ago</td>
-          <td><Badge tone="progress">In progress</Badge></td>
-        </tr>
-        <tr>
-          <td>Beacon</td>
-          <td>—</td>
-          <td>Yesterday</td>
-          <td><Badge tone="warning">Needs review</Badge></td>
-        </tr>
+      <Table {columns} labelledBy="projects-heading">
+        <TableRow>
+          <TableCell>Orbit</TableCell>
+          <TableCell>Mara Chen</TableCell>
+          <TableCell>2 minutes ago</TableCell>
+          <TableCell><Badge tone="success">Healthy</Badge></TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Atlas</TableCell>
+          <TableCell>Devon Ruiz</TableCell>
+          <TableCell>18 minutes ago</TableCell>
+          <TableCell><Badge tone="progress">In progress</Badge></TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Beacon</TableCell>
+          <TableCell>—</TableCell>
+          <TableCell>Yesterday</TableCell>
+          <TableCell><Badge tone="warning">Needs review</Badge></TableCell>
+        </TableRow>
       </Table>
     </section>
   </Container>
