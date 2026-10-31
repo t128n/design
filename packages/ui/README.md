@@ -128,13 +128,95 @@ Markers: `none`, `disc`, `circle`, `square`, `decimal`, `lower-alpha`, `upper-ro
 
 `EmptyState` renders a labelled `<section>` and centers its content with tokens. It is not a card: put it on the workspace when the whole region is empty.
 
+### Icons
+
+Carbon is the only icon family. Icons are bundled at build time with
+`unplugin-icons`, never fetched at runtime and never mixed with another set.
+
+```svelte
+<script lang="ts">
+  import Add from '~icons/carbon/add';
+  import Search from '~icons/carbon/search';
+  import { Icon } from '@t128n/ui';
+</script>
+
+<Icon icon={Search} />
+<Icon icon={Add} size={20} />
+<Icon icon={Add} label="Add project" />
+```
+
+`Icon` renders the Carbon component directly, without a wrapper. `size` accepts
+`16`, `20`, `24`, or `32` and defaults to `16`; use `16` for inline controls,
+`20` for prominent actions, `24` for rare larger contexts, and `32` only for
+intentionally large representations. Decorative icons are `aria-hidden` by
+default. Pass `label` only when the icon itself carries meaning: it becomes
+`role="img"` with that accessible name. Icon-only controls still need a name from
+visible text, `VisuallyHidden`, or a labelled `Icon`, plus a 44px touch target
+(DESIGN R37, R40, and the iconography guidance).
+
+`IconComponent` and `IconSize` are exported for typed icon props.
+
+### Form fields
+
+`Input`, `Select`, `Combobox`, `PinInput`, and the date/time controls share one
+anatomy: `label`, `description`, `error`, `required`, `disabled`, `id`, and
+`class`. `Field` renders that anatomy for controls that need an external label,
+and `createFieldState` derives the ids for controls that render their own label.
+
+```svelte
+<Input
+  label="Project name"
+  description="Use a short name that stays readable in navigation."
+  required
+/>
+
+<Input label="Project name" error="Enter a project name." />
+```
+
+- One visible label per control. The label points at the control with `for`; a
+  button or menu trigger is named with `aria-labelledby` instead of being wrapped
+  in a `<label>`.
+- `description` and `error` produce stable ids. The control receives both through
+  `aria-describedby`, and an error also sets `aria-invalid` and renders with
+  `role="alert"`.
+- `required` renders a `*` marker with hidden “required” text and is exposed on
+  the control as `required` or `aria-required`.
+- A placeholder is never a label (DESIGN R24).
+- `Checkbox` and `Switch` are the choice-control exception: their label stays
+  inline and clickable, so they keep their own label markup but use the same
+  description, error, required, disabled, and id contract.
+- Date and time fields keep their bits-ui label part for segment association and
+  use `Field` only for the shared message and id layer.
+
+`Field` passes a `FieldState` to its children snippet with `id`, `labelId`,
+`descriptionId`, `errorId`, `describedBy`, `invalid`, `required`, and `disabled`.
+Use it for a control that is not one of the packaged fields:
+
+```svelte
+<Field label="Project name" description="Use a short, readable name." required>
+  {#snippet children(state)}
+    <input
+      id={state.id}
+      required={state.required}
+      aria-describedby={state.describedBy}
+      aria-invalid={state.invalid ? 'true' : undefined}
+    />
+  {/snippet}
+</Field>
+```
+
 ### Visually hidden text
 
 `VisuallyHidden` keeps text in the accessibility tree while clipping it visually. Use it to name icon-only controls and to provide the AppShell skip link; do not use `aria-label` and hidden text together.
 
 ```svelte
+<script lang="ts">
+  import Add from '~icons/carbon/add';
+  import { Button, Icon, VisuallyHidden } from '@t128n/ui';
+</script>
+
 <Button variant="secondary">
-  <Icon aria-hidden="true" />
+  <Icon icon={Add} />
   <VisuallyHidden>Add project</VisuallyHidden>
 </Button>
 
@@ -226,14 +308,15 @@ examples.
 
 - **Typography:** `Text`, `Code`
 - **Layout:** `Stack`, `Inline`, `Grid`, `Container`, `List`, `AppShell`, `PageHeader`, `Hero`, `Footer`, `Sidebar`, `Navbar`
-- **Accessibility:** `VisuallyHidden`
-- **Controls:** `Button`, `Link`, `Input`, `Label`, `Checkbox`, `RadioGroup`, `Switch`, `Select`, `Combobox`, `Slider`, `PinInput`, `DateField`, `TimeField`, `DatePicker`, `DateRangeField`, `DateRangePicker`, `TimeRangeField`, `Toggle`, `ToggleGroup`, `RatingGroup`
+- **Accessibility:** `VisuallyHidden`, `Icon`
+- **Controls:** `Button`, `Link`, `Field`, `Input`, `Label`, `Checkbox`, `RadioGroup`, `Switch`, `Select`, `Combobox`, `Slider`, `PinInput`, `DateField`, `TimeField`, `DatePicker`, `DateRangeField`, `DateRangePicker`, `TimeRangeField`, `Toggle`, `ToggleGroup`, `RatingGroup`
 - **Surfaces and feedback:** `Card`, `Alert`, `Badge`, `Table`, `Breadcrumbs`, `Pagination`, `Progress`, `Meter`, `Separator`, `Tabs`, `Accordion`, `Collapsible`, `EmptyState`
 - **Overlays:** `Dialog`, `AlertDialog`, `Popover`, `Tooltip`, `DropdownMenu`, `ContextMenu`, `Menubar`, `Command`, `Toolbar`, `NavigationMenu`
 
 ## Exceptions
 
 - Native table and form semantics stay native. Wrap their textual content in `Text`. Application and story lists use `List`; navigation internals may keep their own list markup.
+- Component icons come only from `~icons/carbon/*` through `Icon`. Do not import a second icon family or fetch icons at runtime. The legacy `carbon-icons-svelte` dependency is no longer referenced by component source and can be removed in a package-delivery follow-up.
 - Control internals (buttons, inputs, menus, date fields, tables) may keep token-based local CSS so geometry and interaction states stay precise.
 - Application and story prose must not use raw `<p>`/`<h1>`–`<h6>` or typography classes. The framework audit enforces this.
 - `Text` does not support `truncate`, arbitrary font sizes, colors, or line heights. Add a token or a documented variant instead.

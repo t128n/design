@@ -17,6 +17,7 @@ export { default as Footer } from './lib/Footer.svelte';
 export { default as Hero } from './lib/Hero.svelte';
 export { default as Input } from './lib/Input.svelte';
 export { default as Label } from './lib/Label.svelte';
+export { default as Field } from './lib/Field.svelte';
 export { default as Link } from './lib/Link.svelte';
 export { default as Menubar } from './lib/Menubar.svelte';
 export { default as Meter } from './lib/Meter.svelte';
@@ -62,6 +63,11 @@ export { default as Container } from './lib/Container.svelte';
 export { default as List } from './lib/List.svelte';
 export { default as EmptyState } from './lib/EmptyState.svelte';
 export { default as VisuallyHidden } from './lib/VisuallyHidden.svelte';
+export { default as Icon } from './lib/Icon.svelte';
+export { iconSizes } from './lib/icon';
+export type { IconComponent, IconSize } from './lib/icon';
+export { createFieldState } from './lib/field';
+export type { FieldState, FieldStateOptions } from './lib/field';
 export { headingLevels, headingTag } from './lib/typography';
 export type {
   HeadingLevel,

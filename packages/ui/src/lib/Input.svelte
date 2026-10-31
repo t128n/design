@@ -1,36 +1,53 @@
 <script lang="ts">
   import type { HTMLInputAttributes } from 'svelte/elements';
+  import { mergeClasses } from './class';
+  import Field from './Field.svelte';
 
   type Props = HTMLInputAttributes & {
     label: string;
+    description?: string;
     error?: string;
   };
 
-  let { label, error, ...restProps }: Props = $props();
+  let {
+    label,
+    description,
+    error,
+    id,
+    required = false,
+    disabled = false,
+    class: className,
+    ...restProps
+  }: Props = $props();
+
+  const fieldClass = $derived(mergeClasses(className));
+  const isRequired = $derived(Boolean(required));
+  const isDisabled = $derived(Boolean(disabled));
 </script>
 
-<label class="field">
-  <span class="label">{label}</span>
-  <input {...restProps} class="input" aria-invalid={error ? 'true' : undefined} />
-  {#if error}
-    <span class="error" role="alert">{error}</span>
-  {/if}
-</label>
+<Field
+  {label}
+  {description}
+  {error}
+  id={id ?? undefined}
+  required={isRequired}
+  disabled={isDisabled}
+  class={fieldClass}
+>
+  {#snippet children(state)}
+    <input
+      {...restProps}
+      id={state.id}
+      class="input"
+      required={state.required}
+      disabled={state.disabled}
+      aria-invalid={state.invalid ? 'true' : undefined}
+      aria-describedby={state.describedBy}
+    />
+  {/snippet}
+</Field>
 
 <style>
-  .field {
-    display: grid;
-    gap: var(--space-xs);
-    color: var(--color-text-primary);
-    font-family: var(--font-family-sans);
-  }
-
-  .label {
-    font-size: var(--font-size-label);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-label);
-  }
-
   .input {
     min-height: var(--control-height);
     padding: 0 var(--space-md);
@@ -53,11 +70,5 @@
 
   .input[aria-invalid='true']:focus-visible {
     outline-color: var(--color-danger);
-  }
-
-  .error {
-    color: var(--color-danger);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 </style>

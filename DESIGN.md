@@ -318,6 +318,17 @@ A section owns its heading, description, optional actions, and the spacing that 
 - **EmptyState** owns an empty region: a heading at the requested `level`, one sentence, and exactly one required action. Put it on the workspace; it is not a card and carries no illustration.
 - **VisuallyHidden** supplies text that stays in the accessibility tree while clipped on screen. Use it for icon-only control names and for the AppShell skip link, and remove any `aria-label` that would otherwise duplicate the name. `focusable` reveals the element on keyboard focus, which is what makes a hidden skip link visible when it receives focus.
 
+### Form fields
+
+- One visible label per control. `Input`, `Select`, `Combobox`, `PinInput`, and the date/time controls accept `label`, `description`, `error`, `required`, `disabled`, `id`, and `class`.
+- `Field` owns the shared anatomy for controls with an external label: the visible `Label`, a required marker with hidden “required” text, description text, and an error with `role="alert"`. `createFieldState` derives the stable control, label, description, and error ids.
+- Connect the messages, never leave them adjacent: the control receives `aria-describedby` from description plus error, and an error also sets `aria-invalid`.
+- `required` is exposed on the control through the native attribute or `aria-required`; `disabled` is exposed through the native disabled state.
+- Do not wrap a button or menu trigger in a `<label>`; name it with `aria-labelledby`.
+- **Choice-control exception:** `Checkbox` and `Switch` keep their label inline and clickable. They use the same description, error, required, disabled, and id contract but do not render a second label above the control.
+- Date and time fields keep their bits-ui label part for segment association and use `Field` only for the shared message and id layer.
+- A placeholder is never a label (R24).
+
 ### Iconography — concrete choice
 
 **Primary icon pack: [IBM Carbon Icons](https://icones.js.org/collection/carbon)**, browsed through [Icônes](https://icones.js.org/). **Iconify collection prefix: `carbon`** (for example, `carbon:search`, `carbon:add`, `carbon:chevron-right`, `carbon:settings`). The Carbon collection is licensed Apache 2.0.
@@ -327,6 +338,7 @@ A section owns its heading, description, optional actions, and the spacing that 
 - **Do not override SVG stroke width globally.** Carbon icons are optically designed for their artboard sizes and are not interchangeable with Lucide's 2px stroke convention.
 - Use monochrome icon colors corresponding to surrounding text or affordance emphasis; reserve `#0F62FE` for meaningful active or interactive states.
 - **Icons are optional by default**: prefer descriptive text and introduce icons only when they improve recognition, disambiguate actions, or reduce scanning effort.
+- **Use the `Icon` primitive** for every component and product icon. It renders Carbon directly, accepts `size` 16/20/24/32, hides decorative icons from assistive technology, and takes a `label` for the rare icon that carries meaning.
 - Do not prepend an icon to every heading, button, menu item, or navigation label for decoration.
 - Icon-only actions require accessible names, visible focus states, and adequately sized touch targets; IBM recommends **at least 44×44px** for interactive icon touch targets.
 - Center-align icons with associated labels. When pairing icon and text, match their colors unless there is a specific semantic reason not to.

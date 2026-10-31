@@ -1,12 +1,16 @@
 <script lang="ts">
   import { Switch } from 'bits-ui';
+  import { createFieldState } from './field';
 
   type Props = {
     checked?: boolean;
     onCheckedChange?: (checked: boolean) => void;
     label: string;
     description?: string;
+    error?: string;
+    required?: boolean;
     disabled?: boolean;
+    id?: string;
     name?: string;
     value?: string;
   };
@@ -16,22 +20,31 @@
     onCheckedChange,
     label,
     description,
+    error,
+    required = false,
     disabled = false,
+    id,
     name,
     value
   }: Props = $props();
 
-  const descriptionId = $props.id();
+  const baseId = $props.id();
+  const state = $derived(
+    createFieldState(baseId, { id, description, error, required, disabled })
+  );
 </script>
 
 <div class="switch">
   <Switch.Root
+    id={state.id}
     bind:checked
     {disabled}
+    {required}
     {name}
     {value}
     {onCheckedChange}
-    aria-describedby={description ? descriptionId : undefined}
+    aria-invalid={state.invalid ? 'true' : undefined}
+    aria-describedby={state.describedBy}
     class="switch-root"
   >
     <span class="track" aria-hidden="true">
@@ -40,7 +53,10 @@
     <span class="label">{label}</span>
   </Switch.Root>
   {#if description}
-    <span id={descriptionId} class="description">{description}</span>
+    <span id={state.descriptionId} class="description">{description}</span>
+  {/if}
+  {#if error}
+    <span id={state.errorId} class="error" role="alert">{error}</span>
   {/if}
 </div>
 
@@ -127,6 +143,13 @@
   .description {
     margin-left: calc(var(--switch-track-width) + var(--space-sm));
     color: var(--color-text-secondary);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body);
+  }
+
+  .error {
+    margin-left: calc(var(--switch-track-width) + var(--space-sm));
+    color: var(--color-danger);
     font-size: var(--font-size-body-sm);
     line-height: var(--line-height-body);
   }

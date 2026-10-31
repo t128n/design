@@ -230,11 +230,6 @@
     color: var(--color-text-secondary);
   }
 
-  .item-icon :global(svg) {
-    width: var(--icon-size-sm);
-    height: var(--icon-size-sm);
-  }
-
   .item-label {
     flex: 1;
     overflow: hidden;

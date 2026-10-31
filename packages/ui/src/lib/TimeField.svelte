@@ -1,7 +1,8 @@
 <script lang="ts">
   import { TimeField } from 'bits-ui';
   import type { Time } from '@internationalized/date';
-  import Text from './Text.svelte';
+  import Field from './Field.svelte';
+  import VisuallyHidden from './VisuallyHidden.svelte';
 
   type Props = {
     value?: any;
@@ -14,6 +15,7 @@
     disabled?: boolean;
     readonly?: boolean;
     required?: boolean;
+    id?: string;
     locale?: string;
     hourCycle?: 12 | 24;
     granularity?: 'hour' | 'minute' | 'second';
@@ -32,54 +34,56 @@
     disabled = false,
     readonly = false,
     required = false,
+    id,
     locale,
     hourCycle,
     granularity = 'minute',
     hideTimeZone = false,
     name
   }: Props = $props();
-
-  const id = $props.id();
-  const errorId = `${id}-error`;
-  const descId = `${id}-desc`;
 </script>
 
 <div class="time-field">
-  <TimeField.Root
-    bind:value
-    {onValueChange}
-    bind:placeholder
-    {onPlaceholderChange}
-    {disabled}
-    {readonly}
-    {required}
-    {locale}
-    {hourCycle}
-    {granularity}
-    {hideTimeZone}
-  >
-    <TimeField.Label class="time-field-label">{label}</TimeField.Label>
-    {#if description}
-      <Text as="p" variant="body-sm" tone="secondary" id={descId}>{description}</Text>
-    {/if}
-    <TimeField.Input
-      class="time-field-input"
-      {name}
-      aria-invalid={error ? 'true' : undefined}
-      aria-describedby={[description ? descId : null, error ? errorId : null].filter(Boolean).join(' ') || undefined}
-    >
-      {#snippet children({ segments })}
-        {#each segments as { part, value }, i}
-          <TimeField.Segment {part} class="time-field-segment">
-            {value}
-          </TimeField.Segment>
-        {/each}
-      {/snippet}
-    </TimeField.Input>
-  </TimeField.Root>
-  {#if error}
-    <span id={errorId} class="time-field-error" role="alert">{error}</span>
-  {/if}
+  <Field {description} {error} {disabled} {required} {id}>
+    {#snippet children(state)}
+      <TimeField.Root
+        bind:value
+        {onValueChange}
+        bind:placeholder
+        {onPlaceholderChange}
+        {disabled}
+        {readonly}
+        {required}
+        {locale}
+        {hourCycle}
+        {granularity}
+        {hideTimeZone}
+      >
+        <TimeField.Label class="time-field-label" id={state.labelId}>
+          {label}
+          {#if state.required}
+            <span class="field-required" aria-hidden="true">*</span>
+            <VisuallyHidden>required</VisuallyHidden>
+          {/if}
+        </TimeField.Label>
+        <TimeField.Input
+          class="time-field-input"
+          {name}
+          aria-invalid={state.invalid ? 'true' : undefined}
+          data-invalid={state.invalid ? '' : undefined}
+          aria-describedby={state.describedBy}
+        >
+          {#snippet children({ segments })}
+            {#each segments as { part, value }, i}
+              <TimeField.Segment {part} class="time-field-segment">
+                {value}
+              </TimeField.Segment>
+            {/each}
+          {/snippet}
+        </TimeField.Input>
+      </TimeField.Root>
+    {/snippet}
+  </Field>
 </div>
 
 <style>
@@ -109,7 +113,8 @@
     font-variant-numeric: tabular-nums;
   }
 
-  .time-field :global(.time-field-input[data-invalid]) {
+  .time-field :global(.time-field-input[data-invalid]),
+  .time-field :global(.time-field-input[aria-invalid='true']) {
     border-color: var(--color-danger);
   }
 
@@ -118,7 +123,8 @@
     outline-offset: var(--border-width-emphasis);
   }
 
-  .time-field :global(.time-field-input[data-invalid]:focus-within) {
+  .time-field :global(.time-field-input[data-invalid]:focus-within),
+  .time-field :global(.time-field-input[aria-invalid='true']:focus-within) {
     outline-color: var(--color-danger);
   }
 
@@ -142,11 +148,5 @@
 
   .time-field :global(.time-field-segment[data-placeholder]) {
     color: var(--color-text-muted);
-  }
-
-  .time-field-error {
-    color: var(--color-danger);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 </style>

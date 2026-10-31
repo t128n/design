@@ -3,6 +3,7 @@
   import type { Snippet } from 'svelte';
   import ChevronLeftIcon from '~icons/carbon/chevron-left';
   import ChevronRightIcon from '~icons/carbon/chevron-right';
+  import Icon from './Icon.svelte';
 
   type Props = {
     count: number;
@@ -34,7 +35,7 @@
     {#snippet children({ pages, range })}
       <div class="pagination-row">
         <Pagination.PrevButton class="pagination-nav">
-          <ChevronLeftIcon class="pagination-icon" aria-hidden="true" />
+          <Icon icon={ChevronLeftIcon} class="pagination-icon" />
           <span>{prevLabel}</span>
         </Pagination.PrevButton>
         <div class="pagination-pages">
@@ -50,7 +51,7 @@
         </div>
         <Pagination.NextButton class="pagination-nav">
           <span>{nextLabel}</span>
-          <ChevronRightIcon class="pagination-icon" aria-hidden="true" />
+          <Icon icon={ChevronRightIcon} class="pagination-icon" />
         </Pagination.NextButton>
       </div>
       {#if range}
@@ -158,11 +159,6 @@
     height: var(--control-height-sm);
     color: var(--color-text-muted);
     font-size: var(--font-size-label);
-  }
-
-  .pagination :global(.pagination-icon) {
-    width: var(--icon-size-sm);
-    height: var(--icon-size-sm);
   }
 
   .pagination-range {

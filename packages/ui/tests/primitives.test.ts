@@ -24,12 +24,16 @@ describe('Button', () => {
 describe('Input', () => {
   it('always associates its supplied label and exposes errors to assistive technology', async () => {
     const source = await readSource('../src/lib/Input.svelte');
+    const field = await readSource('../src/lib/Field.svelte');
 
-    expect(source).toContain('<label class="field">');
-    expect(source).toContain("aria-invalid={error ? 'true' : undefined}");
-    expect(source).toContain('role="alert"');
+    expect(source).toContain("import Field from './Field.svelte'");
+    expect(source).toContain('id={state.id}');
+    expect(source).toContain("aria-invalid={state.invalid ? 'true' : undefined}");
+    expect(source).toContain('aria-describedby={state.describedBy}');
+    expect(field).toContain('<Label');
+    expect(field).toContain('role="alert"');
     expect(source).toContain('border-color: var(--color-danger)');
-    expect(source).toContain('color: var(--color-danger)');
+    expect(field).toContain('color: var(--color-danger)');
   });
 });
 

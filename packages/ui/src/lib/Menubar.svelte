@@ -2,6 +2,7 @@
   import { Menubar } from 'bits-ui';
   import type { Snippet } from 'svelte';
   import CheckIcon from '~icons/carbon/checkmark';
+  import Icon from './Icon.svelte';
 
   type MenuItem = {
     type?: 'item' | 'checkbox';
@@ -55,7 +56,7 @@
                     >
                       {#snippet children({ checked: isChecked })}
                         <span class="indicator">
-                          {#if isChecked}<CheckIcon class="indicator-icon" />{/if}
+                          {#if isChecked}<Icon icon={CheckIcon} class="indicator-icon" />{/if}
                         </span>
                         <span class="label">{item.label}</span>
                         {#if item.shortcut}<span class="shortcut">{item.shortcut}</span>{/if}
@@ -179,8 +180,6 @@
   }
 
   .indicator :global(.indicator-icon) {
-    width: var(--icon-size-xs);
-    height: var(--icon-size-xs);
     color: var(--color-accent);
   }
 

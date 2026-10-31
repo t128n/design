@@ -3,6 +3,8 @@
   import type { DateValue } from '@internationalized/date';
   import ChevronLeft from '~icons/carbon/chevron-left';
   import ChevronRight from '~icons/carbon/chevron-right';
+  import Icon from './Icon.svelte';
+  import VisuallyHidden from './VisuallyHidden.svelte';
 
   type Props = {
     type?: 'single' | 'multiple';
@@ -73,11 +75,13 @@
   {#snippet children({ months, weekdays })}
     <div class="calendar-header">
       <Calendar.PrevButton class="calendar-nav">
-        <ChevronLeft class="icon" />
+        <Icon icon={ChevronLeft} />
+        <VisuallyHidden>Previous month</VisuallyHidden>
       </Calendar.PrevButton>
       <Calendar.Heading class="calendar-heading" />
       <Calendar.NextButton class="calendar-nav">
-        <ChevronRight class="icon" />
+        <Icon icon={ChevronRight} />
+        <VisuallyHidden>Next month</VisuallyHidden>
       </Calendar.NextButton>
     </div>
     <div class="calendar-months">
@@ -153,11 +157,6 @@
   :global(.calendar-nav:disabled) {
     color: var(--color-disabled-text);
     cursor: not-allowed;
-  }
-
-  :global(.calendar-nav .icon) {
-    width: var(--icon-size-sm);
-    height: var(--icon-size-sm);
   }
 
   :global(.calendar-heading) {

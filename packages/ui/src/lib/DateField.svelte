@@ -1,7 +1,8 @@
 <script lang="ts">
   import { DateField } from 'bits-ui';
   import type { DateValue } from '@internationalized/date';
-  import Text from './Text.svelte';
+  import Field from './Field.svelte';
+  import VisuallyHidden from './VisuallyHidden.svelte';
 
   type Props = {
     value?: DateValue;
@@ -14,6 +15,7 @@
     disabled?: boolean;
     readonly?: boolean;
     required?: boolean;
+    id?: string;
     locale?: string;
     granularity?: 'day' | 'hour' | 'minute' | 'second';
     minValue?: DateValue;
@@ -32,54 +34,56 @@
     disabled = false,
     readonly = false,
     required = false,
+    id,
     locale,
     granularity,
     minValue,
     maxValue,
     name
   }: Props = $props();
-
-  const id = $props.id();
-  const errorId = `${id}-error`;
-  const descId = `${id}-desc`;
 </script>
 
 <div class="date-field">
-  <DateField.Root
-    bind:value
-    {onValueChange}
-    bind:placeholder
-    {onPlaceholderChange}
-    {disabled}
-    {readonly}
-    {required}
-    {locale}
-    {granularity}
-    {minValue}
-    {maxValue}
-  >
-    <DateField.Label class="date-field-label">{label}</DateField.Label>
-    {#if description}
-      <Text as="p" variant="body-sm" tone="secondary" id={descId}>{description}</Text>
-    {/if}
-    <DateField.Input
-      class="date-field-input"
-      {name}
-      aria-invalid={error ? 'true' : undefined}
-      aria-describedby={[description ? descId : null, error ? errorId : null].filter(Boolean).join(' ') || undefined}
-    >
-      {#snippet children({ segments })}
-        {#each segments as { part, value }, i}
-          <DateField.Segment {part} class="date-field-segment">
-            {value}
-          </DateField.Segment>
-        {/each}
-      {/snippet}
-    </DateField.Input>
-  </DateField.Root>
-  {#if error}
-    <span id={errorId} class="date-field-error" role="alert">{error}</span>
-  {/if}
+  <Field {description} {error} {disabled} {required} {id}>
+    {#snippet children(state)}
+      <DateField.Root
+        bind:value
+        {onValueChange}
+        bind:placeholder
+        {onPlaceholderChange}
+        {disabled}
+        {readonly}
+        {required}
+        {locale}
+        {granularity}
+        {minValue}
+        {maxValue}
+      >
+        <DateField.Label class="date-field-label" id={state.labelId}>
+          {label}
+          {#if state.required}
+            <span class="field-required" aria-hidden="true">*</span>
+            <VisuallyHidden>required</VisuallyHidden>
+          {/if}
+        </DateField.Label>
+        <DateField.Input
+          class="date-field-input"
+          {name}
+          aria-invalid={state.invalid ? 'true' : undefined}
+          data-invalid={state.invalid ? '' : undefined}
+          aria-describedby={state.describedBy}
+        >
+          {#snippet children({ segments })}
+            {#each segments as { part, value }, i}
+              <DateField.Segment {part} class="date-field-segment">
+                {value}
+              </DateField.Segment>
+            {/each}
+          {/snippet}
+        </DateField.Input>
+      </DateField.Root>
+    {/snippet}
+  </Field>
 </div>
 
 <style>
@@ -109,7 +113,8 @@
     font-variant-numeric: tabular-nums;
   }
 
-  .date-field :global(.date-field-input[data-invalid]) {
+  .date-field :global(.date-field-input[data-invalid]),
+  .date-field :global(.date-field-input[aria-invalid='true']) {
     border-color: var(--color-danger);
   }
 
@@ -118,7 +123,8 @@
     outline-offset: var(--border-width-emphasis);
   }
 
-  .date-field :global(.date-field-input[data-invalid]:focus-within) {
+  .date-field :global(.date-field-input[data-invalid]:focus-within),
+  .date-field :global(.date-field-input[aria-invalid='true']:focus-within) {
     outline-color: var(--color-danger);
   }
 
@@ -143,14 +149,4 @@
   .date-field :global(.date-field-segment[data-placeholder]) {
     color: var(--color-text-muted);
   }
-
-  .date-field-error {
-    color: var(--color-danger);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
-  }
 </style>
-
-<script module>
-  let descriptionId = 'date-field-desc';
-</script>

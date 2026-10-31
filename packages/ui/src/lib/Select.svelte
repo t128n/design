@@ -1,7 +1,10 @@
 <script lang="ts">
   import { Select } from 'bits-ui';
-  import CheckIcon from '~icons/carbon/checkmark';
   import ChevronDownIcon from '~icons/carbon/chevron-down';
+  import CheckIcon from '~icons/carbon/checkmark';
+  import { mergeClasses } from './class';
+  import Field from './Field.svelte';
+  import Icon from './Icon.svelte';
 
   type Item = {
     value: string;
@@ -14,11 +17,14 @@
     value?: string;
     onValueChange?: (value: string) => void;
     label: string;
+    description?: string;
     placeholder?: string;
     error?: string;
     disabled?: boolean;
     required?: boolean;
+    id?: string;
     name?: string;
+    class?: string;
   };
 
   let {
@@ -26,65 +32,70 @@
     value = $bindable<string | undefined>(undefined),
     onValueChange,
     label,
+    description,
     placeholder = 'Select an option',
     error,
     disabled = false,
     required = false,
-    name
+    id,
+    name,
+    class: className = ''
   }: Props = $props();
 
-  const errorId = $props.id();
+  const classes = $derived(mergeClasses('select-field', className));
 </script>
 
-<div class="select-field">
-  <span class="label">{label}</span>
-  <Select.Root
-    type="single"
-    bind:value
-    {items}
-    {disabled}
-    {required}
-    {name}
-    {onValueChange}
-  >
-    <Select.Trigger
-      class="select-trigger"
-      aria-label={label}
-      aria-invalid={error ? 'true' : undefined}
-      aria-describedby={error ? errorId : undefined}
-    >
-      <span class="select-value">
-        {items.find((item) => item.value === value)?.label ?? placeholder}
-      </span>
-      <ChevronDownIcon class="chevron" />
-    </Select.Trigger>
-    <Select.Portal>
-      <Select.Content class="select-content" sideOffset={4}>
-        <div class="panel">
-          <Select.Viewport class="viewport">
-            {#each items as item}
-              <Select.Item
-                value={item.value}
-                label={item.label}
-                disabled={item.disabled}
-                class="select-item"
-              >
-                {#snippet children({ selected })}
-                  <span class="check" aria-hidden="true">
-                    {#if selected}<CheckIcon class="check-icon" />{/if}
-                  </span>
-                  <span>{item.label}</span>
-                {/snippet}
-              </Select.Item>
-            {/each}
-          </Select.Viewport>
-        </div>
-      </Select.Content>
-    </Select.Portal>
-  </Select.Root>
-  {#if error}
-    <span id={errorId} class="error" role="alert">{error}</span>
-  {/if}
+<div class={classes}>
+  <Field {label} {description} {error} {disabled} {required} {id}>
+    {#snippet children(state)}
+      <Select.Root
+        type="single"
+        bind:value
+        {items}
+        {disabled}
+        {required}
+        {name}
+        {onValueChange}
+      >
+        <Select.Trigger
+          id={state.id}
+          class="select-trigger"
+          aria-labelledby={state.labelId}
+          aria-required={state.required ? 'true' : undefined}
+          aria-invalid={state.invalid ? 'true' : undefined}
+          aria-describedby={state.describedBy}
+        >
+          <span class="select-value">
+            {items.find((item) => item.value === value)?.label ?? placeholder}
+          </span>
+          <Icon icon={ChevronDownIcon} class="chevron" />
+        </Select.Trigger>
+        <Select.Portal>
+          <Select.Content class="select-content" sideOffset={4}>
+            <div class="panel">
+              <Select.Viewport class="viewport">
+                {#each items as item}
+                  <Select.Item
+                    value={item.value}
+                    label={item.label}
+                    disabled={item.disabled}
+                    class="select-item"
+                  >
+                    {#snippet children({ selected })}
+                      <span class="check" aria-hidden="true">
+                        {#if selected}<Icon icon={CheckIcon} class="check-icon" />{/if}
+                      </span>
+                      <span>{item.label}</span>
+                    {/snippet}
+                  </Select.Item>
+                {/each}
+              </Select.Viewport>
+            </div>
+          </Select.Content>
+        </Select.Portal>
+      </Select.Root>
+    {/snippet}
+  </Field>
 </div>
 
 <style>
@@ -95,12 +106,6 @@
     gap: var(--space-xs);
     color: var(--color-text-primary);
     font-family: var(--font-family-sans);
-  }
-
-  .label {
-    font-size: var(--font-size-label);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-label);
   }
 
   .select-field :global(.select-trigger) {
@@ -153,8 +158,6 @@
 
   .select-field :global(.chevron) {
     flex: none;
-    width: var(--icon-size-sm);
-    height: var(--icon-size-sm);
     color: var(--color-text-secondary);
     transition: transform var(--transition-duration);
   }
@@ -213,17 +216,6 @@
     width: var(--icon-size-sm);
     height: var(--icon-size-sm);
     color: var(--color-accent);
-  }
-
-  .check :global(.check-icon) {
-    width: var(--icon-size-xs);
-    height: var(--icon-size-xs);
-  }
-
-  .error {
-    color: var(--color-danger);
-    font-size: var(--font-size-body-sm);
-    line-height: var(--line-height-body);
   }
 
   @media (prefers-reduced-motion: reduce) {
