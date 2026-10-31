@@ -77,12 +77,12 @@ describe('surface rules acceptance', () => {
     expect(landing).not.toContain('background: var(--color-canvas)');
     expect(landing).not.toContain('background: var(--color-navigation-surface)');
     expect(landing).not.toMatch(/<main[^>]*\bstyle=/);
+    expect(landing.match(/background\s*:/g) ?? []).toHaveLength(1);
+    expect(landing).toContain('<Page>');
+    expect(landing).toContain('<Section');
 
     for (const selector of ['.wrap', '.features', '.feature', '.feature-list']) {
-      const block = rule(landing, selector);
-
-      expect(block, selector).not.toBe('');
-      expect(block, selector).not.toContain('background');
+      expect(rule(landing, selector), selector).toBe('');
     }
   });
 

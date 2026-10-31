@@ -174,6 +174,7 @@ The typography and layout primitives are the vocabulary for application and stor
 - Use **`Text`** for prose and headings. `variant` is visual; `as` is semantic. They are independent: choose both explicitly. Choose heading levels for document order, not size; `PageHeader`, `Hero`, and `Card` expose `level` (defaults 1, 1, and 2) and render the matching `h1`–`h6`. Each element also types its own attributes, so `as="time"` accepts `datetime` while `as="a"` is refused.
 - Use **`Code`** for inline code and code blocks. Do not switch ordinary labels to mono.
 - Use **`Stack`**, **`Inline`**, **`Grid`**, and **`Container`** for rhythm, rows, columns, and measure. `Text` has no margins; spacing belongs to the layout primitive.
+- Use **`Page`** for page measure and the rhythm between sections, and **`Section`** for a titled region with a heading, description, and optional actions. Neither owns outer padding.
 - Use **`List`** for `<ul>`, `<ol>`, and `<dl>`, and **`Text as="li"`** (or `Text as="dt"`/`as="dd"`) for its items. There is no `ListItem` component. `List` owns the container, marker, orientation, spacing, and optional separators; a `dl` never emits a marker or marker padding, and `separated` adds only the row separator while `gap` carries the rhythm.
 - Use **`EmptyState`** for an empty region: a heading, one sentence, and one required action. No illustration, no optional action.
 - Use **`VisuallyHidden`** for the accessible name of an icon-only control and for the AppShell skip link. Never pair hidden text with a duplicate `aria-label`. A `focusable` instance reveals itself on keyboard focus.
@@ -210,6 +211,14 @@ The typography and layout primitives are the vocabulary for application and stor
 - Use **contextual, minimal navigation** as the default: breadcrumbs, concise headers, task-specific controls, and menus where helpful.
 - Persistent sidebars are allowed for genuinely complex application navigation, not as the automatic starting template.
 - Maintain clear responsive hierarchy and keyboard navigation.
+
+### Page and section composition
+
+`Page` owns measure (`content`, `reading`, `form`, or `full`), centering, and the vertical rhythm between sections; `gap` defaults to `2xl`. Compose the page title through its `header` snippet and pass a `PageHeader`; `Page` removes that header's bottom margin so one rhythm governs the page.
+
+`Page` owns no padding. `AppShell` owns padding for application views, and a `Container` owns padding in a standalone fullscreen story or public page. Nesting a page inside either padding owner must not produce a second inline or block padding layer.
+
+`Section` owns a titled region: the subheading-scale heading at the requested semantic `level` (default `2`), an optional description, optional actions, and the compact heading-to-content rhythm (`gap` defaults to `sm`). It generates a stable heading id unless `id` is supplied. A section without a title has no invented accessible name; supply `aria-label` only when the region needs one.
 
 ### Responsive model
 
@@ -257,6 +266,7 @@ A structural border belongs to exactly one region.
 - Sidebar owns its right border.
 - Footer owns an optional top border; show it only when the footer follows content directly.
 - PageHeader owns no border.
+- Page and Section own no border; they arrange measure, rhythm, and headings without drawing a surface.
 - AppShell owns no border; AppShell arranges regions without drawing their borders.
 - Content owns no top or left border, because Navbar and Sidebar own those edges.
 
@@ -298,6 +308,7 @@ A structural border belongs to exactly one region.
 - **Sidebar** sits on the white **workspace** by default and stays quieter than the content it serves. Use the **navigation surface** only when an explicitly requested navigation variant calls for it. Selected rows use the neutral **navigation selected** surface with primary text; inactive items stay quiet. No blue bars; reserve blue for focus only. Use spacing before dividers rather than adding lines everywhere.
 - **Navbar** shares the **workspace** and owns its bottom border so it reads as part of the page. Prefer ghost and link-level utilities; borders only where they carry meaning.
 - **PageHeader** carries breadcrumbs, title, description, and page actions on the workspace itself: no background, no card. **Hero** is for landing or empty-state moments, not for ordinary application pages. Both default to `level={1}`; pass `level` when the page title is rendered elsewhere.
+- **Page** composes the page measure, section rhythm, and optional `PageHeader` slot. It adds no padding or surface, so `AppShell` or `Container` remains the single padding owner. **Section** groups a titled region with its description and actions; use it instead of bespoke `.section` layout CSS in views and stories.
 - **Card** is an independent surface, not a spacing device. Its title defaults to `level={2}`; pass `level` when the card sits deeper in the document. Headings stay sequential in document order even when the visual scale is the same.
 - **Settings** pages group ordinary preferences under section headings and whitespace, not cards. Reserve a bordered or tinted surface for exceptional regions: danger zones, audit and history panels, or genuinely independent sub-surfaces.
 - **Badge** and **Alert** encode status as text plus one role. **Table** keeps rows aligned and scrolls horizontally rather than turning into cards. Tables are borderless in white workspaces when row separators are enough; add `bordered` only when the table needs a structural container.
@@ -305,7 +316,9 @@ A structural border belongs to exactly one region.
 
 ### Sections and tables
 
-A section owns its heading, description, optional actions, and the spacing that groups them. The table owns column headers, rows, and cells. A table never renders a section title or heading; use the surrounding section heading as the visual title and connect it with `aria-labelledby`, or keep a semantic `<caption>` for the table itself.
+A section owns its heading, description, optional actions, and the spacing that groups them. Use **`Section`** for that composition and **`Page`** for the surrounding measure and section rhythm. The table owns column headers, rows, and cells. A table never renders a section title or heading; use the surrounding section heading as the visual title and connect it with `aria-labelledby`, or keep a semantic `<caption>` for the table itself.
+
+When a `Table` points at a `Section` heading id, pass `labelledBy={false}` to the `Section` so its landmark is intentionally unnamed. The heading still names the table's scroll region, and the section and region do not share one accessible name.
 
 - Compose body rows with **`TableRow` and `TableCell`**. `Table` provides its `columns` through context; each row tracks its cell position and each cell inherits the matching column's `align` and `numeric` metadata. Keep raw `<tr>`/`<td>` working for one-off markup, but use the components for data tables.
 - Use `TableCell` for every cell in a row that relies on column metadata; raw cells do not advance the inherited column position. A cell can override its column with `align` or `numeric`, and `colspan` advances the inherited position. Put status badges in cells unchanged.

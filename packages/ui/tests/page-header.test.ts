@@ -95,13 +95,15 @@ describe('PageHeader', () => {
   it('gives the Projects page real table rows and contextual actions', async () => {
     const stories = await readSource('../src/stories/PageHeader.stories.svelte');
     const projects = storyBlock(stories, 'Projects page');
+    const header = snippetBlock(stories, 'projectsHeader');
     const actions = snippetBlock(stories, 'projectsActions');
 
+    expect(projects).toContain('<Page header={projectsHeader}>');
     expect(projects).toContain('<Table');
     expect(projects).toContain('<TableRow>');
     expect(projects).toContain('<TableCell>Orbit</TableCell>');
     expect(projects).toContain('labelledBy="projects-heading"');
-    expect(projects).toContain('actions={projectsActions}');
+    expect(header).toContain('actions={projectsActions}');
     expect(projects).not.toMatch(/label: 'Projects'/);
     expect(actions).toContain('New project');
     expect(actions).toContain('Export');
@@ -112,19 +114,18 @@ describe('PageHeader', () => {
     const stories = await readSource('../src/stories/PageHeader.stories.svelte');
     const projects = storyBlock(stories, 'Projects page');
 
-    expect(projects).toContain('<section class="projects">');
     expect(projects).toContain(
-      '<Text variant="subheading" as="h2" id="projects-heading">All projects</Text>'
+      '<Section id="projects-heading" title="All projects" labelledBy={false}>'
     );
     expect(projects).toContain('labelledBy="projects-heading"');
     expect(projects).not.toMatch(/<Table[^>]*\bcaption=/);
-    expect(stories).not.toContain('.projects h2');
+    expect(stories).not.toMatch(/\.projects(?![\w-])\s*\{/);
     expect(stories).not.toContain('font-size: var(--font-size-subheading)');
   });
 
   it('keeps detail-page breadcrumbs contextual rather than repeating the title', async () => {
     const stories = await readSource('../src/stories/PageHeader.stories.svelte');
-    const detail = storyBlock(stories, 'Breadcrumbs and actions');
+    const detail = snippetBlock(stories, 'detailHeader');
 
     expect(detail).toContain('breadcrumbs={[');
     expect(detail).toContain('title="Orbit"');

@@ -7,7 +7,9 @@
     Link,
     List,
     Navbar,
+    Page,
     PageHeader,
+    Section,
     Sidebar,
     Table,
     TableCell,
@@ -80,9 +82,24 @@
   <Button>New project</Button>
 {/snippet}
 
+{#snippet projectsHeader()}
+  <PageHeader
+    title="Projects"
+    description="Track ownership, status, and recent activity across the workspace."
+    actions={headerActions}
+  />
+{/snippet}
+
+{#snippet overviewHeader()}
+  <PageHeader
+    title="Overview"
+    description="What changed, what needs attention, and who owns the next step."
+    actions={headerActions}
+  />
+{/snippet}
+
 {#snippet projectTable()}
-  <section class="projects">
-    <Text variant="subheading" as="h2" id="projects-heading">Active projects</Text>
+  <Section id="projects-heading" title="Active projects" labelledBy={false}>
     <Table columns={projectColumns} labelledBy="projects-heading">
       <TableRow>
         <TableCell>Orbit</TableCell>
@@ -109,7 +126,7 @@
         <TableCell><Badge tone="disabled">Archived</Badge></TableCell>
       </TableRow>
     </Table>
-  </section>
+  </Section>
 {/snippet}
 
 {#snippet topNavbar()}
@@ -130,69 +147,47 @@
 
 <Story name="Top navigation" asChild>
   <AppShell navbar={topNavbar}>
-    <PageHeader
-      title="Projects"
-      description="Track ownership, status, and recent activity across the workspace."
-      actions={headerActions}
-    />
-    {@render projectTable()}
+    <Page header={projectsHeader}>
+      {@render projectTable()}
+    </Page>
   </AppShell>
 </Story>
 
 <Story name="Sidebar navigation" asChild>
   <AppShell sidebar={sidebarNav}>
-    <PageHeader
-      title="Overview"
-      description="What changed, what needs attention, and who owns the next step."
-      actions={headerActions}
-    />
-    <section class="activity" aria-labelledby="activity-heading">
-      <Text variant="subheading" as="h2" id="activity-heading">Recent activity</Text>
-      <List marker="none" separated gap="sm">
-        <Text as="li" variant="body-sm" tone="secondary">
-          <Text as="strong" variant="body-sm" weight="medium" tone="primary">Mara Chen</Text>
-          updated the release plan for Orbit.
-        </Text>
-        <Text as="li" variant="body-sm" tone="secondary">
-          <Text as="strong" variant="body-sm" weight="medium" tone="primary">Devon Ruiz</Text>
-          assigned two reviewers to Atlas.
-        </Text>
-        <Text as="li" variant="body-sm" tone="secondary">
-          <Text as="strong" variant="body-sm" weight="medium" tone="primary">Priya Shah</Text>
-          moved Beacon to in review.
-        </Text>
-      </List>
-    </section>
+    <Page header={overviewHeader}>
+      <Section id="activity-heading" title="Recent activity">
+        <List marker="none" separated gap="sm">
+          <Text as="li" variant="body-sm" tone="secondary">
+            <Text as="strong" variant="body-sm" weight="medium" tone="primary">Mara Chen</Text>
+            updated the release plan for Orbit.
+          </Text>
+          <Text as="li" variant="body-sm" tone="secondary">
+            <Text as="strong" variant="body-sm" weight="medium" tone="primary">Devon Ruiz</Text>
+            assigned two reviewers to Atlas.
+          </Text>
+          <Text as="li" variant="body-sm" tone="secondary">
+            <Text as="strong" variant="body-sm" weight="medium" tone="primary">Priya Shah</Text>
+            moved Beacon to in review.
+          </Text>
+        </List>
+      </Section>
+    </Page>
   </AppShell>
 </Story>
 
 <Story name="Combined navigation" asChild>
   <AppShell navbar={combinedNavbar} sidebar={combinedSidebar}>
-    <PageHeader
-      title="Projects"
-      description="Track ownership, status, and recent activity across the workspace."
-      actions={headerActions}
-    />
-    {@render projectTable()}
+    <Page header={projectsHeader}>
+      {@render projectTable()}
+    </Page>
   </AppShell>
 </Story>
 
 <Story name="Narrow screen" globals={{ viewport: { value: 'narrow375' } }} asChild>
   <AppShell navbar={combinedNavbar} sidebar={combinedSidebar}>
-    <PageHeader
-      title="Projects"
-      description="Track ownership, status, and recent activity across the workspace."
-    />
-    {@render projectTable()}
+    <Page header={projectsHeader}>
+      {@render projectTable()}
+    </Page>
   </AppShell>
 </Story>
-
-<style>
-  .projects,
-  .activity {
-    display: grid;
-    gap: var(--space-sm);
-  }
-
-
-</style>
