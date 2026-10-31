@@ -353,6 +353,7 @@ const STORY_PAGE_CHROME = new Set([
 /** Static components that never own a focus target of their own. */
 export const STATIC_COMPONENTS = new Map<string, string>([
   ['Alert', 'Status text and role only; no control of its own.'],
+  ['AppMark', 'Identity tile; it is an image or decorative label, not a control.'],
   ['AspectRatio', 'Media layout wrapper; the media element is consumer-provided.'],
   ['Badge', 'Static status label.'],
   ['Card', 'Static surface and heading.'],

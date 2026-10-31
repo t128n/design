@@ -18,6 +18,7 @@ const taxonomy = {
     Theming: ['Theming']
   },
   Primitives: {
+    AppMark: ['AppMark'],
     Text: ['Text'],
     Code: ['Code'],
     List: ['List'],

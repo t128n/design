@@ -15,6 +15,7 @@ R48 requires a story, a real screen using the component, and a note on what it i
 | `Accordion` | `Components/Accordion` | Exception — no composed screen uses a multi-section disclosure yet; the isolated Accordion story is the only exercise. | [Note](components.md#accordion) |
 | `Alert` | `Components/Alert` | `Views/Dashboard` (page-level warning that needs an owner). | [Note](components.md#alert) |
 | `AlertDialog` | `Components/AlertDialog` | Exception — destructive confirmation exists only as the isolated AlertDialog story. | [Note](components.md#alertdialog) |
+| `AppMark` | `Primitives/AppMark` | Exception — identity tiles are exercised by the AppMark reference sheet; no composed application screen uses them yet. | [Note](components.md#appmark) |
 | `AppShell` | `Layouts/App shell` | `Views/Dashboard`, `Views/Settings`, `Layouts/App shell`. | [Note](components.md#appshell) |
 | `AspectRatio` | `Components/AspectRatio` | Exception — media placeholders are exercised only by the component story. | [Note](components.md#aspectratio) |
 | `Avatar` | `Components/Avatar` | Exception — no composed screen shows people yet. | [Note](components.md#avatar) |

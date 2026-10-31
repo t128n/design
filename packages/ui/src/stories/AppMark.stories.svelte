@@ -14,10 +14,18 @@
   import '../styles/index.css';
 
   const { Story } = defineMeta({
-    title: 'Foundations/App marks',
+    title: 'Primitives/AppMark',
     component: AppMark,
     tags: ['autodocs'],
-    parameters: { layout: 'centered' }
+    parameters: {
+      layout: 'centered',
+      docs: {
+        description: {
+          component:
+            'Identity tile for an application or tool. Use it when the thing itself needs a recognizable mark; it is not a UI icon, status badge, avatar, or action. Keep one tone per service and one glyph per identity, and pass label={null} when visible text already names it.'
+        }
+      }
+    }
   });
 
   const apps = Object.values(appRegistry);

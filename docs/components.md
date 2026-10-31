@@ -51,6 +51,23 @@ A titled region with a subheading-scale heading, description, optional actions, 
 
 - **Not for:** page titles (`PageHeader` or `Hero` owns level 1), independent surfaces (`Card`), or a named landmark that duplicates a nested table region — pass `labelledBy={false}` in that case.
 
+### AppMark
+
+Renders the identity tile for an application or tool.
+
+- **Props:** `app` (registry entry), `size` (`xs` | `sm` | `md` | `lg` | `xl` | `2xl`), `variant` (optical override), `tone` (identity tone override), `label` (`string | null`), `class`.
+- **Example:**
+
+```svelte
+<script lang="ts">
+  import { AppMark, appRegistry } from '@t128n/ui';
+</script>
+
+<AppMark app={appRegistry.design} size="md" />
+```
+
+- **Not for:** UI actions or icons (use `Icon` and Carbon), status (use `Badge`/`Alert`), user identity (use `Avatar`), or a second icon family. Do not use it as a button; wrap a real control when the mark is actionable.
+
 ### AppShell
 
 The application frame: skip link, optional navbar, optional sidebar, and a focusable main region that owns outer padding by default.
@@ -1204,6 +1221,7 @@ These are exported from `src/index.ts` for typed composition.
 
 | Export | Kind | Purpose | Boundary |
 | --- | --- | --- | --- |
+| `APP_GLYPHS`, `APP_MARK_GEOMETRY`, `APP_MARK_RADIUS`, `APP_MARK_SIZES`, `APP_TONES`, `appGlyphs`, `appRegistry`, `markMonogram`, `opticalVariant` | constants and functions | Identity-tone, glyph, size, and registry contracts for `AppMark` and the favicon export. | Not a general icon registry or a status palette; the app identity set is separate from UI icons and semantic status. |
 | `TableColumn` | type | Column label plus `align` and `numeric` metadata for `Table`. | Not a cell or row model; compose rows with `TableRow`/`TableCell`. |
 | `IconComponent`, `IconSize`, `iconSizes` | types and constant | Typed Carbon icon props and the allowed display sizes `16`, `20`, `24`, `32`. | Not a registry of icon names; import Carbon through `~icons/carbon/*`. |
 | `createFieldState` | function | Derives control, label, description, and error ids plus ARIA flags from a stable base id. | Not a label renderer; `Field` renders the anatomy. |
