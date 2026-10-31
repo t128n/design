@@ -1185,9 +1185,9 @@ Keeps text in the accessibility tree while clipping it visually.
 
 ### ThemeScope
 
-Sets `data-theme` and applies validated custom-property overrides inline, so nested scopes inherit naturally.
+Sets `data-theme` and applies validated custom-property overrides inline, so nested scopes inherit naturally. The framework ships validated light and dark themes; `system` inherits the OS or surrounding scope.
 
-- **Props:** `theme` (`light` only in this branch), `tokens` (`Record<string, string>`, keys must start with `--`), `class`, plus native div attributes.
+- **Props:** `theme` (`light` | `dark` | `system`, default `system`), `tokens` (`Record<string, string>`, keys must start with `--`), `class`, plus native div attributes.
 - **Example:**
 
 ```svelte
@@ -1196,7 +1196,7 @@ Sets `data-theme` and applies validated custom-property overrides inline, so nes
 </ThemeScope>
 ```
 
-- **Not for:** arbitrary CSS overrides, dark mode, or duplicating the token block. See [theming.md](theming.md) for the public and internal token contracts.
+- **Not for:** arbitrary CSS overrides or duplicating the token block. Use `theme` for light/dark regions. See [theming.md](theming.md) for the public and internal token contracts.
 
 ## Public non-component exports
 

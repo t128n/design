@@ -18,7 +18,7 @@ The framework exists so application screens feel like one continuous workspace i
 - **Quiet, spacious, technical.** Content leads. Typography, alignment, and whitespace organize the page before color, borders, icons, or motion.
 - **Continuous workspaces.** Primary content sits on the workspace surface. Navbar, sidebar, tables, and forms share that surface; organization comes from hierarchy, not from alternating backgrounds or cards around ordinary content.
 - **Semantic tokens only.** Components consume `--color-*`, `--space-*`, `--font-*`, `--layout-*`, and the other documented tokens. They do not invent local colors, font sizes, or spacing values.
-- **Light and dark are themes, not component branches.** Theme colors flow from semantic tokens, so a validated dark theme can reuse the same components. This branch ships the validated light theme; dark tokens are a separate, contrast-validated deliverable and must not be invented locally.
+- **Light and dark are themes, not component branches.** Both themes come from one semantic token contract: light by default, Oxocarbon Base16 Dark via the OS preference or an explicit `data-theme`. Components need no theme-specific code.
 - **One primary action per region.** Accent is reserved for primary actions, selected states, meaningful links, and focus. Status is always text plus one semantic tone.
 - **Native semantics first.** Svelte components wrap native elements and Bits UI behavior; application copy still uses `Text`, `Code`, and `List` rather than raw prose and list markup.
 
@@ -53,13 +53,11 @@ bun pm pack
 # install the resulting t128n-ui-<version>.tgz in the consuming project
 ```
 
-The build emits the ES entry and the single stylesheet. The package-delivery
-stack adds the remaining distribution pieces: TypeScript declarations and
-separately emitted font assets. On a branch before that stack, the Vite build
-emits `dist/index.js` and `dist/index.css`; verify `dist/index.d.ts` and the font
-assets before publishing a local tarball. The consuming project still provides
-`svelte` (a peer dependency) and the package's runtime dependencies through its
-own install.
+The build emits the ES entry, the complete stylesheet, TypeScript declarations,
+and separately emitted IBM Plex font assets. `bun run verify` checks the declared
+entrypoints, stylesheet/font markers, tarball contents, and a strict consumer
+fixture. The consuming project still provides `svelte` (a peer dependency) and
+the package's runtime dependencies through its own install.
 
 ### Stylesheet and assets
 
@@ -241,23 +239,37 @@ Carbon is the only icon family. Icons are bundled at build time with `unplugin-i
 
 ## 4. Theming
 
-`ThemeScope` is the supported theming seam. It renders `data-theme` and applies validated custom-property overrides inline; nested scopes inherit the outer values and override only the tokens they name.
+The framework ships two contrast-validated themes from one semantic token contract:
+
+- **Light** is the default.
+- **Dark** adapts the Oxocarbon Base16 Dark palette.
+- With no explicit theme, the OS `prefers-color-scheme` decides.
+- `data-theme="light"` or `data-theme="dark"` on any element forces that subtree, including nested scopes.
+- `color-scheme` follows the active theme so native controls and scrollbars adapt.
 
 ```svelte
-<ThemeScope tokens={{ '--color-accent': '#6929C4' }}>
+<!-- Inherit the OS or surrounding scope. -->
+<ThemeScope>...</ThemeScope>
+
+<!-- Force dark for this region, even inside a light application. -->
+<ThemeScope theme="dark">
   <Button>Primary action</Button>
 
-  <ThemeScope tokens={{ '--color-surface': '#F6F2FF' }}>
-    <Card title="Nested scope">…</Card>
+  <!-- Explicit light works inside a dark scope. -->
+  <ThemeScope theme="light">
+    <Card title="Light island">…</Card>
   </ThemeScope>
 </ThemeScope>
+
+<!-- Token overrides work in both themes. -->
+<ThemeScope tokens={{ '--color-accent': '#BE95FF' }}>...</ThemeScope>
 ```
 
-- `data-theme` is the theme hook. Consumers and tests can target `[data-theme]` instead of inferring a theme from colors.
-- This branch accepts `theme="light"` only. `ThemeScope` rejects token keys that do not start with `--`, so plain `color` or `background` overrides cannot bypass the semantic contract.
-- `prefers-color-scheme` is not read by the framework yet. Automatic light/dark switching requires a designed and contrast-validated dark token set; do not add dark values or a system-preference media query ahead of it.
+- `ThemeScope.theme` accepts `light`, `dark`, or `system` (the default). `system` emits no `data-theme`, so the surrounding scope or OS wins.
+- `ThemeScope` rejects token keys that do not start with `--`, so plain `color` or `background` overrides cannot bypass the semantic contract.
+- Components consume only semantic tokens; they contain no dark-specific selectors or local `prefers-color-scheme` rules.
 - Public tokens are safe to override: color roles, typography, spacing, layout measures, radius, control geometry, and breakpoints. Internal tokens such as border widths, the overlay shadow, pill radius, and transition duration are implementation details.
-- See [`docs/theming.md`](../../docs/theming.md) for the token contract, the public/internal split, nested overrides, and the breakpoint synchronization rule.
+- See [`docs/theming.md`](../../docs/theming.md) for both semantic maps, the public/internal split, nested overrides, and the breakpoint synchronization rule.
 
 ## 5. Responsive model
 
