@@ -62,6 +62,11 @@
     outline: none;
   }
 
+  .content:focus-visible {
+    outline: var(--border-width-emphasis) solid var(--color-focus);
+    outline-offset: calc(-1 * var(--border-width-emphasis));
+  }
+
   .content-inner {
     width: 100%;
     max-width: var(--layout-content-width);

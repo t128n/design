@@ -61,6 +61,19 @@ describe('AppShell', () => {
     expect(shell).toContain(':focus-visible');
   });
 
+  it('gives the focusable main region a visible focus ring', async () => {
+    const shell = await shellSource();
+    const contentFocus = shell.slice(shell.indexOf('.content:focus-visible'));
+
+    expect(shell).toContain('.content:focus-visible');
+    expect(contentFocus).toContain(
+      'outline: var(--border-width-emphasis) solid var(--color-focus)'
+    );
+    expect(contentFocus).toContain(
+      'outline-offset: calc(-1 * var(--border-width-emphasis))'
+    );
+  });
+
   it('stacks at 800px and never sticks the navbar', async () => {
     const shell = await shellSource();
 
