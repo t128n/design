@@ -156,7 +156,7 @@ e.g. Landing -> Navbar-only frame, Hero with aside, borderless Footer
 **Review Focus:** `test_dashboard_single_nav`: Dashboard renders Sidebar and no `<Navbar`; `test_settings_single_nav`: Settings renders Sidebar and no `<Navbar`; `test_landing_top_nav`: Landing renders Navbar, no Sidebar, plus Footer; `test_no_nested_cards`: Dashboard metrics are plain rows, no Card around a single number; `test_story_contracts`: all required story names from T2–T7 exist; `test_a11y_build`: `bun run build-storybook` exits 0.
 **Test code (verbatim):** `expect(dashboard).not.toContain('<Navbar')` · `expect(landing).toContain('<Footer')` · `expect(story).toContain("name=\"Top navigation\"")`
 ## Review Focus
-**Package:** `packages/ui` — **App type:** web UI. **Categories:** protocol (Storybook composition, navigation ownership), encoding (ARIA, focus, overflow).
+packages/ui: protocol, encoding — App type web UI. Protocol covers Storybook composition and navigation ownership; encoding covers ARIA, focus, and overflow.
 **Risks:** duplicate destinations; stacked active treatments; uppercase labels; crumbs repeating the title/nav; page-level horizontal scroll; clipped focus rings; card-around-metric and nested surfaces; `100vh` inner scroll; examples implying a mandatory shell.
 **Probe entry:** `serve=storybook dev -p 6006`
 
