@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Code, Stack, Text } from '../index.js';
+  import { Code, List, Stack, Text } from '../index.js';
   import '../styles/index.css';
 
   const { Story } = defineMeta({
@@ -33,12 +33,38 @@
 
 <Story name="Overview">
   <main class="foundations">
-    <section aria-labelledby="colors-heading">
-      <Text variant="display" as="h1" id="colors-heading">Colors</Text>
+    <section aria-labelledby="intent-heading">
+      <Text variant="display" as="h1" id="intent-heading">Design intent</Text>
       <Stack gap="sm">
         <Text variant="body" tone="secondary">
-          White is the default for application surfaces. Canvas is reserved for subdued public,
-          marketing, and empty contexts.
+          Quiet competence. Content leads and chrome recedes. The workspace stays continuous, one
+          action carries the accent, and feedback stays where the action happened.
+        </Text>
+        <Text variant="body" tone="secondary">
+          Never an IDE, a dashboard of independent tiles, a marketing page inside the product, a
+          component gallery, or a generic AI-generated SaaS screen.
+        </Text>
+      </Stack>
+      <List gap="sm">
+        <Text as="li" variant="body" tone="secondary">Content leads; navigation never competes.</Text>
+        <Text as="li" variant="body" tone="secondary">One primary action per region.</Text>
+        <Text as="li" variant="body" tone="secondary">Feedback is inline, persistent, and specific.</Text>
+        <Text as="li" variant="body" tone="secondary">The workspace is one continuous surface.</Text>
+        <Text as="li" variant="body" tone="secondary">Status is always text plus one role.</Text>
+      </List>
+      <Text variant="body" tone="secondary">
+        Signature patterns: continuous workspace, one accent action, inline feedback, borderless
+        tables, quiet navigation. Use at least two on every composed screen. Remove the logo: the
+        screen should still read as ours.
+      </Text>
+    </section>
+
+    <section aria-labelledby="colors-heading">
+      <Text variant="heading" as="h2" id="colors-heading">Colors</Text>
+      <Stack gap="sm">
+        <Text variant="body" tone="secondary">
+          White is the default for application surfaces. Canvas is reserved for a deliberately
+          subdued band or an empty region; it is never the page background.
         </Text>
         <Text variant="body" tone="secondary">
           Light semantic tokens use one blue accent for meaningful actions and focus.
@@ -69,6 +95,33 @@
           <Code>const projectId = 'design-v0.1';</Code>
         </div>
       </Stack>
+    </section>
+
+    <section aria-labelledby="voice-heading">
+      <Text variant="heading" as="h2" id="voice-heading">Voice and tone</Text>
+      <Stack gap="sm">
+        <Text variant="body" tone="secondary">
+          Plain, specific, calm, and accountable. Name the object, the cause, and the fix. The
+          updated state is the confirmation; speak only when the result is off-screen.
+        </Text>
+        <Text variant="body" tone="danger">
+          Not: “Oops! Something went wrong.”
+        </Text>
+        <Text variant="body" tone="success">
+          Instead: “Project name is required. Enter a name to continue.”
+        </Text>
+        <Text variant="body" tone="danger">
+          Not: “Are you sure? Yes / No”
+        </Text>
+        <Text variant="body" tone="success">
+          Instead: “Archive Orbit? Everyone loses access. You can restore it from the audit log.”
+        </Text>
+      </Stack>
+      <List gap="sm">
+        <Text as="li" variant="body" tone="secondary">Sentence case, active voice, verb-first actions.</Text>
+        <Text as="li" variant="body" tone="secondary">One term per concept; no “Oops”, “Uh oh”, or “Successfully”.</Text>
+        <Text as="li" variant="body" tone="secondary">No fake urgency, blame, humor in errors, or “please” padding.</Text>
+      </List>
     </section>
 
     <section aria-labelledby="layout-heading">

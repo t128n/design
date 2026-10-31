@@ -130,17 +130,122 @@ components:
     padding: 16px
 ---
 
-## Overview
+## Design intent
 
-Design quiet, spacious, minimal tools and applications. Emphasize utility and technical precision without adopting the visual density of an IDE. Let content lead; use typography, alignment, and whitespace as the primary means of organizing information. Navigation, color, icons, motion, and borders must earn their place.
+**Posture: quiet competence.** This system builds tools that feel like well-made instruments: calm, precise, and in control. The interface should not impress the user with itself; it should disappear into the work. *Quiet, spacious, and technical* describes the surface; *competent, accountable, and unhurried* describes the feeling.
 
 **Continuous workspaces over segmented dashboards.** Organization comes from typography, alignment, whitespace, and structure; use subtle surface differentiation only for orientation.
 
-This is a **two-theme** system. Light is the default; dark follows the OS
-`prefers-color-scheme` or an explicit `data-theme`. Both themes share one
-semantic contract, and every color pairing is contrast-validated.
+This is a **two-theme** system. Light is the default; dark follows the OS `prefers-color-scheme` or an explicit `data-theme`. Both themes share one semantic contract, and every color pairing is contrast-validated.
 
-**Status:** The philosophy, IBM Plex Sans font family, blue accent, selective-boundary treatment, and Carbon icon family are selected preferences. Numeric sizing, spacing, and radius tokens are **initial implementation defaults** subject to validation on real screens. Application workspace, navigation surface, and navigation selected surfaces are validated in both themes.
+### Non-negotiables
+
+1. **Content leads.** Primary content is more prominent than navigation, and navigation is more prominent than supporting surfaces. No chrome competes with the task.
+2. **One primary action per region.** One accent-filled element; everything else is secondary, ghost, or link.
+3. **Feedback stays where the action happened.** Inline, persistent, and specific. Nothing floats and nothing self-dismisses.
+4. **The workspace is continuous.** One surface, with boundaries only where they carry meaning.
+5. **State is legible in text.** Color is never the only signal; every status has a word and a role.
+
+### Anti-goals
+
+The experience must never feel like:
+
+- an IDE or a dense developer console;
+- a dashboard of independent tiles;
+- a marketing page inside the signed-in product;
+- a consumer app with playful decoration;
+- a component gallery showing every variant at once;
+- a generic AI-generated SaaS screen.
+
+A screen that would still make sense with the logo swapped for a competitor's is compliant but not yet ours. See **Identity and differentiation**.
+
+### Precedence
+
+When rules conflict, the higher item wins:
+
+1. Accessibility and legibility.
+2. Correct task completion and state.
+3. Continuity and orientation.
+4. Quietness and restraint.
+5. Density and compactness.
+6. Decoration.
+
+This resolves the common tensions:
+
+- **Spacing.** Generous between groups, compact within them. Outer margins and section gaps carry the rhythm; controls do not get uniform padding. Use 24–32px between sections, 8–16px between a heading and its content, and 8–12px inside a control group. Never add a wrapper solely to add padding.
+- **Density.** Data tables and toolbars may be compact (the `dense` table variant); prose, forms, and settings stay comfortable. Compactness never justifies type below 12px, controls below 36px, or clipped labels.
+- **Borders.** Whitespace is the default separator. When a boundary is needed, use exactly one 1px border per shared edge. If two regions could each draw the edge, the region named in **Border ownership** draws it and the other does not.
+- **Cards.** A card is for an independent region that could stand alone. Metrics, form sections, settings groups, and page sections are not cards. If removing the card loses no meaning, remove the card.
+- **Navigation.** Navigation yields to content. A selected row may use a neutral fill; it never uses the accent or a colored bar.
+- **Accent.** When two actions in one region both feel primary, the one that advances the current task keeps the accent; the other becomes secondary.
+- **Motion.** If a transition does not clarify a state change, remove it.
+
+### Decision status
+
+The philosophy, IBM Plex Sans, the blue accent, the Carbon icon family, and the continuous workspace are **selected**. Numeric sizing, spacing, radius, 36px controls, 120–180ms motion, and icon sizes are **provisional defaults** pending the validation backlog. Provisional values may change with evidence; they are not precedent for new values. Add a token and validate it in both themes rather than hard-coding a local value.
+
+## Identity and differentiation
+
+The system is deliberately quiet, but quiet is not the same as generic. A screen is recognizably ours when it demonstrates the signature patterns below, not when it merely uses the tokens.
+
+**Thesis: quiet infrastructure for consequential work.** The product should feel like a precise instrument for work that matters, not a showcase of interface effects.
+
+### Three defensible bets
+
+1. **Continuous workspace over panel dashboards.** Most tools fragment work into cards and widgets. We keep one surface and organize with type, alignment, and whitespace.
+2. **Inline, persistent feedback over transient layers.** Most tools use toasts. We keep the message at the point of action and let the updated state confirm success.
+3. **Typographic hierarchy and selective borders over decorative chrome.** Most tools add gradients, shadows, and an icon per label. We use Plex, one accent, and a border only where it explains structure.
+
+### Signature patterns
+
+Every composed screen uses at least two of these:
+
+- a continuous white **workspace** with no panel tinting;
+- **one** accent-filled action per region;
+- **borderless tables** with subtle row separators and tabular numerals;
+- **inline Alerts** and inline undo instead of floating messages;
+- **section headings** at the subheading scale, with whitespace carrying the grouping;
+- **quiet navigation** with a neutral selected row and no blue bar;
+- **selective 1px borders** owned by one region.
+
+A new screen may introduce at most one new visual idea. A new visual idea must be written into this document, validated in both themes, and added to the validation backlog; otherwise it is a one-off and is removed in review.
+
+### The logo-off test
+
+Remove the product name and logo from a screenshot. The screen should still be identifiable by the continuous workspace, the Plex hierarchy, the single blue accent, the inline feedback, and the borderless table. If it could be any Carbon-adjacent product, the screen is compliant but not yet distinctive. Fix the composition, not the color.
+
+## Voice and tone
+
+Write like a competent colleague: plain, specific, calm, and accountable. The voice does not perform personality; it removes uncertainty.
+
+### Rules
+
+- Use sentence case, active voice, and the user's term for the thing they are acting on.
+- Start actions with a verb: “Create project”, “Archive workspace”, “Retry import”.
+- Name the object, the cause, and the fix: “Project name is required. Enter a name to continue.” Not “Invalid input.”
+- State consequences before the action: what changes, for whom, and whether it can be undone.
+- Prefer the updated state as confirmation. Announce success only when the result is off-screen.
+- Never blame the reader, use exclamation marks, or use “Oops”, “Uh oh”, “Something went wrong”, “Invalid input”, or “Successfully”.
+- Do not use humor in errors, fake urgency, or “please” as padding.
+- Keep buttons to one to three words, titles to eight words or fewer, and descriptions to one or two sentences.
+- Use absolute time alongside relative time, and tabular numerals for aligned metrics.
+- Use one term per concept: **workspace** (the container), **project** (the work item), **member** (a person in the workspace), **owner** (the role), **region** (the deployment location), **archive** (reversible), **delete** (permanent).
+
+### Patterns
+
+| Surface | Pattern | Example |
+| --- | --- | --- |
+| Field error | What is wrong, then the fix | “Project name is required. Enter a name to continue.” |
+| Region error | Name the object and the blocking condition | “Can't archive Orbit: 3 projects are still active. Move or archive them first.” |
+| Empty state | Factual state plus one next action | “No projects yet. Create a project to get started.” |
+| Destructive confirmation | Object, consequence, reversibility; verb on the button | “Archive Orbit? Everyone loses access. You can restore it from the audit log.” / “Archive project” |
+| Success | The updated state, or one quiet line if off-screen | “Saved” only when the changed value is not visible |
+| Loading | Label the action and keep the page usable | “Saving…” rather than a spinner-only page |
+| Permission | The missing role and who can grant it | “You need the owner role to archive this project. Ask an owner to change it.” |
+| Offline | What still works and what will sync | “You're offline. Changes will sync when the connection returns.” |
+| Partial | What loaded and what to retry | “12 of 20 projects loaded. Retry the rest.” |
+
+The **same words** appear in the UI, the empty state, the error, and the audit record. Copy is part of the design contract, not a finishing step.
 
 ## Colors
 
@@ -157,15 +262,18 @@ Use [Base16 Oxocarbon Light](https://github.com/nyoom-engineering/base16-oxocarb
 - Status roles are **neutral, info, progress, success, warning, danger, and disabled**. Each has a text token and, where useful, a surface tint. Status is always text plus one role; never color alone.
 - Status text tokens pass AA on their own surfaces and on canvas in both themes. Use status color for state and feedback, not decoration. Danger remains the only role for invalid input and destructive actions.
 - Meet WCAG AA contrast for ordinary text and visible focus indicators. Do not rely on color alone to convey state. Recheck contrast for muted text and disabled variants.
+- A public page still uses the **workspace** for its page surface. Canvas may appear only as a deliberately subdued band within it, or as the surface of a genuinely empty region; it is never the page background.
 
 ## Typography
 
 Use **IBM Plex Sans** for headings, body text, labels, and controls. Use system sans-serif fallbacks when IBM Plex Sans is unavailable. Preserve restrained weight contrast: normal body text and medium/semibold headings. Avoid unnecessarily large headings and bold labels everywhere.
 
-- Default body: 16px / 1.5. Small UI text: 14px / 1.5.
+- Default body: 16px / 1.5. Small UI text: 14px / 1.5. Label: 14px / 1.5. Caption: 12px / 1.3. Subheading: 18px / 1.4. Heading: 24px / 1.3. Display: 32px / 1.2.
 - Prefer sentence case, descriptive labels, and concise copy.
 - Use tabular numerals when displaying metrics in aligned tables or lists.
 - Use **IBM Plex Mono** for code snippets, file paths, technical identifiers, and other genuinely monospaced content. Do not switch ordinary UI labels or headings to monospace.
+- One `h1` per page. Choose heading levels for document order, not size. A heading never skips a level.
+- Keep prose at the reading measure, forms at the form measure, and full workspaces at the content measure. Do not stretch short copy across the viewport.
 
 ## Framework usage
 
@@ -207,6 +315,7 @@ The typography and layout primitives are the vocabulary for application and stor
 
 - Prefer generous outer margins and generous separation **between groups**, not oversized padding on every single control.
 - Start from a 4px base spacing grid, with 8, 12, 16, and 24px as common steps. Favor compact groups over generous padding.
+- Use 24–32px between sections, 8–16px between a heading and its content, and 8–12px inside a control group. These are the only spacing decisions; do not add a wrapper to create rhythm.
 - Keep forms and reading surfaces at comfortable widths; do not spread short content across the whole viewport.
 - Use **contextual, minimal navigation** as the default: breadcrumbs, concise headers, task-specific controls, and menus where helpful.
 - Persistent sidebars are allowed for genuinely complex application navigation, not as the automatic starting template.
@@ -241,7 +350,7 @@ Application workspaces are continuous in both themes: light uses a white workspa
 - Avoid large contrasting regions that fragment the workspace.
 - Let the workspace run continuously through tables, metrics, and forms; do not segment ordinary content into panels.
 - Use whitespace and typography for grouping; do not wrap ordinary content in cards.
-- Preserve canvas `#F2F4F8` for subdued public, marketing, and empty contexts.
+- Preserve canvas `#F2F4F8` for subdued public or empty contexts, selected backgrounds, or genuinely distinct regions; never tint an application page.
 - **Primary content > navigation > supporting surfaces** is a rule about prominence, not about using more colors.
 
 ### Surface continuity
@@ -255,7 +364,7 @@ Prefer **Shared background + selective structural borders + whitespace** over **
 - Use selective 1px borders only where a boundary carries meaning; a shared edge gets exactly one border.
 - Prefer whitespace over boxed sections; do not wrap ordinary content in cards, panels, or alternating bands.
 - Avoid repeated dividers; use spacing before adding another line.
-- Reserve canvas for subdued public or marketing contexts, selected backgrounds, or genuinely distinct regions; never tint an application page.
+- Reserve canvas for subdued public or empty contexts, selected backgrounds, or genuinely distinct regions; never tint an application page.
 - Use the navigation surface only for an explicitly requested navigation variant.
 
 ### Border ownership
@@ -274,7 +383,7 @@ A structural border belongs to exactly one region.
 
 - Prefer whitespace first, then subtle surface changes or 1px borders when the boundary helps comprehension.
 - Use **selective boundaries**: cards for meaningful independent regions, not automatically around every number or block of text.
-- Cards must earn their border: no default card wrapper around ordinary content on a white workspace.
+- Cards must earn their border: no default card wrapper around ordinary content on a white workspace. A card needs a title and a reason to be a card.
 - Avoid nested cards and excessive dividers.
 - No decorative shadows by default. Consider elevation for temporary layers such as popovers and dialogs only when needed to distinguish them.
 
@@ -310,7 +419,7 @@ A structural border belongs to exactly one region.
 - **PageHeader** carries breadcrumbs, title, description, and page actions on the workspace itself: no background, no card. **Hero** is for landing or empty-state moments, not for ordinary application pages. Both default to `level={1}`; pass `level` when the page title is rendered elsewhere.
 - **Page** composes the page measure, section rhythm, and optional `PageHeader` slot. It adds no padding or surface, so `AppShell` or `Container` remains the single padding owner. **Section** groups a titled region with its description and actions; use it instead of bespoke `.section` layout CSS in views and stories.
 - **Card** is an independent surface, not a spacing device. Its title defaults to `level={2}`; pass `level` when the card sits deeper in the document. Headings stay sequential in document order even when the visual scale is the same.
-- **Settings** pages group ordinary preferences under section headings and whitespace, not cards. Reserve a bordered or tinted surface for exceptional regions: danger zones, audit and history panels, or genuinely independent sub-surfaces.
+- **Settings** pages group ordinary preferences under section headings and whitespace, not cards. Reserve a bordered or tinted surface for exceptional regions: danger zones, audit and history panels, or genuinely independent sub-surfaces. A settings section labels the commit model for every control. A **Switch** applies immediately and is never covered by a Save action. Typed fields and **Checkbox** use one explicit section action that names what it saves. When a section contains both, the immediate control says so in its description and the Save action is scoped to the deferred fields; never leave the mix implicit under a page-level Save button.
 - **Badge** and **Alert** encode status as text plus one role. **Table** keeps rows aligned and scrolls horizontally rather than turning into cards. Tables are borderless in white workspaces when row separators are enough; add `bordered` only when the table needs a structural container.
 - Composed pages live under **Views** in Storybook. They are examples of the pieces working together, not extra primitives.
 
@@ -326,7 +435,7 @@ When a `Table` points at a `Section` heading id, pass `labelledBy={false}` to th
 - Set `isEmpty` with an `empty` snippet to render one full-width row. Use the existing `EmptyState` with exactly one action inside that snippet instead of an ad-hoc empty row.
 - Use the **subheading** scale (18px / 600) for section titles. Column headers are subordinate: use the existing 14px **label** scale in secondary text.
 - Place the table directly on the white workspace. It is borderless by default, with subtle horizontal row separators and no vertical grid lines.
-- Keep the gap between a section title and the column headers compact (8px). Use consistent, restrained cell padding, and align the first and last cells with the section edges.
+- Keep the gap between a section title and the column headers compact (8px). Use consistent, restrained cell padding, and align the first and last cells with the section edges. The `dense` variant is allowed for high-volume operational tables; it reduces vertical cell padding, never type size or label clarity.
 - Do not wrap an ordinary data table in a full-width bordered card. Use `bordered` only when the table is a genuinely independent surface, and use `Card` only for that same reason.
 - Keep status badges inside cells unchanged; they already carry role through text plus one tone.
 
@@ -396,6 +505,7 @@ Application icons are a separate layer from UI iconography. They are generated f
 - Use IBM Plex Sans consistently; reserve IBM Plex Mono for technical content.
 - Reuse the Carbon family and show icons only when they add useful meaning.
 - Check keyboard usability, responsive layout, and accessible contrast.
+- Use at least two signature patterns from **Identity and differentiation** on every composed screen.
 
 ## Refusals
 
@@ -449,13 +559,13 @@ These are deliberate omissions, not gaps. Each rule is a refusal paired with the
 
 | #   | Never                                                                   | Instead                                                    |
 | --- | ----------------------------------------------------------------------- | ---------------------------------------------------------- |
-| R26 | More than one accent-filled element in a region                         | One primary action per region                              |
-| R27 | ▲ Color-only status: dots, colored icons, tinted rows with no word     | Text plus one role, every time                             |
+| R26 | More than one accent-filled element in a region                          | One primary action per region                              |
+| R27 | ▲ Color-only status: dots, colored icons, tinted rows with no word      | Text plus one role, every time                             |
 | R28 | Rainbow tags                                                            | One neutral tag, or one role                               |
 | R29 | Red on anything non-destructive; accent blue on a destructive action     | `danger` is reserved and always paired with an explicit verb |
-| R30 | ▲ Decorative shadows, hover-lift, more than one shadow token            | A single overlay shadow, for floating layers only          |
+| R30 | ▲ Decorative shadows, hover-lift, more than one shadow token             | A single overlay shadow, for floating layers only          |
 | R31 | ▲ Gradients, mesh, glass, noise, illustrations, mascots, stock photography in product surfaces | Flat surface and type                              |
-| R32 | ▲ Radius beyond 6px; `9999px` pills                                     | `sm`, `md`, `lg` only; pills are for switch tracks only    |
+| R32 | ▲ Radius beyond 6px; `9999px` pills                                      | `sm`, `md`, `lg` only; pills are for switch tracks only    |
 | R33 | A one-off dark override, a component-level `data-theme` selector, or an unvalidated color in either theme | Change the semantic token in `tokens.css` and validate both light and dark contrast |
 
 ### Motion
@@ -468,16 +578,16 @@ These are deliberate omissions, not gaps. Each rule is a refusal paired with the
 
 ### Chrome, copy, ethics
 
-| #   | Never                                                              | Instead                                        |
-| --- | ------------------------------------------------------------------ | ---------------------------------------------- |
-| R37 | An icon on every heading, button, table row, or nav item           | Icons only where they disambiguate             |
-| R38 | Emoji as icon or status; a second icon family                      | Carbon                                         |
-| R39 | Badge counts on navigation that do not change where the user should go | Nothing, or a real status                  |
-| R40 | Icon-only desktop navigation to save space                         | Labels                                          |
-| R41 | Truncated identifiers with no way to reveal them                   | Mono type, wrapping, and a copy action         |
-| R42 | Relative timestamps with no absolute value in the text             | Both                                           |
-| R43 | `title` or a tooltip as the only source of an explanation          | Visible text                                   |
-| R44 | Empty states without a next action, or with an illustration        | One sentence and one action                    |
+| #   | Never                                                                 | Instead                                        |
+| --- | --------------------------------------------------------------------- | ---------------------------------------------- |
+| R37 | An icon on every heading, button, table row, or nav item              | Icons only where they disambiguate             |
+| R38 | Emoji as icon or status; a second icon family                         | Carbon                                         |
+| R39 | Badge counts on navigation that do not change where the user should go | Nothing, or a real status                     |
+| R40 | Icon-only desktop navigation to save space                            | Labels                                         |
+| R41 | Truncated identifiers with no way to reveal them                      | Mono type, wrapping, and a copy action         |
+| R42 | Relative timestamps with no absolute value in the text                | Both                                           |
+| R43 | `title` or a tooltip as the only source of an explanation             | Visible text                                   |
+| R44 | Empty states without a next action, or with an illustration           | One sentence and one action                    |
 | R45 | Dark patterns: fake urgency, pre-checked consent, confirm-shaming, hard cancellation, hidden cost | State the cost; make leaving easy |
 
 ### System governance
@@ -491,9 +601,16 @@ These are deliberate omissions, not gaps. Each rule is a refusal paired with the
 | R50 | A "temporary" style that survives a release                                                 | Delete it or canonize it                                   |
 | R51 | ▲ Raw `<p>`/`<h1>`–`<h6>`, `<ul>`/`<ol>`/`<li>`, or local type classes in application and story prose | `Text`, `Code`, and `List`; layout through `Stack`, `Inline`, `Grid`, and `Container` |
 
+### Identity and copy
+
+| #   | Never                                                                 | Instead                                                    |
+| --- | --------------------------------------------------------------------- | ---------------------------------------------------------- |
+| R52 | Copy that performs personality or blames the reader ("Oops", "Uh oh", "Invalid input", "Successfully") | Name the object, the cause, and the fix |
+| R53 | A composed screen that uses the tokens but shows no signature pattern | At least two patterns from **Identity and differentiation** |
+
 ### Budgets
 
-Prefer budgets to bans where a ban is a judgement call: one accent-filled element per region, one overlay at a time, one sticky layer, one primary action per workflow, one animated property per interaction.
+Prefer budgets to bans where a ban is a judgement call: one accent-filled element per region, one overlay at a time, one sticky layer, one primary action per workflow, one animated property per interaction, two signature patterns per composed screen.
 
 ### Mechanically checkable
 
@@ -514,6 +631,7 @@ Prefer budgets to bans where a ban is a judgement call: one accent-filled elemen
 - No icon-only control without an accessible name, and no accessible name duplicated by both `aria-label` and hidden text.
 - No `font-size` below 12px.
 - At least one `:focus-visible` rule per interactive component.
+- No product copy in an application view containing "Oops", "Uh oh", "Something went wrong", "Invalid input", or "Successfully"; name the object, cause, and fix.
 
 ## Validation backlog
 
@@ -523,3 +641,6 @@ Prefer budgets to bans where a ban is a judgement call: one accent-filled elemen
 4. Test 36px controls, Carbon 16px/20px visual alignment with IBM Plex Sans, and 44px icon-only touch targets.
 5. Recheck light and dark on real screens when adding a color token or pairing; run the contrast suite for both themes.
 6. Validate the identity tones and the exported favicon ladder at 16px, in light and dark browser chrome.
+7. Validate the density boundary: the `dense` table variant versus comfortable forms, and confirm that compactness never reduces type or target size.
+8. Validate the logo-off test with five people who have not seen the system: can they identify the product from a screenshot with the name removed?
+9. Validate the voice patterns against real error, empty, permission, offline, and destructive states; add any missing pattern to the table before shipping.
