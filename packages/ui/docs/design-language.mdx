@@ -152,6 +152,125 @@ This is a **two-theme** system. Light is the default; dark follows the OS `prefe
 4. **The workspace is continuous.** One surface, with boundaries only where they carry meaning.
 5. **State is legible in text.** Color is never the only signal; every status has a word and a role.
 
+### Subtraction review
+
+**Functional minimalism: remove decoration, not guidance.** An interface is minimal when it contains everything needed to understand and complete the task, and nothing that does not help. Removing a card, heading, badge, divider, icon, or instruction must not remove the only cue explaining what the user is doing, what happens next, or how to recover.
+
+#### Every element must have a job
+
+Before adding or removing an element, identify its job:
+
+- **Orientation:** Where am I, and what am I working on?
+- **Decision:** What must I choose, and what consequence matters?
+- **Action:** What can I do next?
+- **Feedback:** What happened, what is happening, or how can I recover?
+
+Remove an element if it performs none of these jobs or duplicates another at the same point in the flow. If it performs a necessary job poorly, replace or improve it; do not simply remove it. Missing structure is as much a problem as unnecessary text.
+
+#### A sparse screen must still answer
+
+At every workflow state, the user should be able to identify:
+
+1. **Subject:** What package, file, account, or other object am I working with?
+2. **Current state:** What needs input, is in progress, failed, or is ready?
+3. **Next action:** What should I do next, and where is the control?
+4. **Consequence:** What important limitation or prerequisite affects that action?
+5. **Recovery:** If something fails or I change my mind, what can I do?
+
+An existing label, value, heading, control, or result may convey the answer. Do not add a second sentence when the interface already answers it. Where recovery or a constraint is not relevant to a state, do not invent one.
+
+Every visible element must support a decision, action, orientation, or necessary feedback at that point in the workflow. Before adding text, a label, badge, icon, divider, container, or metadata, identify its job. If removing it leaves the user equally able to understand and complete the task, remove it.
+
+State a fact once, where it matters. Do not repeat the page title in a section heading, restate a selected value beside its control, add status text for an outcome already visible, or place workflow explanations in persistent application chrome. Supporting copy must answer a likely question or explain a constraint that changes the next action; generic reassurance, feature narration, implementation details, and filler do not qualify.
+
+For agents and reviewers:
+
+1. Annotate each element's distinct job during screen design: action, decision, orientation, or feedback. Remove elements with no distinct job.
+2. Perform a subtraction pass on every state: remove each element in turn and ask what concrete capability or understanding is lost.
+3. Check duplication across the whole screen, not just within components.
+4. Review real composed screens and their states, not only isolated stories: valid components can still assemble into a cluttered screen.
+5. Preserve accessible names, labels, necessary feedback, and task-critical context. Accessibility and correct task completion take precedence over quietness.
+
+#### Composed-screen example: before and after subtraction
+
+This schematic settings screen is a **negative example**, not a pattern to copy. The region takes effect when saved; the selected value is visible in the control.
+
+```text
+Before — do not copy
+Persistent sidebar: Settings
+  Choose a region here to configure your workspace.  [persistent explanation]
+Page title: Workspace settings
+Section heading: Workspace settings                [repeated heading]
+Badge: Configured                                  [decorative; no decision]
+Region: [Europe ▾]                                 [decision]
+Selected region: Europe                            [repeated value]
+Save region                                        [action]
+```
+
+```text
+After — same task, after subtraction
+Persistent sidebar: Settings                      [orientation]
+Page title: Workspace settings                     [orientation]
+Region: [Europe ▾]                                 [decision; visible label]
+Save region                                        [action; explicit commit]
+```
+
+The sidebar identifies the destination; the title identifies the page; the labelled control exposes the choice; the action commits it. Removing the repeated heading, selected value, decorative badge, and persistent explanation loses no capability. If saving fails, retain an actionable inline error at the control; if a constraint affects the choice, explain it there. An off-screen outcome may still need confirmation. Review those states separately rather than subtracting necessary feedback.
+
+#### Three compositions of one workflow
+
+These schematic composed screens compare an archive-creation task, not reusable component variants. The user selects a package and creates one archive containing that package. The constraint matters at selection; an existing archive link confirms success.
+
+```text
+Overbuilt — do not copy
+[Card: Create archive]  ◇ New
+  [Card: Create archive]
+    Package: [Select a package ▾]  Badge: Required
+    Selected package: None
+    [Card: Actions] Create archive
+Footer: Each archive contains one package. Create an archive to continue.
+
+Over-stripped — do not copy
+[Select ▾]  [Create]
+```
+
+The first repeats the title and selection, adds decorative chrome and moves a consequential constraint into persistent footer copy. The second loses the subject, the field label, the action's object and the constraint. Neither is complete.
+
+```text
+Functionally minimal — initial
+Create archive                              [orientation: task and subject]
+Package: [Select a package ▾]               [decision: labelled choice]
+Each archive contains one package.          [decision: constraint]
+Create archive (disabled until selected)    [action: next step]
+
+Configured
+Create archive
+Package: [Orbit ▾]
+Each archive contains one package.
+Create archive
+
+Pending
+Create archive
+Package: [Orbit ▾] (disabled)
+Each archive contains one package.
+Creating archive… (disabled)                [feedback: pending action]
+
+Failure
+Create archive
+Package: [Orbit ▾]
+Each archive contains one package.
+Archive could not be created. The cause is unknown. Retry.  [feedback: recovery]
+Retry archive                               [action: recovery]
+
+Success
+Create archive
+Archive: Orbit.zip                          [feedback: visible result]
+Download archive                            [action: next step]
+Create another archive                      [action: restart]
+```
+
+The task title, labelled control and its adjacent constraint replace the cards' grouping; a single task column, alignment and spacing keep the action connected to the choice. The disabled action's prerequisite is visible in the labelled empty selection; applications should explain additional prerequisites beside the control. During failure preserve the selection and offer retry; success names the actual result rather than adding a redundant success message. A real implementation must provide keyboard focus, an announced pending and error state, and a working download and restart. These diagrams do not demonstrate tested usability.
+
 ### Anti-goals
 
 The experience must never feel like:
@@ -349,6 +468,8 @@ Keep tokens, `src/lib/layout.ts`, and component media queries in sync. Do not ad
 ### Application workspaces
 
 Application workspaces are continuous in both themes: light uses a white workspace, dark uses `#161616`. Organization comes from typography, alignment, whitespace, and structure, not from panels.
+
+**Use structure deliberately.** A continuous workspace does not make every element visually equal. Establish hierarchy with the existing typography scale, content measure, alignment, and spacing. Group controls with the information and actions they affect. Use a boundary when it clarifies a meaningful relationship. Do not remove a useful heading, label, or boundary merely because cards or decoration are discouraged; replace a container's organizing function before removing it.
 
 - Primary content sits on a white workspace; Navbar and persistent Sidebars share the same white by default, and the navigation surface is an explicit variant.
 - Navigation is never more prominent than content. Promote content through hierarchy, not by tinting the workspace.

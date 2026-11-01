@@ -32,7 +32,10 @@
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "AGENTS.md",
+    "docs/design-language.mdx",
+    "docs/components.mdx"
   ],
   "publishConfig": {
     "access": "public"

@@ -199,6 +199,11 @@ sidebar is a layout even though it contains navigation.
 
 ## Design intent and voice
 
+Agents building UI must read the package instructions in
+[`packages/ui/AGENTS.md`](packages/ui/AGENTS.md) and the source
+[`packages/ui/docs/design-language.mdx`](packages/ui/docs/design-language.mdx).
+Both ship with the npm package for downstream agents.
+
 Storybook is the worked example of the design language, not a catalogue of
 everything the components can do. Read **Design intent**, **Identity and
 differentiation**, and **Voice and tone** in the
