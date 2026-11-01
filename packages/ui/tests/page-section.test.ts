@@ -172,7 +172,8 @@ describe('Page and Section migration audit', () => {
     'Landing',
     'PageHeader',
     'AppShell',
-    'Personal'
+    'Personal',
+    'Resources'
   ];
 
   const readStory = (name: string) =>
