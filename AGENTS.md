@@ -1,7 +1,11 @@
 <!--
-SPDX-FileCopyrightText: 2026 t128n
+SPDX-FileCopyrightText: 2026 t128n Torben Haack
 
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: MPL-2.0
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at https://mozilla.org/MPL/2.0/.
 -->
 
 # AGENTS.md
@@ -34,7 +38,7 @@ packages/ui/scripts/       build, package verification, icon export
 packages/ui/fixtures/      strict consumer fixtures
 .storybook/                Storybook config, theme, sidebar order
 plans/                     dated internal planning notes, not documentation
-LICENSES/MIT.txt           license text referenced by the SPDX headers
+LICENSES/MPL-2.0.txt       license text referenced by the SPDX headers
 REUSE.toml                 REUSE annotations for generated, headerless files
 AGENTS.md                  this file: rules, commands, reference tables
 ```
@@ -51,6 +55,7 @@ bun run test:storybook       # every story in Chromium + axe
 bun run build                # library build into packages/ui/dist
 bun run verify               # package contents, tree-shaking, consumer fixture
 bun run license:lint         # REUSE 3.3 compliance, needs `reuse` on PATH
+bun run license:fix          # add missing SPDX headers, then review the diff
 bun run build-storybook      # static Storybook, including the docs pages
 cd packages/ui && bun run check
 cd packages/ui && bunx svelte-check --tsconfig ./tsconfig.json --fail-on-warnings
@@ -58,9 +63,9 @@ bun run changeset            # add a release note for a user-visible change
 ```
 
 `bun run license:lint` needs the [`reuse`](https://reuse.software) tool, version
-6 or newer (`brew install reuse`, `pipx install reuse`, or
-`uvx --from reuse reuse`). CI runs the same check through
-`fsfe/reuse-action@v6`, so a local install is optional.
+6 or newer (`pipx install reuse`, `brew install reuse`, or
+`uvx --from reuse reuse`). CI installs the same pinned version with pipx on an
+`ubuntu-slim` runner, so a local install is optional.
 
 A change is complete only when the unit suite, Storybook tests, warning-free
 type check, library build, Storybook build, and REUSE lint pass.
@@ -86,11 +91,13 @@ type check, library build, Storybook build, and REUSE lint pass.
   ships the tarball built and verified by the pack job.
 - **Changelog is generated.** Run `bun run changeset`; never hand-edit
   `packages/ui/CHANGELOG.md`.
-- **License headers.** Every tracked file declares its copyright and MIT license
-  in an SPDX header, and `LICENSES/MIT.txt` carries the text. Files that cannot
-  hold a header or are generated are listed in `REUSE.toml` instead. Add a header
-  to a new file with `reuse annotate --copyright t128n --license MIT <path>`;
-  `bun run license:lint` and the CI License job fail closed on a missing one.
+- **License headers.** Every tracked file declares its copyright and MPL-2.0
+  license in an SPDX header, and `LICENSES/MPL-2.0.txt` carries the text. Files
+  that cannot hold a header or are generated are listed in `REUSE.toml` instead.
+  Add a header to a new file with
+  `reuse annotate -t mpl --copyright "t128n Torben Haack" --license MPL-2.0 <path>`;
+  `bun run license:fix` fills in what is missing, and `bun run license:lint` plus
+  the CI License job fail closed on a missing one.
 
 ## Documentation authoring
 
@@ -284,6 +291,10 @@ Three unit tests keep the contract honest:
 
 Run `bun run test` after changing a title or description, and
 `bun run test:storybook` to confirm the stories still render.
+
+License compliance sits outside the unit suite: the `License` job in `ci.yml`
+runs `reuse lint` on every pull request, and `license-fix.yml` opens a pull
+request that adds missing headers on a schedule or on demand.
 
 ## R48 component coverage
 

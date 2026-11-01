@@ -1,11 +1,15 @@
-# SPDX-FileCopyrightText: 2026 t128n
+# SPDX-FileCopyrightText: 2026 t128n Torben Haack
 #
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: MPL-2.0
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 version = 1
 
 SPDX-PackageName = "@t128n/ui"
-SPDX-PackageSupplier = "Person: t128n"
+SPDX-PackageSupplier = "Person: t128n Torben Haack"
 SPDX-PackageDownloadLocation = "https://github.com/t128n/design"
 
 # Files that cannot carry an SPDX header, plus generated files that a tool
@@ -17,9 +21,10 @@ path = [
   "packages/ui/tsconfig.json",
   "packages/ui/fixtures/consumer/tsconfig.json",
   ".changeset/config.json",
+  ".changeset/*.md",
   "bun.lock",
   "packages/ui/CHANGELOG.md",
 ]
 precedence = "closest"
-SPDX-FileCopyrightText = "2026 t128n"
-SPDX-License-Identifier = "MIT"
+SPDX-FileCopyrightText = "2026 t128n Torben Haack"
+SPDX-License-Identifier = "MPL-2.0"

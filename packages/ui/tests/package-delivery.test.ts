@@ -1,6 +1,10 @@
-// SPDX-FileCopyrightText: 2026 t128n
+// SPDX-FileCopyrightText: 2026 t128n Torben Haack
 //
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MPL-2.0
+//
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import { readdir, readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
@@ -57,7 +61,7 @@ describe('package delivery', () => {
     const pkg = JSON.parse(await read(join(uiRoot, 'package.json')));
 
     expect(pkg.private).toBe(false);
-    expect(pkg.license).toBe('MIT');
+    expect(pkg.license).toBe('MPL-2.0');
     expect(pkg.publishConfig).toEqual({ access: 'public' });
     expect(pkg.sideEffects).toEqual(['**/*.css']);
     expect(pkg.files).toEqual(['dist', 'CHANGELOG.md', 'AGENTS.md', 'docs/design-language.mdx', 'docs/components.mdx']);

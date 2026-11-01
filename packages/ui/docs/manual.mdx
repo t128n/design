@@ -1,7 +1,11 @@
 {/*
-SPDX-FileCopyrightText: 2026 t128n
+SPDX-FileCopyrightText: 2026 t128n Torben Haack
 
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: MPL-2.0
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at https://mozilla.org/MPL/2.0/.
 */}
 
 import { Meta } from '@storybook/addon-docs/blocks';
@@ -10,7 +14,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 A Svelte 5 design framework for quiet, spacious, technical application interfaces. Tokens feed a small typography and layout vocabulary; components build on that vocabulary and consume semantic tokens only.
 
-This package is published to npm as a public, MIT-licensed package and is
+This package is published to npm as a public, MPL-2.0-licensed package and is
 developed in [`t128n/design`](https://github.com/t128n/design).
 
 - Visual contract: [Design language](?path=/docs/foundations-design-language--docs)
@@ -442,7 +446,7 @@ The registry entry is the contract: `{ id, label, tone, glyph | monogram }`. Ton
 
 ### Versioning and releases
 
-- The package is public and MIT-licensed. It stays in the `0.x` line while its APIs stabilize.
+- The package is public and MPL-2.0-licensed. It stays in the `0.x` line while its APIs stabilize.
 - Releases are driven by [Changesets](https://changesets.dev). Run `bun run changeset` in the pull request that changes behavior; commit the generated `.changeset/*.md` file with the change.
 - `.changeset/*.md` is the input. `packages/ui/CHANGELOG.md` is generated from it by `changeset version`; do not edit the changelog by hand. The file ships in the tarball.
 - While `0.x`, a `major` changeset becomes a minor bump, so a breaking change is still a visible minor release. Every breaking change needs a changeset and a migration note; patches are compatible fixes and documentation.

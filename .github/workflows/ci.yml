@@ -1,6 +1,10 @@
-# SPDX-FileCopyrightText: 2026 t128n
+# SPDX-FileCopyrightText: 2026 t128n Torben Haack
 #
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: MPL-2.0
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 name: CI/CD
 
@@ -52,17 +56,23 @@ jobs:
 
   license:
     name: License
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     timeout-minutes: 5
     steps:
       - name: Checkout
         uses: actions/checkout@v5
 
       # REUSE 3.3: every tracked file declares its copyright and license, and
-      # `LICENSES/` carries the text. The action's major version tracks the
-      # `reuse` tool major, so this pins the checker without a Python setup.
+      # `LICENSES/` carries the text. The slim runner has no Docker daemon, so
+      # the official action cannot run here; pipx is preinstalled. Pin the tool
+      # to the same version as the License fix workflow.
+      - name: Install reuse
+        run: |
+          pipx install reuse==6.3.0
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
       - name: Check REUSE compliance
-        uses: fsfe/reuse-action@v6
+        run: reuse lint
 
   test:
     name: Test

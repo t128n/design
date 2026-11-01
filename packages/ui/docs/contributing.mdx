@@ -1,7 +1,11 @@
 {/*
-SPDX-FileCopyrightText: 2026 t128n
+SPDX-FileCopyrightText: 2026 t128n Torben Haack
 
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: MPL-2.0
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at https://mozilla.org/MPL/2.0/.
 */}
 
 import { Meta } from '@storybook/addon-docs/blocks';
@@ -41,18 +45,18 @@ and a strict consumer fixture. Run it before publishing a release.
 
 Every tracked file declares its copyright and license in an SPDX header, so the
 license travels with the file instead of living only in `LICENSE`. The repository
-follows [REUSE 3.3](https://reuse.software/spec/): `LICENSES/MIT.txt` holds the
+follows [REUSE 3.3](https://reuse.software/spec/): `LICENSES/MPL-2.0.txt` holds the
 license text, and every other file carries:
 
 ```text
 SPDX-FileCopyrightText: 2026 t128n
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: MPL-2.0
 ```
 
 Add the header to a new file with the [`reuse`](https://reuse.software) tool:
 
 ```sh
-uvx --from reuse reuse annotate --copyright t128n --license MIT <path>
+uvx --from reuse reuse annotate -t mpl --copyright "t128n Torben Haack" --license MPL-2.0 <path>
 bun run license:lint
 ```
 
@@ -60,7 +64,8 @@ A file that cannot hold a header (JSON, the lockfile) or that a tool regenerates
 (`packages/ui/CHANGELOG.md`) is listed in `REUSE.toml` instead. MDX pages use the
 JSX comment form, `{/* ... */}`, because MDX rejects HTML comments. The CI
 License job runs `reuse lint`, so a missing header fails the pull request rather
-than review.
+than review; the License fix workflow opens a pull request that adds the header
+to anything merged without one.
 
 ## Changing a component
 
@@ -142,7 +147,7 @@ Before opening a pull request:
 - [ ] The component reference and coverage table match the actual exports.
 - [ ] Documentation links resolve, and the Storybook information architecture in
       `AGENTS.md` still matches the sidebar.
-- [ ] The package stays MIT-licensed and public, with no npm token in the
+- [ ] The package stays MPL-2.0-licensed and public, with no npm token in the
       repository: publishing relies on OIDC trusted publishing.
 
 ## Commits and releases

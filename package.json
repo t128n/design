@@ -1,7 +1,7 @@
 {
   "name": "t128n-design",
   "private": true,
-  "license": "MIT",
+  "license": "MPL-2.0",
   "version": "0.0.0",
   "type": "module",
   "workspaces": [
@@ -14,6 +14,7 @@
     "build": "bun run --filter '@t128n/ui' build",
     "verify": "bun run --filter '@t128n/ui' verify",
     "license:lint": "reuse lint",
+    "license:fix": "bun scripts/license-fix.ts",
     "icons": "bun run packages/ui/scripts/build-app-icons.ts",
     "test": "vitest run --project=unit --passWithNoTests",
     "test:watch": "vitest --project=unit",

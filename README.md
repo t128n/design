@@ -1,7 +1,11 @@
 <!--
-SPDX-FileCopyrightText: 2026 t128n
+SPDX-FileCopyrightText: 2026 t128n Torben Haack
 
-SPDX-License-Identifier: MIT
+SPDX-License-Identifier: MPL-2.0
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at https://mozilla.org/MPL/2.0/.
 -->
 
 # t128n design
@@ -39,6 +43,6 @@ that affects the framework needs a changeset: `bun run changeset`.
 
 ## License
 
-MIT. See [`LICENSE`](LICENSE). Every file records its own copyright and license
+MPL-2.0. See [`LICENSE`](LICENSE). Every file records its own copyright and license
 with an SPDX header, so the repository is compliant with
 [REUSE 3.3](https://reuse.software/spec/); run `bun run license:lint` to check it.
