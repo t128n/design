@@ -1,23 +1,57 @@
 <script lang="ts">
   import { Combobox } from 'bits-ui';
+  import { tick } from 'svelte';
   import ChevronDownIcon from '~icons/carbon/chevron-down';
   import CheckIcon from '~icons/carbon/checkmark';
   import { mergeClasses } from './class';
+  import type { ComboboxItem } from './combobox';
   import Field from './Field.svelte';
   import Icon from './Icon.svelte';
   import VisuallyHidden from './VisuallyHidden.svelte';
 
-  type Item = {
-    value: string;
-    label: string;
-    disabled?: boolean;
-  };
-
   type Props = {
-    items: Item[];
+    items: ComboboxItem[];
+
+    /** Optional explicit group order. Derived from item.group when omitted. */
+    groups?: string[];
+
+    /** Bindable selected value. */
     value?: string;
     onValueChange?: (value: string) => void;
+
+    /** Bindable input text; also used as the client-side filter query. */
     inputValue?: string;
+    onInputValueChange?: (value: string) => void;
+
+    /** Bindable popover state. */
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
+
+    /** Open when the user types. Default: true. */
+    openOnInput?: boolean;
+
+    /** Open when the input receives focus. Default: false. */
+    openOnFocus?: boolean;
+
+    /**
+     * "client" filters items by label as the user types.
+     * "manual" renders items as supplied; use with onInputValueChange for async.
+     * Default: "client".
+     */
+    filterMode?: 'client' | 'manual';
+
+    /** Keep the selected item's label in the input after selection. Default: true. */
+    syncInputOnSelect?: boolean;
+
+    /** Shown when the list is empty. Default: "No results". */
+    emptyLabel?: string;
+
+    /** Show a loading row instead of the empty row. Default: false. */
+    loading?: boolean;
+
+    /** Loading row copy. Default: "Loading…". */
+    loadingLabel?: string;
+
     label: string;
     description?: string;
     placeholder?: string;
@@ -31,9 +65,20 @@
 
   let {
     items,
+    groups,
     value = $bindable<string | undefined>(undefined),
     onValueChange,
-    inputValue = $bindable<string>(''),
+    inputValue = $bindable(''),
+    onInputValueChange,
+    open = $bindable(false),
+    onOpenChange,
+    openOnInput = true,
+    openOnFocus = false,
+    filterMode = 'client',
+    syncInputOnSelect = true,
+    emptyLabel = 'No results',
+    loading = false,
+    loadingLabel = 'Loading…',
     label,
     description,
     placeholder = 'Search...',
@@ -47,10 +92,97 @@
 
   const classes = $derived(mergeClasses('combobox-field', className));
 
-  const filteredItems = $derived(
-    items.filter((item) => item.label.toLowerCase().includes(inputValue.trim().toLowerCase()))
+  // Bits UI exposes `inputValue` as a one-way prop, so the wrapper keeps the
+  // external value as the source of truth and mirrors it into the root.
+  let rootInputValue = $state(inputValue);
+
+  $effect(() => {
+    rootInputValue = inputValue;
+  });
+
+  const normalizedQuery = $derived(inputValue.trim().toLowerCase());
+
+  const filteredItems = $derived.by(() => {
+    if (filterMode === 'manual') {
+      return items;
+    }
+
+    if (normalizedQuery.length === 0) {
+      return items;
+    }
+
+    return items.filter((item) => item.label.toLowerCase().includes(normalizedQuery));
+  });
+
+  const groupOrder = $derived(
+    groups ??
+      Array.from(
+        new Set(
+          items
+            .map((item) => item.group)
+            .filter((group): group is string => Boolean(group))
+        )
+      )
   );
+
+  const groupedItems = $derived(
+    groupOrder
+      .map((group) => ({
+        group,
+        items: filteredItems.filter((item) => item.group === group)
+      }))
+      .filter((entry) => entry.items.length > 0)
+  );
+
+  const ungroupedItems = $derived(filteredItems.filter((item) => !item.group));
+
+  const hasGroups = $derived(groupedItems.length > 0);
+  const hasAnyItems = $derived(groupedItems.length > 0 || ungroupedItems.length > 0);
+
+  function handleValueChange(next: string) {
+    const selected = items.find((item) => item.value === next);
+
+    if (syncInputOnSelect) {
+      inputValue = selected?.label ?? '';
+      rootInputValue = inputValue;
+    } else {
+      // Bits UI writes the selected label into its own input state. Restore the
+      // caller's query after that write so an async search keeps its text.
+      const query = inputValue;
+
+      rootInputValue = selected?.label ?? '';
+
+      void tick().then(() => {
+        if (inputValue === query) {
+          rootInputValue = query;
+        }
+      });
+    }
+
+    onValueChange?.(next);
+  }
 </script>
+
+{#snippet option(item: ComboboxItem)}
+  <Combobox.Item
+    value={item.value}
+    label={item.label}
+    disabled={item.disabled}
+    class="combobox-item"
+  >
+    {#snippet children({ selected })}
+      <span class="check" aria-hidden="true">
+        {#if selected}<Icon icon={CheckIcon} class="check-icon" />{/if}
+      </span>
+      <span class="item-copy">
+        <span class="item-label">{item.label}</span>
+        {#if item.description}
+          <span class="item-description">{item.description}</span>
+        {/if}
+      </span>
+    {/snippet}
+  </Combobox.Item>
+{/snippet}
 
 <div class={classes}>
   <Field {label} {description} {error} {disabled} {required} {id}>
@@ -58,11 +190,14 @@
       <Combobox.Root
         type="single"
         bind:value
+        bind:open
+        inputValue={rootInputValue}
         {items}
         {disabled}
         {required}
         {name}
-        {onValueChange}
+        {onOpenChange}
+        onValueChange={handleValueChange}
       >
         <div class="combobox-input-group" class:invalid={state.invalid}>
           <Combobox.Input
@@ -70,9 +205,23 @@
             class="combobox-input"
             {placeholder}
             oninput={(event) => {
-              inputValue = event.currentTarget.value;
+              const next = event.currentTarget.value;
+
+              inputValue = next;
+              rootInputValue = next;
+              onInputValueChange?.(next);
+
+              if (!disabled) {
+                open = openOnInput;
+              }
+            }}
+            onfocus={() => {
+              if (!disabled && openOnFocus) {
+                open = true;
+              }
             }}
             aria-labelledby={state.labelId}
+            aria-controls={open ? `${state.id}-listbox` : undefined}
             aria-required={state.required ? 'true' : undefined}
             aria-invalid={state.invalid ? 'true' : undefined}
             aria-describedby={state.describedBy}
@@ -83,32 +232,44 @@
           </Combobox.Trigger>
         </div>
         <Combobox.Portal>
-          <Combobox.Content class="combobox-content" sideOffset={4}>
+          <Combobox.Content
+            id={`${state.id}-listbox`}
+            class="combobox-content"
+            sideOffset={4}
+          >
             <div class="panel">
               <Combobox.Viewport class="t128n-combobox-viewport">
-                {#each filteredItems as item}
-                  <Combobox.Item
-                    value={item.value}
-                    label={item.label}
-                    disabled={item.disabled}
-                    class="combobox-item"
-                  >
-                    {#snippet children({ selected })}
-                      <span class="check" aria-hidden="true">
-                        {#if selected}<Icon icon={CheckIcon} class="check-icon" />{/if}
-                      </span>
-                      <span>{item.label}</span>
-                    {/snippet}
-                  </Combobox.Item>
-                {/each}
-                {#if filteredItems.length === 0}
-                  <div class="empty">No results</div>
+                {#if loading}
+                  <div class="empty" aria-hidden="true">{loadingLabel}</div>
+                {:else if !hasAnyItems}
+                  <div class="empty" aria-hidden="true">{emptyLabel}</div>
+                {:else}
+                  {#if hasGroups}
+                    {#each groupedItems as group (group.group)}
+                      <Combobox.Group>
+                        <Combobox.GroupHeading class="group-label">
+                          {group.group}
+                        </Combobox.GroupHeading>
+                        {#each group.items as item (item.value)}
+                          {@render option(item)}
+                        {/each}
+                      </Combobox.Group>
+                    {/each}
+                  {/if}
+                  {#each ungroupedItems as item (item.value)}
+                    {@render option(item)}
+                  {/each}
                 {/if}
               </Combobox.Viewport>
             </div>
           </Combobox.Content>
         </Combobox.Portal>
       </Combobox.Root>
+      <VisuallyHidden role="status">
+        {#if open}
+          {loading ? loadingLabel : !hasAnyItems ? emptyLabel : ''}
+        {/if}
+      </VisuallyHidden>
     {/snippet}
   </Field>
 </div>
@@ -207,6 +368,14 @@
     overflow-y: auto;
   }
 
+  .panel :global(.group-label) {
+    padding: var(--space-xs) var(--space-sm);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-caption);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-caption);
+  }
+
   .panel :global(.combobox-item) {
     display: flex;
     align-items: center;
@@ -237,6 +406,23 @@
     width: var(--icon-size-sm);
     height: var(--icon-size-sm);
     color: var(--color-accent);
+  }
+
+  .item-copy {
+    display: grid;
+    min-width: 0;
+    gap: var(--space-xs);
+  }
+
+  .item-label {
+    overflow-wrap: anywhere;
+  }
+
+  .item-description {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body);
+    overflow-wrap: anywhere;
   }
 
   .panel .empty {
