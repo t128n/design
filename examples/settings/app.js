@@ -28,6 +28,7 @@
 
   var themeToggle = byId("theme-toggle");
   var themeStatus = byId("theme-status");
+  var themeMeta = document.querySelector('meta[name="theme-color"]');
 
   function updateThemeControl(theme) {
     if (!themeToggle) {
@@ -42,11 +43,14 @@
   function applyTheme(theme) {
     root.setAttribute("data-theme", theme);
     root.style.colorScheme = theme;
+    if (themeMeta) {
+      themeMeta.setAttribute("content", theme === "dark" ? "#161616" : "#FFFFFF");
+    }
     updateThemeControl(theme);
   }
 
   if (themeToggle) {
-    updateThemeControl(root.getAttribute("data-theme") === "dark" ? "dark" : "light");
+    applyTheme(root.getAttribute("data-theme") === "dark" ? "dark" : "light");
 
     themeToggle.addEventListener("click", function () {
       var current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
@@ -500,10 +504,11 @@
     if (saveButton) {
       saveButton.removeAttribute("aria-busy");
       saveButton.removeAttribute("aria-disabled");
+      saveButton.removeAttribute("aria-label");
       saveButton.style.width = "";
     }
     if (saveLabel) {
-      saveLabel.textContent = "Save changes";
+      saveLabel.textContent = "Save Changes";
     }
     if (saveSpinner) {
       saveSpinner.hidden = true;
@@ -535,6 +540,7 @@
     saveButton.style.width = width + "px";
     saveButton.setAttribute("aria-busy", "true");
     saveButton.setAttribute("aria-disabled", "true");
+    saveButton.setAttribute("aria-label", "Save Changes");
 
     if (discardButton) {
       discardButton.disabled = true;
@@ -557,6 +563,28 @@
       }
     });
   }
+
+  function isDirty() {
+    var current = readProfileValues();
+    if (
+      current.displayName !== savedValues.displayName ||
+      current.email !== savedValues.email ||
+      current.timezone !== savedValues.timezone ||
+      current.jobTitle !== savedValues.jobTitle
+    ) {
+      return true;
+    }
+    return passwordFields.some(function (field) {
+      return field.input && field.input.value.length > 0;
+    });
+  }
+
+  window.addEventListener("beforeunload", function (event) {
+    if (!isSaving && isDirty()) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+  });
 
   if (form) {
     form.addEventListener("input", clearFormStatus);

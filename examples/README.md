@@ -17,13 +17,17 @@ Each view is self-contained: `index.html`, `styles.css`, `app.js`.
 
 ## Shared implementation
 
-- The token block is **byte-identical** in all six `styles.css` files. It is the canonical block: add a token here and in `DESIGN.md` at the same time. No raw hex outside it.
-- Control padding is bound to control height (8/12/16 ↔ 28/36/44); nav and menu rows use 8px padding.
-- Label–value rows are tabular: value right-aligned with tabular figures, mono 13 for identifiers, 1px rules with no container, and a hover fill that spans exactly the rule width.
+- The token block is **byte-identical** in all six `styles.css` files. It is the canonical block: add a token here and in `DESIGN.md` at the same time. No raw hex outside it. Type, spacing, control, and layout tokens are rem; only 1px hairlines, 2px focus rings and bars, shadow geometry, and breakpoints stay in px.
+- Control padding is bound to control height (0.5/0.75/1rem ↔ 1.75/2.25/2.75rem); nav and menu rows use 0.5rem padding.
+- Label–value rows are tabular: value right-aligned with tabular figures, mono 0.8125 for identifiers, 1px rules with no container, and a hover fill that spans exactly the rule width.
+- Tables and lists are page structure, not objects: no surrounding border, radius, or card.
 - Theme resolves before first paint: stored override, otherwise OS preference. One key, `t128n-theme`, shared by all six, so a toggle carries across views. Clearing the override returns to the system.
+- Search, filters, sorting, and the inline create form live in the query string, so a copied URL reproduces the screen.
 - Geist Sans 400/600 and Geist Mono 400 via Fontsource, latin subset, with system fallbacks. No build step, no font files in the repo.
-- Lucide outline icons inline as SVG: 16 inline, 20 in controls and the app bar.
+- Lucide outline icons inline as SVG: 1rem inline and in 1.75rem controls, 1.25rem in 2.25/2.75rem controls and the app bar.
 - **No floating notifications.** Every outcome is inline: field errors under the field, action results beside the action or section, copy confirmations next to the trigger.
+- Hover is gated behind `(hover: hover) and (pointer: fine)`; controls set `touch-action: manipulation`; overlays contain overscroll; `prefers-contrast` and `forced-colors` keep structure visible.
+- Selected and current navigation takes no fill; a 2px `primary` indicator carries it — a leading bar in vertical nav, an underline in horizontal nav — with 600 weight.
 - 2px focus rings with 2px offset (`accent-on-dark` on the app bar), skip links, one `<main>` and one `<h1>` per page.
 - The wordmark uses the accent: `primary` on light headers, `accent-on-dark` on the dark app bar. No separate brand color.
 - Responsive at 1280 / 1024 / 768 / 320 with no page-level horizontal scroll. The app-shell drawer starts below the app bar and locks body scroll; the focused app shell has no drawer.

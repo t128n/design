@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFFFFF">
   <title>Color — t128n design</title>
   <meta name="description" content="How the t128n design system uses Oxocarbon-derived color roles, contrast thresholds, selection, and theme tokens.">
   <script>
@@ -35,15 +36,15 @@
 
   <header class="site-header">
     <div class="header-inner">
-      <a class="wordmark" href="index.html">t128n <span class="wordmark-rest">design</span></a>
+      <a class="wordmark" href="index.html" translate="no">t128n <span class="wordmark-rest">design</span></a>
 
       <div class="header-end">
         <nav class="primary-nav" aria-label="Primary">
           <ul>
-            <li><a class="nav-link" href="overview.html">Overview</a></li>
+            <li><a class="nav-link" href="../landing/index.html">Overview</a></li>
             <li><a class="nav-link" href="index.html" aria-current="page">Foundations</a></li>
-            <li><a class="nav-link" href="components.html">Components</a></li>
-            <li><a class="nav-link" href="patterns.html">Patterns</a></li>
+            <li><a class="nav-link" href="../dashboard/index.html">Examples</a></li>
+            <li><a class="nav-link" href="../../DESIGN.md">Spec</a></li>
           </ul>
         </nav>
 
@@ -78,16 +79,16 @@
     <div class="mobile-nav" id="mobile-nav" hidden>
       <nav aria-label="Primary">
         <ul class="mobile-nav-list">
-          <li><a class="nav-link" href="overview.html">Overview</a></li>
+          <li><a class="nav-link" href="../landing/index.html">Overview</a></li>
           <li><a class="nav-link" href="index.html" aria-current="page">Foundations</a></li>
-          <li><a class="nav-link" href="components.html">Components</a></li>
-          <li><a class="nav-link" href="patterns.html">Patterns</a></li>
+          <li><a class="nav-link" href="../dashboard/index.html">Examples</a></li>
+          <li><a class="nav-link" href="../../DESIGN.md">Spec</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main id="main">
+  <main id="main" tabindex="-1">
     <div class="page">
       <div class="layout">
         <article class="article" aria-labelledby="color-title">
@@ -151,7 +152,7 @@
               </table>
             </div>
 
-            <p>Use <code>border-strong</code> for interactive boundaries and <code>border-subtle</code> for structural separation. <code>text-muted</code> carries metadata and helper text; <code>text-disabled</code> is reserved for disabled labels and never for information a user needs.</p>
+            <p>Use <code>border-strong</code> for interactive boundaries and <code>border-subtle</code> for structural separation. <code>text-muted</code> is limited to placeholders and helper text on <code>canvas</code> and <code>surface</code>; <code>text-disabled</code> is reserved for disabled labels and never for information a user needs.</p>
             <p>The raw palette is published in the <a href="https://github.com/nyoom-engineering/base16-oxocarbon">Oxocarbon base16 repository</a>. Treat it as the origin of the values, not as an interface API: <code>base08</code> is cyan in dark theme and pink in light theme, so a slot number cannot describe a stable role.</p>
           </section>
 
@@ -174,12 +175,12 @@
 
           <section class="article-section" aria-labelledby="selection">
             <h2 id="selection" tabindex="-1">Selection</h2>
-            <p>Selected text, rows, and list items use the <code>selection</code> overlay: <code>primary</code> at 12% opacity in light theme and 16% in dark theme. <code>text-primary</code> stays unchanged. Because the overlay is translucent, it tints <code>canvas</code>, <code>surface</code>, and <code>surface-2</code> without needing a separate token for each context.</p>
-            <p>Never invert text or fill a row with solid primary. Pair the tint with a second signal such as a checked box, a 2px leading indicator, or 600 weight, so selection does not depend on color alone.</p>
+            <p>Selected text uses the <code>selection</code> overlay: <code>primary</code> at 12% opacity in light theme and 16% in dark theme. <code>text-primary</code> stays unchanged, and the overlay tints <code>canvas</code>, <code>surface</code>, and <code>surface-2</code> without a separate token for each context.</p>
+            <p>Persistent selection — rows, list items, and navigation — takes no fill; the 2px <code>primary</code> indicator carries it (a leading bar in vertical navigation and rows, an underline in horizontal navigation), with 600 weight in navigation. Never invert text or fill a row with solid primary, so selection never depends on color alone.</p>
           </section>
 
           <section class="article-section" aria-labelledby="missing-red">
-            <h2 id="missing-red" tabindex="-1">A palette without red</h2>
+            <h2 id="missing-red" tabindex="-1">A Palette Without Red</h2>
 
             <div class="callout" role="note">
               <span class="callout-icon" aria-hidden="true">
@@ -195,11 +196,11 @@
               </div>
             </div>
 
-            <p>Status always pairs an icon with text. Error fills use <code>on-error</code>, warning fills use <code>on-warning</code>, and success fills use <code>success-fill</code>; icon-only status is not acceptable.</p>
+            <p>Status always pairs an icon with text. Status colors are text and icons; the only solid status fill is the danger button, <code>error</code> with <code>on-error</code>. Icon-only status is not acceptable.</p>
           </section>
 
           <section class="article-section" aria-labelledby="tokens">
-            <h2 id="tokens" tabindex="-1">Tokens in practice</h2>
+            <h2 id="tokens" tabindex="-1">Tokens in Practice</h2>
             <p>Define each role once per theme, then let components read only the role name. The four roles below are enough for a neutral reading surface; copy the block into your theme layer and add the rest from the table.</p>
 
             <div class="code-block">
@@ -208,7 +209,7 @@
                 <div class="code-actions">
                   <span class="copy-feedback" data-copy-feedback aria-live="polite"></span>
                   <button class="copy-button" type="button" data-copy-target="token-snippet">
-                    <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                       <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
                       <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
                     </svg>
@@ -216,7 +217,7 @@
                   </button>
                 </div>
               </div>
-              <pre tabindex="0" aria-label="Theme token CSS snippet"><code id="token-snippet">:root {
+              <pre tabindex="0" aria-label="Theme token CSS snippet"><code id="token-snippet" translate="no">:root {
   --canvas: #FFFFFF;
   --text-primary: #161616;
   --primary: #0F62FE;
@@ -235,18 +236,18 @@
           </section>
 
           <footer class="article-footer">
-            <p>Last updated <time datetime="2026-11-01">2026-11-01</time></p>
+            <p>Last updated <time datetime="2026-11-01">1 November 2026</time></p>
           </footer>
         </article>
 
         <nav class="toc" aria-labelledby="toc-heading">
-          <p class="toc-heading" id="toc-heading">On this page</p>
+          <p class="toc-heading" id="toc-heading">On This Page</p>
           <ul class="toc-list">
             <li><a class="toc-link" href="#roles" data-toc-link>Roles</a></li>
             <li><a class="toc-link" href="#contrast" data-toc-link>Contrast</a></li>
             <li><a class="toc-link" href="#selection" data-toc-link>Selection</a></li>
-            <li><a class="toc-link" href="#missing-red" data-toc-link>A palette without red</a></li>
-            <li><a class="toc-link" href="#tokens" data-toc-link>Tokens in practice</a></li>
+            <li><a class="toc-link" href="#missing-red" data-toc-link>A Palette Without Red</a></li>
+            <li><a class="toc-link" href="#tokens" data-toc-link>Tokens in Practice</a></li>
           </ul>
         </nav>
       </div>

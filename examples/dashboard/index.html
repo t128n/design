@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FFFFFF">
   <title>Projects · t128n</title>
   <script>
     (function () {
@@ -37,7 +38,7 @@
         <path d="m6 6 12 12"></path>
       </svg>
     </button>
-    <span class="wordmark">t128n</span>
+    <span class="wordmark" translate="no">t128n</span>
     <span class="app-bar__divider" aria-hidden="true"></span>
     <span class="workspace-name">Personal</span>
     <span class="app-bar__spacer"></span>
@@ -131,7 +132,7 @@
 
     <div class="backdrop" id="backdrop" aria-hidden="true"></div>
 
-    <main class="main" id="main">
+    <main class="main" id="main" tabindex="-1">
       <header class="page-header">
         <div class="page-header__row">
           <h1 class="page-title">Projects</h1>
@@ -140,7 +141,7 @@
               <path d="M5 12h14"></path>
               <path d="M12 5v14"></path>
             </svg>
-            New project
+            Create Project
           </button>
         </div>
         <p class="page-description">Deployments, environments, and recent activity across your workspace.</p>
@@ -148,19 +149,19 @@
 
       <section class="metrics" aria-label="Workspace metrics">
         <div class="metric">
-          <p class="metric__label">Active projects</p>
+          <p class="metric__label">Active Projects</p>
           <p class="metric__value">12</p>
         </div>
         <div class="metric">
-          <p class="metric__label">Deployments today</p>
+          <p class="metric__label">Deployments Today</p>
           <p class="metric__value">34</p>
         </div>
         <div class="metric">
-          <p class="metric__label">Failed builds</p>
+          <p class="metric__label">Failed Builds</p>
           <p class="metric__value">2</p>
         </div>
         <div class="metric">
-          <p class="metric__label">Median build</p>
+          <p class="metric__label">Median Build</p>
           <p class="metric__value">1m 42s</p>
         </div>
       </section>
@@ -168,7 +169,7 @@
       <form class="toolbar" id="filters" role="search" aria-label="Project filters">
         <div class="toolbar__fields">
           <div class="field field--search">
-            <label class="field__label" for="project-search">Search projects</label>
+            <label class="field__label" for="project-search">Search Projects</label>
             <div class="input-wrap">
               <svg class="icon input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
                 <circle cx="11" cy="11" r="8"></circle>
@@ -195,11 +196,11 @@
         </div>
         <div class="toolbar__meta">
           <p class="result-count" id="result-count" aria-live="polite" aria-atomic="true">8 projects</p>
-          <button class="button button--ghost" id="clear-filters" type="button" hidden>Clear filters</button>
+          <button class="button button--ghost" id="clear-filters" type="button" hidden>Clear Filters</button>
         </div>
       </form>
 
-      <div class="table-wrap">
+      <div class="table-wrap" id="table-region" role="region" aria-label="Projects table" tabindex="0">
         <table class="table">
           <caption class="visually-hidden">Projects and their deployment status</caption>
           <thead>
@@ -210,7 +211,7 @@
               <th scope="col">Owner</th>
               <th scope="col" class="cell-updated" id="updated-header" aria-sort="descending">
                 <button class="sort-button" id="sort-updated" type="button" data-direction="descending" title="Sort by updated date">
-                  Updated
+                  Updated<span class="visually-hidden" id="sort-state">, sorted descending</span>
                   <span class="sort-indicator" aria-hidden="true">
                     <svg class="icon icon-sort-desc" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
                       <path d="M12 5v14"></path>
@@ -228,6 +229,11 @@
           </thead>
           <tbody id="projects-body"></tbody>
         </table>
+      </div>
+
+      <div class="empty-state" id="empty-state" hidden>
+        <p>No projects match your filters.</p>
+        <button class="button button--secondary" id="empty-clear" type="button">Clear Filters</button>
       </div>
 
       <p class="inline-status" id="table-status" role="status" aria-live="polite" aria-atomic="true"></p>
@@ -267,14 +273,14 @@
         <path d="M19 17V5a2 2 0 0 0-2-2H4"></path>
         <path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"></path>
       </svg>
-      View logs
+      View Logs
     </button>
     <button class="menu__item" type="button" role="menuitem" data-action="copy">
       <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
         <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
         <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
       </svg>
-      Copy project ID
+      Copy Project ID
     </button>
   </div>
 

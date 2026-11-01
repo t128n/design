@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Workspace settings · t128n</title>
+  <meta name="theme-color" content="#FFFFFF">
+  <title>Workspace Settings · t128n</title>
   <meta name="description" content="Workspace settings for the Personal workspace.">
   <script>
     (function () {
@@ -44,7 +45,7 @@
             <path d="m6 6 12 12"/>
           </svg>
         </button>
-        <span class="wordmark">t128n</span>
+        <span class="wordmark" translate="no">t128n</span>
         <span class="app-bar__divider" aria-hidden="true"></span>
         <span class="app-bar__workspace"><span class="visually-hidden">Workspace: </span>Personal</span>
       </div>
@@ -139,7 +140,7 @@
     <main class="main" id="main" tabindex="-1">
       <div class="page">
         <header class="page-header">
-          <h1>Workspace settings</h1>
+          <h1>Workspace Settings</h1>
           <p>Manage your profile, security, and workspace membership.</p>
         </header>
 
@@ -148,7 +149,7 @@
             <h2 id="profile-heading">Profile</h2>
             <div class="field-stack">
               <div class="field">
-                <label class="field__label" for="display-name">Display name <span class="field__required" aria-hidden="true">*</span><span class="visually-hidden">(required)</span></label>
+                <label class="field__label" for="display-name">Display Name <span class="field__required" aria-hidden="true">*</span><span class="visually-hidden">(required)</span></label>
                 <input class="input" id="display-name" name="displayName" type="text" autocomplete="name" value="Nora Lindqvist" required aria-describedby="display-name-help">
                 <p class="field__helper" id="display-name-help">This is how you appear to teammates.</p>
                 <p class="field__error" id="display-name-error" hidden>
@@ -162,7 +163,7 @@
               </div>
 
               <div class="field">
-                <label class="field__label" for="email">Email address <span class="field__required" aria-hidden="true">*</span><span class="visually-hidden">(required)</span></label>
+                <label class="field__label" for="email">Email Address <span class="field__required" aria-hidden="true">*</span><span class="visually-hidden">(required)</span></label>
                 <input class="input" id="email" name="email" type="email" autocomplete="email" value="nora@northline.dev" spellcheck="false" required aria-describedby="email-help">
                 <p class="field__helper" id="email-help">Used for sign-in and deployment notifications.</p>
                 <p class="field__error" id="email-error" hidden>
@@ -192,7 +193,7 @@
               </div>
 
               <div class="field">
-                <label class="field__label" for="job-title">Job title</label>
+                <label class="field__label" for="job-title">Job Title</label>
                 <input class="input" id="job-title" name="jobTitle" type="text" autocomplete="organization-title" value="Platform engineer" aria-describedby="job-title-help">
                 <p class="field__helper" id="job-title-help">Shown on your profile and deployment approvals.</p>
               </div>
@@ -203,7 +204,7 @@
             <h2 id="password-heading">Password</h2>
             <div class="field-stack">
               <div class="field">
-                <label class="field__label" for="current-password">Current password</label>
+                <label class="field__label" for="current-password">Current Password</label>
                 <input class="input" id="current-password" name="currentPassword" type="password" autocomplete="current-password" aria-describedby="current-password-help">
                 <p class="field__helper" id="current-password-help">Required only when you set a new password.</p>
                 <p class="field__error" id="current-password-error" hidden>
@@ -217,7 +218,7 @@
               </div>
 
               <div class="field">
-                <label class="field__label" for="new-password">New password</label>
+                <label class="field__label" for="new-password">New Password</label>
                 <input class="input" id="new-password" name="newPassword" type="password" autocomplete="new-password" aria-describedby="new-password-help">
                 <p class="field__helper" id="new-password-help">Use at least 12 characters. Leave the new password fields blank to keep your current password.</p>
                 <p class="field__error" id="new-password-error" hidden>
@@ -231,7 +232,7 @@
               </div>
 
               <div class="field">
-                <label class="field__label" for="confirm-password">Confirm new password</label>
+                <label class="field__label" for="confirm-password">Confirm New Password</label>
                 <input class="input" id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" aria-describedby="confirm-password-help">
                 <p class="field__helper" id="confirm-password-help">Re-enter the new password exactly.</p>
                 <p class="field__error" id="confirm-password-error" hidden>
@@ -261,12 +262,12 @@
             <span id="form-status-text"></span>
           </p>
           <div class="page-actions__buttons">
-            <button class="button button--secondary" id="discard-button" type="button">Discard changes</button>
+            <button class="button button--secondary" id="discard-button" type="button">Discard Changes</button>
             <button class="button button--primary" id="save-button" type="submit" form="settings-form">
               <svg class="spinner" id="save-spinner" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" hidden>
                 <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
               </svg>
-              <span id="save-label">Save changes</span>
+              <span id="save-label">Save Changes</span>
             </button>
           </div>
         </div>
@@ -343,19 +344,19 @@
                 <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
                 <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
               </svg>
-              Copy invite link
+              Copy Invite Link
             </button>
           </div>
         </section>
 
         <section class="section section--danger" aria-labelledby="danger-heading">
-          <h2 id="danger-heading">Danger zone</h2>
+          <h2 id="danger-heading">Danger Zone</h2>
           <div class="danger-row">
             <div class="danger-row__copy">
-              <h3>Delete workspace</h3>
+              <h3>Delete Workspace</h3>
               <p>Permanently delete the Personal workspace, including its projects, deployments, and members. This cannot be undone.</p>
             </div>
-            <button class="button button--danger" id="delete-workspace-button" type="button" aria-haspopup="dialog" aria-controls="delete-dialog">Delete workspace</button>
+            <button class="button button--danger" id="delete-workspace-button" type="button" aria-haspopup="dialog" aria-controls="delete-dialog">Delete Workspace</button>
           </div>
           <p class="danger-status" id="delete-status" role="status" aria-live="polite" aria-atomic="true" hidden>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -371,20 +372,20 @@
   </div>
 
   <dialog class="dialog" id="remove-dialog" role="dialog" aria-modal="true" aria-labelledby="remove-dialog-title" aria-describedby="remove-dialog-description">
-    <h2 id="remove-dialog-title">Remove member?</h2>
+    <h2 id="remove-dialog-title">Remove Member?</h2>
     <p id="remove-dialog-description"></p>
     <div class="dialog__actions">
       <button class="button button--secondary" id="remove-cancel" type="button">Cancel</button>
-      <button class="button button--danger" id="remove-confirm" type="button">Remove member</button>
+      <button class="button button--danger" id="remove-confirm" type="button">Remove Member</button>
     </div>
   </dialog>
 
   <dialog class="dialog" id="delete-dialog" role="dialog" aria-modal="true" aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-description">
-    <h2 id="delete-dialog-title">Delete workspace?</h2>
+    <h2 id="delete-dialog-title">Delete Workspace?</h2>
     <p id="delete-dialog-description">This permanently deletes the Personal workspace and everything in it: projects, deployments, and members. This cannot be undone.</p>
     <div class="dialog__actions">
       <button class="button button--secondary" id="dialog-cancel" type="button">Cancel</button>
-      <button class="button button--danger" id="dialog-confirm" type="button">Delete workspace</button>
+      <button class="button button--danger" id="dialog-confirm" type="button">Delete Workspace</button>
     </div>
   </dialog>
 

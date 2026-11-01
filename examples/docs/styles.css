@@ -8,7 +8,7 @@
   --surface: #F2F4F8;
   --surface-2: #DDE1E6;
   --border-subtle: #DDE1E6;
-  --border-strong: #8D8D8D;
+  --border-strong: #7A7A7A;
   --text-primary: #161616;
   --text-secondary: #525252;
   --text-muted: #6F6F6F;
@@ -16,19 +16,22 @@
   --primary: #0F62FE;
   --primary-hover: #0353E9;
   --on-primary: #FFFFFF;
-  --focus: #0F62FE;
   --accent-on-dark: #33B1FF;
   --selection: rgba(15, 98, 254, 0.12);
   --error: #DA1E28;
   --error-hover: #B81922;
   --on-error: #FFFFFF;
   --warning: #8A5A00;
-  --warning-fill: #F1C21B;
-  --on-warning: #161616;
   --success: #0E6027;
-  --success-fill: #1A7F37;
-  --on-success: #FFFFFF;
   --overlay: rgba(22, 22, 22, 0.5);
+
+  /* Chart roles */
+  --chart-1: #0F62FE;
+  --chart-2: #0E6027;
+  --chart-3: #EE5396;
+  --chart-4: #673AB7;
+  --chart-5: #37474F;
+  --chart-6: #8A5A00;
 
   /* App bar roles */
   --app-bar: #161616;
@@ -38,54 +41,59 @@
   --app-bar-divider: #393939;
 
   /* Elevation */
-  --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.08);
-  --shadow-overlay: 0 8px 24px rgb(0 0 0 / 0.16);
+  --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.10);
+  --shadow-overlay: 0 8px 24px rgb(0 0 0 / 0.18);
 
   /* Type */
   --font-sans: "Geist Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
-  --text-caption: 12px;
-  --text-body: 14px;
-  --text-body-content: 16px;
-  --text-heading-sm: 20px;
-  --text-heading-md: 24px;
-  --text-heading-lg: 32px;
-  --text-mono: 13px;
+  --text-caption: 0.75rem;
+  --text-body: 0.875rem;
+  --text-body-content: 1rem;
+  --text-heading-sm: 1.25rem;
+  --text-heading-md: 1.5rem;
+  --text-heading-lg: 2rem;
+  --text-mono: 0.8125rem;
 
   /* Space */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 24px;
-  --space-6: 32px;
-  --space-7: 48px;
-  --space-8: 64px;
-  --space-group: 8px;
-  --space-block: 16px;
-  --space-region: 24px;
-  --space-section: 48px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-group: 0.5rem;
+  --space-block: 1rem;
+  --space-region: 1.5rem;
+  --space-section: 3rem;
+
+  /* Icons */
+  --icon-sm: 1rem;
+  --icon-md: 1.25rem;
+  --icon-lg: 1.5rem;
 
   /* Radius */
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 6px;
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.375rem;
   --radius-full: 999px;
 
   /* Sizes */
-  --control-sm: 28px;
-  --control-md: 36px;
-  --control-lg: 44px;
-  --row-compact: 36px;
-  --row-default: 44px;
-  --row-comfortable: 48px;
-  --app-bar-height: 48px;
-  --sidebar-width: 240px;
-  --page-padding: 24px;
+  --control-sm: 1.75rem;
+  --control-md: 2.25rem;
+  --control-lg: 2.75rem;
+  --row-compact: 2.25rem;
+  --row-default: 2.75rem;
+  --row-comfortable: 3rem;
+  --app-bar-height: 3rem;
+  --sidebar-width: 15rem;
+  --page-padding: 1.5rem;
   --measure: 72ch;
-  --toc-width: 200px;
-  --settings-max: 800px;
-  --form-max: 640px;
+  --toc-width: 12.5rem;
+  --settings-max: 50rem;
+  --form-max: 40rem;
 
   /* Motion */
   --duration-fast: 120ms;
@@ -98,6 +106,7 @@
   --z-dropdown: 20;
   --z-backdrop: 30;
   --z-dialog: 40;
+  --z-toast: 60;
 }
 
 [data-theme="dark"] {
@@ -107,7 +116,6 @@
   --surface: #262626;
   --surface-2: #393939;
   --border-subtle: #393939;
-  --border-strong: #6F6F6F;
   --text-primary: #F2F4F8;
   --text-secondary: #C6C6C6;
   --text-muted: #8D8D8D;
@@ -115,30 +123,33 @@
   --primary: #33B1FF;
   --primary-hover: #78A9FF;
   --on-primary: #161616;
-  --focus: #33B1FF;
   --accent-on-dark: #33B1FF;
   --selection: rgba(51, 177, 255, 0.16);
   --error: #FF8389;
   --error-hover: #FF6B72;
   --on-error: #161616;
   --warning: #F1C21B;
-  --warning-fill: #F1C21B;
-  --on-warning: #161616;
   --success: #42BE65;
-  --success-fill: #42BE65;
-  --on-success: #161616;
   --overlay: rgba(0, 0, 0, 0.6);
+
+  --chart-1: #33B1FF;
+  --chart-2: #42BE65;
+  --chart-3: #FF7EB6;
+  --chart-4: #BE95FF;
+  --chart-5: #82CFFF;
+  --chart-6: #F1C21B;
 
   --app-bar: #262626;
   --app-bar-raised: #393939;
   --app-bar-text: #F2F4F8;
   --app-bar-text-secondary: #C6C6C6;
   --app-bar-divider: #393939;
+
+  --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.48);
+  --shadow-overlay: 0 8px 24px rgb(0 0 0 / 0.56);
 }
 
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
@@ -167,29 +178,27 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--focus);
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
-h1:focus,
-h2:focus,
-h3:focus {
-  outline: 2px solid var(--focus);
+h1:focus, h2:focus, h3:focus {
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
 .skip-link {
   position: fixed;
-  top: 8px;
-  left: 8px;
+  top: 0.5rem;
+  left: 0.5rem;
   z-index: var(--z-dialog);
   display: inline-block;
-  padding: 8px 12px;
+  padding: 0.5rem 0.75rem;
   border: 1px solid var(--border-strong);
-  border-radius: 4px;
+  border-radius: 0.25rem;
   background: var(--canvas);
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.5;
   text-decoration: none;
@@ -211,8 +220,8 @@ h3:focus {
 }
 
 /* The shell width is measured in `ch`, which resolves against this element's
-   own font-size. Keep it at the body size (16px) so the header and the page
-   compute the same width; header chrome sets 14px on its own children. */
+   own font-size. Keep it at the body size (1rem) so the header and the page
+   compute the same width; header chrome sets 0.875rem on its own children. */
 .header-inner {
   display: flex;
   align-items: center;
@@ -247,36 +256,38 @@ h3:focus {
 .header-end {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
   min-width: 0;
 }
 
-.primary-nav ul,
-.mobile-nav-list {
+.primary-nav ul, .mobile-nav-list {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 0.25rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .nav-link {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
-  padding: 0 8px;
-  border-radius: 4px;
+  min-height: 2.25rem;
+  padding: 0 0.5rem;
+  border-radius: 0.25rem;
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
   text-decoration: none;
 }
 
-.nav-link:hover {
-  background: var(--surface-2);
-  color: var(--text-primary);
+@media (hover: hover) and (pointer: fine) {
+  .nav-link:hover {
+    background: var(--surface-2);
+    color: var(--text-primary);
+  }
 }
 
 .nav-link:active {
@@ -285,14 +296,32 @@ h3:focus {
 }
 
 .nav-link[aria-current="page"] {
-  background: var(--surface-2);
+  background: transparent;
   color: var(--text-primary);
   font-weight: 600;
 }
 
-.icon-button,
-.nav-trigger,
-.copy-button {
+.primary-nav .nav-link[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  right: var(--space-2);
+  bottom: 0;
+  left: var(--space-2);
+  height: 2px;
+  background: var(--primary);
+}
+
+.mobile-nav .nav-link[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  top: var(--space-2);
+  bottom: var(--space-2);
+  left: 0;
+  width: 2px;
+  background: var(--primary);
+}
+
+.icon-button, .nav-trigger, .copy-button {
   font-family: var(--font-sans);
 }
 
@@ -301,18 +330,20 @@ h3:focus {
   align-items: center;
   justify-content: center;
   flex: none;
-  width: 36px;
-  height: 36px;
+  width: 2.25rem;
+  height: 2.25rem;
   padding: 0;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   background: transparent;
   color: var(--text-primary);
   cursor: pointer;
 }
 
-.icon-button:hover {
-  background: var(--surface-2);
+@media (hover: hover) and (pointer: fine) {
+  .icon-button:hover {
+    background: var(--surface-2);
+  }
 }
 
 .icon-button:active {
@@ -349,8 +380,10 @@ h3:focus {
   transition: background-color var(--duration-fast) var(--ease), border-color var(--duration-fast) var(--ease);
 }
 
-.nav-trigger:hover {
-  background: var(--surface-2);
+@media (hover: hover) and (pointer: fine) {
+  .nav-trigger:hover {
+    background: var(--surface-2);
+  }
 }
 
 .nav-trigger:active {
@@ -362,7 +395,7 @@ h3:focus {
 }
 
 .nav-trigger-label {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.5;
   white-space: nowrap;
@@ -375,7 +408,7 @@ h3:focus {
   left: 0;
   z-index: var(--z-dropdown);
   display: block;
-  padding: 8px 16px 16px;
+  padding: 0.5rem 1rem 1rem;
   border-bottom: 1px solid var(--border-subtle);
   background: var(--canvas);
   box-shadow: var(--shadow-raised);
@@ -389,8 +422,8 @@ h3:focus {
 .mobile-nav .nav-link {
   display: flex;
   width: 100%;
-  min-height: 44px;
-  padding: 0 8px;
+  min-height: 2.75rem;
+  padding: 0 0.5rem;
 }
 
 /* Article layout */
@@ -398,7 +431,7 @@ h3:focus {
 .page {
   max-width: calc(var(--measure) + var(--toc-width) + var(--space-7) + var(--page-padding) + var(--page-padding));
   margin-inline: auto;
-  padding: 48px var(--page-padding) 64px;
+  padding: 3rem var(--page-padding) 4rem;
 }
 
 .layout {
@@ -418,7 +451,7 @@ h3:focus {
   font-size: var(--text-heading-lg);
   font-weight: 600;
   line-height: 1.2;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   scroll-margin-top: calc(var(--app-bar-height) + var(--space-5));
 }
 
@@ -429,8 +462,7 @@ h3:focus {
   line-height: 1.6;
 }
 
-.article p,
-.article li {
+.article p, .article li {
   font-size: var(--text-body-content);
   line-height: 1.6;
 }
@@ -444,15 +476,15 @@ h3:focus {
 }
 
 .article-section + .article-section {
-  margin-top: 48px;
+  margin-top: 3rem;
 }
 
 .article h2 {
-  margin: 0 0 16px;
-  font-size: 20px;
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.3;
-  scroll-margin-top: calc(var(--app-bar-height) + 24px);
+  scroll-margin-top: calc(var(--app-bar-height) + 1.5rem);
 }
 
 .article a {
@@ -462,18 +494,22 @@ h3:focus {
   text-underline-offset: 2px;
 }
 
-.article a:hover,
 .article a:active {
   color: var(--primary-hover);
 }
+@media (hover: hover) and (pointer: fine) {
+  .article a:hover {
+    color: var(--primary-hover);
+  }
+}
 
 .article ol {
-  margin: 0 0 16px;
-  padding-left: 24px;
+  margin: 0 0 1rem;
+  padding-left: 1.5rem;
 }
 
 .article li {
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
 .article li:last-child {
@@ -485,13 +521,13 @@ h3:focus {
 }
 
 .article :not(pre) > code {
-  padding: 0 4px;
+  padding: 0 0.25rem;
   border: 1px solid var(--border-subtle);
   border-radius: 2px;
   background: var(--surface);
   color: var(--text-primary);
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.5;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
@@ -499,8 +535,8 @@ h3:focus {
 }
 
 .article blockquote {
-  margin: 24px 0;
-  padding: 4px 0 4px 16px;
+  margin: 1.5rem 0;
+  padding: 0.25rem 0 0.25rem 1rem;
   border-left: 1px solid var(--border-strong);
   color: var(--text-secondary);
 }
@@ -512,48 +548,45 @@ h3:focus {
 /* Table */
 
 .table-caption {
-  margin: 24px 0 8px;
+  margin: 1.5rem 0 0.5rem;
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.5;
 }
 
 .table-scroll {
   margin: 0 0 var(--space-4);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
   overflow-x: auto;
 }
 
 .table-scroll:focus-visible {
-  outline: 2px solid var(--focus);
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
 .role-table {
   width: 100%;
-  min-width: 560px;
+  min-width: 35rem;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.5;
 }
 
 .role-table thead th {
-  height: 36px;
-  padding: 8px 12px;
+  height: 2.25rem;
+  padding: 0.5rem 0.75rem;
   border-bottom: 1px solid var(--border-subtle);
   background: var(--surface-2);
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   text-align: left;
   vertical-align: middle;
 }
 
-.role-table tbody th,
-.role-table tbody td {
-  height: 44px;
-  padding: 8px 12px;
+.role-table tbody th, .role-table tbody td {
+  height: 2.75rem;
+  padding: 0.5rem 0.75rem;
   text-align: left;
   vertical-align: middle;
 }
@@ -564,14 +597,14 @@ h3:focus {
 
 .role-table tbody th {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--text-caption);
   font-weight: 400;
   font-variant-numeric: tabular-nums;
 }
 
 .role-table tbody td code {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--text-caption);
   font-variant-numeric: tabular-nums;
 }
 
@@ -580,11 +613,11 @@ h3:focus {
 .callout {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  margin: 24px 0 16px;
-  padding: 16px;
+  gap: 0.75rem;
+  margin: 1.5rem 0 1rem;
+  padding: 1rem;
   border: 1px solid var(--border-subtle);
-  border-radius: 4px;
+  border-radius: 0.25rem;
   background: var(--surface);
 }
 
@@ -593,8 +626,8 @@ h3:focus {
   align-items: center;
   justify-content: center;
   flex: none;
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
   color: var(--warning);
 }
 
@@ -603,8 +636,8 @@ h3:focus {
 }
 
 .callout-title {
-  margin: 0 0 8px;
-  font-size: 16px;
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
   font-weight: 600;
   line-height: 1.6;
 }
@@ -616,7 +649,7 @@ h3:focus {
 /* Code block */
 
 .code-block {
-  margin: 24px 0 16px;
+  margin: 1.5rem 0 1rem;
   border: 1px solid var(--border-subtle);
   border-radius: 2px;
   background: var(--surface);
@@ -626,15 +659,15 @@ h3:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 8px 8px 8px 12px;
+  gap: 0.75rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.75rem;
   border-bottom: 1px solid var(--border-subtle);
 }
 
 .code-label {
   color: var(--text-muted);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.5;
   font-variant-numeric: tabular-nums;
 }
@@ -642,13 +675,13 @@ h3:focus {
 .code-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .copy-feedback {
-  min-width: 48px;
+  min-width: 3rem;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.5;
   text-align: right;
 }
@@ -656,21 +689,23 @@ h3:focus {
 .copy-button {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  height: 28px;
-  padding: 0 8px;
+  gap: 0.5rem;
+  height: 1.75rem;
+  padding: 0 0.5rem;
   border: 1px solid var(--border-strong);
-  border-radius: 4px;
+  border-radius: 0.25rem;
   background: var(--canvas);
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.5;
   cursor: pointer;
 }
 
-.copy-button:hover {
-  background: var(--surface-2);
+@media (hover: hover) and (pointer: fine) {
+  .copy-button:hover {
+    background: var(--surface-2);
+  }
 }
 
 .copy-button:active {
@@ -679,11 +714,11 @@ h3:focus {
 
 .code-block pre {
   margin: 0;
-  padding: 16px;
+  padding: 1rem;
   overflow-x: auto;
   color: var(--text-primary);
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.5;
   font-variant-numeric: tabular-nums;
   tab-size: 2;
@@ -698,15 +733,15 @@ h3:focus {
 /* Footer */
 
 .article-footer {
-  margin-top: 48px;
-  padding-top: 24px;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
   border-top: 1px solid var(--border-subtle);
 }
 
 .article-footer p {
   margin: 0;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.5;
 }
 
@@ -714,20 +749,20 @@ h3:focus {
 
 .toc {
   position: sticky;
-  top: calc(var(--app-bar-height) + 32px);
-  max-height: calc(100vh - var(--app-bar-height) - 48px);
+  top: calc(var(--app-bar-height) + 2rem);
+  max-height: calc(100vh - var(--app-bar-height) - 3rem);
   overflow-y: auto;
-  padding: 8px;
-  font-size: 14px;
+  padding: 0.5rem;
+  font-size: 0.875rem;
   line-height: 1.5;
 }
 
 .toc-heading {
-  margin: 0 0 8px;
-  padding-left: 12px;
+  margin: 0 0 0.5rem;
+  padding-left: 0.75rem;
   border-left: 2px solid transparent;
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.5;
 }
@@ -739,22 +774,24 @@ h3:focus {
 }
 
 .toc-link {
+  position: relative;
   display: flex;
   align-items: center;
   min-height: var(--control-md);
-  padding: 8px 12px;
-  border-left: 2px solid transparent;
+  padding: 0.5rem 0.75rem;
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
   text-decoration: none;
-  transition: background-color var(--duration-fast) var(--ease), color var(--duration-fast) var(--ease), border-color var(--duration-fast) var(--ease);
+  transition: background-color var(--duration-fast) var(--ease), color var(--duration-fast) var(--ease);
 }
 
-.toc-link:hover {
-  background: var(--surface);
-  color: var(--text-primary);
+@media (hover: hover) and (pointer: fine) {
+  .toc-link:hover {
+    background: var(--surface);
+    color: var(--text-primary);
+  }
 }
 
 .toc-link:active {
@@ -763,16 +800,25 @@ h3:focus {
 }
 
 .toc-link[aria-current="location"] {
-  border-left-color: var(--primary);
+  background: transparent;
   color: var(--text-primary);
   font-weight: 600;
+}
+
+.toc-link[aria-current="location"]::before {
+  content: "";
+  position: absolute;
+  top: var(--space-2);
+  bottom: var(--space-2);
+  left: 0;
+  width: 2px;
+  background: var(--primary);
 }
 
 /* Responsive */
 
 @media (max-width: 1023px) {
-  .header-inner,
-  .page {
+  .header-inner, .page {
     max-width: calc(var(--measure) + var(--page-padding) + var(--page-padding));
   }
 
@@ -787,50 +833,59 @@ h3:focus {
 
 @media (max-width: 767px) {
   :root {
-    --page-padding: 16px;
+    --page-padding: 1rem;
   }
 
   .header-inner {
-    gap: 8px;
+    gap: 0.5rem;
   }
 
   .header-end {
-    gap: 8px;
+    gap: 0.5rem;
   }
 
   .primary-nav {
     display: none;
   }
 
+  .wordmark {
+    min-height: 2.75rem;
+  }
+
   .nav-trigger {
     display: inline-flex;
-    min-height: 44px;
+    min-height: 2.75rem;
   }
 
   .icon-button {
-    width: 44px;
-    height: 44px;
+    width: 2.75rem;
+    height: 2.75rem;
   }
 
   .page {
-    padding-top: 32px;
-    padding-bottom: 48px;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
   }
 
   .article-lead {
-    margin-bottom: 32px;
+    margin-bottom: 2rem;
   }
 
   .article-section + .article-section {
-    margin-top: 32px;
+    margin-top: 2rem;
   }
 
   .article-footer {
-    margin-top: 32px;
+    margin-top: 2rem;
   }
 
   .copy-button {
-    height: 44px;
+    height: 2.75rem;
+  }
+
+  .copy-button .icon {
+    width: var(--icon-md);
+    height: var(--icon-md);
   }
 }
 
@@ -845,12 +900,151 @@ h3:focus {
     scroll-behavior: auto;
   }
 
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Control shape — controls take the small radius, containers keep the medium one. */
+.button,
+.icon-button,
+.nav__item,
+.nav__link,
+.menu__item,
+.sort-button,
+.copy-button,
+.nav-link,
+.nav-trigger,
+.account,
+.toc-link,
+.skip-link {
+  border-radius: var(--radius-sm);
+}
+
+/* Pointer and touch behaviour */
+a,
+button,
+input,
+select,
+textarea,
+[role="button"],
+[role="menuitem"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dialog,
+.sidebar,
+.toc,
+.menu,
+.table-wrap,
+.table-scroll,
+.code-block pre {
+  overscroll-behavior: contain;
+}
+
+/* Type rendering */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p,
+li,
+dd {
+  text-wrap: pretty;
+}
+
+/* Icons inside controls and fields. Inline and menu icons stay at 1rem. */
+.button .icon,
+.nav-trigger .icon {
+  width: var(--icon-md);
+  height: var(--icon-md);
+}
+
+.button .spinner {
+  width: var(--icon-md);
+  height: var(--icon-md);
+}
+
+.input-icon,
+.select-icon,
+.select-wrap__icon,
+.search__icon {
+  width: var(--icon-md);
+  height: var(--icon-md);
+}
+
+/* Higher contrast: raise every separator and keep surfaces solid. */
+@media (prefers-contrast: more) {
+  :root,
+  [data-theme="dark"] {
+    --border-subtle: var(--border-strong);
+  }
+
+  .menu,
+  .dialog,
+  .code-block,
+  .callout,
+  .specimen-panel,
+  .table-scroll,
+  .table-wrap,
+  .mobile-nav,
+  .tag {
+    border-color: var(--border-strong);
+  }
+}
+
+/* Forced colors: structure must survive on system colors alone. */
+@media (forced-colors: active) {
+  *,
+  *::before,
+  *::after {
+    box-shadow: none !important;
+  }
+
+  .menu,
+  .dialog,
+  .code-block,
+  .callout,
+  .specimen-panel,
+  .table-scroll,
+  .table-wrap,
+  .mobile-nav,
+  .tag {
+    border: 1px solid CanvasText;
+  }
+
+  .nav__item[aria-current="page"],
+  .nav__link[aria-current="page"],
+  .toc-link[aria-current="location"] {
+    outline: 1px solid Highlight;
+  }
+
+  .nav__item[aria-current="page"]::before,
+  .nav__link[aria-current="page"]::before,
+  .toc-link[aria-current="location"]::before,
+  .primary-nav .nav-link[aria-current="page"]::after,
+  .mobile-nav .nav-link[aria-current="page"]::after {
+    background: Highlight;
+  }
+}
+
+/* Focus states change instantly, even where hover is animated. */
+.menu__item:focus-visible,
+.nav__item:focus-visible,
+.nav__link:focus-visible,
+.toc-link:focus-visible,
+.project:focus-visible,
+.row-link:focus-visible,
+.account:focus-visible {
+  transition: none;
+}
+
+body {
+  font-optical-sizing: auto;
 }

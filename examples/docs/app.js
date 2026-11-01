@@ -5,6 +5,7 @@
   var root = document.documentElement;
   var colorQuery = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
   var themeButton = document.querySelector("[data-theme-toggle]");
+  var themeMeta = document.querySelector('meta[name="theme-color"]');
 
   function readStoredTheme() {
     try {
@@ -46,6 +47,9 @@
   function applyTheme(theme) {
     root.setAttribute("data-theme", theme);
     root.style.colorScheme = theme;
+    if (themeMeta) {
+      themeMeta.setAttribute("content", theme === "dark" ? "#161616" : "#FFFFFF");
+    }
     syncThemeButton(theme);
   }
 

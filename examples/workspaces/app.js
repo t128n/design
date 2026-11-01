@@ -4,6 +4,7 @@
   var root = document.documentElement;
   var THEME_KEY = "t128n-theme";
   var darkQuery = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  var themeMeta = document.querySelector('meta[name="theme-color"]');
 
   function byId(id) {
     return document.getElementById(id);
@@ -27,6 +28,9 @@
   function applyTheme(theme) {
     root.setAttribute("data-theme", theme);
     root.style.colorScheme = theme;
+    if (themeMeta) {
+      themeMeta.setAttribute("content", theme === "dark" ? "#161616" : "#FFFFFF");
+    }
   }
 
   var themeToggle = byId("theme-toggle");
@@ -42,7 +46,9 @@
   }
 
   if (themeToggle) {
-    updateThemeControl(root.getAttribute("data-theme") === "dark" ? "dark" : "light");
+    var initialTheme = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+    applyTheme(initialTheme);
+    updateThemeControl(initialTheme);
 
     themeToggle.addEventListener("click", function () {
       var current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
@@ -141,7 +147,8 @@
     button.type = "button";
     button.className = "project";
     button.dataset.slug = project.slug;
-    button.setAttribute("aria-label", project.name + ", " + project.environment + ", updated " + project.updated);
+    button.setAttribute("aria-label", project.name + ", " + project.slug + ", " + project.environment + ", updated " + project.updated);
+    button.title = project.slug;
 
     var main = document.createElement("span");
     main.className = "project__main";
@@ -168,6 +175,35 @@
     return item;
   }
 
+  function syncUrl() {
+    var params = new URLSearchParams();
+    if (query.trim()) {
+      params.set("q", query);
+    }
+    if (!newForm.hidden) {
+      params.set("new", "1");
+    }
+    var queryString = params.toString();
+    var next = window.location.pathname + (queryString ? "?" + queryString : "") + window.location.hash;
+    try {
+      window.history.replaceState(null, "", next);
+    } catch (error) {}
+  }
+
+  function applyUrlState() {
+    var params = new URLSearchParams(window.location.search);
+    query = params.get("q") || "";
+    search.value = query;
+    if (params.get("new") === "1") {
+      if (newForm.hidden) {
+        openNewProject(false);
+      }
+    } else if (!newForm.hidden) {
+      closeNewProject(false);
+    }
+    render();
+  }
+
   function render() {
     var visible = visibleProjects();
     var count = visible.length;
@@ -185,6 +221,8 @@
     if (count === 0) {
       emptyQuery.textContent = query.trim();
     }
+
+    syncUrl();
   }
 
   function setStatus(message, tone, duration) {
@@ -334,13 +372,16 @@
     nameInput.setAttribute("aria-invalid", "true");
   }
 
-  function openNewProject() {
+  function openNewProject(shouldFocus) {
     newForm.hidden = false;
     newButton.hidden = true;
     newButton.setAttribute("aria-expanded", "true");
     nameInput.value = "";
     setNameError("");
-    nameInput.focus();
+    syncUrl();
+    if (shouldFocus !== false) {
+      nameInput.focus();
+    }
   }
 
   function closeNewProject(returnFocus) {
@@ -348,6 +389,7 @@
     newButton.hidden = false;
     newButton.setAttribute("aria-expanded", "false");
     setNameError("");
+    syncUrl();
     if (returnFocus) {
       newButton.focus();
     }
@@ -372,7 +414,9 @@
     return slug;
   }
 
-  newButton.addEventListener("click", openNewProject);
+  newButton.addEventListener("click", function () {
+    openNewProject(true);
+  });
 
   cancelButton.addEventListener("click", function () {
     closeNewProject(true);
@@ -421,5 +465,7 @@
     setStatus("Project created.", "success", 6000);
   });
 
-  render();
+  window.addEventListener("popstate", applyUrlState);
+
+  applyUrlState();
 })();

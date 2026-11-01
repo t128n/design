@@ -127,6 +127,13 @@
   var tableStatus = document.getElementById("table-status");
   var statusTimer = null;
 
+  var tableRegion = document.getElementById("table-region");
+  var emptyState = document.getElementById("empty-state");
+  var emptyClear = document.getElementById("empty-clear");
+  var tableFooter = document.querySelector(".table-footer");
+  var sortState = document.getElementById("sort-state");
+  var themeMeta = document.querySelector('meta[name="theme-color"]');
+
   function createIcon(name, size) {
     var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("class", "icon");
@@ -146,6 +153,51 @@
 
   function isFilterActive() {
     return state.query.trim().length > 0 || state.status !== "all";
+  }
+
+  function readUrlState() {
+    var params = new URLSearchParams(window.location.search);
+    var query = params.get("q");
+    var status = params.get("status");
+    var sort = params.get("sort");
+    state.query = query || "";
+    state.status = ["ready", "building", "failed", "paused"].indexOf(status) !== -1 ? status : "all";
+    state.sort = sort === "asc" ? "ascending" : "descending";
+  }
+
+  function syncUrl() {
+    var params = new URLSearchParams();
+    if (state.query.trim()) {
+      params.set("q", state.query);
+    }
+    if (state.status !== "all") {
+      params.set("status", state.status);
+    }
+    if (state.sort !== "descending") {
+      params.set("sort", "asc");
+    }
+    var queryString = params.toString();
+    var next = window.location.pathname + (queryString ? "?" + queryString : "") + window.location.hash;
+    try {
+      window.history.replaceState(null, "", next);
+    } catch (error) {}
+  }
+
+  function syncSortControl() {
+    sortButton.dataset.direction = state.sort;
+    sortButton.closest("th").setAttribute("aria-sort", state.sort);
+    sortButton.title = "Sort by updated date, currently " + state.sort;
+    if (sortState) {
+      sortState.textContent = ", sorted " + state.sort;
+    }
+  }
+
+  function applyUrlState() {
+    readUrlState();
+    searchInput.value = state.query;
+    statusFilter.value = state.status;
+    syncSortControl();
+    render();
   }
 
   function getVisibleProjects() {
@@ -235,32 +287,6 @@
     return row;
   }
 
-  function createEmptyRow() {
-    var row = document.createElement("tr");
-    row.className = "empty-row";
-    var cell = document.createElement("td");
-    cell.colSpan = 6;
-
-    var wrap = document.createElement("div");
-    wrap.className = "empty";
-    var message = document.createElement("p");
-    message.className = "empty__message";
-    message.textContent = "No projects match your filters.";
-    var clear = document.createElement("button");
-    clear.type = "button";
-    clear.className = "button button--secondary";
-    clear.textContent = "Clear filters";
-    clear.addEventListener("click", function () {
-      clearFilters(true);
-    });
-
-    wrap.appendChild(message);
-    wrap.appendChild(clear);
-    cell.appendChild(wrap);
-    row.appendChild(cell);
-    return row;
-  }
-
   function render() {
     closeMenu(false);
 
@@ -268,18 +294,18 @@
     var count = visible.length;
     var fragment = document.createDocumentFragment();
 
-    if (count === 0) {
-      fragment.appendChild(createEmptyRow());
-    } else {
-      visible.forEach(function (project) {
-        fragment.appendChild(createRow(project));
-      });
-    }
+    visible.forEach(function (project) {
+      fragment.appendChild(createRow(project));
+    });
 
     tbody.replaceChildren(fragment);
     resultCount.textContent = count + (count === 1 ? " project" : " projects");
     paginationSummary.textContent = count === 0 ? "0 of 0" : "1–" + count + " of " + count;
     clearButton.hidden = !isFilterActive();
+    tableRegion.hidden = count === 0;
+    emptyState.hidden = count !== 0;
+    tableFooter.hidden = count === 0;
+    syncUrl();
   }
 
   function clearFilters(focusSearch) {
@@ -320,11 +346,13 @@
     clearFilters(true);
   });
 
+  emptyClear.addEventListener("click", function () {
+    clearFilters(true);
+  });
+
   sortButton.addEventListener("click", function () {
     state.sort = state.sort === "descending" ? "ascending" : "descending";
-    sortButton.dataset.direction = state.sort;
-    sortButton.closest("th").setAttribute("aria-sort", state.sort);
-    sortButton.title = "Sort by updated date, currently " + state.sort;
+    syncSortControl();
     render();
   });
 
@@ -548,6 +576,9 @@
   function applyTheme(theme) {
     root.setAttribute("data-theme", theme);
     root.style.colorScheme = theme;
+    if (themeMeta) {
+      themeMeta.setAttribute("content", theme === "dark" ? "#161616" : "#FFFFFF");
+    }
     updateThemeButton(theme);
   }
 
@@ -714,6 +745,8 @@
     }
   });
 
+  window.addEventListener("popstate", applyUrlState);
+
   syncDrawerMode();
-  render();
+  applyUrlState();
 })();
