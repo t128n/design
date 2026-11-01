@@ -56,7 +56,7 @@ describe('package delivery', () => {
     expect(pkg.license).toBe('MIT');
     expect(pkg.publishConfig).toEqual({ access: 'public' });
     expect(pkg.sideEffects).toEqual(['**/*.css']);
-    expect(pkg.files).toEqual(['dist', 'CHANGELOG.md']);
+    expect(pkg.files).toEqual(['dist', 'CHANGELOG.md', 'AGENTS.md', 'docs/design-language.mdx', 'docs/components.mdx']);
     expect(pkg.repository).toEqual({
       type: 'git',
       url: 'git+https://github.com/t128n/design.git',

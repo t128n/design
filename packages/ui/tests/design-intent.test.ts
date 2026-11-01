@@ -11,6 +11,8 @@ describe('design intent', () => {
     for (const heading of [
       '## Design intent',
       '### Non-negotiables',
+      '### Subtraction review',
+      '#### Composed-screen example: before and after subtraction',
       '### Anti-goals',
       '### Precedence',
       '### Decision status',
@@ -30,6 +32,25 @@ describe('design intent', () => {
     expect(design).toContain('at least two');
     expect(design).toContain('one term per concept');
     expect(design).toContain('A public page still uses the **workspace**');
+  });
+
+  it('ships agent guidance linked to the design language and screen review', async () => {
+    const agents = await read('packages/ui/AGENTS.md');
+    const design = await read('packages/ui/docs/design-language.mdx');
+    const manifest = JSON.parse(await read('packages/ui/package.json'));
+
+    expect(manifest.files).toContain('AGENTS.md');
+    expect(manifest.files).toContain('docs/design-language.mdx');
+    expect(manifest.files).toContain('docs/components.mdx');
+    expect(agents).toContain('./docs/design-language.mdx');
+    expect(agents).toContain('every state');
+    expect(design).toContain('repeated heading');
+    expect(design).toContain('repeated value');
+    expect(design).toContain('persistent explanation');
+    expect(design).toContain('decorative badge');
+    expect(design).toContain('remove decoration, not guidance');
+    expect(design).toContain('Over-stripped');
+    expect(agents).toContain('completion requirement');
   });
 
   it('removes the old canvas-versus-workspace contradiction', async () => {

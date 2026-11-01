@@ -64,4 +64,7 @@ prop.
 The full manual, component reference, theming guide, and design language are the
 Storybook site: https://t128n.github.io/design/
 
+Agents building UI should read [`AGENTS.md`](./AGENTS.md) and the packaged
+[`design language`](./docs/design-language.mdx) before designing screens.
+
 Releases are recorded in [`CHANGELOG.md`](./CHANGELOG.md).

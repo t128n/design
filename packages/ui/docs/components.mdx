@@ -22,6 +22,9 @@ Props marked “bindable” support `bind:value` or the matching `bind:` prop. N
 
 Owns the page measure, centering, vertical rhythm between sections, and the optional header slot. `Page` adds no padding, surface, or border.
 
+- **Use when:** a page needs a coherent measure, orientation, and rhythm for its task.
+- **Do not use merely to:** fill space or nest a second page measure.
+
 - **Props:** `width` (`content` default, `reading`, `form`, `full`), `gap` (`xs`–`3xl`, default `2xl`), `header` snippet, `class`.
 - **Example:**
 
@@ -37,6 +40,9 @@ Owns the page measure, centering, vertical rhythm between sections, and the opti
 ### Section
 
 A titled region with a subheading-scale heading, description, optional actions, and compact heading-to-content rhythm. It renders a `<section>` labelled by its heading.
+
+- **Use when:** a distinct group needs a heading to orient the user and connect its content and actions.
+- **Do not use merely to:** repeat the page heading or fill empty space; preserve useful grouping if a section is removed.
 
 - **Props:** `title`, `description`, `actions` snippet, `id`, `level` (default `2`), `gap` (default `sm`), `labelledBy` (string or `false`), `class`.
 - **Example:**
@@ -209,6 +215,9 @@ The landing or empty-workspace introduction: optional eyebrow, title, descriptio
 
 ### Footer
 
+- **Use when:** page-level navigation or information has a distinct purpose at the end of the page.
+- **Do not use merely to:** decorate a workflow or repeat instructions already available where the decision is made.
+
 A page footer with optional brand, utility links, note, and top border.
 
 - **Props:** `brand` (default `Acme`), `links` (`{ label, href? }[]`), `note`, `bordered` (default `true`).
@@ -294,6 +303,9 @@ Inline code and code blocks in IBM Plex Mono.
 
 ### Card
 
+- **Use when:** an independent region needs a meaningful boundary and can stand alone.
+- **Do not use merely to:** decorate or space ordinary content; preserve its useful grouping before removing it.
+
 An independent surface with an optional title. Cards must earn their border; ordinary content stays directly on the workspace.
 
 - **Props:** `title`, `level` (default `2`), `children`.
@@ -324,6 +336,9 @@ A compact status label using text plus one semantic tone.
 - **Not for:** color-only status, interactive filters, or navigation counts that do not change where the user should go.
 
 ### Alert
+
+- **Use when:** a specific status or recovery message needs attention at the point of action.
+- **Do not use merely to:** fill space or repeat an outcome already visible.
 
 An inline status message that stays at the point of action until resolved or dismissed.
 
