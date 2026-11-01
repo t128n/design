@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 t128n
+//
+// SPDX-License-Identifier: MIT
+
 import { readFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { describe, expect, it } from 'vitest';

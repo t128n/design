@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 t128n
+//
+// SPDX-License-Identifier: MIT
+
 import { render } from '@testing-library/svelte';
 import { describe, expect, it } from 'vitest';
 import { Breadcrumbs, Button, Footer, Link } from '../src/index.js';

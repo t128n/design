@@ -13,6 +13,7 @@
     "version-packages": "changeset version && bun install --lockfile-only",
     "build": "bun run --filter '@t128n/ui' build",
     "verify": "bun run --filter '@t128n/ui' verify",
+    "license:lint": "reuse lint",
     "icons": "bun run packages/ui/scripts/build-app-icons.ts",
     "test": "vitest run --project=unit --passWithNoTests",
     "test:watch": "vitest --project=unit",

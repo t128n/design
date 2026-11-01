@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 t128n
+//
+// SPDX-License-Identifier: MIT
+
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';

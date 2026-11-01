@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 t128n
+//
+// SPDX-License-Identifier: MIT
+
 // Importing the stylesheet here lets Vite extract one complete `dist/index.css`
 // that includes tokens, fonts, base element styles, and component styles.
 import './styles/index.css';

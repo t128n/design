@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 # Typography and layout framework layer
 
 **Goal:** Turn `@t128n/ui` from a collection of styled components into an opinionated framework: application and story copy is rendered through primitives such as `<Text variant="heading" as="h2">`, layout rhythm comes from primitives rather than one-off margins, and compliance is enforced by tests and documentation.

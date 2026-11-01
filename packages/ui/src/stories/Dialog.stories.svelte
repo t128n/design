@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
   import { Button, Dialog, Text } from '../index.js';

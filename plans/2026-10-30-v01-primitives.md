@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 # v0.1 Svelte primitives
 
 **Goal:** Implement the current light-first `DESIGN.md` primitives and make them visible in Storybook.

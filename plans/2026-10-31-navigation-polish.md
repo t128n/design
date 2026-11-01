@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 # Navigation polish
 
 **Goal:** Raise Sidebar and Navbar to production interaction quality: coherent row states, independent nested disclosure, ghost utilities, and overflow-free narrow navigation in a drawer/menu.

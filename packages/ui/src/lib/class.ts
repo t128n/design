@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 t128n
+//
+// SPDX-License-Identifier: MIT
+
 import type { ClassValue } from 'svelte/elements';
 
 type MaybeClass = ClassValue | false | null | undefined;

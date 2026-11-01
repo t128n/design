@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 t128n
+#
+# SPDX-License-Identifier: MIT
+
 name: CI/CD
 
 on:
@@ -45,6 +49,20 @@ jobs:
 
       - name: Run type check
         run: bun run --filter '@t128n/ui' check
+
+  license:
+    name: License
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # REUSE 3.3: every tracked file declares its copyright and license, and
+      # `LICENSES/` carries the text. The action's major version tracks the
+      # `reuse` tool major, so this pins the checker without a Python setup.
+      - name: Check REUSE compliance
+        uses: fsfe/reuse-action@v6
 
   test:
     name: Test
@@ -141,7 +159,7 @@ jobs:
 
   deploy:
     name: Deploy
-    needs: [lint, test, build]
+    needs: [lint, license, test, build]
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10

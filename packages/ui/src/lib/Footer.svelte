@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 <script lang="ts">
   import Link from './Link.svelte';
   import List from './List.svelte';

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 t128n
+//
+// SPDX-License-Identifier: MIT
+
 import { createContext } from 'svelte';
 
 /** One column header and the metadata inherited by its body cells. */

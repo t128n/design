@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 <script lang="ts">
   import type { AppIcon, AppMarkSize, AppMarkVariant, AppTone } from './app-icons';
   import { APP_MARK_GEOMETRY, APP_MARK_SIZES, markMonogram, opticalVariant } from './app-icons';

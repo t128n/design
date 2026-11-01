@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 t128n
+//
+// SPDX-License-Identifier: MIT
+
 /** Everything a control needs to wire its own label, help text, and error. */
 export type FieldState = {
   /** The control id. The visible label points at it with `for`. */

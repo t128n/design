@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 <script lang="ts">
   import { DropdownMenu } from 'bits-ui';
   import type { Snippet } from 'svelte';

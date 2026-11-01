@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 <script lang="ts">
   import { Select } from 'bits-ui';
   import ChevronDownIcon from '~icons/carbon/chevron-down';

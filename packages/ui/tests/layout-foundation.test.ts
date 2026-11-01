@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 t128n
+//
+// SPDX-License-Identifier: MIT
+
 import { readdir, readFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { render } from '@testing-library/svelte';

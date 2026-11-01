@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 <script lang="ts">
   import Table from '../../src/lib/Table.svelte';
   import TableCell from '../../src/lib/TableCell.svelte';

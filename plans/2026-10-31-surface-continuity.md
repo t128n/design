@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 # Surface continuity and structural borders
 
 **Goal:** Make Navbar, Sidebar, main content, and Landing default to one continuous white surface, separated by single-owner 1px borders.

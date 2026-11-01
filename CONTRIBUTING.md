@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 # Contributing
 
 Storybook is the primary source of content and documentation for this
@@ -17,9 +23,20 @@ Before opening a pull request:
 bun run test
 cd packages/ui && bun run check
 cd ../.. && bun run build && bun run build-storybook
+bun run license:lint
 ```
 
 ## License
 
 By contributing, you agree that your contribution is licensed under the MIT
 license in [`LICENSE`](LICENSE).
+
+Every tracked file carries an SPDX header. Add one to a new file with:
+
+```sh
+uvx --from reuse reuse annotate --copyright t128n --license MIT <path>
+bun run license:lint
+```
+
+Files that cannot hold a header or are generated are covered in `REUSE.toml`.
+The CI License job runs the same check.

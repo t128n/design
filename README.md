@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 # t128n design
 
 The Svelte 5 design framework published as [`@t128n/ui`](https://www.npmjs.com/package/@t128n/ui): semantic tokens, a small typography and layout vocabulary, and components that consume only those tokens.
@@ -33,4 +39,6 @@ that affects the framework needs a changeset: `bun run changeset`.
 
 ## License
 
-MIT. See [`LICENSE`](LICENSE).
+MIT. See [`LICENSE`](LICENSE). Every file records its own copyright and license
+with an SPDX header, so the repository is compliant with
+[REUSE 3.3](https://reuse.software/spec/); run `bun run license:lint` to check it.

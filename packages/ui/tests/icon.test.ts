@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 t128n
+//
+// SPDX-License-Identifier: MIT
+
 import { render, screen } from '@testing-library/svelte';
 import Add from '~icons/carbon/add';
 import { describe, expect, it } from 'vitest';

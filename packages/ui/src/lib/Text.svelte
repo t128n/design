@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 <script module lang="ts">
   // Props that Text owns; everything else is forwarded to the rendered element.
   const reserved = new Set([

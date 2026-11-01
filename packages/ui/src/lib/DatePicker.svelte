@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 <script lang="ts">
   import { DatePicker } from 'bits-ui';
   import type { DateValue } from '@internationalized/date';

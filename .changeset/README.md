@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 # Changesets
 
 Every user-visible change to `@t128n/ui` ships through a changeset.

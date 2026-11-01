@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 t128n
+//
+// SPDX-License-Identifier: MIT
+
 import type { Component } from 'svelte';
 import type { SvelteHTMLElements } from 'svelte/elements';
 

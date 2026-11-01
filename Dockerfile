@@ -1,5 +1,9 @@
 # syntax=docker/dockerfile:1
 
+# SPDX-FileCopyrightText: 2026 t128n
+#
+# SPDX-License-Identifier: MIT
+
 # Storybook preview image.
 #
 # Coolify builds this image and serves the static Storybook build behind nginx.

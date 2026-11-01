@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 <script lang="ts">
   import { Checkbox } from 'bits-ui';
   import CheckIcon from '~icons/carbon/checkmark';

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 t128n
+//
+// SPDX-License-Identifier: MIT
+
 export const spaceScale = ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'] as const;
 
 export type Space = (typeof spaceScale)[number];

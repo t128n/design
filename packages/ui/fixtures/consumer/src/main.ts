@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 t128n
+//
+// SPDX-License-Identifier: MIT
+
 // Type-only consumer fixture: compiles against the published entrypoints with strict mode.
 import { Button, Dialog, Stack, Text } from '@t128n/ui';
 import type { LayoutTag, Space, TextVariant } from '@t128n/ui';

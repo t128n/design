@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 # Application surface hierarchy
 
 **Goal:** Make application workspaces continuous and light-first: white content, subordinate neutral navigation, no segmented dashboard panels.

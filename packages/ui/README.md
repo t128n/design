@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 # @t128n/ui
 
 A Svelte 5 design framework for quiet, spacious, technical application interfaces. Semantic tokens feed a small typography and layout vocabulary; components consume only those tokens.

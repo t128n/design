@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 t128n
+#
+# SPDX-License-Identifier: MIT
+
 node_modules/
 storybook-static/
 dist/

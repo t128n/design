@@ -1,2 +1,6 @@
+# SPDX-FileCopyrightText: 2026 t128n
+#
+# SPDX-License-Identifier: MIT
+
 [tools]
 bun = "1.4.3"

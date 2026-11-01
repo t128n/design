@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 t128n
+//
+// SPDX-License-Identifier: MIT
+
 import type { Preview } from '@storybook/svelte-vite';
 import { docsTheme } from './theme';
 

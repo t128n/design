@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n
+
+SPDX-License-Identifier: MIT
+-->
+
 # Layout system refinement
 
 **Goal:** Make App Shell, Sidebar, Navbar, Page Header, Hero, and Footer conform to `DESIGN.md` as a quiet, content-first layout system, with realistic Storybook examples.

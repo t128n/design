@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 t128n
+//
+// SPDX-License-Identifier: MIT
+
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import axe from 'axe-core';
