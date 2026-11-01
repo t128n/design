@@ -37,7 +37,8 @@ const preview: Preview = {
           'Layouts',
           'Components',
           ['Controls', 'Forms', 'Data', 'Feedback', 'Overlays', 'Navigation'],
-          'Views'
+          'Views',
+          ['Dashboard', 'Settings', 'Landing', 'Personal', 'Bundle', 'Resources']
         ]
       }
     },

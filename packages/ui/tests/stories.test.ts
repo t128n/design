@@ -29,7 +29,7 @@ describe('Storybook stories', () => {
   });
 
   it('test_story_controls: composed views disable the controls panel instead of showing an empty one', async () => {
-    for (const file of ['Dashboard', 'Landing', 'Settings', 'Foundations']) {
+    for (const file of ['Dashboard', 'Landing', 'Settings', 'Bundle', 'Resources', 'Foundations']) {
       const story = await readStory(`../src/stories/${file}.stories.svelte`);
 
       expect(story).toContain('controls: { disable: true }');
@@ -72,7 +72,9 @@ describe('Storybook stories', () => {
       ['Landing', 'Views/Landing'],
       ['Personal', 'Views/Personal'],
       ['Dashboard', 'Views/Dashboard'],
-      ['Settings', 'Views/Settings']
+      ['Settings', 'Views/Settings'],
+      ['Bundle', 'Views/Bundle'],
+      ['Resources', 'Views/Resources']
     ];
 
     for (const [file, title] of stories) {

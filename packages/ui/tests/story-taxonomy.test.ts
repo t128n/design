@@ -113,7 +113,9 @@ const taxonomy = {
     Dashboard: ['Dashboard'],
     Settings: ['Settings'],
     Landing: ['Landing'],
-    Personal: ['Personal']
+    Personal: ['Personal'],
+    Bundle: ['Bundle'],
+    Resources: ['Resources']
   }
 };
 

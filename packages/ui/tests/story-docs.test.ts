@@ -64,7 +64,9 @@ const COMPOSED_VIEWS: Record<string, string> = {
   Dashboard: 'workspace',
   Settings: 'workspace',
   Landing: 'workspace',
-  Personal: 'reading'
+  Personal: 'reading',
+  Bundle: 'workspace',
+  Resources: 'workspace'
 };
 
 const SIGNATURE_TERMS = [

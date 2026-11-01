@@ -252,12 +252,44 @@ describe('composed workspace views', () => {
     expect(personal).not.toContain('font-family: serif');
   });
 
+  it('renders Bundle as one task card with a searchable package choice and inline result', async () => {
+    const bundle = await readStory('../src/stories/Bundle.stories.svelte');
+
+    expect(blockFor(bundle, '.bundle-view')).toContain('background: var(--color-workspace)');
+    expect(bundle).toContain('<Container width="form" padding="xl">');
+    expect(bundle).toContain('<Card>');
+    expect(bundle).toContain('<Text variant="heading" as="h1">');
+    expect(bundle).toContain('<Combobox');
+    expect(bundle).toContain('label="Package"');
+    expect(bundle).toContain('<Button disabled={!canCreate}');
+    expect(bundle).toContain('<Alert tone="success"');
+  });
+
+  it('renders Resources with combined navigation, catalog search, and a status table', async () => {
+    const resources = await readStory('../src/stories/Resources.stories.svelte');
+
+    expect(blockFor(resources, '.resources-view')).toContain('background: var(--color-workspace)');
+    expect(resources).toContain('<AppShell navbar={navbar} sidebar={sidebar}>');
+    expect(resources).toContain('<Navbar');
+    expect(resources).toContain('<Sidebar');
+    expect(resources).toContain('<PageHeader');
+    expect(resources).toContain('<Section');
+    expect(resources).toContain('<Combobox');
+    expect(resources).toContain('label="Catalog service"');
+    expect(resources).toContain('<Table {columns} labelledBy="services-heading">');
+    expect(resources).toContain('<Badge tone={service.tone}>');
+    expect(resources).toContain('labelledBy={false}');
+    expect(resources).not.toMatch(/<Table[^>]*\bbordered\b/);
+  });
+
   it('names every composed view story', async () => {
     const views = [
       ['Dashboard', 'Dashboard'],
       ['Settings', 'Settings'],
       ['Landing', 'Landing'],
-      ['Personal', 'Personal']
+      ['Personal', 'Personal'],
+      ['Bundle', 'Bundle'],
+      ['Resources', 'Resources']
     ];
 
     for (const [file, name] of views) {
