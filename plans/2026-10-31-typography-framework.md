@@ -1,3 +1,13 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n Torben Haack
+
+SPDX-License-Identifier: MPL-2.0
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at https://mozilla.org/MPL/2.0/.
+-->
+
 # Typography and layout framework layer
 
 **Goal:** Turn `@t128n/ui` from a collection of styled components into an opinionated framework: application and story copy is rendered through primitives such as `<Text variant="heading" as="h2">`, layout rhythm comes from primitives rather than one-off margins, and compliance is enforced by tests and documentation.

@@ -1,10 +1,20 @@
+<!--
+SPDX-FileCopyrightText: 2026 t128n Torben Haack
+
+SPDX-License-Identifier: MPL-2.0
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at https://mozilla.org/MPL/2.0/.
+-->
+
 # @t128n/ui
 
 A Svelte 5 design framework for quiet, spacious, technical application interfaces. Semantic tokens feed a small typography and layout vocabulary; components consume only those tokens.
 
 - Documentation: https://t128n.github.io/design/
 - Source: https://github.com/t128n/design
-- License: MIT
+- License: MPL-2.0
 
 ## Install
 

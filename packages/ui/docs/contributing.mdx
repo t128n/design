@@ -1,3 +1,13 @@
+{/*
+SPDX-FileCopyrightText: 2026 t128n Torben Haack
+
+SPDX-License-Identifier: MPL-2.0
+
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at https://mozilla.org/MPL/2.0/.
+*/}
+
 import { Meta } from '@storybook/addon-docs/blocks';
 
 <Meta title="Foundations/Contributing" />
@@ -30,6 +40,32 @@ cd packages/ui && bunx svelte-check --tsconfig ./tsconfig.json --fail-on-warning
 
 `bun run verify` checks the built package, its tarball contents, tree-shaking,
 and a strict consumer fixture. Run it before publishing a release.
+
+## License headers
+
+Every tracked file declares its copyright and license in an SPDX header, so the
+license travels with the file instead of living only in `LICENSE`. The repository
+follows [REUSE 3.3](https://reuse.software/spec/): `LICENSES/MPL-2.0.txt` holds the
+license text, and every other file carries:
+
+```text
+SPDX-FileCopyrightText: 2026 t128n
+SPDX-License-Identifier: MPL-2.0
+```
+
+Add the header to a new file with the [`reuse`](https://reuse.software) tool:
+
+```sh
+uvx --from reuse reuse annotate -t mpl --copyright "t128n Torben Haack" --license MPL-2.0 <path>
+bun run license:lint
+```
+
+A file that cannot hold a header (JSON, the lockfile) or that a tool regenerates
+(`packages/ui/CHANGELOG.md`) is listed in `REUSE.toml` instead. MDX pages use the
+JSX comment form, `{/* ... */}`, because MDX rejects HTML comments. The CI
+License job runs `reuse lint`, so a missing header fails the pull request rather
+than review; the License fix workflow opens a pull request that adds the header
+to anything merged without one.
 
 ## Changing a component
 
@@ -102,6 +138,8 @@ Before opening a pull request:
 
 - [ ] The unit suite, Storybook tests, type check, library build, and Storybook
       build pass.
+- [ ] `bun run license:lint` passes, and every new file has an SPDX header or a
+      `REUSE.toml` entry.
 - [ ] No component behavior, prop, package metadata, build script, or CI change
       is outside the pull request's stated scope.
 - [ ] New or changed components have a story, a screen use or documented
@@ -109,7 +147,7 @@ Before opening a pull request:
 - [ ] The component reference and coverage table match the actual exports.
 - [ ] Documentation links resolve, and the Storybook information architecture in
       `AGENTS.md` still matches the sidebar.
-- [ ] The package stays MIT-licensed and public, with no npm token in the
+- [ ] The package stays MPL-2.0-licensed and public, with no npm token in the
       repository: publishing relies on OIDC trusted publishing.
 
 ## Commits and releases

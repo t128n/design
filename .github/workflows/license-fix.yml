@@ -1,0 +1,73 @@
+# SPDX-FileCopyrightText: 2026 t128n Torben Haack
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+name: License fix
+
+# Remediation for the License check in CI: adds the SPDX header to files that
+# were merged without one and opens a pull request with the result. Enforcement
+# lives in `ci.yml`; this workflow only proposes the fix.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 4 * * 1'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: license-fix
+  cancel-in-progress: false
+
+jobs:
+  fix:
+    name: Fix headers
+    runs-on: ubuntu-slim
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.3
+
+      # The slim runner has no Docker daemon, so the official REUSE action
+      # cannot run here. pipx is preinstalled; `reuse` lands in ~/.local/bin,
+      # which the runner does not add to PATH on its own.
+      - name: Install reuse
+        run: |
+          pipx install reuse==6.3.0
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Add missing headers
+        run: bun run license:fix
+
+      - name: Check REUSE compliance
+        run: reuse lint
+
+      - name: Commit and open pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "All tracked files already declare their license."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -B chore/license-headers
+          git add -A
+          git commit -m 'chore(license): add missing SPDX headers'
+          git push --force origin chore/license-headers
+          gh pr view chore/license-headers >/dev/null 2>&1 || gh pr create \
+            --base main \
+            --head chore/license-headers \
+            --title 'chore(license): add missing SPDX headers' \
+            --body 'Adds the SPDX header to tracked files that were missing it. The workflow ran `reuse lint` on this branch before opening the pull request; CI does not start automatically for pull requests created with the repository token, so re-run it if you want the full matrix.'
