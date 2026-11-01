@@ -311,18 +311,23 @@ body {
 .primary-nav .nav-link[aria-current="page"]::after {
   content: "";
   position: absolute;
-  right: var(--space-2);
-  bottom: 0;
-  left: var(--space-2);
+  right: 0;
+  bottom: calc((var(--control-md) - var(--app-bar-height)) / 2);
+  left: 0;
   height: 2px;
   background: var(--primary);
+}
+
+.mobile-nav .nav-link[aria-current="page"] {
+  overflow: hidden;
+  background: var(--surface);
 }
 
 .mobile-nav .nav-link[aria-current="page"]::after {
   content: "";
   position: absolute;
-  top: var(--space-2);
-  bottom: var(--space-2);
+  top: 0;
+  bottom: 0;
   left: 0;
   width: 2px;
   background: var(--primary);

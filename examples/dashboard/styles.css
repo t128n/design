@@ -343,6 +343,7 @@ body.nav-open {
   height: var(--control-md);
   padding: 0 var(--space-2);
   border-radius: var(--radius-md);
+  overflow: hidden;
   color: var(--text-secondary);
   font-size: var(--text-body);
   font-weight: 400;
@@ -368,7 +369,7 @@ body.nav-open {
 }
 
 .nav__item[aria-current="page"] {
-  background: transparent;
+  background: var(--canvas);
   color: var(--text-primary);
   font-weight: 600;
 }
@@ -376,11 +377,10 @@ body.nav-open {
 .nav__item[aria-current="page"]::before {
   content: "";
   position: absolute;
-  top: var(--space-2);
-  bottom: var(--space-2);
+  top: 0;
+  bottom: 0;
   left: 0;
   width: 2px;
-  border-radius: 1px;
   background: var(--primary);
 }
 

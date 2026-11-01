@@ -287,7 +287,7 @@ Oxocarbon contains **no red**; `base08` is cyan in dark and pink in light. Error
 
 **Accent Budget.** One primary action per screen; a dialog or independent section is its own scope. Accent marks the wordmark, the primary action, selection, focus, and current state — not headings, surfaces, or decorative borders.
 
-**Selection.** Text selection uses the selection overlay — `rgba(15, 98, 254, 0.12)` in light, `rgba(51, 177, 255, 0.16)` in dark — and keeps `text-primary`. Persistent selection — rows, list items, navigation — takes no fill; the 2px `primary` indicator described under Interactive States carries it. Never invert text or fill a row with solid primary.
+**Selection.** Text selection uses the selection overlay — `rgba(15, 98, 254, 0.12)` in light, `rgba(51, 177, 255, 0.16)` in dark — and keeps `text-primary`. Persistent selection uses the 2px `primary` indicator described under Interactive States. Vertical navigation rows also take a subtle fill one step from their container — `surface` on `canvas`, `canvas` on `surface` — so the indicator, label, and row read as one object; horizontal navigation and other selected rows stay unfilled. Never invert text or fill a row with solid primary.
 
 **Overlay.** The modal backdrop is `rgba(22, 22, 22, 0.5)` in light and `rgba(0, 0, 0, 0.6)` in dark.
 
@@ -381,7 +381,7 @@ Define the states that apply to each control — loading and error only where th
 | Hover | one layer down: `canvas` steps to `surface`, `surface` to `surface-2`. Striped table rows always hover to `surface-2`. |
 | Active | `surface-2`; primary and danger buttons use their variant hover color |
 | Focus | 2px `primary` ring, 2px offset; `accent-on-dark` on the app bar |
-| Selected / current | No fill; a 2px `primary` indicator (a leading bar in vertical navigation and rows, an underline in horizontal navigation). Navigation adds 600 weight. Hover and press add no fill to a selected item. A hovered row shows no bar, so fill alone never means selected. Rows keep 400 weight so columns do not shift. |
+| Selected / current | Horizontal navigation uses `text-primary` at 600 and a 2px `primary` underline that spans the full item and sits flush with the header rule, with no fill. Vertical navigation adds a subtle fill one step from its container (`surface` on `canvas`, `canvas` on `surface`) to the same weight and a full-row-height leading bar. Other selected rows keep no fill and 400 weight. Hover and press do not change a selected item. A hovered row shows no bar, so fill alone never means selected. |
 | Disabled | `surface-2` fill plus `text-disabled`; may fall below 4.5:1 but must still read as disabled by fill and label together. Prefer a persistent reason beside the control. |
 | Loading | Interaction disabled, the label replaced by a progress indicator, the accessible name preserved, and the width stable |
 | Error (fields) | `error` border plus 0.75rem `error` text with a 1rem icon, tied to the field |
@@ -441,8 +441,8 @@ Navigation and menu rows follow the density's control height with 0.5rem horizon
 ### Navigation
 
 - Sidebar width 15rem; items at the density's control height, 0.5rem horizontal padding, radius 0.125rem, 1rem icon, 0.875rem/400 label.
-- Selected state: no fill, `text-primary` at 600, and a 2px `primary` indicator — a leading bar inset 0.5rem from the top and bottom in a vertical nav, or an underline inset 0.5rem from the left and right in a horizontal nav. The indicator and weight carry the state together — never color alone.
-- Hover uses `surface-2`; focus uses the standard ring. Selected items take no fill on hover or press. Nav labels carry no text underline; the selected indicator is the only rule.
+- Selected state: horizontal navigation uses `text-primary` at 600 and a 2px `primary` underline that spans the full item and sits flush with the app-bar rule, with no fill. Vertical navigation adds a subtle fill one step from the container — `surface` on `canvas`, `canvas` on `surface` — to the same weight and a 2px leading bar that runs the full row height at the leading edge. The indicator and weight carry the state together — never color alone.
+- Hover uses `surface-2`; focus uses the standard ring. Selected items take no hover or press fill. Nav labels carry no text underline; the selected indicator is the only rule.
 - Secondary navigation sits inline under a 1px `border-subtle` divider; do not pin it to the bottom of the sidebar.
 - App bar: 3rem, `app-bar` background with a 1px `app-bar-divider` bottom edge, `app-bar-text` labels, `app-bar-text-secondary` for secondary context, 1.25rem icons, 0.875rem/400 labels. Slots: menu (mobile only), wordmark, divider, workspace, spacer, theme toggle. It may be omitted on content, auth, and focused screens.
 - **MUST** keep a skip link to main content in every app shell.
@@ -452,7 +452,7 @@ Navigation and menu rows follow the density's control height with 0.5rem horizon
 
 - Header 2.25rem, `surface-2`, 0.875rem/600; text left-aligned, numerics right-aligned with tabular figures.
 - Rows 2.25/2.75/3rem by density, striped `surface` against `canvas`, 0.5rem × 0.75rem cell padding, 1px `border-subtle` below the header only. A table is page structure, not an object: no surrounding border, radius, or card.
-- Hover uses `surface-2` on every row. Selected rows take no fill; they use the 2px `primary` leading bar and keep 400 weight so columns do not shift.
+- Hover uses `surface-2` on every row. Selected table rows take no fill; they use the 2px `primary` leading bar and keep 400 weight so columns do not shift.
 - Sorting is shown by an icon on the header control plus a change in its label, never color alone.
 - Row actions appear on hover and focus, and are always available in a menu for keyboard and touch users.
 - Search and filters sit in the table or list toolbar as visible controls; avoid hidden filter menus for primary filtering. Their state lives in the URL.

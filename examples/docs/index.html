@@ -176,7 +176,7 @@
           <section class="article-section" aria-labelledby="selection">
             <h2 id="selection" tabindex="-1">Selection</h2>
             <p>Selected text uses the <code>selection</code> overlay: <code>primary</code> at 12% opacity in light theme and 16% in dark theme. <code>text-primary</code> stays unchanged, and the overlay tints <code>canvas</code>, <code>surface</code>, and <code>surface-2</code> without a separate token for each context.</p>
-            <p>Persistent selection — rows, list items, and navigation — takes no fill; the 2px <code>primary</code> indicator carries it (a leading bar in vertical navigation and rows, an underline in horizontal navigation), with 600 weight in navigation. Never invert text or fill a row with solid primary, so selection never depends on color alone.</p>
+            <p>Persistent selection uses the 2px <code>primary</code> indicator. Horizontal navigation spans the item with the underline and sits flush with the app-bar rule, with no fill. Vertical navigation rows also take a subtle fill one step from their container — <code>surface</code> on <code>canvas</code>, <code>canvas</code> on <code>surface</code> — so the indicator, label, and row read as one object; the vertical indicator runs the full row height at the leading edge, and other selected rows stay unfilled. Never invert text or fill a row with solid primary, so selection never depends on color alone.</p>
           </section>
 
           <section class="article-section" aria-labelledby="missing-red">
