@@ -60,6 +60,7 @@ export { default as Toggle } from './lib/Toggle.svelte';
 export { default as ToggleGroup } from './lib/ToggleGroup.svelte';
 export { default as Tooltip } from './lib/Tooltip.svelte';
 export { default as Combobox } from './lib/Combobox.svelte';
+export type { ComboboxItem } from './lib/combobox';
 export { default as Calendar } from './lib/Calendar.svelte';
 export { default as RangeCalendar } from './lib/RangeCalendar.svelte';
 export { default as DateField } from './lib/DateField.svelte';

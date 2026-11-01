@@ -682,9 +682,9 @@ One choice from a short, predefined list.
 
 ### Combobox
 
-A filterable single-select built from a text input and a list of options.
+A filterable single-select built from a text input and a list of options. Typing opens the list by default, and the same component can drive a client-filtered list or an async result set.
 
-- **Props:** `items` (`{ value, label, disabled? }[]`, required), `value` (bindable), `onValueChange`, `inputValue` (bindable), `label` (required), `description`, `placeholder` (default `Search...`), `error`, `disabled`, `required`, `id`, `name`, `class`.
+- **Props:** `items` (`{ value, label, description?, disabled?, group? }[]`, required), `groups` (explicit group order; derived from `item.group` when omitted), `value` (bindable), `onValueChange`, `inputValue` (bindable), `onInputValueChange`, `open` (bindable), `onOpenChange`, `openOnInput` (default `true`), `openOnFocus` (default `false`), `filterMode` (`client` default, `manual`), `syncInputOnSelect` (default `true`), `emptyLabel` (default `No results`), `loading` (default `false`), `loadingLabel` (default `Loading…`), `label` (required), `description`, `placeholder` (default `Search...`), `error`, `disabled`, `required`, `id`, `name`, `class`.
 - **Example:**
 
 ```svelte
@@ -698,7 +698,40 @@ A filterable single-select built from a text input and a list of options.
 />
 ```
 
-- **Not for:** multi-select, creating new options that are not in `items`, or a plain short list (`Select`).
+- **Grouping and descriptions:** give an item a `group` to place it under a labelled heading. Pass `groups` when the order must be explicit; empty groups are skipped and ungrouped items render after the groups. A `description` adds a secondary line to the option but never becomes the selected label.
+
+```svelte
+<Combobox
+  label="Version"
+  items={[
+    { value: 'latest', label: 'latest → 4.18.1', group: 'Dist-tags' },
+    { value: '4.18.1', label: '4.18.1', description: 'latest', group: 'Versions' },
+    { value: '4.17.21', label: '4.17.21', group: 'Versions' }
+  ]}
+  groups={['Dist-tags', 'Versions']}
+  value={requestedVersion}
+  onValueChange={selectVersion}
+/>
+```
+
+- **Async results:** set `filterMode="manual"` when the caller supplies an already-filtered result set. Listen to `onInputValueChange` to schedule the fetch, and drive the list with `loading` and `emptyLabel`. Manual mode renders the supplied `items` unchanged; it does not filter by label locally. Use `syncInputOnSelect={false}` when the query text should survive selection. Remote fetching stays with the caller.
+
+```svelte
+<Combobox
+  label="Package"
+  placeholder="Search npm packages…"
+  items={searchItems}
+  bind:inputValue={query}
+  onInputValueChange={scheduleSearch}
+  filterMode="manual"
+  openOnFocus
+  loading={searching}
+  emptyLabel={`No packages found for “${query}”.`}
+  onValueChange={selectPackage}
+/>
+```
+
+- **Not for:** multi-select, creating new options that are not in `items`, remote fetching inside the component, or a plain short list (`Select`).
 
 ### Slider
 
@@ -1251,6 +1284,7 @@ These are exported from `src/index.ts` for typed composition.
 | --- | --- | --- | --- |
 | `APP_GLYPHS`, `APP_MARK_GEOMETRY`, `APP_MARK_RADIUS`, `APP_MARK_SIZES`, `APP_TONES`, `appGlyphs`, `appRegistry`, `markMonogram`, `opticalVariant` | constants and functions | Identity-tone, glyph, size, and registry contracts for `AppMark` and the favicon export. | Not a general icon registry or a status palette; the app identity set is separate from UI icons and semantic status. |
 | `TableColumn` | type | Column label plus `align` and `numeric` metadata for `Table`. | Not a cell or row model; compose rows with `TableRow`/`TableCell`. |
+| `ComboboxItem` | type | Option shape for `Combobox`, including an optional secondary `description` and grouping `group`. | Not a remote result format; the caller fetches and maps its own records into this shape. |
 | `IconComponent`, `IconSize`, `iconSizes` | types and constant | Typed Carbon icon props and the allowed display sizes `16`, `20`, `24`, `32`. | Not a registry of icon names; import Carbon through `~icons/carbon/*`. |
 | `createFieldState` | function | Derives control, label, description, and error ids plus ARIA flags from a stable base id. | Not a label renderer; `Field` renders the anatomy. |
 | `FieldState`, `FieldStateOptions` | types | The field contract passed to `Field` children and accepted by `createFieldState`. | Not a store; derive it once per render. |
