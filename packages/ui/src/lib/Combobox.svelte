@@ -95,6 +95,7 @@
   // Bits UI exposes `inputValue` as a one-way prop, so the wrapper keeps the
   // external value as the source of truth and mirrors it into the root.
   let rootInputValue = $state(inputValue);
+  let controlWidth = $state(0);
 
   $effect(() => {
     rootInputValue = inputValue;
@@ -199,7 +200,11 @@
         {onOpenChange}
         onValueChange={handleValueChange}
       >
-        <div class="combobox-input-group" class:invalid={state.invalid}>
+        <div
+          class="combobox-input-group"
+          class:invalid={state.invalid}
+          bind:offsetWidth={controlWidth}
+        >
           <Combobox.Input
             id={state.id}
             class="combobox-input"
@@ -235,9 +240,10 @@
           <Combobox.Content
             id={`${state.id}-listbox`}
             class="combobox-content"
+            align="start"
             sideOffset={4}
           >
-            <div class="panel">
+            <div class="panel" style:width={controlWidth ? `${controlWidth}px` : undefined}>
               <Combobox.Viewport class="t128n-combobox-viewport">
                 {#if loading}
                   <div class="empty" aria-hidden="true">{loadingLabel}</div>
@@ -355,7 +361,6 @@
   .panel {
     width: max-content;
     min-width: 14rem;
-    max-width: min(28rem, calc(100vw - 2rem));
     padding: var(--space-xs);
     border: var(--border-width) solid var(--color-border);
     border-radius: var(--radius-md);

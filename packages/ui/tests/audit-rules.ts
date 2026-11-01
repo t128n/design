@@ -223,6 +223,12 @@ export const allowlists = {
       file: 'src/lib/Meter.svelte',
       match: 'style={`transform: translateX(-${100 - percentage}%)`}',
       reason: 'Indicator position is a runtime percentage.'
+    },
+    {
+      file: 'src/lib/Combobox.svelte',
+      match: 'style:width={controlWidth ? `${controlWidth}px` : undefined}',
+      reason:
+        'The option panel matches the measured control width so the popover cannot sit narrower or wider than the field.'
     }
   ] satisfies AllowlistEntry[],
   rawPx: [] satisfies AllowlistEntry[],

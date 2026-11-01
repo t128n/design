@@ -225,6 +225,24 @@ describe('Combobox interaction', () => {
     expect(optionValues).toEqual(['4.18.1', '4.17.21', 'latest', 'other']);
   });
 
+  it('matches the option panel width to the control width', async () => {
+    const offsetWidth = vi
+      .spyOn(HTMLElement.prototype, 'offsetWidth', 'get')
+      .mockReturnValue(252);
+
+    try {
+      render(Combobox, { label: 'Version', items, open: true });
+
+      const listbox = await screen.findByRole('listbox', { hidden: true });
+      const panel = listbox.querySelector('.panel') as HTMLElement;
+
+      expect(panel).not.toBeNull();
+      expect(panel.style.width).toBe('252px');
+    } finally {
+      offsetWidth.mockRestore();
+    }
+  });
+
   it('does not render a group heading for an empty group', async () => {
     const user = userEvent.setup();
 
