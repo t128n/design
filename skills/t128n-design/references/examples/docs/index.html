@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.3.0/latin-400.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.3.0/latin-600.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-mono@5.3.0/latin-400.css">
+  <link rel="stylesheet" href="../../tokens.css">
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 </head>
@@ -217,7 +218,7 @@
 
             <div class="code-block">
               <div class="code-header">
-                <span class="code-label">theme.css</span>
+                <span class="code-label">tokens.css</span>
                 <div class="code-actions">
                   <span class="copy-feedback" data-copy-feedback aria-live="polite"></span>
                   <button class="copy-button" type="button" data-copy-target="token-snippet">
@@ -230,21 +231,25 @@
                 </div>
               </div>
               <pre tabindex="0" aria-label="Theme token CSS snippet"><code id="token-snippet" translate="no">:root {
-  --canvas: #FFFFFF;
-  --text-primary: #161616;
-  --primary: #0F62FE;
-  --border-subtle: #DDE1E6;
+  --color-canvas: #FFFFFF;
+  --color-text-primary: #161616;
+  --color-primary: #0F62FE;
+  --space-4: 1rem;
+  --size-control-md: 2.25rem;
+  --layout-sidebar: 15rem;
 }
 
 [data-theme="dark"] {
-  --canvas: #161616;
-  --text-primary: #F2F4F8;
-  --primary: #33B1FF;
-  --border-subtle: #393939;
+  --color-canvas: #161616;
+  --color-text-primary: #F2F4F8;
+  --color-primary: #33B1FF;
+  --space-4: 1rem;
+  --size-control-md: 2.25rem;
+  --layout-sidebar: 15rem;
 }</code></pre>
             </div>
 
-            <p>Keep the token names stable across themes. A component should never branch on the theme or read a base16 slot directly; if a new surface needs a color, add the role here first.</p>
+            <p>Keep the token names stable across themes. A component should never branch on the theme, read a base16 slot directly, or hardcode a size. If a new surface or dimension is needed, add a named token here first.</p>
           </section>
 
           <footer class="article-footer">
