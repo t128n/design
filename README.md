@@ -8,6 +8,9 @@ specification and reference implementations that coding agents load only when
 they are relevant. It is not an npm package, a component library, or a runtime
 dependency.
 
+The skill has two layers: `INTERFACE.md` governs what a screen contains and
+why; `DESIGN.md` and `PATTERNS.md` govern how it looks.
+
 ## Install
 
 Install for the current project:
@@ -38,14 +41,18 @@ Ask your agent to apply the design language directly:
 > Implement this dashboard using the t128n design language.
 
 The skill applies t128n as the default visual language for UI work. It teaches
-the agent to inspect the existing application, reuse its components, choose the
-right shell, apply the visual language, and review accessibility and responsive
-behavior. Projects with an established design system keep their own system.
+the agent to define the screen's job and states, remove content that does not
+change a decision, choose the right shell, apply the visual language, and
+review interface and visual quality. Projects with an established design system
+keep their own system.
 
 ## What is included
 
 - [`skills/t128n-design/SKILL.md`](skills/t128n-design/SKILL.md) — the
   implementation and review workflow.
+- [`skills/t128n-design/references/INTERFACE.md`](skills/t128n-design/references/INTERFACE.md)
+  — the interface layer: task and state model, hierarchy, information value,
+  copy, density, and the interface review checklist.
 - [`skills/t128n-design/references/PATTERNS.md`](skills/t128n-design/references/PATTERNS.md)
   — copyable snippets for shells, controls, forms, tables, dialogs, feedback,
   responsive behavior, and review.

@@ -214,13 +214,13 @@ A minimal, technical, enterprise-influenced visual language for personal applica
 
 > **Prefer defaults over rules.** This document defines a consistent starting point, not a complete specification of every interface. Reuse established components and platform conventions. Deviate when the application needs it; add shared rules only when repeated implementations demonstrate a genuine need.
 
-This document owns cross-application decisions: tokens, component appearance, and acceptance criteria. The canonical CSS token source is [`tokens.css`](tokens.css); copy it into the application and import it before component styles. Applications implement their own components from it rather than building a parallel language. Reference implementations live in `examples/`, with copyable extracts in `PATTERNS.md`; they show the system applied to real screens, but this document remains authoritative.
+This document owns cross-application visual decisions: tokens, component appearance, and visual acceptance criteria. [`INTERFACE.md`](INTERFACE.md) owns the task, content, hierarchy, and state model. The canonical CSS token source is [`tokens.css`](tokens.css); copy it into the application and import it before component styles. Applications implement their own components from it rather than building a parallel language. Reference implementations live in `examples/`, with copyable extracts in `PATTERNS.md`; they show the system applied to real screens, but this document remains authoritative for appearance.
 
-When rules conflict, resolve in this order: accessibility and platform correctness → browser and OS convention → this document → application-local choices → component-library defaults. Deliberate deviations are fine; record them in the application's design notes.
+When rules conflict, resolve in this order: accessibility and platform correctness → task comprehension and interface content → browser and OS convention → this document → application-local choices → component-library defaults. Deliberate deviations are fine; record them in the application's design notes.
 
 **Rule Tiers.** MUST is reserved for accessibility, tokens/contrast/focus, and destructive honesty. SHOULD is the default; deviate with a one-line reason. MAY is context-dependent.
 
-**Open.** Not decided here: logo and mark usage, illustration style, email and document templates, icon sets beyond Lucide, and application information architecture, navigation labels, and page structure.
+**Open.** Not decided here: logo and mark usage, illustration style, email and document templates, icon sets beyond Lucide, and application-local navigation labels. Task, content, hierarchy, state, and page-structure decisions belong to [`INTERFACE.md`](INTERFACE.md); this document governs their visual expression.
 
 ### Tokens and Units
 
@@ -248,7 +248,7 @@ Every type, spacing, control, and layout token is in rem so it follows the user'
 
 Where principles conflict, legibility and safety outrank density and speed.
 
-1. **Every pixel carries information.** If removing it doesn't cost comprehension or speed, remove it.
+1. **Every pixel carries operational information.** If removing it doesn't cost comprehension or speed, remove it. Static facts are documentation, not interface; see [`INTERFACE.md`](INTERFACE.md).
 2. **Density is a feature; legibility is the floor.** A returning power user should finish the primary task without scrolling or drilling in — but density never wins a contrast, target-size, or focus test.
 3. **One accent, earned.** More than one accent-colored element in a region needs a reason.
 4. **Structure comes from alignment and rules, not depth.** Disable every shadow; hierarchy must survive.
@@ -599,6 +599,8 @@ Acceptance criteria; a screen that fails one is not done.
 - Keep motion on `transform` and `opacity`, so animation stays off the layout and paint path.
 
 ### Content
+
+[`INTERFACE.md`](INTERFACE.md) decides whether a string should exist; this section decides how it is written and set. If a sentence does not change a decision, remove it.
 
 - **Title Case for names, sentence case for sentences.** Headings, dialog titles, buttons, navigation, menu items, table headers, tabs, field labels, and empty-state titles use Chicago Title Case — small words lowercase unless first or last. Prose, descriptions, helper text, errors, and status messages stay sentence case. No all-caps labels.
 - **Buttons:** verb-first, 1–3 words — "Save Changes", "Create Project", "Delete File". Not "OK", "Submit", or "Yes" where a verb fits.

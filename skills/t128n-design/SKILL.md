@@ -5,16 +5,18 @@ description: >
   redesigning, restyling, or reviewing dashboards, admin tools, developer
   tools, settings screens, documentation, landing pages, and personal apps.
   Use this skill whenever the user asks to design, build, style, polish,
-  audit, or review UI, even if they do not mention t128n. Covers visual
-  hierarchy, layout, typography, color, components, responsive behavior,
-  accessibility, motion, and reference implementations. Framework-agnostic.
+  audit, or review UI, even if they do not mention t128n. Covers interface
+  content and hierarchy, state design, information architecture, layout,
+  typography, color, components, responsive behavior, accessibility, motion,
+  and reference implementations. Framework-agnostic.
 ---
 
 # t128n Design
 
 Use t128n as the default visual language for interface work. Start with
-[PATTERNS.md](references/PATTERNS.md) for copyable component patterns. Read
-[DESIGN.md](references/DESIGN.md) for the full specification when you are
+[INTERFACE.md](references/INTERFACE.md) for what a screen contains and why.
+Use [PATTERNS.md](references/PATTERNS.md) for copyable component patterns, and
+[DESIGN.md](references/DESIGN.md) for the visual specification when you are
 making a system-level decision or a rule is unclear.
 
 The canonical token file is [tokens.css](references/tokens.css). Copy it into
@@ -24,11 +26,12 @@ properties everywhere.
 ## Fast path
 
 - **Small component or state change:** use the defaults and snippets in
-  PATTERNS.md. Read DESIGN.md only if the rule is unclear.
-- **New screen or layout:** read the shell and layout sections of DESIGN.md,
-  then open the closest view in `references/examples/`.
-- **Design review:** start with the review checklist in PATTERNS.md, then
-  consult DESIGN.md for the relevant rule.
+  PATTERNS.md. Read DESIGN.md only if the rule is unclear. If the change alters
+  what the screen contains or which state leads, read INTERFACE.md first.
+- **New screen or flow:** read INTERFACE.md first, then the shell and layout
+  sections of DESIGN.md, then open the closest view in `references/examples/`.
+- **Design review:** run the interface checklist in INTERFACE.md, then the
+  visual checklist in PATTERNS.md.
 
 ## Defaults
 
@@ -43,6 +46,11 @@ properties everywhere.
 - One accent: `--color-primary` in content, `--color-accent-on-dark` on the
   app bar.
 - Outcomes are inline, never floating notifications.
+- Every element must change with state, change a decision, sit at the point of
+  use, or be said once. Static facts are documentation, not metrics.
+- The `h1` names the current state, not the product.
+- A second column must carry live, changing, actionable content; otherwise use
+  one column.
 - Accessibility and platform conventions outrank visual consistency.
 
 ## Tokens
@@ -74,14 +82,24 @@ properties everywhere.
      it and use t128n where it does not conflict.
    - Reuse existing components and preserve working behavior.
 
-2. Choose the shell.
+2. Define the interface.
+   - Name the screen's one job and its current state.
+   - List the states the screen must cover: empty, loading, error, partial,
+     long content, permission.
+   - Decide what is live data, what is a constant, and what is copy. Remove
+     constants from the workspace and remove copy that does not change a
+     decision.
+   - Read INTERFACE.md before choosing a layout.
+
+3. Choose the shell.
    - App shell for dashboards and multi-section tools.
    - Content shell for landing pages, docs, and personal sites.
    - Focused app shell for a single-purpose surface.
+   - A linear one-off flow uses the focused shell and one column.
    - Do not add navigation or containers the information architecture does
      not need.
 
-3. Apply the visual language.
+4. Apply the visual language.
    - Copy `references/tokens.css` into the project and import it before
      component styles.
    - Consume namespaced tokens for every color, type, spacing, size, layout,
@@ -91,29 +109,32 @@ properties everywhere.
    - Use Lucide outline icons inline as SVG.
    - Build hierarchy with alignment and whitespace, not decoration.
 
-4. Use the reference views when composition is unclear.
+5. Use the reference views when composition is unclear.
    - Start at [references/examples/README.md](references/examples/README.md).
    - Read `index.html` and `styles.css` for layout and appearance.
    - Read `app.js` only when the interaction behavior matters.
    - Copy patterns, not whole pages.
 
-5. Implement with the existing stack.
+6. Implement with the existing stack.
    - Prefer the project's component library and accessible platform
      primitives.
    - Keep application-specific components local.
    - Do not add a UI framework or dependency just for visual consistency.
 
-6. Review the result.
-   - Run the checklist in PATTERNS.md.
+7. Review the result.
+   - Run the interface checklist in INTERFACE.md first.
+   - Then run the visual checklist in PATTERNS.md.
    - Check keyboard order, focus visibility, and 320px layout.
-   - Test loading, empty, error, success, and destructive states.
-   - Remove decoration that does not carry information.
+   - Test empty, loading, error, partial, long-content, permission, success,
+     and destructive states.
+   - Remove anything that does not change a decision, enable an action, or
+     report state.
 
 ## Examples
 
 Six full static views show the system applied to different shells and tasks.
 They are references, not templates; the UI is complete even where behavior is
-not wired up.
+not wired up. In shipped work, every affordance must work or be visibly inert.
 
 | View | Shell | Useful for |
 | --- | --- | --- |
@@ -129,12 +150,18 @@ dependency.
 
 ## Rules
 
+- INTERFACE.md governs what appears and why; DESIGN.md governs how it looks.
+  Accessibility, task comprehension, and interface content outrank visual
+  consistency.
 - DESIGN.md is the visual reference, not an instruction to rebuild the
   application architecture.
 - Accessibility, platform conventions, and existing product behavior take
   precedence over this document.
 - Prefer existing components over new abstractions.
 - Treat design defaults as defaults, not absolute rules.
+- A single-task flow stays a single column. Do not add an aside or panel for
+  static metadata.
+- Do not present constants as metrics.
 - Keep one token file. Do not duplicate token blocks across stylesheets.
 - Do not add dependencies solely for visual consistency.
 - Do not create a design-system implementation package.
