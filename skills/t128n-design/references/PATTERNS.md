@@ -617,6 +617,29 @@ in the page flow; do not center it in a decorative card.
 
 ## Review checklist
 
+Run the interface checks first. A screen that fails one is not done, regardless
+of visual compliance.
+
+### Interface
+
+- The screen's job and current state are stated in one sentence; the `h1`
+  names the current state, not the product.
+- Every element changes with state, changes a decision, sits at the point of
+  use, or is said once.
+- Static configuration is not presented as a metric; panels and second columns
+  carry live, actionable content.
+- Copy passes the deletion test; no tautology, duplicate warnings, ambient
+  instructions, or narrated commands.
+- Empty, loading, error, partial, long-content, and permission states exist.
+- Every affordance works or is visibly inert; no fake filters, breadcrumbs, or
+  status controls.
+- The result action outranks the artifact metadata.
+- A linear one-off flow uses one column and the focused shell; no persistent
+  aside for static metadata.
+- Long names, missing fields, zero, and overflow are handled.
+
+### Visual
+
 Before finishing, verify:
 
 - No raw hex or hardcoded color, size, radius, motion, or z-index literals
