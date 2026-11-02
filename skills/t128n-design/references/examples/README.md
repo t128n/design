@@ -1,8 +1,10 @@
 # t128n design — examples
 
-Six standalone views built from `DESIGN.md`. They began as independent interpretations by separate authors; they now share one token block, one shell spine, and one component inventory. The differences that remain are shell-driven — app, content, and focused app — not stylistic drift.
+Six standalone views built from [DESIGN.md](../DESIGN.md). They began as independent interpretations by separate authors; they now share one token block, one shell spine, and one component inventory. The differences that remain are shell-driven — app, content, and focused app — not stylistic drift.
 
-Open any `index.html` directly in a browser. No build step, no dependencies.
+These examples are part of the `t128n-design` agent skill. Read `DESIGN.md` before making design decisions, and use [PATTERNS.md](../PATTERNS.md) for copyable component snippets. Use the view closest to the task to resolve questions about full-screen composition, states, and interaction details. Copy tokens and patterns, not whole pages.
+
+Open any `index.html` directly in a browser. No build step, no dependencies. Each view is a complete static screen; `app.js` only demonstrates interaction behavior and is optional when using the view as a visual reference.
 
 | View | Shell | Demonstrates |
 | --- | --- | --- |
@@ -17,7 +19,7 @@ Each view is self-contained: `index.html`, `styles.css`, `app.js`.
 
 ## Shared implementation
 
-- The token block is **byte-identical** in all six `styles.css` files. It is the canonical block: add a token here and in `DESIGN.md` at the same time. No raw hex outside it. Type, spacing, control, and layout tokens are rem; only 1px hairlines, 2px focus rings and bars, shadow geometry, and breakpoints stay in px.
+- The token block is **byte-identical** in all six `styles.css` files. It is the canonical block: add a token here and in [DESIGN.md](../DESIGN.md) at the same time. No raw hex outside it. Type, spacing, control, and layout tokens are rem; only 1px hairlines, 2px focus rings and bars, shadow geometry, and breakpoints stay in px.
 - Control padding is bound to control height (0.5/0.75/1rem ↔ 1.75/2.25/2.75rem); nav and menu rows use 0.5rem padding.
 - Label–value rows are tabular: value right-aligned with tabular figures, mono 0.8125 for identifiers, 1px rules with no container, and a hover fill that spans exactly the rule width.
 - Tables and lists are page structure, not objects: no surrounding border, radius, or card.

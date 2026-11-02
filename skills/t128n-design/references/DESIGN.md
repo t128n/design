@@ -214,7 +214,7 @@ A minimal, technical, enterprise-influenced visual language for personal applica
 
 > **Prefer defaults over rules.** This document defines a consistent starting point, not a complete specification of every interface. Reuse established components and platform conventions. Deviate when the application needs it; add shared rules only when repeated implementations demonstrate a genuine need.
 
-This document owns cross-application decisions: tokens, component appearance, and acceptance criteria. Applications implement their own components from it rather than building a parallel language.
+This document owns cross-application decisions: tokens, component appearance, and acceptance criteria. Applications implement their own components from it rather than building a parallel language. Reference implementations live in `examples/`, with copyable extracts in `PATTERNS.md`; they show the system applied to real screens, but this document remains authoritative.
 
 When rules conflict, resolve in this order: accessibility and platform correctness → browser and OS convention → this document → application-local choices → component-library defaults. Deliberate deviations are fine; record them in the application's design notes.
 
