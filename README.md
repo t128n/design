@@ -52,21 +52,58 @@ behavior. Projects with an established design system keep their own system.
 - [`skills/t128n-design/references/DESIGN.md`](skills/t128n-design/references/DESIGN.md)
   — the canonical specification: tokens, layout, components, states,
   accessibility, motion, and the quality bar.
+- [`skills/t128n-design/references/tokens.css`](skills/t128n-design/references/tokens.css)
+  — the canonical token file, with namespaced custom properties for color,
+  type, spacing, control and layout sizing, radius, shadow, motion, and
+  z-index.
 - [`skills/t128n-design/references/examples/`](skills/t128n-design/references/examples/README.md)
   — six full static views showing the system applied to different shells and
   tasks.
 
 The examples are part of the skill, so installing or updating the skill carries
-the specification and reference implementations together. There is no separate
-copy of `DESIGN.md` to keep in sync.
+the specification, token file, and reference implementations together. There is
+no separate copy of `DESIGN.md` to keep in sync.
+
+## Tokens
+
+`references/tokens.css` is the only file that should contain literal design
+values. The skill instructs agents to:
+
+- copy it into the target project and import it before component styles;
+- consume tokens for color, type, spacing, control and layout sizing, radius,
+  motion, and z-index;
+- add a named token for a new value instead of hardcoding it;
+- allow only 1px hairlines, 2px focus rings and indicators, breakpoints, shadow
+  geometry, and `<meta name="theme-color">` as literals outside the token file;
+  documentation pages may display token values as content.
+
+```css
+/* tokens.css */
+:root {
+  --color-canvas: #FFFFFF;
+  --color-text-primary: #161616;
+  --space-4: 1rem;
+  --size-control-md: 2.25rem;
+}
+
+/* component.css */
+.card {
+  background: var(--color-canvas);
+  color: var(--color-text-primary);
+  padding: var(--space-4);
+  min-height: var(--size-control-md);
+}
+```
 
 ## Design at a glance
 
 - Structure comes from alignment and 1px rules, not shadows or containers.
-- One accent — Oxocarbon blue — and semantic role tokens instead of raw hex.
-- 0.875rem Geist Sans at 400 and 600; Geist Mono only for code, identifiers,
-  and aligned numerals.
-- 2.25rem default controls, 1.5rem page padding, dense tables without cards.
+- One accent — Oxocarbon blue — and namespaced role tokens instead of raw hex.
+- `--font-size-body` Geist Sans at `--font-weight-regular` and
+  `--font-weight-semibold`; Geist Mono only for code, identifiers, and aligned
+  numerals.
+- `--size-control-md` controls, `--layout-page-padding`, dense tables without
+  cards.
 - Outcomes are shown inline, never as floating notifications.
 - Accessibility, keyboard operation, and platform conventions outrank visual
   consistency.
@@ -76,7 +113,9 @@ Read the full specification in
 
 ## Examples
 
-Six self-contained views, each with `index.html`, `styles.css`, and `app.js`:
+Six self-contained views, each with `index.html`, `styles.css`, and `app.js`.
+All six import the shared [`tokens.css`](skills/t128n-design/references/tokens.css)
+before their component styles:
 
 | View | Shell | Demonstrates |
 | --- | --- | --- |
@@ -97,6 +136,7 @@ skills/t128n-design/
   references/
     PATTERNS.md            copyable implementation snippets
     DESIGN.md              canonical specification
+    tokens.css             canonical token source
     examples/              six full static views
 ```
 
@@ -104,5 +144,5 @@ skills/t128n-design/
 
 This repository shares design decisions, not implementation complexity. It does
 not provide a design-system package, component generator, token compilation
-pipeline, or framework-specific skills. Applications implement their own
-components from the specification.
+pipeline, or framework-specific skills. The token file is plain CSS custom
+properties; applications implement their own components from the specification.

@@ -17,6 +17,10 @@ Use t128n as the default visual language for interface work. Start with
 [DESIGN.md](references/DESIGN.md) for the full specification when you are
 making a system-level decision or a rule is unclear.
 
+The canonical token file is [tokens.css](references/tokens.css). Copy it into
+the target project, import it before component styles, and consume its custom
+properties everywhere.
+
 ## Fast path
 
 - **Small component or state change:** use the defaults and snippets in
@@ -28,15 +32,39 @@ making a system-level decision or a rule is unclear.
 
 ## Defaults
 
-- Structure comes from alignment and 1px `border-subtle` rules, not shadows
-  or containers.
-- Body is 0.875rem Geist Sans; content screens use 1rem. Geist Mono is only
-  for code, identifiers, and aligned numerals.
-- Default controls are 2.25rem high; page padding is 1.5rem; the app bar is
-  3rem and the sidebar is 15rem.
-- One accent: `primary` in content, `accent-on-dark` on the app bar.
+- Structure comes from alignment and 1px `--color-border-subtle` rules, not
+  shadows or containers.
+- Body is `--font-size-body` Geist Sans; content screens use
+  `--font-size-body-content`. Geist Mono is only for code, identifiers, and
+  aligned numerals.
+- Default controls are `--size-control-md`; page padding is
+  `--layout-page-padding`; the app bar is `--layout-app-bar` and the sidebar
+  is `--layout-sidebar`.
+- One accent: `--color-primary` in content, `--color-accent-on-dark` on the
+  app bar.
 - Outcomes are inline, never floating notifications.
 - Accessibility and platform conventions outrank visual consistency.
+
+## Tokens
+
+- The token file is the only source of literal color and size values.
+- Namespaces: `--color-*`, `--font-*`, `--space-*`, `--size-*`, `--layout-*`,
+  `--radius-*`, `--shadow-*`, `--motion-*`, and `--z-*`.
+- Component CSS must consume tokens for color, type, spacing, control and row
+  size, layout dimensions, radius, motion, and z-index. Do not write raw hex,
+  rem, or px values in component declarations.
+- Allowed literals outside the token file: 1px hairlines, 2px focus rings and
+  indicators, breakpoints, shadow geometry, and `<meta name="theme-color">`.
+- Documentation pages may display token values as content. Component CSS may
+  not.
+- Local token overrides are allowed only when they reference other tokens,
+  such as a denser page padding on mobile. Never redefine a token with a
+  literal.
+- If a needed dimension has no token, add a named token to the token file
+  first, then consume it. Do not create a second token layer or duplicate the
+  token block in component files.
+- When the project uses Tailwind, CSS-in-JS, or another theme layer, map the
+  same names into that layer. Keep one source of truth.
 
 ## Workflow
 
@@ -54,8 +82,12 @@ making a system-level decision or a rule is unclear.
      not need.
 
 3. Apply the visual language.
-   - Use semantic tokens; never raw hex outside the token block.
-   - Follow the type, spacing, control, and layout scales.
+   - Copy `references/tokens.css` into the project and import it before
+     component styles.
+   - Consume namespaced tokens for every color, type, spacing, size, layout,
+     radius, motion, and z-index value.
+   - Never hardcode raw hex or sizing literals in component CSS. Add a token
+     instead.
    - Use Lucide outline icons inline as SVG.
    - Build hierarchy with alignment and whitespace, not decoration.
 
@@ -103,6 +135,7 @@ dependency.
   precedence over this document.
 - Prefer existing components over new abstractions.
 - Treat design defaults as defaults, not absolute rules.
+- Keep one token file. Do not duplicate token blocks across stylesheets.
 - Do not add dependencies solely for visual consistency.
 - Do not create a design-system implementation package.
 - Deviate when product requirements justify it; note the reason.

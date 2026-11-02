@@ -9,7 +9,7 @@ specification disagree, the specification wins.
 
 ## Contents
 
-1. [Core defaults](#core-defaults)
+1. [Tokens and core defaults](#tokens-and-core-defaults)
 2. [Theme bootstrap](#theme-bootstrap)
 3. [App shell](#app-shell)
 4. [Content shell](#content-shell)
@@ -24,40 +24,69 @@ specification disagree, the specification wins.
 13. [Responsive and accessibility](#responsive-and-accessibility)
 14. [Review checklist](#review-checklist)
 
-## Core defaults
+## Tokens and core defaults
 
-Use the token block from any view's `styles.css` unchanged. It is the canonical
-block and is byte-identical in all six views.
+Copy [tokens.css](tokens.css) into the project as the single token source and
+import it before component styles. It is the only file that should contain
+literal color, type, spacing, size, layout, radius, motion, or layer values.
 
-- Body: `0.875rem` / `1.5`, Geist Sans 400.
-- Content body: `1rem` / `1.6`; headings use 600.
-- Controls: `2.25rem` high; compact rows `2.25rem`; page padding `1.5rem`.
-- App bar: `3rem`; sidebar: `15rem`; reading measure: `72ch`.
-- Structure: `1px solid var(--border-subtle)`, not shadows or cards.
-- One accent: `var(--primary)` in content, `var(--accent-on-dark)` on the app bar.
+- Namespaces: `--color-*`, `--font-*`, `--space-*`, `--size-*`, `--layout-*`,
+  `--radius-*`, `--shadow-*`, `--motion-*`, and `--z-*`.
+- Component CSS consumes tokens for every color, type, spacing, control and row
+  size, layout dimension, radius, motion, and z-index value.
+- Allowed literals outside `tokens.css`: 1px hairlines, 2px focus rings and
+  indicators, breakpoints, shadow geometry, and `<meta name="theme-color">`.
+- Documentation pages may display token values as content. Component CSS may
+  not.
+- Local token overrides are allowed only when they reference other tokens,
+  such as denser page padding on mobile. Never redefine a token with a literal.
+- If a one-off dimension is needed, add a named token to `tokens.css` first.
+  Do not create a second token layer.
+- Body: `var(--font-size-body)` / `var(--font-leading-body)`, Geist Sans
+  `var(--font-weight-regular)`.
+- Content body: `var(--font-size-body-content)` /
+  `var(--font-leading-body-content)`; headings use
+  `var(--font-weight-semibold)`.
+- Controls: `var(--size-control-md)`; compact rows
+  `var(--size-row-compact)`; page padding `var(--layout-page-padding)`.
+- App bar: `var(--layout-app-bar)`; sidebar: `var(--layout-sidebar)`;
+  reading measure: `var(--layout-measure)`.
+- Structure: `1px solid var(--color-border-subtle)`, not shadows or cards.
+- One accent: `var(--color-primary)` in content, `var(--color-accent-on-dark)`
+  on the app bar.
 - Feedback is inline, never a floating notification.
 - Hover styles sit behind `(hover: hover) and (pointer: fine)`.
 
 ```css
+/* tokens.css */
+:root {
+  --color-canvas: #FFFFFF;
+  --color-text-primary: #161616;
+  --color-primary: #0F62FE;
+  --space-4: 1rem;
+  --size-control-md: 2.25rem;
+}
+
+/* component.css — consumes tokens only */
 body {
   margin: 0;
-  background: var(--canvas);
-  color: var(--text-primary);
+  background: var(--color-canvas);
+  color: var(--color-text-primary);
   font-family: var(--font-sans);
-  font-size: var(--text-body);
-  font-weight: 400;
-  line-height: 1.5;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-leading-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 :focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .button:hover { background: var(--surface); }
+  .button:hover { background: var(--color-surface); }
 }
 ```
 
@@ -127,33 +156,33 @@ Use for dashboards, admin tools, and multi-section applications.
   z-index: var(--z-sticky);
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  height: var(--app-bar-height);
-  padding: 0 var(--page-padding);
-  border-bottom: 1px solid var(--app-bar-divider);
-  background: var(--app-bar);
-  color: var(--app-bar-text);
+  gap: var(--space-3);
+  height: var(--layout-app-bar);
+  padding: 0 var(--layout-page-padding);
+  border-bottom: 1px solid var(--color-app-bar-divider);
+  background: var(--color-app-bar);
+  color: var(--color-app-bar-text);
 }
 
 .shell {
   display: grid;
-  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  grid-template-columns: var(--layout-sidebar) minmax(0, 1fr);
   align-items: start;
 }
 
 .sidebar {
   position: sticky;
-  top: var(--app-bar-height);
-  height: calc(100vh - var(--app-bar-height));
+  top: var(--layout-app-bar);
+  height: calc(100vh - var(--layout-app-bar));
   padding: var(--space-4) var(--space-3);
   overflow-y: auto;
-  border-right: 1px solid var(--border-subtle);
-  background: var(--surface);
+  border-right: 1px solid var(--color-border-subtle);
+  background: var(--color-surface);
 }
 
 .main {
   min-width: 0;
-  padding: var(--page-padding);
+  padding: var(--layout-page-padding);
 }
 ```
 
@@ -184,16 +213,16 @@ Use for landing pages, documentation, and personal sites.
 
 ```css
 .site-header {
-  border-bottom: 1px solid var(--border-subtle);
-  background: var(--canvas);
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-canvas);
 }
 
 .header-inner,
 .page {
   width: 100%;
-  max-width: calc(var(--measure) + var(--page-padding) + var(--page-padding));
+  max-width: calc(var(--layout-measure) + var(--layout-page-padding) + var(--layout-page-padding));
   margin-inline: auto;
-  padding-inline: var(--page-padding);
+  padding-inline: var(--layout-page-padding);
 }
 
 .page {
@@ -237,54 +266,54 @@ actions.
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  height: var(--control-md);
+  height: var(--size-control-md);
   padding: 0 var(--space-3);
   border: 1px solid transparent;
   border-radius: var(--radius-md);
   background: transparent;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   font-family: inherit;
-  font-size: var(--text-body);
-  font-weight: 600;
-  line-height: 1;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--font-leading-none);
   white-space: nowrap;
   cursor: pointer;
 }
 
 .button--primary {
-  background: var(--primary);
-  color: var(--on-primary);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
 }
 
 .button--secondary {
-  border-color: var(--border-strong);
-  background: var(--canvas);
-  color: var(--text-primary);
+  border-color: var(--color-border-strong);
+  background: var(--color-canvas);
+  color: var(--color-text-primary);
 }
 
 .button--ghost {
   background: transparent;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
 }
 
 .button--danger {
-  background: var(--error);
-  color: var(--on-error);
+  background: var(--color-error);
+  color: var(--color-on-error);
 }
 
 .button:disabled,
 .button[aria-disabled="true"] {
   border-color: transparent;
-  background: var(--surface-2);
-  color: var(--text-disabled);
+  background: var(--color-surface-2);
+  color: var(--color-text-disabled);
   cursor: not-allowed;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .button--primary:hover { background: var(--primary-hover); }
-  .button--secondary:hover { background: var(--surface); }
-  .button--ghost:hover { background: var(--surface); }
-  .button--danger:hover:not(:disabled) { background: var(--error-hover); }
+  .button--primary:hover { background: var(--color-primary-hover); }
+  .button--secondary:hover { background: var(--color-surface); }
+  .button--ghost:hover { background: var(--color-surface); }
+  .button--danger:hover:not(:disabled) { background: var(--color-error-hover); }
 }
 ```
 
@@ -309,33 +338,33 @@ it with `aria-describedby`. Do not use placeholders as labels.
 .field {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--space-1);
   min-width: 0;
 }
 
 .field__label {
-  color: var(--text-primary);
-  font-size: var(--text-body);
-  font-weight: 400;
-  line-height: 1.5;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-leading-body);
 }
 
 .input {
   width: 100%;
-  height: var(--control-md);
+  height: var(--size-control-md);
   padding: 0 var(--space-3);
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-sm);
-  background: var(--canvas);
-  color: var(--text-primary);
+  background: var(--color-canvas);
+  color: var(--color-text-primary);
   font-family: inherit;
-  font-size: var(--text-body);
+  font-size: var(--font-size-body);
 }
 
 .field__helper {
   margin: 0;
-  color: var(--text-secondary);
-  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-caption);
 }
 
 .field__error {
@@ -343,8 +372,8 @@ it with `aria-describedby`. Do not use placeholders as labels.
   align-items: flex-start;
   gap: var(--space-1);
   margin: 0;
-  color: var(--error);
-  font-size: var(--text-caption);
+  color: var(--color-error);
+  font-size: var(--font-size-caption);
 }
 ```
 
@@ -387,35 +416,35 @@ border, or round the container.
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--text-body);
+  font-size: var(--font-size-body);
 }
 
 .table th {
-  height: var(--row-compact);
+  height: var(--size-row-compact);
   padding: 0 var(--space-3);
-  border-bottom: 1px solid var(--border-subtle);
-  background: var(--surface-2);
-  font-weight: 600;
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-2);
+  font-weight: var(--font-weight-semibold);
   text-align: left;
   white-space: nowrap;
 }
 
 .table td {
-  height: var(--row-default);
+  height: var(--size-row-default);
   padding: 0 var(--space-3);
 }
 
 .table tbody tr:nth-child(even) {
-  background: var(--surface);
+  background: var(--color-surface);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .table tbody tr:hover { background: var(--surface-2); }
+  .table tbody tr:hover { background: var(--color-surface-2); }
 }
 ```
 
 Right-align numeric columns and use `font-variant-numeric: tabular-nums`.
-Identifiers use `var(--font-mono)` at `0.75rem` or `0.8125rem`.
+Identifiers use `var(--font-mono)` at `var(--font-size-caption)` or `var(--font-size-mono)`.
 
 ## Navigation
 
@@ -439,18 +468,18 @@ Vertical navigation adds the `surface-3` selected fill and a full-row-height
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  height: var(--control-md);
+  height: var(--size-control-md);
   padding: 0 var(--space-2);
   overflow: hidden;
   border-radius: var(--radius-md);
-  color: var(--text-secondary);
-  font-size: var(--text-body);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-body);
   text-decoration: none;
 }
 
 .nav__item[aria-current="page"] {
-  color: var(--text-primary);
-  font-weight: 600;
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
 }
 
 .nav__item[aria-current="page"]::before {
@@ -458,7 +487,7 @@ Vertical navigation adds the `surface-3` selected fill and a full-row-height
   position: absolute;
   inset: 0 auto 0 0;
   width: 2px;
-  background: var(--primary);
+  background: var(--color-primary);
 }
 ```
 
@@ -485,20 +514,20 @@ action verb.
 
 ```css
 .dialog {
-  width: min(30rem, calc(100vw - var(--space-6)));
+  width: min(var(--layout-dialog-width), calc(100vw - var(--space-6)));
   max-height: 80vh;
   margin: auto;
   padding: var(--space-5);
   overflow: auto;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-lg);
-  background: var(--canvas);
-  color: var(--text-primary);
+  background: var(--color-canvas);
+  color: var(--color-text-primary);
   box-shadow: var(--shadow-overlay);
 }
 
 .dialog::backdrop {
-  background: var(--overlay);
+  background: var(--color-overlay);
 }
 
 .dialog__actions {
@@ -528,16 +557,16 @@ toasts, snackbars, or floating notifications.
   align-items: center;
   gap: var(--space-2);
   margin: var(--space-3) 0 0;
-  color: var(--text-secondary);
-  font-size: var(--text-body);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-body);
 }
 
 .inline-status:empty {
   display: none;
 }
 
-.inline-status--success { color: var(--success); }
-.inline-status--error { color: var(--error); }
+.inline-status--success { color: var(--color-success); }
+.inline-status--error { color: var(--color-error); }
 ```
 
 Use `role="status"` for success and `role="alert"` for errors that need
@@ -557,13 +586,13 @@ in the page flow; do not center it in a decorative card.
 
 ```css
 .empty-state {
-  padding: 2rem 0;
+  padding: var(--space-6) 0;
 }
 
 .empty-state p {
   margin: 0;
-  color: var(--text-primary);
-  font-size: var(--text-body);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-body);
 }
 
 .empty-state .button {
@@ -582,21 +611,26 @@ in the page flow; do not center it in a decorative card.
   `touch-action: manipulation` on interactive elements.
 - Keep `prefers-contrast`, `forced-colors`, and `prefers-reduced-motion`
   working. Structure must survive without color or shadow.
-- Use Lucide outline icons inline as SVG. 1rem inline and in 1.75rem controls;
-  1.25rem in 2.25rem and 2.75rem controls.
+- Use Lucide outline icons inline as SVG. `var(--icon-sm)` inline and in
+  `var(--size-control-sm)` controls; `var(--icon-md)` in `var(--size-control-md)`
+  and `var(--size-control-lg)` controls.
 
 ## Review checklist
 
 Before finishing, verify:
 
-- No raw hex outside the token block.
+- No raw hex or hardcoded color, size, radius, motion, or z-index literals
+  outside `tokens.css`.
+- The token file is copied once and imported before component styles; no
+  component duplicates the token block.
 - No shadows except overlays; no cards around tables or lists.
 - One accent-colored element per region unless there is a reason.
 - Primary, secondary, ghost, and danger buttons are used consistently.
 - Field labels are persistent; errors are inline and programmatically linked.
 - Tables are striped, borderless page structure; numeric cells are tabular.
 - Current navigation uses the correct 2px indicator: a leading bar with
-  `surface-3` fill in vertical nav, an underline with no fill in horizontal nav.
+  `--color-surface-3` fill in vertical nav, an underline with no fill in
+  horizontal nav.
 - Outcomes are inline; no floating notifications.
 - Keyboard focus is visible and in a sensible order.
 - Layout holds at 320px wide without page-level horizontal scroll.

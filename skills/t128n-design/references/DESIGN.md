@@ -204,7 +204,7 @@ components:
 
 # t128n Design
 
-Version alpha · Updated 2026-11-01
+Version alpha · Updated 2026-11-02
 
 ## Overview
 
@@ -214,7 +214,7 @@ A minimal, technical, enterprise-influenced visual language for personal applica
 
 > **Prefer defaults over rules.** This document defines a consistent starting point, not a complete specification of every interface. Reuse established components and platform conventions. Deviate when the application needs it; add shared rules only when repeated implementations demonstrate a genuine need.
 
-This document owns cross-application decisions: tokens, component appearance, and acceptance criteria. Applications implement their own components from it rather than building a parallel language. Reference implementations live in `examples/`, with copyable extracts in `PATTERNS.md`; they show the system applied to real screens, but this document remains authoritative.
+This document owns cross-application decisions: tokens, component appearance, and acceptance criteria. The canonical CSS token source is [`tokens.css`](tokens.css); copy it into the application and import it before component styles. Applications implement their own components from it rather than building a parallel language. Reference implementations live in `examples/`, with copyable extracts in `PATTERNS.md`; they show the system applied to real screens, but this document remains authoritative.
 
 When rules conflict, resolve in this order: accessibility and platform correctness → browser and OS convention → this document → application-local choices → component-library defaults. Deliberate deviations are fine; record them in the application's design notes.
 
@@ -226,7 +226,23 @@ When rules conflict, resolve in this order: accessibility and platform correctne
 
 Token values live in the front matter; the sections below govern their use. Every color has a light value and, where the dark theme differs, a `-dark` counterpart (e.g. `canvas-dark`). Components reference the base token; the `-dark` token takes over when the dark theme is active. Tokens without a `-dark` suffix are identical in both themes.
 
-Every type, spacing, control, and layout token is in rem so it follows the user's text-size setting; only 1px hairlines, shadow geometry, and breakpoints stay in px. Prose values are the source values — at the default 16px root, 0.25rem is 4px, 0.875rem is 14px, 2.25rem is 36px, and 15rem is 240px. Implement through the rem tokens; never hardcode a px literal for type, spacing, control height, or layout width.
+The canonical implementation is [`tokens.css`](tokens.css). It is the only file that should contain literal design values. Copy it into the target project as the single token source, import it before component styles, and consume the custom properties everywhere.
+
+| Category | Prefix | Example |
+| --- | --- | --- |
+| Color | `--color-` | `--color-canvas` |
+| Type | `--font-` | `--font-sans`, `--font-size-body` |
+| Space | `--space-` | `--space-4` |
+| Control and row size | `--size-` | `--size-control-md` |
+| Layout | `--layout-` | `--layout-sidebar` |
+| Radius | `--radius-` | `--radius-md` |
+| Shadow | `--shadow-` | `--shadow-overlay` |
+| Motion | `--motion-` | `--motion-fast` |
+| Layer | `--z-` | `--z-dialog` |
+
+The prose below uses short role names (`canvas`, `text-primary`, `surface-2`) for readability. The CSS property is the namespaced form: `--color-canvas`, `--color-text-primary`, `--color-surface-2`.
+
+Every type, spacing, control, and layout token is in rem so it follows the user's text-size setting; only 1px hairlines, 2px focus rings and indicators, shadow geometry, and breakpoints stay in px. Prose values are the source values — at the default 16px root, 0.25rem is 4px, 0.875rem is 14px, 2.25rem is 36px, and 15rem is 240px. Implement through tokens; never hardcode a color or sizing literal in component CSS. If a one-off dimension is needed, add a named token to `tokens.css` and consume it. Do not duplicate the token block in component styles.
 
 ### Principles
 
@@ -251,7 +267,7 @@ The recognizable t128n traits. Use these consistently; they are the identity.
 
 ## Colors
 
-The palette is derived from **Oxocarbon** (base16) — [base16-oxocarbon](https://github.com/nyoom-engineering/base16-oxocarbon). Components consume role tokens — never raw hex, and never `base00`–`base0F`: Oxocarbon Light inverts its ramp, so base16 slot numbers do not map to UI roles across themes.
+The palette is derived from **Oxocarbon** (base16) — [base16-oxocarbon](https://github.com/nyoom-engineering/base16-oxocarbon). Components consume namespaced role tokens — never raw hex, and never `base00`–`base0F`: Oxocarbon Light inverts its ramp, so base16 slot numbers do not map to UI roles across themes.
 
 Oxocarbon contains **no red**; `base08` is cyan in dark and pink in light. Error, warning, and success come from outside the scheme, chosen for contrast. Do not "correct" them back toward slot names.
 
@@ -300,7 +316,7 @@ Oxocarbon contains **no red**; `base08` is cyan in dark and pink in light. Error
 
 **Charts.** Use the ordered tokens `chart-1` through `chart-6` — light `#0F62FE`, `#0E6027`, `#EE5396`, `#673AB7`, `#37474F`, `#8A5A00`; dark `#33B1FF`, `#42BE65`, `#FF7EB6`, `#BE95FF`, `#82CFFF`, `#F1C21B` — maximum 6 series, each labelled. Chart colors are positional, not semantic: never borrow a status color to mean status. Area fills ≤ 20% opacity.
 
-**Theme.** Follow the OS preference with a manual override persisted per user, and ship both themes complete — never a light-only or dark-only screen. The override survives reloads and, where there are accounts, follows the user; clearing it returns to the OS preference. Set `color-scheme` on the root element to match the active theme so scrollbars, form controls, and native pickers follow, keep `<meta name="theme-color">` in step with `canvas`, and resolve the theme before first paint — no flash of the wrong theme.
+**Theme.** Follow the OS preference with a manual override persisted per user, and ship both themes complete — never a light-only or dark-only screen. The override survives reloads and, where there are accounts, follows the user; clearing it returns to the OS preference. Set `color-scheme` on the root element to match the active theme so scrollbars, form controls, and native pickers follow, keep `<meta name="theme-color">` in step with `canvas` (the one place a canvas hex may appear outside `tokens.css`), and resolve the theme before first paint — no flash of the wrong theme.
 
 ## Typography
 
@@ -514,7 +530,7 @@ Illustrative, not exhaustive. Anything else is application-local: keep it consis
 
 ## Do's and Don'ts
 
-- Do use role tokens — never raw hex — and ship both themes complete.
+- Do use namespaced color and sizing tokens — never raw hex or literals — and ship both themes complete.
 - Do keep one primary action per screen or independent section, and reserve the accent for the wordmark, that action, selection, focus, and current state.
 - Do build structure from alignment, 1px `border-subtle` rules, and `surface` tints before reaching for a shadow.
 - Do keep body text at 4.5:1 and interactive boundaries and focus rings at 3:1 on the layer each element actually sits on.
