@@ -1,60 +1,87 @@
 ---
 name: t128n-design
 description: >
-  Apply the t128n design language when building, redesigning, or reviewing
-  application interfaces, dashboards, developer tools, and websites. Covers
-  visual hierarchy, layout, typography, color, components, responsive
-  behavior, accessibility, and reference implementations. Framework-agnostic.
+  Apply the t128n design language to any interface work: building,
+  redesigning, restyling, or reviewing dashboards, admin tools, developer
+  tools, settings screens, documentation, landing pages, and personal apps.
+  Use this skill whenever the user asks to design, build, style, polish,
+  audit, or review UI, even if they do not mention t128n. Covers visual
+  hierarchy, layout, typography, color, components, responsive behavior,
+  accessibility, motion, and reference implementations. Framework-agnostic.
 ---
 
 # t128n Design
 
-Apply the t128n visual language to user interfaces. Read
-[DESIGN.md](references/DESIGN.md) before making design decisions or
-implementing UI changes.
+Use t128n as the default visual language for interface work. Start with
+[PATTERNS.md](references/PATTERNS.md) for copyable component patterns. Read
+[DESIGN.md](references/DESIGN.md) for the full specification when you are
+making a system-level decision or a rule is unclear.
+
+## Fast path
+
+- **Small component or state change:** use the defaults and snippets in
+  PATTERNS.md. Read DESIGN.md only if the rule is unclear.
+- **New screen or layout:** read the shell and layout sections of DESIGN.md,
+  then open the closest view in `references/examples/`.
+- **Design review:** start with the review checklist in PATTERNS.md, then
+  consult DESIGN.md for the relevant rule.
+
+## Defaults
+
+- Structure comes from alignment and 1px `border-subtle` rules, not shadows
+  or containers.
+- Body is 0.875rem Geist Sans; content screens use 1rem. Geist Mono is only
+  for code, identifiers, and aligned numerals.
+- Default controls are 2.25rem high; page padding is 1.5rem; the app bar is
+  3rem and the sidebar is 15rem.
+- One accent: `primary` in content, `accent-on-dark` on the app bar.
+- Outcomes are inline, never floating notifications.
+- Accessibility and platform conventions outrank visual consistency.
 
 ## Workflow
 
 1. Inspect the existing application.
-   - Identify the framework and component library.
-   - Reuse existing components and established patterns.
-   - Preserve working product behavior.
+   - Identify the framework, component library, and design constraints.
+   - If the project already has an explicit visual system or brand, preserve
+     it and use t128n where it does not conflict.
+   - Reuse existing components and preserve working behavior.
 
-2. Determine the appropriate layout.
-   - Select a shell described in DESIGN.md.
-   - Respect the application's information architecture.
-   - Do not introduce unnecessary navigation or containers.
+2. Choose the shell.
+   - App shell for dashboards and multi-section tools.
+   - Content shell for landing pages, docs, and personal sites.
+   - Focused app shell for a single-purpose surface.
+   - Do not add navigation or containers the information architecture does
+     not need.
 
 3. Apply the visual language.
-   - Use the semantic color tokens and the canonical token block.
-   - Follow typography, spacing, and sizing conventions.
-   - Establish hierarchy through alignment and whitespace.
-   - Use Lucide outline icons consistently.
+   - Use semantic tokens; never raw hex outside the token block.
+   - Follow the type, spacing, control, and layout scales.
+   - Use Lucide outline icons inline as SVG.
+   - Build hierarchy with alignment and whitespace, not decoration.
 
-4. Consult the examples when a pattern is unclear.
+4. Use the reference views when composition is unclear.
    - Start at [references/examples/README.md](references/examples/README.md).
-   - Open the closest view and read only the relevant `index.html`,
-     `styles.css`, and `app.js`.
-   - Copy tokens and patterns, not whole pages.
-   - If an example and DESIGN.md disagree, DESIGN.md wins.
+   - Read `index.html` and `styles.css` for layout and appearance.
+   - Read `app.js` only when the interaction behavior matters.
+   - Copy patterns, not whole pages.
 
-5. Implement using established technologies.
-   - Prefer the application's existing component library.
-   - Use accessible platform primitives.
+5. Implement with the existing stack.
+   - Prefer the project's component library and accessible platform
+     primitives.
    - Keep application-specific components local.
-   - Do not introduce a new UI framework unnecessarily.
+   - Do not add a UI framework or dependency just for visual consistency.
 
 6. Review the result.
-   - Verify visual consistency.
-   - Check keyboard accessibility and responsive layouts.
-   - Test relevant interaction and feedback states.
-   - Remove unnecessary decoration and complexity.
+   - Run the checklist in PATTERNS.md.
+   - Check keyboard order, focus visibility, and 320px layout.
+   - Test loading, empty, error, success, and destructive states.
+   - Remove decoration that does not carry information.
 
 ## Examples
 
-Six standalone views in `references/examples/` show the system applied to
-different shells and tasks. Use them to resolve questions about composition,
-states, and interaction details.
+Six full static views show the system applied to different shells and tasks.
+They are references, not templates; the UI is complete even where behavior is
+not wired up.
 
 | View | Shell | Useful for |
 | --- | --- | --- |
@@ -65,14 +92,15 @@ states, and interaction details.
 | [`docs/`](references/examples/docs/index.html) | Content | Reading measure, code blocks, callouts, tables, TOC |
 | [`workspaces/`](references/examples/workspaces/index.html) | Focused app | Search-first launcher, inline create, keyboard shortcuts |
 
-They are reference implementations, not templates. Open `index.html` directly;
-there is no build step and no runtime dependency.
+Open any `index.html` directly. There is no build step and no runtime
+dependency.
 
 ## Rules
 
 - DESIGN.md is the visual reference, not an instruction to rebuild the
   application architecture.
-- Accessibility and platform conventions take precedence.
+- Accessibility, platform conventions, and existing product behavior take
+  precedence over this document.
 - Prefer existing components over new abstractions.
 - Treat design defaults as defaults, not absolute rules.
 - Do not add dependencies solely for visual consistency.

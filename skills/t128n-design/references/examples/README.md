@@ -2,9 +2,9 @@
 
 Six standalone views built from [DESIGN.md](../DESIGN.md). They began as independent interpretations by separate authors; they now share one token block, one shell spine, and one component inventory. The differences that remain are shell-driven — app, content, and focused app — not stylistic drift.
 
-These examples are part of the `t128n-design` agent skill. Read `DESIGN.md` before making design decisions, then use the view closest to the task to resolve questions about composition, states, and interaction details. Copy tokens and patterns, not whole pages.
+These examples are part of the `t128n-design` agent skill. Read `DESIGN.md` before making design decisions, and use [PATTERNS.md](../PATTERNS.md) for copyable component snippets. Use the view closest to the task to resolve questions about full-screen composition, states, and interaction details. Copy tokens and patterns, not whole pages.
 
-Open any `index.html` directly in a browser. No build step, no dependencies.
+Open any `index.html` directly in a browser. No build step, no dependencies. Each view is a complete static screen; `app.js` only demonstrates interaction behavior and is optional when using the view as a visual reference.
 
 | View | Shell | Demonstrates |
 | --- | --- | --- |

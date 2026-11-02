@@ -37,20 +37,23 @@ Ask your agent to apply the design language directly:
 
 > Implement this dashboard using the t128n design language.
 
-The skill teaches the agent to inspect the existing application, reuse its
-components, choose the right shell, apply the visual language, and review
-accessibility and responsive behavior. It also points the agent at the closest
-reference implementation when a pattern is ambiguous.
+The skill applies t128n as the default visual language for UI work. It teaches
+the agent to inspect the existing application, reuse its components, choose the
+right shell, apply the visual language, and review accessibility and responsive
+behavior. Projects with an established design system keep their own system.
 
 ## What is included
 
 - [`skills/t128n-design/SKILL.md`](skills/t128n-design/SKILL.md) — the
   implementation and review workflow.
+- [`skills/t128n-design/references/PATTERNS.md`](skills/t128n-design/references/PATTERNS.md)
+  — copyable snippets for shells, controls, forms, tables, dialogs, feedback,
+  responsive behavior, and review.
 - [`skills/t128n-design/references/DESIGN.md`](skills/t128n-design/references/DESIGN.md)
   — the canonical specification: tokens, layout, components, states,
   accessibility, motion, and the quality bar.
 - [`skills/t128n-design/references/examples/`](skills/t128n-design/references/examples/README.md)
-  — six standalone views showing the system applied to different shells and
+  — six full static views showing the system applied to different shells and
   tasks.
 
 The examples are part of the skill, so installing or updating the skill carries
@@ -92,8 +95,9 @@ Open any `index.html` directly in a browser. No build step, no dependencies.
 skills/t128n-design/
   SKILL.md                 agent workflow and guardrails
   references/
+    PATTERNS.md            copyable implementation snippets
     DESIGN.md              canonical specification
-    examples/              six reference implementations
+    examples/              six full static views
 ```
 
 ## Scope
