@@ -97,8 +97,8 @@
 
           <section class="article-section" aria-labelledby="roles">
             <h2 id="roles" tabindex="-1">Roles</h2>
-            <p>Role tokens name a job, not a position in the palette. <code>canvas</code> is the page, <code>surface</code> is a blocked region such as a sidebar or code block, and <code>surface-2</code> is the stronger fill used for table headers, hover, and selected rows. Borders carry structure, text roles carry hierarchy, and <code>primary</code> marks the wordmark, action, selection, focus, and current state.</p>
-            <p>Keep the assignment literal: a component asks for <code>surface</code>, never for the third gray in the ramp. The values below are the source of truth for both themes.</p>
+            <p>Role tokens name a job, not a position in the palette. <code>canvas</code> is the page, <code>surface</code> is a blocked region such as a sidebar or code block, and <code>surface-2</code> is the stronger fill used for table headers and hover. <code>surface-3</code> is the quieter selected-row fill used by vertical navigation. Borders carry structure, text roles carry hierarchy, and <code>primary</code> marks the wordmark, action, selection, focus, and current state.</p>
+            <p>Keep the assignment literal: a component asks for the named role, never for a raw hex value or a base16 slot. The values below are the source of truth for both themes.</p>
 
             <p class="table-caption" id="role-table-caption">Representative roles with their light and dark values.</p>
             <div class="table-scroll" role="region" aria-label="Color role table" tabindex="0">
@@ -123,6 +123,18 @@
                     <td><code>#F2F4F8</code></td>
                     <td><code>#262626</code></td>
                     <td>Sidebar, stripes, blocked regions</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">surface-2</th>
+                    <td><code>#DDE1E6</code></td>
+                    <td><code>#393939</code></td>
+                    <td>Table headers, hover, active, disabled</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">surface-3</th>
+                    <td><code>#E8EBEE</code></td>
+                    <td><code>#303030</code></td>
+                    <td>Selected vertical-navigation rows</td>
                   </tr>
                   <tr>
                     <th scope="row">primary</th>
@@ -167,16 +179,16 @@
             <p>The verified ratio for <code>primary</code> is <code>5.00:1</code> in light theme and <code>7.65:1</code> in dark theme. <code>text-primary</code> measures <code>18.10:1</code> and <code>16.43:1</code>. Ratios are recorded against <code>canvas</code>; a color moved to another surface must be checked again.</p>
 
             <blockquote>
-              <p>Primary text must not sit on <code>surface-2</code>. The combination measures 3.81:1 in light theme, below the 4.5:1 body threshold, so <code>surface-2</code> stays a fill and a boundary — never a text background for primary.</p>
+              <p>Primary text must not sit on <code>surface-2</code> or <code>surface-3</code>. The combinations measure 3.81:1 and 4.18:1 in light theme, below the 4.5:1 body threshold, so both stay fills and boundaries — never a text background for primary.</p>
             </blockquote>
 
-            <p>Use <code>text-primary</code> or <code>text-secondary</code> on <code>surface-2</code>, and reserve <code>primary</code> for text on <code>canvas</code> or <code>surface</code>.</p>
+            <p>Use <code>text-primary</code> or <code>text-secondary</code> on <code>surface-2</code> or <code>surface-3</code>, and reserve <code>primary</code> for text on <code>canvas</code> or <code>surface</code>.</p>
           </section>
 
           <section class="article-section" aria-labelledby="selection">
             <h2 id="selection" tabindex="-1">Selection</h2>
-            <p>Selected text uses the <code>selection</code> overlay: <code>primary</code> at 12% opacity in light theme and 16% in dark theme. <code>text-primary</code> stays unchanged, and the overlay tints <code>canvas</code>, <code>surface</code>, and <code>surface-2</code> without a separate token for each context.</p>
-            <p>Persistent selection — rows, list items, and navigation — takes no fill; the 2px <code>primary</code> indicator carries it (a leading bar in vertical navigation and rows, an underline in horizontal navigation), with 600 weight in navigation. Never invert text or fill a row with solid primary, so selection never depends on color alone.</p>
+            <p>Selected text uses the <code>selection</code> overlay: <code>primary</code> at 12% opacity in light theme and 16% in dark theme. <code>text-primary</code> stays unchanged, and the overlay tints <code>canvas</code>, <code>surface</code>, <code>surface-2</code>, and <code>surface-3</code> without a separate token for each context.</p>
+            <p>Persistent selection uses the 2px <code>primary</code> indicator. Horizontal navigation spans the item with the underline and sits flush with the app-bar rule, with no fill. Vertical navigation rows use the <code>surface-3</code> selected fill, so the indicator, label, and row read as one object; the vertical indicator runs the full row height at the leading edge, and other selected rows stay unfilled. Never invert text or fill a row with solid primary, so selection never depends on color alone.</p>
           </section>
 
           <section class="article-section" aria-labelledby="missing-red">
