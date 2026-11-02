@@ -7,6 +7,7 @@
   --canvas: #FFFFFF;
   --surface: #F2F4F8;
   --surface-2: #DDE1E6;
+  --surface-3: #E8EBEE;
   --border-subtle: #DDE1E6;
   --border-strong: #7A7A7A;
   --text-primary: #161616;
@@ -115,6 +116,7 @@
   --canvas: #161616;
   --surface: #262626;
   --surface-2: #393939;
+  --surface-3: #303030;
   --border-subtle: #393939;
   --text-primary: #F2F4F8;
   --text-secondary: #C6C6C6;
@@ -313,7 +315,7 @@ h1:focus, h2:focus, h3:focus {
 
 .mobile-nav .nav-link[aria-current="page"] {
   overflow: hidden;
-  background: var(--surface);
+  background: var(--surface-3);
 }
 
 .mobile-nav .nav-link[aria-current="page"]::after {
@@ -805,7 +807,7 @@ h1:focus, h2:focus, h3:focus {
 }
 
 .toc-link[aria-current="location"] {
-  background: var(--surface);
+  background: var(--surface-3);
   color: var(--text-primary);
   font-weight: 600;
 }

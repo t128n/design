@@ -9,6 +9,8 @@ colors:
   surface-dark: "#262626"
   surface-2: "#DDE1E6"
   surface-2-dark: "#393939"
+  surface-3: "#E8EBEE"
+  surface-3-dark: "#303030"
   border-subtle: "#DDE1E6"
   border-subtle-dark: "#393939"
   border-strong: "#7A7A7A"
@@ -260,6 +262,7 @@ Oxocarbon contains **no red**; `base08` is cyan in dark and pink in light. Error
 | `canvas` | Page background; the base layer |
 | `surface` | Sidebar, stripes, blocked regions; the first tint |
 | `surface-2` | Table headers, hover, active, and disabled states; the state layer |
+| `surface-3` | Selected vertical-navigation rows; the quiet selected layer between `surface` and `surface-2` |
 | `border-subtle` | Structural separation |
 | `border-strong` | Interactive boundaries: inputs, controls, buttons |
 | `text-primary` | Body, headings |
@@ -283,11 +286,13 @@ Oxocarbon contains **no red**; `base08` is cyan in dark and pink in light. Error
 
 **State Layer.** `surface-2` is a fill-only state layer for table headers, hover, active, and disabled states: `text-primary` and `text-secondary` only — no `text-muted`, status text, borders, or controls. Metadata inside a hovered or active row uses `text-secondary`, and `primary` as text on `surface-2` is 3.8:1, below threshold. The ramp shortens on tints instead of gaining variations.
 
+**Selected Layer.** `surface-3` is the fill-only selected layer for vertical navigation: a quiet step between `surface` and the `surface-2` state layer, so selection stays quieter than hover and never jumps to the page `canvas`. Use `text-primary` and `text-secondary` on it; `primary` as text measures 4.18:1 in light, below the body threshold.
+
 **Accent on Dark Chrome.** The app bar is dark in both themes, so the accent resolves to `accent-on-dark` there — wordmark and focus ring, never `primary`.
 
 **Accent Budget.** One primary action per screen; a dialog or independent section is its own scope. Accent marks the wordmark, the primary action, selection, focus, and current state — not headings, surfaces, or decorative borders.
 
-**Selection.** Text selection uses the selection overlay — `rgba(15, 98, 254, 0.12)` in light, `rgba(51, 177, 255, 0.16)` in dark — and keeps `text-primary`. Persistent selection uses the 2px `primary` indicator described under Interactive States. Vertical navigation rows also take a subtle fill one step from their container — `surface` on `canvas`, `canvas` on `surface` — so the indicator, label, and row read as one object; horizontal navigation and other selected rows stay unfilled. Never invert text or fill a row with solid primary.
+**Selection.** Text selection uses the selection overlay — `rgba(15, 98, 254, 0.12)` in light, `rgba(51, 177, 255, 0.16)` in dark — and keeps `text-primary`. Persistent selection uses the 2px `primary` indicator described under Interactive States. Vertical navigation rows also take the `surface-3` selected fill, so the indicator, label, and row read as one object; horizontal navigation and other selected rows stay unfilled. Never invert text or fill a row with solid primary.
 
 **Overlay.** The modal backdrop is `rgba(22, 22, 22, 0.5)` in light and `rgba(0, 0, 0, 0.6)` in dark.
 
@@ -381,7 +386,7 @@ Define the states that apply to each control — loading and error only where th
 | Hover | one layer down: `canvas` steps to `surface`, `surface` to `surface-2`. Striped table rows always hover to `surface-2`. |
 | Active | `surface-2`; primary and danger buttons use their variant hover color |
 | Focus | 2px `primary` ring, 2px offset; `accent-on-dark` on the app bar |
-| Selected / current | Horizontal navigation uses `text-primary` at 600 and a 2px `primary` underline that spans the full item and sits flush with the header rule, with no fill. Vertical navigation adds a subtle fill one step from its container (`surface` on `canvas`, `canvas` on `surface`) to the same weight and a full-row-height leading bar. Other selected rows keep no fill and 400 weight. Hover and press do not change a selected item. A hovered row shows no bar, so fill alone never means selected. |
+| Selected / current | Horizontal navigation uses `text-primary` at 600 and a 2px `primary` underline that spans the full item and sits flush with the header rule, with no fill. Vertical navigation adds the `surface-3` selected fill to the same weight and a full-row-height leading bar. Other selected rows keep no fill and 400 weight. Hover and press do not change a selected item. A hovered row shows no bar, so fill alone never means selected. |
 | Disabled | `surface-2` fill plus `text-disabled`; may fall below 4.5:1 but must still read as disabled by fill and label together. Prefer a persistent reason beside the control. |
 | Loading | Interaction disabled, the label replaced by a progress indicator, the accessible name preserved, and the width stable |
 | Error (fields) | `error` border plus 0.75rem `error` text with a 1rem icon, tied to the field |
@@ -441,7 +446,7 @@ Navigation and menu rows follow the density's control height with 0.5rem horizon
 ### Navigation
 
 - Sidebar width 15rem; items at the density's control height, 0.5rem horizontal padding, radius 0.125rem, 1rem icon, 0.875rem/400 label.
-- Selected state: horizontal navigation uses `text-primary` at 600 and a 2px `primary` underline that spans the full item and sits flush with the app-bar rule, with no fill. Vertical navigation adds a subtle fill one step from the container — `surface` on `canvas`, `canvas` on `surface` — to the same weight and a 2px leading bar that runs the full row height at the leading edge. The indicator and weight carry the state together — never color alone.
+- Selected state: horizontal navigation uses `text-primary` at 600 and a 2px `primary` underline that spans the full item and sits flush with the app-bar rule, with no fill. Vertical navigation adds the `surface-3` selected fill to the same weight and a 2px leading bar that runs the full row height at the leading edge. The indicator and weight carry the state together — never color alone.
 - Hover uses `surface-2`; focus uses the standard ring. Selected items take no hover or press fill. Nav labels carry no text underline; the selected indicator is the only rule.
 - Secondary navigation sits inline under a 1px `border-subtle` divider; do not pin it to the bottom of the sidebar.
 - App bar: 3rem, `app-bar` background with a 1px `app-bar-divider` bottom edge, `app-bar-text` labels, `app-bar-text-secondary` for secondary context, 1.25rem icons, 0.875rem/400 labels. Slots: menu (mobile only), wordmark, divider, workspace, spacer, theme toggle. It may be omitted on content, auth, and focused screens.

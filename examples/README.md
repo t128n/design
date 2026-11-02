@@ -27,7 +27,7 @@ Each view is self-contained: `index.html`, `styles.css`, `app.js`.
 - Lucide outline icons inline as SVG: 1rem inline and in 1.75rem controls, 1.25rem in 2.25/2.75rem controls and the app bar.
 - **No floating notifications.** Every outcome is inline: field errors under the field, action results beside the action or section, copy confirmations next to the trigger.
 - Hover is gated behind `(hover: hover) and (pointer: fine)`; controls set `touch-action: manipulation`; overlays contain overscroll; `prefers-contrast` and `forced-colors` keep structure visible.
-- Horizontal current navigation uses a full-width 2px `primary` underline flush with the header rule, 600 weight, and no fill. Vertical current navigation adds a subtle fill one step from its container and a full-row-height leading bar.
+- Horizontal current navigation uses a full-width 2px `primary` underline flush with the header rule, 600 weight, and no fill. Vertical current navigation uses the `surface-3` selected fill and a full-row-height leading bar.
 - 2px focus rings with 2px offset (`accent-on-dark` on the app bar), skip links, one `<main>` and one `<h1>` per page.
 - The wordmark uses the accent: `primary` on light headers, `accent-on-dark` on the dark app bar. No separate brand color.
 - Responsive at 1280 / 1024 / 768 / 320 with no page-level horizontal scroll. The app-shell drawer starts below the app bar and locks body scroll; the focused app shell has no drawer.
